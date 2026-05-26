@@ -11,6 +11,100 @@ Per Karpathy's pattern: chronologisch operationeel record. Append-only. **Nieuws
 
 ---
 
+## 2026-05-26 — Iteratie 13: post-T1-Brein-cyclus (T1-sprint + methode-protocol-concept + H36 closed + drie sprint-protocollen)
+
+**Tweede post-migratie Brein-cyclus** uitgevoerd via brein-subagent in Claude Code. Administratieve nasleep van T1-sprint (SKOS-kwaliteitsanalyse Fase 1, patch v4.6.1, opgeleverd 26 mei 2026 dezelfde dag). T1 is **eerste post-migratie productie-sprint** en eerste sprint waarvoor Brein-cyclus regulier verloopt na sprint-afsluiting.
+
+**Karakter:** uitsluitend administratieve verwerking van besluiten die in T1 al waren genomen (Tech-uitvoering + masterchat-NEN-PK-toetsen + Steven-patch-toepassing). Geen architectuur-wijzigingen, geen ontologie-impact, geen D-decision-mutaties. 11 bestanden geraakt: 3 nieuw + 8 update.
+
+**WP1 — T1-sprint registreren:**
+
+- [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] *(nieuw)* — Eerste post-migratie productie-sprint. Scope: 28 ctrl:↔compl: SKOS-exactMatch-paren in `m10-nis2-ext.ttl`. Uitkomst: 28× herclassificatie naar broadMatch via patch v4.6.1. Sprint-duur ~5 uur (raming 3-4, +25% door tooling-incident applier). Methode-protocol v1.0 vastgesteld. D4-conformance verbeterd. Vijf overhandigings-momenten Tech↔Masterchat succesvol. Productie-fase actief.
+- [[brain__sprints__sprint-register]] *(update)* — Nieuwe rij T1 (v4.6.1) als active; v4.6.0 verschuift naar superseded. Baseline-metrics-blok v4.6.1 toegevoegd (predicate-mutatie zonder triple-totaal-impact: exactMatch 46 → 18, broadMatch 38 → 66, SKOS-totaal 1.798 ongewijzigd). Geplande-sprints-tabel bijgewerkt (T2/T3-kandidaten). Sprint-protocollen-tabel uitgebreid met Protocol 14/15/16/17.
+
+**WP2 — Methode-protocol als concept:**
+
+- [[brain__concepts__skos-beoordelings-protocol]] *(nieuw)* — Concept-bestand voor methode-protocol v1.0. Onderscheid expliciet: operationeel document `docs/skos-beoordelings-protocol-v1_0.md` blijft autoritatief; concept-bestand beschrijft methode-overzicht + architectuur-context + T2/T3-relevantie. Cross-references naar D4, T1, H36, mapping-bron-disclaimer-effect. Protocol-versie-roadmap (v1.0 huidig, v1.1 bij T2-start, v2.0 toekomst) opgenomen.
+
+**WP3 — H-items bijwerken:**
+
+- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] *(update)* — Status parked → **closed**. Uitkomst-sectie toegevoegd (28× broadMatch, evidence-niveau 1, cluster-consistentie, D4-verbetering). H41-kandidaat (SKOS-axioma-set / skos:S46) gemarkeerd als T1-leerpunt, niet als nieuw H-item. Status-historie-rij toegevoegd.
+- [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] *(update)* — Status onveranderd (parked). Versterking-sectie toegevoegd: T1-pre-sprint-inventarisatie Vraag D bevestigt SHACL-blinde vlek op alle 28 ctrl:↔compl:-paren. Trigger-relevantie verhoogd voor T2 (uitbreiding 121-set). Status-historie-rij toegevoegd.
+- [[brain__architecture__H-register]] *(update)* — Status-overzicht-tabel: Parked 7 → 6, Resolved 4 → 5 (incl. H36). H-items-per-D-decision-tabel: D4-rij gemarkeerd als afgehandeld. Resolved-tabel: H36-rij toegevoegd met expliciete verwijzing dat bestand met closed-status behouden blijft. Versterkings-sectie iteratie 13 toegevoegd na iteratie-12-sectie, met expliciete H41-kandidaat-NIET-registratie.
+
+**WP4 — ENISA-disclaimer-effect als concept (Optie A gekozen):**
+
+- [[brain__concepts__mapping-bron-disclaimer-effect]] *(nieuw, confidence medium)* — Generaliseerbaar patroon: autoritatieve mapping-bronnen met expliciete non-equivalence-disclaimer ondergraven `skos:exactMatch` zelfs bij sluitende C1-C3. Eerste-bewijs-cluster: ENISA TIG regel 285. Kandidaat-bronnen vermoed (NIST OLIR, ISO Annex F) maar niet geverifieerd in dit project. D4-aanvulling-overweging open. Confidence-verhoging naar high vereist tweede onafhankelijke bron of D4-formalisatie.
+- [[brain__concepts__concept-register]] *(update)* — Twee nieuwe rijen in snelle navigatie (skos-beoordelings-protocol + mapping-bron-disclaimer-effect). Nieuw cluster "SKOS-kwaliteits-methode (T1-cluster)". D-cross-reference-tabel en sprint-cross-reference-tabel uitgebreid.
+
+**Motivering Optie A (concept-bestand nu vs. Optie B uitstellen tot T2):**
+
+- Masterchat-aanbeveling expliciet Optie A
+- Patroon-herbruikbaarheid hoog (alle cross-norm-mapping-bronnen kandidaat)
+- T1-sprint-bestand verwijst er al naar — consistente vault-structuur vereist concept-bestand
+- Confidence-status medium (niet hoog) markeert dat tweede bron-bevestiging nog ontbreekt — voorkomt over-claiming
+- Verlies-risico bij Optie B reëel: tussen T1 en T2 kunnen masterchat-sessies plaatsvinden waarbij dit patroon opnieuw opduikt zonder centrale documentatie
+
+**WP5 — Drie sprint-protocollen formeel:**
+
+- `docs/sprint-protocols.md` *(update)* — Drie protocollen toegevoegd tussen Protocol 14 en GR-gedragsregel, conform bestaande nummering. Versie 1.1 → 1.2.
+  - Protocol 15 — Tech levert werkbare applier (T1 §8 leerpunt 5)
+  - Protocol 16 — Lokatie verificatie-scripts expliciet in patch-rapport (T1 §8 leerpunt 6)
+  - Protocol 17 — NEN-werkverdeling Tech↔Masterchat (T1 §8 leerpunt 4)
+  - Overzichts-tabel uitgebreid van 14 naar 17 protocollen + GR
+  - Wijzigingsgeschiedenis-rij 1.2 toegevoegd
+
+**WP6 — Register-coherentie + log/index:**
+
+- [[brain__log]] *(deze entry)* — nieuwste entry bovenaan, iteratie 13.
+- [[brain__index]] *(update)* — vault-staat-tabel rij iteratie 13 + totaal brain-bestanden ~107 → ~110 + status-overzicht-ontologie naar v4.6.1 baseline + volgende-fase-sectie bijgewerkt (T1 afgerond, T2-scoping als volgende activiteit).
+
+**File-count iteratie 13:**
+
+| WP | Nieuw | Update | Totaal |
+|---|---:|---:|---:|
+| WP1 T1-sprint | 1 | 1 (sprint-register) | 2 |
+| WP2 methode-concept | 1 | 0 | 1 |
+| WP3 H-items | 0 | 3 (H36, H39, H-register) | 3 |
+| WP4 disclaimer-concept | 1 | 1 (concept-register) | 2 |
+| WP5 sprint-protocollen | 0 | 1 (sprint-protocols.md) | 1 |
+| WP6 log + index | 0 | 2 (log + index) | 2 |
+| **Totaal** | **3** | **8** | **11** |
+
+**Cross-referentie-verificatie:**
+
+- Alle drie nieuwe bestanden hebben `related:`-frontmatter die naar bestaande bestanden wijst.
+- T1-sprint-bestand verwijst naar [[brain__modules__M10_nis2-ext]] (bestaat als `brain/brain__modules__M10_nis2-ext.md`).
+- T1-sprint-bestand verwijst naar [[brain__concepts__skos-beoordelings-protocol]] (nieuw in deze cyclus, geen forward-rot).
+- T1-sprint-bestand verwijst naar [[brain__concepts__mapping-bron-disclaimer-effect]] (nieuw in deze cyclus, geen forward-rot).
+- skos-beoordelings-protocol concept-bestand verwijst naar mapping-bron-disclaimer-effect (nieuw in deze cyclus, geen forward-rot).
+- mapping-bron-disclaimer-effect concept-bestand verwijst naar skos-beoordelings-protocol (nieuw in deze cyclus, geen forward-rot).
+- H36-bestand `related:`-frontmatter uitgebreid met T1, skos-beoordelings-protocol, mapping-bron-disclaimer-effect. Status closed weerspiegeld in zowel frontmatter als statussectie als status-historie-tabel.
+- H39-bestand `related:`-frontmatter uitgebreid met T1; status parked behouden maar versterking gedocumenteerd.
+- H-register: H36 verschijnt nu in Resolved-sectie, **niet** in Parked-sectie; iteratie-13-mutaties-sectie expliciet aanwezig.
+- Sprint-register: T1 als active in major-milestones + detail-tabel; baseline-metrics-blok v4.6.1 nieuw + v4.6.0 als vorige active behouden.
+- Concept-register: drie nieuwe rijen + nieuwe cluster "SKOS-kwaliteits-methode (T1-cluster)".
+- Sprint-protocols.md: tabel-totaal-aanpassing (14 → 17 protocollen + GR) consistent in inleidende tabel én uitwerkings-secties én wijzigingsgeschiedenis.
+
+**H41-kandidaat niet geregistreerd (conform briefing):**
+
+SKOS-axioma-set / `skos:S46` symmetrie-afwezigheid (owlrl-package laadt geen SKOS-axiomas, dus `skos:exactMatch is owl:SymmetricProperty` wordt niet geïnferreerd). Alle 28 ctrl:→compl: mappings asymmetrisch gemodelleerd (0 inverse). Geen impact op T1-patch (predicate-mutatie blijft asymmetrisch). Markering als T1-werkflow-leerpunt op drie plekken: H36-bestand (kandidaat-overweging-sectie), H-register (iteratie-13-versterkings-sectie), T1-sprint-bestand (H-impact-sectie). **Geen nieuw H-item nu.** Trigger voor latere herregistratie: overstap-besluit owlrl-incl-SKOS-axioma-reasoning.
+
+**Karakter-bevestiging:** geen architectuurbeslissingen genomen; geen ontologie-impact; geen D-mutaties; geen scope-pauzes. Discipline-conform. Briefing strict gevolgd.
+
+**Pre-push disclosure-check** (Protocol 14): toegepast op alle 3 nieuwe bestanden + 8 updates — geen organisatie-naam, geen persoonsnamen anders dan Steven, geen credentials, geen lokale paden, geen NEN-tekst-citaten (alleen verwijzingen naar PK).
+
+**Open punten voor masterchat (niet door Brein opgepakt):**
+
+1. **D4-aanvulling-uitvoering** — concept `mapping-bron-disclaimer-effect` is geregistreerd met confidence medium; daadwerkelijke D4-tekstwijziging is masterchat-werk bij T2-voorbereiding
+2. **Protocol-v1.1-tekst** voor skos-beoordelings-protocol — masterchat-werk bij T2-start
+3. **T2-scope-bepaling** — verse masterchat-sessie volgens briefing
+4. **Locatie Spoor B-prototype `grc-dashboard-v3-2.html`** — open sinds iteratie 12; niet in deze cyclus opgepakt conform briefing §10
+
+**Volgende:** Steven inspecteert WP1-WP6 en commit handmatig (per WP of cumulatief — voorstel staat in eindrapport-output). Daarna T2-scoping in verse masterchat-sessie.
+
+---
+
 ## 2026-05-26 — Iteratie 12: post-v4.6.0 polish-mini-sprint (H36–H40 + pre-push-protocol + productlijn-concept)
 
 **Eerste post-migratie Brein-cyclus** uitgevoerd via brein-subagent in Claude Code (Anthropic). Polish-mini-sprint na v4.6.0 + Fase 0 GitHub-MCP-setup leverden vijf H-kandidaten en twee structurele documentatie-acties op die administratieve schuld waren geworden. Deze iteratie klaart het bord vóór de eerste post-migratie-test-sprint (T1).
