@@ -1,7 +1,7 @@
 # Sprint-protocollen — Werkwijze voor subagents in Claude Code
 
-**Versie:** 1.0
-**Datum:** 22 mei 2026
+**Versie:** 1.2
+**Datum:** 26 mei 2026
 **Doelpubliek:** Tech-subagent, Brein-subagent, Dashboard-subagent
 **Verhouding tot projectinstructie:** dit document is de **porteerbare uitvoerings-gerichte versie** van projectinstructie v1.9 §"Sprint-protocollen". De projectinstructie blijft autoritatief; dit document is praktisch werkmateriaal voor subagent-context. Bij conflict: projectinstructie prevaleert.
 
@@ -17,7 +17,7 @@ Sprint-protocollen zijn **niet-onderhandelbaar** voor alle subagents (zie CLAUDE
 
 ---
 
-## Overzicht — 12 protocollen + 1 gedragsregel
+## Overzicht — 17 protocollen + 1 gedragsregel
 
 | # | Protocol | Primair-uitvoerend | Geformaliseerd in | Status |
 |---|---|---|---|---|
@@ -35,6 +35,9 @@ Sprint-protocollen zijn **niet-onderhandelbaar** voor alle subagents (zie CLAUDE
 | 12 | Instructie-consistentie code-block vs toelichting | (Masterchat-discipline) | v1.9 | Verplicht |
 | 13 | Bron-typo-beleid patroon-criterium | Tech | v1.9 | Verplicht |
 | 14 | Pre-push disclosure-check | Alle (subagent + Steven) | iteratie 12 | Verplicht |
+| **15** | **Tech levert werkbare applier (niet alleen specificatie)** | **Tech** | **iteratie 13 (T1 §8 leerpunt 5)** | **Verplicht** |
+| **16** | **Lokatie verificatie-scripts expliciet in patch-rapport** | **Tech** | **iteratie 13 (T1 §8 leerpunt 6)** | **Verplicht** |
+| **17** | **NEN-werkverdeling Tech↔Masterchat** | **Tech + Masterchat** | **iteratie 13 (T1 §8 leerpunt 4)** | **Verplicht** |
 | **GR** | Property-semantiek-discipline | Alle (gedragsregel) | v1.9 | Verplicht |
 
 ---
@@ -399,6 +402,90 @@ Het protocol is preventief — niet alle disclosure-incidenten zijn even ernstig
 
 ---
 
+## 15. Tech levert werkbare applier (iteratie 13)
+
+**Trigger:** Sprints met ontologie-patches die mutaties in .ttl-modules voorschrijven.
+
+**Subagent:** Tech.
+
+**Procedure:**
+
+Voor sprints met ontologie-patches: Tech-subagent levert standaard zowel een **specificatie** (welke triples wijzigen, welke voorwaarden) als een **werkbare applier** (Python-script, sed-script, of unified-diff-format dat `patch -p0` accepteert). De applier moet vóór levering getest zijn op een tijdelijke gepatchte kopie. Pure-specificatie-only-deliverables creëren overhead voor Steven en risico op verkeerde toepassing.
+
+Concrete eisen:
+
+1. Specificatie (zoals voorheen — lijst van paren + voorwaarden + verwachte counts)
+2. **PLUS** werkbare applier:
+   - Python-script (`apply_patch_v4_X_Y.py`) met backup + count-verificatie + faal-veilig-exit
+   - OF unified-diff-format dat `patch -p0` accepteert
+   - OF sed-script met expliciete pre/post-validatie
+3. **PLUS** integratie-test: Tech voert applier op tijdelijke kopie van module(s) uit vóór levering, verifieert hash-mutatie en count-effect
+
+**Output:** Werkende applier in patch-rapport-deliverables-tabel met expliciete lokatie (zie Protocol 16).
+
+**Escalatie:** Bij twijfel over applier-vorm: scope-pauze met voorstel A/B/C aan masterchat.
+
+**Toepassings-bewijs:** T1-sprint Stap 6 — Tech leverde alleen diff-bestanden als specificaties (lijst van paren + sed/python-instructie als comments). `patch -p0` faalde met "I can't seem to find a patch in there anywhere." Masterchat moest werkende Python-applier `apply_patch_v4_6_1.py` schrijven. Impact: ~25 min overhead + frustratie-moment. Vermijdbaar via Protocol 15.
+
+---
+
+## 16. Lokatie verificatie-scripts expliciet in patch-rapport (iteratie 13)
+
+**Trigger:** Elke release-afronding (minor + patch) waarbij verificatie-scripts (canonical metrics, SHACL-validatie, file-hashes) deel zijn van deliverables.
+
+**Subagent:** Tech (uitvoerend) + Masterchat (consument).
+
+**Procedure:**
+
+Patch-rapport §9 Deliverables-tabel vermeldt **expliciete lokatie** van alle leverbare scripts en outputs. Masterchat citeert in vervolg-instructies altijd uit deze tabel, niet uit memory. Voorkomt file-not-found-fouten bij verificatie-runs door Steven.
+
+Concrete eisen:
+
+1. Patch-rapport §9 Deliverables-tabel bevat per deliverable:
+   - Type (script / output / config)
+   - **Expliciete relatieve lokatie** vanaf repo-root (bv. `output/verification/canonical_metrics_v4_6_1.py`)
+   - Korte beschrijving (één regel)
+2. Masterchat-instructies citeren rechtstreeks uit Deliverables-tabel
+3. Bij relocatie van scripts tijdens sprint: tabel bijwerken in patch-rapport vóór finale levering
+
+**Output:** Consistente lokatie-vermelding tussen Tech-output en masterchat-instructies.
+
+**Escalatie:** Bij conflict tussen instructie-lokatie en werkelijke deliverable-lokatie: scope-pauze + correctie van één van beide.
+
+**Toepassings-bewijs:** T1-sprint — masterchat-instructie noemde aanvankelijk `scripts/canonical_metrics_v4_6_1.py`, terwijl Tech de scripts in `output/verification/` had gezet. Twee aparte run-pogingen door Steven met file-not-found-fout. Impact: ~5 min verwarring. Vermijdbaar via Protocol 16.
+
+---
+
+## 17. NEN-werkverdeling Tech ↔ Masterchat (iteratie 13)
+
+**Trigger:** Sprints die NEN-restrictieve bronnen vereisen voor inhoudelijke toetsing (ISO 27002, ISO 27001, ISO 27005, ISO 31000, ISO 22301, ISO 22313, ISO 42001 en latere NEN-uitgaven).
+
+**Subagent:** Tech (structurele analyse) + Masterchat (NEN-tekst-toetsing).
+
+**Procedure:**
+
+NEN-restrictieve bronnen mogen niet in de repo (licentie); ze staan uitsluitend in claude.ai PK. Tech-subagent kan deze bronnen niet zelf raadplegen. Werkverdeling:
+
+- **Tech levert structurele analyse:** ABox-extractie, label-vergelijking, cardinaliteit, UV-decompositie, label-overlap, cluster-statistieken
+- **Masterchat verzorgt NEN-tekst-toetsing** via project knowledge: bilaterale containment, definitie-vergelijking, edge-case-judgement
+
+Bij twijfelgevallen formuleert Tech een specifieke NEN-PK-vraag in **tabel-format** met:
+
+1. Specifieke ISO-clause (subject) — bv. "ISO27002:2022 §8.05"
+2. Specifieke andere-bron-tekst (object) — bv. "NIS2 art.21 lid 2 onder j"
+3. Tech-positie pro-X / pro-Y (twee-zijdige analyse, geen Tech-voorstel)
+4. Vraag aan masterchat (precieze formulering)
+
+Masterchat beantwoordt via NEN-PK-citaten in vervolg-instructie.
+
+**Output:** Tabel-formaat NEN-PK-vraag in tussenrapport of edge-case-sectie van patch-rapport.
+
+**Escalatie:** Bij ontoegankelijkheid NEN-bron in PK of bij conflict tussen Tech-extractie en NEN-tekst: scope-pauze + verzoek aan Steven om bron-bevestiging.
+
+**Toepassings-bewijs:** T1-sprint Stap 5 — twee edge-cases (T1-021 ISO27002 §8.05 ↔ NIS2 art.21 j; T1-023 ISO27002 §8.24 ↔ NIS2 art.21 h) via NEN-PK-toets opgelost. Tech leverde twee-zijdige analyse, masterchat citeerde ISO 27002:2022-tekst uit PK, beslissing beide → broadMatch. Werkflow-patroon bewezen werkbaar; geformaliseerd als Protocol 17.
+
+---
+
 ## GR — Property-semantiek-discipline (gedragsregel, v1.9)
 
 **Trigger:** Modellering van rollen of relaties tussen frameworks/individuals.
@@ -570,9 +657,10 @@ Per stap:
 |---|---|---|
 | 2026-05-22 | 1.0 | Initiële versie. Geporteerd uit projectinstructie v1.9 §"Sprint-protocollen" + brain__workflow__sprint-protocollen.md. Aangepast voor subagent-context met Trigger/Procedure/Output/Escalatie-structuur per protocol. Toevoeging §15 Scope-pauze-escalatie-route specifiek voor Claude Code, §16 Sample-first-discipline (afgeleid uit sprint-praktijk), §17 File-back-verwijzing, §18 Output-conventies. |
 | 2026-05-26 | 1.1 | Toevoeging Protocol 14 — Pre-push disclosure-check (iteratie 12 polish-mini-sprint). Aanleiding: PAT-blunder voorgaande sessie + handovers ongetoetst gepusht. Reikwijdte: alle subagents + Steven, vóór elke push van documenten met chat-historie of subagent-output. Niet retroactief. |
+| 2026-05-26 | 1.2 | Toevoeging drie protocollen 15-17 uit T1-leerpunten (iteratie 13 Brein-cyclus). Protocol 15: Tech levert werkbare applier (niet alleen specificatie) — bron T1 §8 leerpunt 5 (tooling-incident applier). Protocol 16: Lokatie verificatie-scripts expliciet in patch-rapport — bron T1 §8 leerpunt 6 (pad-inconsistentie). Protocol 17: NEN-werkverdeling Tech↔Masterchat — bron T1 §8 leerpunt 4 (eerste productie-toepassing). |
 
 ---
 
-**Einde sprint-protocollen v1.1.**
+**Einde sprint-protocollen v1.2.**
 
 *Bij twijfel over toepasselijkheid van protocol: scope-pauze met vraag aan masterchat is altijd legitiem.*
