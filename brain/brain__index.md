@@ -3,14 +3,14 @@ type: index
 id: brain-index
 title: GRC Kennismodel Brain — Masterindex
 status: living
-date: 2026-05-21
+date: 2026-05-26
 ---
 
 # GRC Kennismodel Brain — Masterindex
 
 Karpathy-conforme "LLM Wiki" voor het GRC Kennismodel-project. Inhoud-gedreven, append-only logbook, type-getagged frontmatter, wikilinks als grep-anchors. Ontworpen voor menselijke navigatie en voor LLM-retrieval via Project Knowledge én Claude Code (post-migratie).
 
-## Vault-staat — 11 iteraties voltooid
+## Vault-staat — 12 iteraties voltooid
 
 | Iteratie | Datum | Inhoud | Files |
 |---|---|---|---:|
@@ -26,8 +26,9 @@ Karpathy-conforme "LLM Wiki" voor het GRC Kennismodel-project. Inhoud-gedreven, 
 | 8 | 2026-05-13 | Migratie-prep (CLAUDE.md, guide, script) + 2 future-concepts | 7 |
 | 9 | 2026-05-13 | v1.7-update: v4.4.0 baseline + 3 D-updates + H32 + module/source/workflow-updates | 21 (in 2 batches) |
 | 10 | 2026-05-19 | v4.5.0-update: Fase 3 NIST CSF 2.0 + D3-uitbreiding + 3 nieuwe H-items + nieuw cross-bron-overlap-concept | 25 (in 2 batches) |
-| **11** | **2026-05-21** | **v4.6.0-update + v1.9: Fase 4 ENSIA + Volwassenheidsmodel + parallelle-maturity-clusters concept** | **20 (in 2 batches)** |
-| **Totaal brain-bestanden** | | | **~100** |
+| 11 | 2026-05-21 | v4.6.0-update + v1.9: Fase 4 ENSIA + Volwassenheidsmodel + parallelle-maturity-clusters concept | 20 (in 2 batches) |
+| **12** | **2026-05-26** | **Post-v4.6.0 polish-mini-sprint: H36-H40 (parked) + Protocol 14 pre-push-disclosure + dashboard-productlijnen-concept** | **13 (6 nieuw + 7 update)** |
+| **Totaal brain-bestanden** | | | **~107** |
 
 Plus ±15 bron-documenten als upload (patch-rapporten incl. v4.5.0 + v4.6.0, projectinstructie v1.9, ontologie-PDFs).
 
@@ -46,8 +47,8 @@ brain__obsidian-migration-guide.md            ← migratie-stappenplan (iteratie
 
 brain__decisions__D{NN}_{slug}.md            ← 12 D-decisions
 brain__sprints__v{X_Y_Z}_{slug}.md          ← 14 sprint-files (incl. v4.6.0)
-brain__architecture__H{NN}_{slug}.md         ← 11 H-items (incl. H33/H34/H35)
-brain__concepts__{slug}.md                   ← 13 concept-files (incl. parallelle-maturity-clusters)
+brain__architecture__H{NN}_{slug}.md         ← 16 H-items (incl. H33-H35 + H36-H40 iteratie 12)
+brain__concepts__{slug}.md                   ← 15 concept-files (incl. skos-export-filter + dashboard-productlijnen)
 brain__modules__M{NN}_{slug}.md              ← 19 modules (M15 uitgebreid, M21 incl. Tiers)
 brain__sources__{slug}.md                    ← 8 source-files (5 SourceAttributions in model)
 brain__workflow__{slug}.md                   ← 6 workflow-files (incl. sprint-protocollen)
@@ -77,17 +78,19 @@ brain__scope__{slug}.md                      ← 4 bewust-uitgesloten elementen
 
 5 modules gewijzigd: grc-core (versie-bump), M01 (fw:ENSIA als GRCFramework), M06 (volwassenheidsmodel-cluster), M15 (oude fw:Guideline-blok verwijderd), M21 (CSFTier + Tier↔Level mappings). Volwassenheidsmodel-cluster als nieuwe isms-cluster naast biz:MaturityAssessment-cluster (NIET samenvoegen). ENSIA gepromoot naar fw:GRCFramework (D9 vierde verificatie-cluster). 5 SourceAttributions in model (+2: NBA-LIO-NOREA + ENSIA-Logius). Vier nieuwe sprint-protocollen formeel in projectinstructie v1.9. Geen nieuwe H-items.
 
-## Volgende fase — MIGRATIE naar Claude Code + GitHub
+## Volgende fase — Post-migratie productie-fase
 
-v4.6.0 is **laatste geplande Spoor A-sprint** voor de bedoelde Fase 1-4 scope. Geen ontologie-sprint v4.7.0 nu gepland.
+v4.6.0 is **laatste geplande Spoor A-sprint** voor de bedoelde Fase 1-4 scope. Migratie naar Claude Code + GitHub voltooid via Fase 0 + polish-mini-sprint (iteratie 12, 26 mei 2026).
 
-Pre-condities migratie:
+Pre-condities migratie — status iteratie 12:
 - ✓ Master-handover-document v1.0 in PK
-- Open: docs/sprint-protocols.md geport uit projectinstructie v1.9 (Brein-chat)
+- ✓ docs/sprint-protocols.md geport (v1.0 → v1.1 met Protocol 14 pre-push-disclosure)
+- ✓ Brein-cyclus iteratie 12 voltooid (H36-H40 + productlijn-concept + log/index-update)
 - Open: Dashboard-inhaalslag 5 sprints (parallel, niet-blokkerend)
 - Open: PAT + export-fallback configureren (projecteigenaar)
+- Open: locatie Spoor B-prototype `grc-dashboard-v3-2.html` in repo (Optie A/B/C — wacht op masterchat)
 
-v4.7.0 = eerste post-migratie-sprint, scope tbd. Kandidaten: SKOS-kwaliteitsanalyse formeel als sprint (1.798 mappings), ENISA TIG-PDF-integratie, Spoor B-voorbereiding (T&I lab-test).
+**Eerste post-migratie-sprint:** T1-test-sprint, scope tbd. Kandidaten: SKOS-kwaliteitsanalyse formeel als sprint (1.798 mappings — sluit aan bij H36), ENISA TIG-PDF-integratie, Spoor B-voorbereiding (T&I lab-test), UI-moderniseringssprint (sluit aan bij H40), HermiT-equivalentie-verificatie (sluit aan bij H38).
 
 ## Snelle entry-points per gebruiks-scenario
 
@@ -98,7 +101,7 @@ v4.7.0 = eerste post-migratie-sprint, scope tbd. Kandidaten: SKOS-kwaliteitsanal
 → Start met **sprints/** (chronologisch, v4.6.0 als laatste) of **brain__log.md** (operationeel).
 
 ### "Ik wil weten welke architectuur-vragen open staan"
-→ Start met **architecture/H-register.md** — open: H25, H26, H27, H32, H33, H34, H35 (allen onveranderd in v4.6.0).
+→ Start met **architecture/H-register.md** — open: H25, H26, H27, H32, H33, H34, H35 (allen onveranderd in v4.6.0). Parked (iteratie 12): H36 (SKOS-rigour), H37 (open-ontologies-MCP), H38 (HermiT-equivalentie), H39 (SHACL false-positive-uitsplitsing), H40 (dashboard-explorer-renderdekking).
 
 ### "Ik wil weten waarom we iets juist NIET doen"
 → Start met **scope/** (bewuste uitsluitingen) of geparkeerde H-items.
@@ -147,10 +150,10 @@ v4.7.0 = eerste post-migratie-sprint, scope tbd. Kandidaten: SKOS-kwaliteitsanal
 
 | Aspect | Status |
 |---|---|
-| Vault-opzet | Voltooid na 11 iteraties (incl. v4.6.0-update + v1.9) |
-| Productief gebruik | Brain bewees productie-waarde tijdens v4.5.0 én v4.6.0-sprints (sprint-protocollen toegepast, leerpunten naar projectinstructie geformaliseerd) |
-| Migratie-prep | Klaar — vault-zip v4.6.0 wordt na deze iteratie aangeleverd voor migratie naar Claude Code + GitHub |
-| Smoke-tests | 5/5 PASS (geldig voor v4.3.3-baseline; nieuwe v4.6.0-baseline kan na migratie hertest) |
+| Vault-opzet | Voltooid na 12 iteraties (incl. v4.6.0-update + v1.9 + iteratie 12 polish-mini-sprint) |
+| Productief gebruik | Brain bewees productie-waarde tijdens v4.5.0 én v4.6.0-sprints (sprint-protocollen toegepast, leerpunten naar projectinstructie geformaliseerd). Iteratie 12 toont post-migratie Brein-cyclus werkt zoals voorzien |
+| Migratie-prep | Voltooid — brain-vault in GitHub-repo, brein-subagent in Claude Code, eerste post-migratie Brein-cyclus afgerond |
+| Smoke-tests | 5/5 PASS (geldig voor v4.3.3-baseline; nieuwe v4.6.0-baseline kan na T1-test-sprint hertest) |
 
 ## Cross-references
 

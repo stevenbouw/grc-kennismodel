@@ -2,12 +2,76 @@
 type: log
 title: GRC Kennismodel Brain — Chronologisch logboek
 status: living
-date: 2026-05-21
+date: 2026-05-26
 ---
 
 # GRC Kennismodel Brain — Chronologisch logboek
 
 Per Karpathy's pattern: chronologisch operationeel record. Append-only. **Nieuwste entry bovenaan.**
+
+---
+
+## 2026-05-26 — Iteratie 12: post-v4.6.0 polish-mini-sprint (H36–H40 + pre-push-protocol + productlijn-concept)
+
+**Eerste post-migratie Brein-cyclus** uitgevoerd via brein-subagent in Claude Code (Anthropic). Polish-mini-sprint na v4.6.0 + Fase 0 GitHub-MCP-setup leverden vijf H-kandidaten en twee structurele documentatie-acties op die administratieve schuld waren geworden. Deze iteratie klaart het bord vóór de eerste post-migratie-test-sprint (T1).
+
+**Karakter:** uitsluitend administratieve verwerking van besluiten die elders al waren genomen (masterchat + handovers). Geen architectuur-wijzigingen, geen ontologie-impact, geen D-decision-mutaties. 11 bestanden geraakt: 6 nieuw + 5 update.
+
+**WP1 — vijf H-items registreren (H36–H40):**
+
+- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] *(nieuw)* — 28 ctrl→compl `skos:exactMatch`-pairs, audit-vraag voor SKOS-kwaliteitsanalyse-sprint of externe audit. Status: parked. Trigger: SKOS-kwaliteitsanalyse-sprint. Bron: sessie-rapport v2.0 §9.1.
+- [[brain__architecture__H37_open-ontologies-mcp]] *(nieuw)* — open-ontologies MCP-server (Rust + Oxigraph + tableaux) als toolchain-alternatief voor rdflib + owlrl + pySHACL. Status: parked. Trigger: aangetoonde OWL RL-limitatie of >50.000 triples (huidig 44.907). Bron: sessie-rapport v1.0.
+- [[brain__architecture__H38_owlrl-vs-hermit-equivalentie]] *(nieuw)* — geen HermiT-run sinds v4.0.0 op modulaire baseline; OWL RL ≡ HermiT-aanname niet aantoonbaar. Raakt D1, wijzigt D1 niet. Status: parked. Trigger: >10% triple-toename of nieuwe module of DL-conformance-twijfel. Bron: Fase 0 Tech-handover-rapport.
+- [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] *(nieuw)* — 290 SHACL RUN 2 false-positives nog niet individueel uitgesplitst; masking-risico bij shape-wijziging. Status: parked. Trigger: rustige sprint als sanity-check of sprint die SHACL-shapes wijzigt. Bron: Fase 0 Tech-handover-rapport.
+- [[brain__architecture__H40_dashboard-ui-renderdekking]] *(nieuw)* — grc-explorer-UI rendert <10% van JSON-export-velden; rdfs:comment + SourceAttribution + classificatie-attributen onzichtbaar. Status: parked. Trigger: UI-moderniseringssprint post-Fase 4. Scope: uitsluitend Spoor A explorer (zie WP3). Bron: Fase 0 Dashboard-handover-rapport.
+- [[brain__architecture__H-register]] *(update)* — vijf nieuwe rijen onder Parked-categorie; nieuwe sectie "Nieuw geregistreerd in iteratie 12"; H-items-per-D-decision-tabel uitgebreid met toolchain-cluster (H37, H38), validatie-cluster (H39), dashboard-cluster (H40), D4 (H36), D1 (H38 — geen D1-wijziging).
+
+**WP2 — pre-push disclosure-check als werkflow-regel:**
+
+- `docs/sprint-protocols.md` *(update)* — Protocol 14 toegevoegd tussen Protocol 13 (Bron-typo-beleid) en GR (Property-semantiek-discipline). Aanleiding: PAT-blunder voorgaande sessie + handovers ongetoetst gepusht in Fase 0. Reikwijdte: alle subagents + Steven, vóór elke push van documenten met chat-historie of subagent-output. Niet retroactief. Versie 1.0 → 1.1.
+- [[brain__workflow__opleveringsprotocol]] *(update)* — korte verwijzing naar Protocol 14 toegevoegd vóór Cross-references-sectie + wikilink naar sprint-protocollen.
+
+**WP3 — productlijn-scheiding documenteren (Optie C):**
+
+- [[brain__concepts__dashboard-productlijnen]] *(nieuw)* — `grc-explorer-*` (Spoor A — ontologie-graaf-verkenner, Cytoscape, beweegt mee met ontologie-versie) versus `grc-dashboard-*` (Spoor B — operationele werkmap, SQL.js + Chart.js, eigen versie-track). Discipline-paragraaf "niet vermengen". Cross-references naar [[brain__architecture__H40_dashboard-ui-renderdekking]], [[brain__concepts__skos-export-filter]], [[brain__concepts__namedindividual-telmethode]]. **Open punt**: locatie Spoor B-prototype in repo (Optie A eigen repo / B sources/spoor-b/ / C dashboard/spoor-b/) — wacht op masterchat-beslissing, Brein-subagent neemt geen eigen voorkeur in.
+- [[brain__concepts__concept-register]] *(update)* — nieuwe rij in snelle navigatie + nieuwe cluster "Product-scope-discipline" + D-cross-reference-tabel + sprint-cross-reference-tabel.
+- `CLAUDE.md` *(update)* — nieuwe korte sectie "Dashboard-productlijnen (Spoor A vs Spoor B)" tussen repo-structuur en brain-vault-organisatie (4-6 regels). Verwijst naar concept-bestand voor detail. Versie 1.3 → 1.4.
+
+**WP4 — register-coherentie + log-iteratie 12:**
+
+- [[brain__log]] *(deze entry)* — nieuwste entry bovenaan, iteratie 12.
+- [[brain__index]] *(update)* — vault-staat-tabel rij iteratie 12 + totaal brain-bestanden bijgewerkt + "Volgende fase"-sectie heroverwogen (Brein-cyclus-pre-conditie nu voldaan; klaar voor T1-test-sprint).
+
+**File-count iteratie 12:**
+
+| WP | Nieuw | Update | Totaal |
+|---|---:|---:|---:|
+| WP1 H-items | 5 | 1 (H-register) | 6 |
+| WP2 pre-push | 0 | 2 (sprint-protocols.md + opleveringsprotocol) | 2 |
+| WP3 productlijn | 1 | 2 (concept-register + CLAUDE.md) | 3 |
+| WP4 log + index | 0 | 2 (log + index) | 2 |
+| **Totaal** | **6** | **7** | **13** |
+
+**Cross-referentie-verificatie:**
+
+- Alle vijf H-bestanden hebben `related:`-frontmatter die naar bestaande bestanden wijst (H36 → D4, skos-export-filter, sameAs-discipline; H37 → owl-rl-reasoning, canonical-metrics; H38 → D01, owl-rl-reasoning, H37; H39 → gesplitste-shacl-validatie, sameAs-discipline; H40 → skos-export-filter, namedindividual-telmethode, dashboard-productlijnen).
+- H40 verwijst naar `dashboard-productlijnen` — concept bestaat (geen forward-reference-rot).
+- `dashboard-productlijnen` verwijst naar H40 — H40 bestaat (geen forward-reference-rot).
+- Concept-register heeft drie nieuwe consistent-bijgewerkte tabellen (snelle navigatie + clusters + D-cross-references + sprint-cross-references).
+- H-register heeft H36-H40 in zowel Parked-status-tabel als nieuwe "iteratie 12"-sectie als per-D-decision-tabel.
+- `CLAUDE.md` §Dashboard-productlijnen verwijst naar `brain/brain__concepts__dashboard-productlijnen.md` (bestaat).
+- `docs/sprint-protocols.md` Protocol 14 is benoemd in overzichts-tabel (#14) én uitgewerkt in eigen sectie én vermeld in wijzigingsgeschiedenis (v1.0 → v1.1).
+
+**Belangrijkste open punten voor masterchat:**
+
+1. **Locatie Spoor B-prototype in repo** (WP3 — A/B/C-keuze, niet door Brein gedaan)
+2. **Eventuele restpunten** uit sessie-rapport v2.0 die niet in deze cyclus zijn meegenomen — Brein heeft strikt de briefing gevolgd; aanvullende WP's zijn aan masterchat
+
+**Karakter-bevestiging:** geen architectuurbeslissingen genomen; geen ontologie-impact; geen D-mutaties; geen ramp om scope. Discipline-conform.
+
+**Pre-push disclosure-check** (Protocol 14, vandaag vastgelegd in WP2) is **op deze iteratie zelf toegepast**: log-entry, index-update, H-bestanden, concept-bestand, CLAUDE.md-sectie — geen organisatie-naam, geen persoonsnamen anders dan Steven, geen credentials, geen lokale paden.
+
+**Volgende:** Steven inspecteert WP1-WP4 en commit handmatig (per WP of cumulatief — Brein-voorstel staat in eindrapport-output). Daarna eerste post-migratie-test-sprint (T1) kan aanvangen.
 
 ---
 
