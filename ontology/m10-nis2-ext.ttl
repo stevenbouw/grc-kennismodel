@@ -180,7 +180,7 @@ compl:NIS2_Art21_j rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
 
 # ctrl:ISO27002_5_01 — Beleidsregels voor informatiebeveiliging
 ctrl:ISO27002_5_01
-    skos:exactMatch compl:NIS2_Art21_a .
+    skos:broadMatch compl:NIS2_Art21_a .
 
 # ctrl:ISO27002_5_02 — Rollen en verantwoordelijkheden bij informatiebeveiliging
 ctrl:ISO27002_5_02
@@ -218,7 +218,7 @@ ctrl:ISO27002_5_08
 
 # ctrl:ISO27002_5_09 — Inventarisatie van informatie en andere gerelateerde bedrijf
 ctrl:ISO27002_5_09
-    skos:exactMatch compl:NIS2_Art21_i .
+    skos:broadMatch compl:NIS2_Art21_i .
 
 # ctrl:ISO27002_5_10 — Aanvaard gebruik van informatie en andere gerelateerde bedri
 ctrl:ISO27002_5_10
@@ -242,12 +242,12 @@ ctrl:ISO27002_5_14
 
 # ctrl:ISO27002_5_15 — Toegangsbeveiliging
 ctrl:ISO27002_5_15
-    skos:exactMatch compl:NIS2_Art21_i ;
+    skos:broadMatch compl:NIS2_Art21_i ;
     skos:closeMatch compl:NIS2_Art21_j .
 
 # ctrl:ISO27002_5_16 — Identiteitsbeheer
 ctrl:ISO27002_5_16
-    skos:exactMatch compl:NIS2_Art21_i ;
+    skos:broadMatch compl:NIS2_Art21_i ;
     skos:closeMatch compl:NIS2_Art21_j .
 
 # ctrl:ISO27002_5_17 — Authenticatie-informatie
@@ -257,23 +257,23 @@ ctrl:ISO27002_5_17
 
 # ctrl:ISO27002_5_18 — Toegangsrechten
 ctrl:ISO27002_5_18
-    skos:exactMatch compl:NIS2_Art21_i .
+    skos:broadMatch compl:NIS2_Art21_i .
 
 # ctrl:ISO27002_5_19 — Informatiebeveiliging in leveranciersrelaties
 ctrl:ISO27002_5_19
-    skos:exactMatch compl:NIS2_Art21_d .
+    skos:broadMatch compl:NIS2_Art21_d .
 
 # ctrl:ISO27002_5_20 — Adresseren van informatiebeveiliging in leveranciersovereenk
 ctrl:ISO27002_5_20
-    skos:exactMatch compl:NIS2_Art21_d .
+    skos:broadMatch compl:NIS2_Art21_d .
 
 # ctrl:ISO27002_5_21 — Beheren van informatiebeveiliging in de ICT-toeleveringskete
 ctrl:ISO27002_5_21
-    skos:exactMatch compl:NIS2_Art21_d .
+    skos:broadMatch compl:NIS2_Art21_d .
 
 # ctrl:ISO27002_5_22 — Monitoren, beoordelen en het beheren van wijzigingen van lev
 ctrl:ISO27002_5_22
-    skos:exactMatch compl:NIS2_Art21_d .
+    skos:broadMatch compl:NIS2_Art21_d .
 
 # ctrl:ISO27002_5_23 — Informatiebeveiliging voor het gebruik van clouddiensten
 ctrl:ISO27002_5_23
@@ -281,20 +281,20 @@ ctrl:ISO27002_5_23
 
 # ctrl:ISO27002_5_24 — Plannen en voorbereiden van het beheer van informatiebeveili
 ctrl:ISO27002_5_24
-    skos:exactMatch compl:NIS2_Art21_b ;
+    skos:broadMatch compl:NIS2_Art21_b ;
     skos:relatedMatch compl:NIS2_Art21_c .
 
 # ctrl:ISO27002_5_25 — Beoordelen van en besluiten over informatiebeveiligingsgebeu
 ctrl:ISO27002_5_25
-    skos:exactMatch compl:NIS2_Art21_b .
+    skos:broadMatch compl:NIS2_Art21_b .
 
 # ctrl:ISO27002_5_26 — Reageren op informatiebeveiligingsincidenten
 ctrl:ISO27002_5_26
-    skos:exactMatch compl:NIS2_Art21_b .
+    skos:broadMatch compl:NIS2_Art21_b .
 
 # ctrl:ISO27002_5_27 — Leren van informatiebeveiligingsincidenten
 ctrl:ISO27002_5_27
-    skos:exactMatch compl:NIS2_Art21_b .
+    skos:broadMatch compl:NIS2_Art21_b .
 
 # ctrl:ISO27002_5_28 — Verzamelen van bewijsmateriaal
 ctrl:ISO27002_5_28
@@ -302,11 +302,11 @@ ctrl:ISO27002_5_28
 
 # ctrl:ISO27002_5_29 — Informatiebeveiliging tijdens een verstoring
 ctrl:ISO27002_5_29
-    skos:exactMatch compl:NIS2_Art21_c .
+    skos:broadMatch compl:NIS2_Art21_c .
 
 # ctrl:ISO27002_5_30 — ICT-gereedheid voor bedrijfscontinuïteit
 ctrl:ISO27002_5_30
-    skos:exactMatch compl:NIS2_Art21_c .
+    skos:broadMatch compl:NIS2_Art21_c .
 
 # ctrl:ISO27002_5_31 — Wettelijke, statutaire, regelgevende en contractuele eisen
 ctrl:ISO27002_5_31
@@ -327,12 +327,12 @@ ctrl:ISO27002_5_34
 
 # ctrl:ISO27002_5_35 — Onafhankelijke beoordeling van informatiebeveiliging
 ctrl:ISO27002_5_35
-    skos:exactMatch compl:NIS2_Art21_f ;
+    skos:broadMatch compl:NIS2_Art21_f ;
     skos:closeMatch compl:NIS2_Art21_a .
 
 # ctrl:ISO27002_5_36 — Naleving van beleid, regels en normen voor informatiebeveili
 ctrl:ISO27002_5_36
-    skos:exactMatch compl:NIS2_Art21_f ;
+    skos:broadMatch compl:NIS2_Art21_f ;
     skos:closeMatch compl:NIS2_Art21_a .
 
 # ctrl:ISO27002_5_37 — Gedocumenteerde bedieningsprocedures
@@ -341,15 +341,15 @@ ctrl:ISO27002_5_37
 
 # ctrl:ISO27002_6_01 — Screening
 ctrl:ISO27002_6_01
-    skos:exactMatch compl:NIS2_Art21_i .
+    skos:broadMatch compl:NIS2_Art21_i .
 
 # ctrl:ISO27002_6_02 — Arbeidsovereenkomst
 ctrl:ISO27002_6_02
-    skos:exactMatch compl:NIS2_Art21_i .
+    skos:broadMatch compl:NIS2_Art21_i .
 
 # ctrl:ISO27002_6_03 — Bewustwording van, opleiding en training in informatiebeveil
 ctrl:ISO27002_6_03
-    skos:exactMatch compl:NIS2_Art21_g .
+    skos:broadMatch compl:NIS2_Art21_g .
 
 # ctrl:ISO27002_6_04 — Disciplinaire procedure
 ctrl:ISO27002_6_04
@@ -450,7 +450,7 @@ ctrl:ISO27002_8_04
 
 # ctrl:ISO27002_8_05 — Beveiligde authenticatie
 ctrl:ISO27002_8_05
-    skos:exactMatch compl:NIS2_Art21_j ;
+    skos:broadMatch compl:NIS2_Art21_j ;
     skos:broadMatch compl:NIS2_Art21_h .
 
 # ctrl:ISO27002_8_06 — Capaciteitsbeheer
@@ -485,7 +485,7 @@ ctrl:ISO27002_8_12
 
 # ctrl:ISO27002_8_13 — Back-up van informatie
 ctrl:ISO27002_8_13
-    skos:exactMatch compl:NIS2_Art21_c .
+    skos:broadMatch compl:NIS2_Art21_c .
 
 # ctrl:ISO27002_8_14 — Redundantie van informatieverwerkende faciliteiten
 ctrl:ISO27002_8_14
@@ -531,27 +531,27 @@ ctrl:ISO27002_8_23
 
 # ctrl:ISO27002_8_24 — Gebruik van cryptografie
 ctrl:ISO27002_8_24
-    skos:exactMatch compl:NIS2_Art21_h .
+    skos:broadMatch compl:NIS2_Art21_h .
 
 # ctrl:ISO27002_8_25 — Beveiligen tijdens de ontwikkelcyclus
 ctrl:ISO27002_8_25
-    skos:exactMatch compl:NIS2_Art21_e .
+    skos:broadMatch compl:NIS2_Art21_e .
 
 # ctrl:ISO27002_8_26 — Toepassingsbeveiligingseisen
 ctrl:ISO27002_8_26
-    skos:exactMatch compl:NIS2_Art21_e .
+    skos:broadMatch compl:NIS2_Art21_e .
 
 # ctrl:ISO27002_8_27 — Veilige systeemarchitectuur en technische uitgangspunten
 ctrl:ISO27002_8_27
-    skos:exactMatch compl:NIS2_Art21_e .
+    skos:broadMatch compl:NIS2_Art21_e .
 
 # ctrl:ISO27002_8_28 — Veilig coderen
 ctrl:ISO27002_8_28
-    skos:exactMatch compl:NIS2_Art21_e .
+    skos:broadMatch compl:NIS2_Art21_e .
 
 # ctrl:ISO27002_8_29 — Testen van de beveiliging tijdens ontwikkeling en acceptatie
 ctrl:ISO27002_8_29
-    skos:exactMatch compl:NIS2_Art21_e .
+    skos:broadMatch compl:NIS2_Art21_e .
 
 # ctrl:ISO27002_8_30 — Uitbestede systeemontwikkeling
 ctrl:ISO27002_8_30
