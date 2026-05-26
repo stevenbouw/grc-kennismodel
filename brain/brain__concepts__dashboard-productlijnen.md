@@ -1,0 +1,93 @@
+---
+type: concept
+title: Dashboard-productlijnen — Spoor A explorer vs Spoor B dashboard
+status: living
+date: 2026-05-26
+related:
+  - namedindividual-telmethode
+  - skos-export-filter
+  - H40_dashboard-ui-renderdekking
+sources:
+  - sessie-rapport-v2_0
+  - handover-dashboard-chat-v1
+chat-sources: []
+confidence: high
+---
+
+# Dashboard-productlijnen — Spoor A explorer vs Spoor B dashboard
+
+## Wat het is
+
+Sinds v4.6.0 bestaan er **twee parallelle dashboard-productlijnen** in het project met **fundamenteel verschillende doelen, datamodel en engine**. Beide zijn legitiem; ze hebben elk hun eigen rol. Verwarring is begrijpelijk omdat beide "dashboard" heten in informele communicatie — vandaar deze expliciete documentatie.
+
+## Twee productlijnen, één tabel
+
+| Aspect | **`grc-explorer-*`** | **`grc-dashboard-*` (bv. v3-2)** |
+|---|---|---|
+| **Spoor** | A — read-only ontologie-graaf-verkenner | B — operationele werkmap (prototype) |
+| **Naam-actueel** | `grc-explorer-v4_6_0.html` | `grc-dashboard-v3-2.html` (lokaal bij Steven, locatie in repo open punt) |
+| **Doel** | Inspectie + navigatie van ontologie-graaf | CRUD, audit-trail, kalender, RACI |
+| **Data-bron** | `grc-data-v4_6_0.js` (export uit ontologie) | Lokale SQL.js `.db`-bestand |
+| **Engine** | Cytoscape.js | Chart.js + SQL.js |
+| **Datamodel-bron** | Ontologie-individuals (gefilterde ABox) | Organisatie-specifieke tabellen (`risicos`, `controls`, `rollen`, `documenten`, `audit_bevindingen`, `kalender`, `audit_trail`) |
+| **Velden** | `rdfs:label`, `rdf:type`, `owl:sameAs`, SKOS-mappings, etc. | `eigenaar_naam`, `bezet_door_email`, `deadline`, `voortgang`, etc. |
+| **Versie-tracking** | Beweegt mee met ontologie-versie (`v4_6_0`-suffix) | Eigen versie-track (`v3-2`-suffix, los van ontologie) |
+| **Status v4.6.0** | Productief in repo (`dashboard/`-folder) | Lokaal prototype bij Steven; locatie-vraag open |
+
+## Discipline — niet vermengen
+
+| Regel | Reden |
+|---|---|
+| **Niet vermengen in één UI** | Spoor A toont generieke ontologie-graaf; Spoor B toont organisatie-specifieke werkstaat. Eén UI zou conceptueel verwarrend zijn |
+| **Spoor A wijzigt mee met ontologie-versie** | Build-pipeline genereert `grc-data-v[X_Y_Z].js` per release; explorer-HTML krijgt corresponderende versie-suffix |
+| **Spoor B heeft eigen versie-track** | Organisatie-specifieke velden (eigenaar_naam, deadline, voortgang) komen niet uit de ontologie; SQL.js-data is autoriteit, ontologie geeft hooguit referentie-IRIs |
+| **Spoor B-data is organisatie-eigendom** | Indien Spoor B ooit met echte organisatie-data wordt gevuld: GitHub.com (publiek) is dan niet meer geschikt — heroverwegen naar GitLab-on-prem (zie CLAUDE.md §"Spoor B-overweging") |
+
+## Wat ze gemeen hebben (beperkt)
+
+Beide producten kunnen ontologie-IRIs als referentie gebruiken voor cross-link:
+
+- Een `risicos`-rij in Spoor B kan een `risk:R_*`-IRI als referentie-veld dragen, wijzend naar de ontologie-individual
+- Een SKOS-mapping in Spoor A kan in principe naar een Spoor B-record verwijzen via een externe `ext:`-property
+
+In de praktijk gebeurt dit cross-link-werk niet automatisch — het is een toekomstige integratie-vraag (geen actief H-item nu, want geen concrete trigger).
+
+## Verwante meet-laag-discrepanties
+
+Het onderscheid productlijn-A vs productlijn-B sluit aan bij twee andere meet-laag-onderscheidingen die in de brain-vault zijn gedocumenteerd:
+
+| Onderscheid | Concept | Aard |
+|---|---|---|
+| Ontologie-laag (1.798 SKOS) vs dashboard-export-laag (1.759 SKOS) | [[brain__concepts__skos-export-filter]] | Filter-keten in `build_grc_explorer_v3.py` |
+| Class-niveau-telling vs Individual-niveau-telling | [[brain__concepts__namedindividual-telmethode]] | Canonieke meet-conventie binnen ontologie |
+| **Spoor A render-laag (<10% JSON-velden) vs Spoor B operationeel-datamodel** | [[brain__architecture__H40_dashboard-ui-renderdekking]] + dit concept | Productlijn-keuze + UI-scope |
+
+Beide andere onderscheidingen blijven binnen de Spoor A-pijplijn (ontologie → export → render). Het Spoor A vs Spoor B-onderscheid is een **dimensie hoger** — het zijn twee **verschillende producten**, niet twee fasen in één pipeline.
+
+## Open punt — locatie van Spoor B-prototype in repo
+
+De `grc-dashboard-v3-2.html`-prototype bestaat lokaal bij Steven, maar is op moment van schrijven (26 mei 2026) **niet in deze repo aanwezig**. Drie kandidaat-locaties zijn besproken:
+
+| Optie | Voor | Tegen |
+|---|---|---|
+| A — Eigen GitHub-repo (`grc-dashboard-spoor-b`) | Strikte scheiding; verschillende versie-tracks | Twee repo's onderhouden; cross-link-werk vergt git-submodule of vergelijkbaar |
+| B — `sources/spoor-b/`-subfolder in deze repo | Eén repo, expliciete Spoor-B-scope-markering | Vermenging met publiek-domein-bronnen (sources/) |
+| C — `dashboard/spoor-b/`-subfolder naast Spoor A | Eén repo, dashboard-cluster | Twee subfolders in dashboard/ met verschillende disciplines |
+
+**Status:** wacht op masterchat-beslissing. Brein-subagent registreert dit concept zonder eigen voorkeur uit te spreken — beslissing is architectuur, niet administratief.
+
+## Hangt samen met
+
+- [[brain__architecture__H40_dashboard-ui-renderdekking]] — H40 scope-afbakening: H40 betreft **alleen** Spoor A explorer-UI, niet Spoor B
+- [[brain__concepts__skos-export-filter]] — verwante meet-laag-discrepantie binnen Spoor A
+- [[brain__concepts__namedindividual-telmethode]] — verwante telmethode-discipline binnen ontologie
+- `CLAUDE.md` §"Spoor B-overweging" — toekomstige hosting-vraag (GitHub vs GitLab-on-prem)
+- `docs/handovers/handover-dashboard-chat-v1.md` — handover-rapport waarin productlijn-onderscheid is bevestigd
+
+## Status-historie
+
+| Datum | Status | Wijziging |
+|---|---|---|
+| 2026-05-26 | living | Concept geboren uit iteratie 12 polish-mini-sprint. Aanleiding: sessie-rapport v2.0 §2.1 + §9.2 expliciet onderscheid productlijn-A vs productlijn-B. Locatie-vraag Spoor B-prototype expliciet open gelaten voor masterchat-beslissing. |
+
+— Einde dashboard-productlijnen.

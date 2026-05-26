@@ -28,6 +28,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | [[brain__concepts__cross-bron-overlap]] | SKOS-kwaliteits-indicator: 2+ onafhankelijke bronnen, zelfde mapping | provenance, sources |
 | [[brain__concepts__parallelle-maturity-clusters]] *(iteratie 11)* ✨ | **biz vs isms maturity-clusters — twee parallelle modellen, niet samenvoegen** | v4.6.0, M06, M07 |
 | [[brain__concepts__skos-export-filter]] *(v4.6.0)* ✨ | **Ontologie-laag (1.798) vs dashboard-laag (1.759) — twee meet-conventies, beide kloppen** | canonical-metrics, namedindividual-telmethode |
+| [[brain__concepts__dashboard-productlijnen]] *(iteratie 12)* ✨ | **Spoor A explorer (ontologie-graaf) vs Spoor B dashboard (operationeel) — twee productlijnen, niet vermengen** | H40, skos-export-filter, CLAUDE.md Spoor B-overweging |
 
 ## Clusters
 
@@ -53,6 +54,9 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 - scope-discipline
 - meeliftregel-edit-scope
 
+### Product-scope-discipline
+- **dashboard-productlijnen (iteratie 12)** ✨ — Spoor A explorer vs Spoor B dashboard, niet vermengen
+
 ## Cross-references naar D-decisions
 
 | Concept | Primaire D | Andere D's |
@@ -71,6 +75,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | cross-bron-overlap | (geen directe D — emergente kwaliteits-indicator) | provenance |
 | **parallelle-maturity-clusters** | **(geen directe D — V1-architectuur-uitkomst)** | **D9 (twee gelijkwaardige clusters)** |
 | **skos-export-filter** | **(geen directe D — measurement-conventie-verfijning)** | **D1, D4, D11 (alle getoetst, geen schending)** |
+| **dashboard-productlijnen** | **(geen directe D — product-scope-onderscheid)** | **(geen — productlijn-scheiding raakt geen D-decision direct)** |
 
 ## Cross-references naar sprints waar concepten zijn ontstaan / verfijnd
 
@@ -90,6 +95,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | cross-bron-overlap | v4.5.0 (S5 ∩ S6 = 105) | Concept ontstaan uit observatie |
 | **parallelle-maturity-clusters** | **v4.6.0 (V1-uitkomst Optie B)** | **Concept ontstaan uit Fase 4 V1-evaluatie** |
 | **skos-export-filter** | **v4.6.0 (tech-inspectie 39 tripels)** | **Concept ontstaan uit ontologie-laag vs dashboard-laag meet-discrepantie** |
+| **dashboard-productlijnen** | **iteratie 12 (post-v4.6.0 polish-mini-sprint)** | **Concept ontstaan uit sessie-rapport v2.0 §2.1 + §9.2** |
 
 ## Concepts versus workflows
 

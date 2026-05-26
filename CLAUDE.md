@@ -62,6 +62,15 @@ grc-kennismodel/
 
 **Let op**: `.claude/` map heeft punt-prefix (Unix-conventie). Op macOS-Finder verborgen tenzij Cmd+Shift+. wordt gedrukt.
 
+## Dashboard-productlijnen (Spoor A vs Spoor B)
+
+Twee parallelle dashboard-productlijnen met fundamenteel verschillende doelen:
+
+- **`grc-explorer-*`** (Spoor A) — read-only ontologie-graaf-verkenner; data uit `grc-data-v[X_Y_Z].js`; Cytoscape.js-engine; beweegt mee met ontologie-versie. Actueel: `dashboard/grc-explorer-v4_6_0.html`.
+- **`grc-dashboard-*`** (Spoor B) — operationele werkmap-prototype voor CRUD, audit-trail, kalender, RACI; data uit lokale SQL.js `.db`; Chart.js + SQL.js-engine; eigen versie-track. Actueel: `grc-dashboard-v3-2.html` (lokaal bij Steven, locatie in repo open punt).
+
+Niet vermengen in één UI — verschillende doelen, datamodel en engine. Detail + discipline: zie `brain/brain__concepts__dashboard-productlijnen.md`. Scope-afbakening van H40 (UI-renderdekking) betreft uitsluitend Spoor A.
+
 ## Brain-vault organisatie
 
 Files in `brain/` zijn **flat** met folder-structuur gecodeerd via `__`-separator (compatible met claude.ai Project Knowledge platte filelijst):
@@ -279,5 +288,6 @@ Dit document wijzigt alleen bij wijzigingen in repo-structuur, subagent-architec
 | 2026-05-22 | 1.1 | Correcties masterchat: projectinstructie-verwijzing naar v1.9; tabel-formatting hersteld; subagents-lijst teruggebracht naar drie (Tech/Brein/Dashboard) conform migratie-roadmap; expliciete vermelding van vier claude.ai-only chats; toevoeging Spoor B-overweging |
 | 2026-05-22 | 1.2 | Vijf toevoegingen na pre-migratie-check: (1) Karpathy drie-lagen-pattern + "compile once, keep current"-framing; (2) Operations-sectie met Ingest/Query/Lint/File-back; (3) File-back-discipline expliciet; (4) Optional tooling-sectie; (5) Skills-ecosystem-positionering met Tier 1+2 post-migratie kandidaten. Tech+Dashboard-subagent-configs incorporeren Karpathy LLM coding-principes (multica-ai). |
 | 2026-05-22 | 1.3 | Repo-structuur-update na Steven's structuur-aanmaak: `dashboard/` als toplevel toegevoegd; `output/reports/` + `output/verification/` sub-structuur; `sources/` sub-folders expliciet getoond (adr-norea/ensia/eu-recht/nl-recht/nist/overheid); `docs/migratie-roadmap.md` op toplevel (niet in handovers); macOS-Finder-note over `.claude/` punt-prefix. |
+| 2026-05-26 | 1.4 | Iteratie 12 polish-mini-sprint: nieuwe korte sectie "Dashboard-productlijnen (Spoor A vs Spoor B)" tussen repo-structuur en brain-vault-organisatie. Verwijst naar nieuw concept-bestand `brain__concepts__dashboard-productlijnen.md` voor detail. Geen wijziging aan andere secties. |
 
 — Einde CLAUDE.md
