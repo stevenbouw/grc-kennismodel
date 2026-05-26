@@ -29,6 +29,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | [[brain__concepts__parallelle-maturity-clusters]] *(iteratie 11)* ✨ | **biz vs isms maturity-clusters — twee parallelle modellen, niet samenvoegen** | v4.6.0, M06, M07 |
 | [[brain__concepts__skos-export-filter]] *(v4.6.0)* ✨ | **Ontologie-laag (1.798) vs dashboard-laag (1.759) — twee meet-conventies, beide kloppen** | canonical-metrics, namedindividual-telmethode |
 | [[brain__concepts__dashboard-productlijnen]] *(iteratie 12)* ✨ | **Spoor A explorer (ontologie-graaf) vs Spoor B dashboard (operationeel) — twee productlijnen, niet vermengen** | H40, skos-export-filter, CLAUDE.md Spoor B-overweging |
+| [[brain__concepts__skos-beoordelings-protocol]] *(iteratie 13)* ✨ | **Herbruikbare methode voor per-paar SKOS-match-type-evaluatie — vier criteria + beslis-tabel + evidence-hiërarchie + cluster-discipline** | D4, T1, H36, mapping-bron-disclaimer-effect |
+| [[brain__concepts__mapping-bron-disclaimer-effect]] *(iteratie 13)* ✨ | **Autoritatieve mapping-bronnen met non-equivalence-disclaimer ondergraven `skos:exactMatch` zelfs bij sluitende C1-C3** | D4 (aanvulling-overweging), T1, skos-beoordelings-protocol |
 
 ## Clusters
 
@@ -57,6 +59,10 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 ### Product-scope-discipline
 - **dashboard-productlijnen (iteratie 12)** ✨ — Spoor A explorer vs Spoor B dashboard, niet vermengen
 
+### SKOS-kwaliteits-methode (T1-cluster)
+- **skos-beoordelings-protocol (iteratie 13)** ✨ — herbruikbare methode voor per-paar match-type-evaluatie
+- **mapping-bron-disclaimer-effect (iteratie 13)** ✨ — autoritatieve mapping-bron met non-equivalence-disclaimer ondergraaft `exactMatch`
+
 ## Cross-references naar D-decisions
 
 | Concept | Primaire D | Andere D's |
@@ -76,6 +82,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | **parallelle-maturity-clusters** | **(geen directe D — V1-architectuur-uitkomst)** | **D9 (twee gelijkwaardige clusters)** |
 | **skos-export-filter** | **(geen directe D — measurement-conventie-verfijning)** | **D1, D4, D11 (alle getoetst, geen schending)** |
 | **dashboard-productlijnen** | **(geen directe D — product-scope-onderscheid)** | **(geen — productlijn-scheiding raakt geen D-decision direct)** |
+| **skos-beoordelings-protocol** | **D4** | **(geen andere — opereert binnen D4)** |
+| **mapping-bron-disclaimer-effect** | **D4 (aanvulling-overweging open)** | **(geen — kandidaat-D4-aanvulling, niet uitgevoerd nu)** |
 
 ## Cross-references naar sprints waar concepten zijn ontstaan / verfijnd
 
@@ -96,6 +104,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | **parallelle-maturity-clusters** | **v4.6.0 (V1-uitkomst Optie B)** | **Concept ontstaan uit Fase 4 V1-evaluatie** |
 | **skos-export-filter** | **v4.6.0 (tech-inspectie 39 tripels)** | **Concept ontstaan uit ontologie-laag vs dashboard-laag meet-discrepantie** |
 | **dashboard-productlijnen** | **iteratie 12 (post-v4.6.0 polish-mini-sprint)** | **Concept ontstaan uit sessie-rapport v2.0 §2.1 + §9.2** |
+| **skos-beoordelings-protocol** | **T1 (v4.6.1, 26 mei 2026)** | **Methode-concept vastgesteld in Stap 2 + in productie gevalideerd op 28 paren** |
+| **mapping-bron-disclaimer-effect** | **T1 (v4.6.1, 26 mei 2026)** | **Concept ontstaan uit T1 §6 + §8 leerpunt 2 (ENISA TIG regel 285)** |
 
 ## Concepts versus workflows
 
