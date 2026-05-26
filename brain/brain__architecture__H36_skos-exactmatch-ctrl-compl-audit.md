@@ -2,15 +2,20 @@
 type: architecture
 id: H36
 title: H36 — 28 ctrl→compl exactMatch-pairs audit
-status: parked
+status: closed
 date: 2026-05-26
 related:
   - v4_6_0_fase-4-ensia-en-volwassenheid
+  - T1_skos-kwaliteitsanalyse-fase-1
+  - skos-beoordelings-protocol
+  - mapping-bron-disclaimer-effect
   - skos-export-filter
   - sameAs-discipline
 sources:
   - sessie-rapport-v2_0
   - patch-rapport-v4_6_0
+  - t1-eindrapport-v4_6_1
+  - patch-rapport-v4_6_1
 chat-sources: []
 confidence: high
 ---
@@ -19,7 +24,9 @@ confidence: high
 
 ## Status
 
-**Parked** — geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12). Trigger: SKOS-kwaliteitsanalyse-sprint (T1-kandidaat) of externe audit-vraag.
+**Closed** — afgehandeld via T1-sprint (26 mei 2026). Alle 28 paren herclassificeerd `exactMatch` → `broadMatch` via patch v4.6.1. Methode-protocol v1.0 vastgesteld als bijproduct. Zie [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]].
+
+Eerder geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12) als parked, met trigger "SKOS-kwaliteitsanalyse-sprint". Trigger vervuld door T1.
 
 ## Wat het is
 
@@ -60,10 +67,34 @@ Niet uitgewerkt — bij activering is een evaluatie-matrix per paar de natuurlij
 
 H36 is potentieel het eerste sub-cluster van een grotere kwaliteits-review. Andere clusters kunnen later geregistreerd worden indien specifieke audit-aandacht ontstaat (bv. csf→ctrl, csf→nist-controls, BIO→ISO-Annex-A). Voor nu: alleen het 28-paar-cluster geregistreerd als concrete grootte met expliciete trigger.
 
+## Uitkomst T1-sprint (26 mei 2026)
+
+T1-sprint heeft alle 28 paren beoordeeld volgens [[brain__concepts__skos-beoordelings-protocol]] v1.0:
+
+| Aspect | Resultaat |
+|---|---|
+| Beoordeelde paren | 28 (volledig — geen openstaande paren) |
+| Uitkomst | **28× herclassificatie `exactMatch` → `broadMatch`** |
+| Confidence per paar | 28× hoog |
+| Evidence-niveau per paar | 28× niveau 1 (CBW-Excel reproduceert ENISA TIG v1.0 mapping-tabel) |
+| Twijfelgevallen | 2 edge-cases (T1-021 + T1-023) opgelost via masterchat-NEN-PK-toets — beide → broadMatch |
+| Patch | v4.6.1 toegepast op `m10-nis2-ext.ttl` (hash `78b8ee44...` → `cb2d567b...`) |
+| Cluster-consistentie | 10 clusters, alle behandeld zonder half-half-cluster-uitkomsten |
+| D4-conformance | Verbetering — `exactMatch` was te sterk geclaimd; ENISA TIG regel 285 stelt expliciet dat mapping géén equivalence-claim is |
+
+**Belangrijkste bevinding voorbij H36:** ENISA-disclaimer-categorisch-effect — autoritatieve mapping-bron verbiedt equivalence-interpretatie via expliciete disclaimer. Vermoedelijk generaliseerbaar patroon. Zie [[brain__concepts__mapping-bron-disclaimer-effect]].
+
+## Kandidaat-overweging (NIET geregistreerd als H41)
+
+T1 toonde dat owlrl-package geen SKOS-axiomas laadt; `skos:exactMatch is owl:SymmetricProperty` (skos:S46) wordt niet geïnferreerd. Alle 28 mappings asymmetrisch gemodelleerd (0 inverse). Geen impact op T1-patch.
+
+**Status:** T1-werkflow-leerpunt, **geen nieuw H-item nu**. Trigger voor herregistratie: overstap-besluit owlrl-incl-SKOS-axioma-reasoning.
+
 ## Status-historie
 
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | parked | Geregistreerd in iteratie 12 polish-mini-sprint, eerder aangemerkt als "te registreren v1.10" in sessie-rapport v2.0 |
+| 2026-05-26 | **closed** | **Afgehandeld via T1-sprint — 28× exactMatch → broadMatch via patch v4.6.1; methode-protocol v1.0 als bijproduct vastgesteld** |
 
 — Einde H36.

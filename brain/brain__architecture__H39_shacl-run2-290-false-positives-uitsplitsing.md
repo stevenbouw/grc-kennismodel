@@ -7,8 +7,11 @@ date: 2026-05-26
 related:
   - gesplitste-shacl-validatie
   - sameAs-discipline
+  - T1_skos-kwaliteitsanalyse-fase-1
 sources:
   - handover-tech-chat-to-subagent-v4_6_0
+  - t1-presprint-inventarisatie-v4_6_0
+  - t1-eindrapport-v4_6_1
 chat-sources: []
 confidence: high
 ---
@@ -18,6 +21,8 @@ confidence: high
 ## Status
 
 **Parked** — geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12). Trigger: rustige sprint als sanity-check, of sprint die SHACL-shapes wijzigt.
+
+**Versterking T1 (26 mei 2026):** T1-pre-sprint-inventarisatie Vraag D bevestigde **SHACL-blinde vlek op alle 28 ctrl:↔compl:-paren** uit H36-cluster — geen enkele shape valideerde op deze relaties. Predicate-mutatie in patch v4.6.1 (28× `exactMatch` → `broadMatch`) raakte daarom geen shape; RUN 1/RUN 2 identiek aan v4.6.0-baseline. Bij T2 (uitbreiding naar 121-set ctrl:↔compl:-mappings) wordt de blinde vlek nog uitgesprokener. Trigger-relevantie verhoogd. Zie [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] en T1-pre-sprint-inventarisatie Vraag D.
 
 ## Wat het is
 
@@ -68,5 +73,6 @@ Het derde scenario is de eigenlijke driver — bij sprints die shapes raken (toe
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | parked | Geregistreerd in iteratie 12 polish-mini-sprint, oorspronkelijk uit Fase 0 Tech-handover-rapport als methode-blind-spot sinds v4.3.0 |
+| 2026-05-26 | parked (versterkt) | T1-pre-sprint-inventarisatie Vraag D bevestigt SHACL-blinde vlek op 28 ctrl:↔compl:-paren — predicate-mutatie raakt geen shape. Trigger-relevantie verhoogd voor T2 |
 
 — Einde H39.
