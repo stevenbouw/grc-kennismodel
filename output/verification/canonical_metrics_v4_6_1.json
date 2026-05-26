@@ -1,7 +1,7 @@
 {
   "meta": {
     "version_label": "v4.6.1",
-    "measured_at_utc": "2026-05-26T15:37:09.090846+00:00",
+    "measured_at_utc": "2026-05-26T15:52:18.004367+00:00",
     "workdir": "/Users/stevenbouwmeester/Desktop/grc-kennismodel/ontology",
     "tool_versions": {
       "rdflib": "7.6.0",
@@ -314,8 +314,8 @@
       "annotation_properties": 0,
       "skos_concepts": 0,
       "subjects_per_namespace": {
-        "fw": 1,
-        "compl": 5
+        "compl": 5,
+        "fw": 1
       },
       "labels_nl": 7,
       "labels_en": 6,
@@ -354,8 +354,8 @@
       "annotation_properties": 0,
       "skos_concepts": 0,
       "subjects_per_namespace": {
-        "fw": 1,
         "ext": 15,
+        "fw": 1,
         "compl": 7
       },
       "labels_nl": 23,
@@ -376,8 +376,8 @@
       "skos_concepts": 0,
       "subjects_per_namespace": {
         "ext": 25,
-        "csf": 5,
-        "fw": 9
+        "fw": 9,
+        "csf": 5
       },
       "labels_nl": 30,
       "labels_en": 29,
@@ -398,8 +398,8 @@
       "subjects_per_namespace": {
         "ctrl": 93,
         "bio": 148,
-        "fw": 7,
-        "asset": 25
+        "asset": 25,
+        "fw": 7
       },
       "labels_nl": 26,
       "labels_en": 26,
@@ -875,17 +875,17 @@
   },
   "d_decision_conformance": {
     "D3_namespaces_used": {
-      "biz": 98,
-      "ctrl": 205,
+      "isms": 406,
       "bio": 252,
       "ext": 282,
-      "compl": 150,
-      "isms": 406,
-      "fw": 99,
-      "csf": 512,
       "risk": 128,
-      "asset": 25,
-      "roles": 75
+      "csf": 512,
+      "fw": 99,
+      "ctrl": 205,
+      "compl": 150,
+      "biz": 98,
+      "roles": 75,
+      "asset": 25
     },
     "D5_ctrl_bio_sameAs_count": 93,
     "D5_target_count": 93,
