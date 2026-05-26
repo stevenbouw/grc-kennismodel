@@ -1,0 +1,355 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix asset:   <https://grc.example.org/asset/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# GRC Ontologie — SHACL Shapes (gesplitste validatie)
+# Versie: 4.2.1 | Datum: 2026-04-13
+# Profiel: SHACL Core (+ SPARQL-constraints voor SECTIE B)
+# =============================================================================
+#
+# Dit bestand bevat SHACL constraint-shapes die de naamconventies en
+# modelleringsafspraken van de GRC Kennismodel-ontologie bewaken.
+# SHACL shapes worden NIET via owl:imports geladen; ze worden apart
+# toegepast door een SHACL-validator (bijv. pySHACL, TopBraid, GraphDB).
+#
+# =============================================================================
+# GESPLITSTE VALIDATIE — TWEE SECTIES, TWEE MODI
+# =============================================================================
+# Dit bestand bevat twee secties met ELK EEN EIGEN VALIDATIEMODUS. Een
+# validator moet beide secties apart draaien; gemengde uitvoering levert
+# false-positive violations op.
+#
+# -----------------------------------------------------------------------------
+# SECTIE A — PRE-INFERENTIE shapes (GEEN OWL RL-inferentie)
+# -----------------------------------------------------------------------------
+#   Shape-IDs:  ctrl:ISO27002NamingShape
+#               bio:ISO27002NamingShape
+#               ctrl:HandreikingBBNValueShape
+#               asset:NamespaceShape              (verplaatst uit SECTIE B in v4.3.0)
+#   Modus:      inference = 'none' (of equivalent)
+#   Doel:       naming-bewaking van GESCHREVEN URIs en waardenbereik;
+#               niet van afgeleide entiteiten via owl:sameAs (D5, D11).
+#
+#   Reden voor pre-inferentie: onder OWL RL ontstaat een interactie-effect
+#   tussen naming-shapes en sameAs-bridges. Door bio:BIOControl rdfs:subClassOf
+#   ctrl:Control + sameAs (D5) worden ctrl:- en bio:-individuals als één
+#   entiteit gezien. Die ene entiteit voldoet niet aan beide URI-patronen
+#   tegelijk, wat 186 false-positive violations zou opleveren (93 × 2 shapes).
+#
+#   Hetzelfde mechanisme geldt voor asset:NamespaceShape onder D11 (v4.3.0):
+#   de 5 asset-convergentie-bruggen maken dat risk:-/isms:-individuals onder
+#   OWL RL als asset:Asset-leden worden gezien, waarop de asset:-namespace-
+#   conventie dan ten onrechte wordt afgedwongen (~104 false-positives).
+#   Daarom verplaatst naar SECTIE A in v4.3.0, analoog aan ctrl:/bio:NamingShape.
+#
+#   Dit zou de oorspronkelijke intentie van Actie D (v4.1.0, 10 april 2026)
+#   ondermijnen: bewaken dat de daadwerkelijk GESCHREVEN URIs een canoniek
+#   patroon volgen — niet wat een reasoner afleidt.
+#
+# -----------------------------------------------------------------------------
+# SECTIE B — POST-INFERENTIE shapes (MET OWL RL-inferentie)
+# -----------------------------------------------------------------------------
+#   Shape-IDs:  asset:AppliesToAssetTypeRangeShape   (M18-1)
+#               asset:BVASymmetryShape               (M18-3)
+#               asset:OrphanClassShape               (M18-4)
+#   Modus:      inference = 'owlrl' (of sterker)
+#   Doel:       range-bewaking, SKOS-symmetrie en wees-klasse-detectie op
+#               de AFGELEIDE klasse-hiërarchie.
+#
+#   Note v4.3.0: asset:NamespaceShape (voorheen M18-2) verplaatst naar
+#   SECTIE A wegens sameAs-propagatie-interactie onder D11; zie SECTIE A-
+#   header hierboven voor mechanisme. SECTIE B bevat nu drie shapes die
+#   werken op structurele relaties (niet op IRI-patronen) en zonder
+#   propagatie-issue kunnen draaien onder OWL RL.
+#
+#   Reden voor post-inferentie: M18-1 moet werken op de via owl:sameAs
+#   afgeleide class-membership (de 128 BIO-mappings ontstaan pas na
+#   inferentie). Zonder OWL RL zijn die BIO-mappings onzichtbaar voor de
+#   validator en mist M18-1 zijn doel.
+# -----------------------------------------------------------------------------
+# Geschiedenis van de splitsing
+# -----------------------------------------------------------------------------
+# Beslissing geformaliseerd 2026-04-13 tijdens M18-integratierun (Stap 7,
+# v4.2.0). In v4.2.1 (13 april 2026) zijn de M18-shapes geïntegreerd in dit
+# bestand, met behoud van de gesplitste-validatie-aanpak: twee secties,
+# twee expliciete modus-labels.
+#
+# v4.3.0 (13 april 2026): asset:NamespaceShape verplaatst van SECTIE B naar
+# SECTIE A vanwege sameAs-propagatie-interactie onder D11 (asset-convergentie).
+# Mechanisme identiek aan v4.2.1 §5.2-leerpunt over ctrl:/bio:ISO27002NamingShape.
+# Overige drie M18-shapes (AppliesToAssetTypeRange, BVASymmetry, OrphanClass)
+# blijven in SECTIE B — die werken op structurele relaties, niet op IRI-patronen.
+# =============================================================================
+
+<https://grc.example.org/ontology/grc-shacl>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie — SHACL Shapes (gesplitste validatie)"@nl ,
+               "GRC Ontology — SHACL Shapes (split validation)"@en ;
+    rdfs:comment "SHACL constraint-shapes voor de GRC Kennismodel-ontologie. Bewaakt naamconventies (D-acties), waardenbereik, en M18 mapping-conventies. Apart te laden door een SHACL-validator. Twee secties met eigen validatiemodus: SECTIE A (pre-inferentie) en SECTIE B (post-inferentie, OWL RL). Zie header-comment voor rationale en shape-IDs per modus."@nl ,
+                 "SHACL constraint shapes for the GRC Knowledge Model ontology. Enforces naming conventions (D actions), value ranges, and M18 mapping conventions. To be loaded separately by a SHACL validator. Two sections with distinct validation modes: SECTION A (pre-inference) and SECTION B (post-inference, OWL RL). See header comment for rationale and shape IDs per mode."@en ;
+    dcterms:created "2026-04-10"^^xsd:date ;
+    dcterms:modified "2026-04-13"^^xsd:date ;
+    owl:versionInfo "4.2.1" .
+
+# =============================================================================
+# =============================================================================
+# SECTIE A — PRE-INFERENTIE SHAPES
+# Valideren MET inference = 'none'
+# =============================================================================
+# =============================================================================
+
+
+# =============================================================================
+# SHAPE 1 — ISO27002 URI naamconventie
+# =============================================================================
+# Canonieke vorm: ISO27002_X_YY waarbij X = major (4-8), YY = zero-padded 2 cijfers
+# Bewaakt het resultaat van Actie D (naming-inconsistentie fix 2026-04-10)
+# Voorkomt dat toekomstige toevoegingen terugvallen op onzero-padded vorm.
+
+ctrl:ISO27002NamingShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "ISO27002 URI naming convention (ctrl:)"@en ,
+               "ISO27002 URI-naamconventie (ctrl:)"@nl ;
+    rdfs:comment "Alle ctrl:ISO27002_* individuals moeten de canonieke naam ISO27002_X_YY gebruiken, met YY zero-padded naar 2 cijfers (bijv. ISO27002_5_01, ISO27002_8_34). Voorkomt regressie na Actie D."@nl ,
+                 "All ctrl:ISO27002_* individuals must use the canonical name ISO27002_X_YY with YY zero-padded to 2 digits (e.g. ISO27002_5_01, ISO27002_8_34). Prevents regression after Action D."@en ;
+    sh:targetClass ctrl:ISO27002Control ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://grc\\.example\\.org/control/ISO27002_[5-8]_[0-9]{2}$" ;
+    sh:message "ctrl:ISO27002_* IRI moet matchen met canoniek patroon ISO27002_X_YY (YY zero-padded, 2 cijfers). Gevonden: {$value}"@nl ,
+               "ctrl:ISO27002_* IRI must match canonical pattern ISO27002_X_YY (YY zero-padded, 2 digits). Found: {$value}"@en ;
+    sh:severity sh:Violation .
+
+bio:ISO27002NamingShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "ISO27002 URI naming convention (bio:)"@en ,
+               "ISO27002 URI-naamconventie (bio:)"@nl ;
+    rdfs:comment "Alle bio:ISO27002_* individuals (onder bio:BIOControl) moeten de canonieke naam ISO27002_X_YY gebruiken, met YY zero-padded naar 2 cijfers. Voorkomt regressie na Actie D."@nl ,
+                 "All bio:ISO27002_* individuals (under bio:BIOControl) must use the canonical name ISO27002_X_YY with YY zero-padded to 2 digits. Prevents regression after Action D."@en ;
+    sh:targetClass bio:BIOControl ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://grc\\.example\\.org/bio/ISO27002_[5-8]_[0-9]{2}$" ;
+    sh:message "bio:ISO27002_* IRI moet matchen met canoniek patroon ISO27002_X_YY (YY zero-padded, 2 cijfers). Gevonden: {$value}"@nl ,
+               "bio:ISO27002_* IRI must match canonical pattern ISO27002_X_YY (YY zero-padded, 2 digits). Found: {$value}"@en ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# SHAPE 2 — ext:hasHandreikingBBN waardenbereik
+# =============================================================================
+# De Handreiking BIO2-opmaat v2.5 definieert uitsluitend BBN 1 en BBN 2.
+# BBN 3 bestaat niet in deze bron. Deze shape vangt eventuele foutieve
+# waarden op (bijv. 0, 3, 4) die door latere edits zouden kunnen insluipen.
+
+ctrl:HandreikingBBNValueShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "ext:hasHandreikingBBN value range"@en ,
+               "ext:hasHandreikingBBN waardenbereik"@nl ;
+    rdfs:comment "De Handreiking BIO2-opmaat v2.5 definieert alleen BBN 1 en BBN 2. Waarde 3 of hoger bestaat niet in deze bron; waarde 0 of lager is ongeldig."@nl ,
+                 "Handreiking BIO2-opmaat v2.5 defines only BBN 1 and BBN 2. Values 3 or higher do not exist in this source; 0 or lower is invalid."@en ;
+    sh:targetSubjectsOf <https://grc.example.org/extended/hasHandreikingBBN> ;
+    sh:property [
+        sh:path <https://grc.example.org/extended/hasHandreikingBBN> ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 2 ;
+        sh:message "ext:hasHandreikingBBN moet integer 1 of 2 zijn (Handreiking BIO2-opmaat v2.5). BBN 3 bestaat niet."@nl ,
+                   "ext:hasHandreikingBBN must be integer 1 or 2 (Handreiking BIO2-opmaat v2.5). BBN 3 does not exist."@en ;
+        sh:severity sh:Violation ;
+    ] .
+
+# -----------------------------------------------------------------------------
+# SHAPE 3 — asset:-namespace IRI naamconventie
+# -----------------------------------------------------------------------------
+# Bewaakt: nieuwe asset-klassen volgen het asset: namespace-pattern.
+# Houdt M18-toevoegingen bij elkaar en voorkomt namespace-vervuiling.
+#
+# Verplaatst naar SECTIE A in v4.3.0 vanwege D11-sameAs-bruggen; analoog
+# aan ctrl:/bio:ISO27002NamingShape. Onder OWL RL zou de shape door
+# asset:↔risk:/isms: sameAs-propagatie ~104 false-positives genereren op
+# risk:-/isms:-IRI's die via inferentie als asset:Asset-member gezien
+# worden. Pre-inferentie valideert het doel (GESCHREVEN asset:-klassen
+# volgen de naamconventie) zonder die propagatie-interactie.
+
+asset:NamespaceShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "asset: namespace IRI convention"@en ,
+               "asset: namespace IRI-naamconventie"@nl ;
+    rdfs:comment "Alle subklassen van asset:Asset en asset:AssetComponent moeten in de asset:-namespace zitten (https://grc.example.org/asset/...). Houdt M18 modulair. Verplaatst naar SECTIE A in v4.3.0 vanwege D11-sameAs-propagatie; analoog aan ctrl:/bio:ISO27002NamingShape."@nl ,
+                 "All subclasses of asset:Asset and asset:AssetComponent must reside in the asset: namespace (https://grc.example.org/asset/...). Keeps M18 modular. Moved to SECTION A in v4.3.0 due to D11 sameAs propagation; analogous to ctrl:/bio:ISO27002NamingShape."@en ;
+    sh:targetClass asset:Asset , asset:AssetComponent ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://grc\\.example\\.org/asset/" ;
+    sh:message "Asset-klasse moet in de asset:-namespace zitten (^https://grc.example.org/asset/). Gevonden: {$value}"@nl ,
+               "Asset class must reside in the asset: namespace (^https://grc.example.org/asset/). Found: {$value}"@en ;
+    sh:severity sh:Violation .
+
+# =============================================================================
+# =============================================================================
+# SECTIE B — POST-INFERENTIE SHAPES (M18)
+# Valideren MET inference = 'owlrl' (of sterker)
+# =============================================================================
+# =============================================================================
+# Vier shapes (M18-1 t/m M18-4) die de M18 mapping-conventies en
+# modelafspraken bewaken op de AFGELEIDE klasse-hiërarchie.
+# Geïntegreerd uit het voormalige m18-shapes.ttl (v4.2.0 → v4.2.1).
+#
+# De ontology-declaratie <https://grc.example.org/ontology/m18-shacl> is
+# bewust behouden als sh:prefixes-target voor de SPARQL-constraints
+# (M18-1 en M18-4). Zij wijst naar dit bestand zelf via een aparte
+# IRI — dit voorkomt dat de SPARQL-constraints de algemene ontology-IRI
+# moeten aanspreken voor prefix-resolutie.
+# =============================================================================
+
+<https://grc.example.org/ontology/m18-shacl>
+    rdf:type owl:Ontology ;
+    rdfs:label "M18 SHACL Shapes prefix-scope"@en ,
+               "M18 SHACL Shapes prefix-scope"@nl ;
+    rdfs:comment "Technische prefix-declaratie voor sh:prefixes-referenties in de M18 SPARQL-constraints (M18-1, M18-4). Deze IRI wijst naar grc-shacl.ttl SECTIE B."@nl ,
+                 "Technical prefix declaration for sh:prefixes references in the M18 SPARQL constraints (M18-1, M18-4). This IRI points to grc-shacl.ttl SECTION B."@en ;
+    sh:declare [
+        sh:prefix "rdf" ;
+        sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+    ] , [
+        sh:prefix "rdfs" ;
+        sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+    ] , [
+        sh:prefix "owl" ;
+        sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
+    ] , [
+        sh:prefix "asset" ;
+        sh:namespace "https://grc.example.org/asset/"^^xsd:anyURI ;
+    ] , [
+        sh:prefix "ctrl" ;
+        sh:namespace "https://grc.example.org/control/"^^xsd:anyURI ;
+    ] .
+
+# -----------------------------------------------------------------------------
+# SHAPE M18-1 — appliesToAssetType range-bewaking (V2, A4.4)
+# -----------------------------------------------------------------------------
+# Bewaakt: object van asset:appliesToAssetType moet een asset:Asset of
+# asset:AssetComponent zijn (de unie-range uit A4.4). Voorkomt dat een
+# control per ongeluk gemapt wordt aan een willekeurige resource (bijv.
+# een Control of een SKOS-Concept).
+# Strikt: alleen klassen, geen instances (V2 — Spoor A).
+
+asset:AppliesToAssetTypeRangeShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "appliesToAssetType range constraint"@en ,
+               "appliesToAssetType range-restrictie"@nl ;
+    rdfs:comment "Object van asset:appliesToAssetType moet een asset:Asset, asset:AssetComponent of subklasse daarvan zijn (per masterchat-besluit A4.4). Bewaakt op klasse-niveau (V2 Spoor A): het object is een klasse, geen instance — daarom SPARQL-constraint i.p.v. sh:class."@nl ,
+                 "Object of asset:appliesToAssetType must be an asset:Asset, asset:AssetComponent or subclass thereof (per masterchat decision A4.4). Enforced at class level (V2 Spoor A): the object is a class, not an instance — hence SPARQL constraint instead of sh:class."@en ;
+    sh:targetSubjectsOf asset:appliesToAssetType ;
+    sh:sparql [
+        sh:message "asset:appliesToAssetType-object moet asset:Asset, asset:AssetComponent of subklasse zijn. Gevonden ongeldig object: {?value}"@nl ,
+                   "asset:appliesToAssetType object must be asset:Asset, asset:AssetComponent or subclass. Found invalid object: {?value}"@en ;
+        sh:prefixes <https://grc.example.org/ontology/m18-shacl> ;
+        sh:select """
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX asset: <https://grc.example.org/asset/>
+            SELECT $this ?value WHERE {
+                $this asset:appliesToAssetType ?value .
+                FILTER NOT EXISTS { ?value rdfs:subClassOf* asset:Asset }
+                FILTER NOT EXISTS { ?value rdfs:subClassOf* asset:AssetComponent }
+            }
+        """ ;
+        sh:severity sh:Violation ;
+    ] .
+
+# -----------------------------------------------------------------------------
+# NIET ALS SHACL-SHAPE GEMODELLEERD (toekomstige overweging)
+# -----------------------------------------------------------------------------
+# Domain/range-bewaking voor asset:appliesToAssetType, asset:hasComponent
+# en asset:isOperatedBy wordt afgedwongen door de OWL rdfs:domain en
+# rdfs:range declaraties in m18-assets.ttl zelf. Onder een DL-reasoner
+# (HermiT) zou aanvullende disjointness tussen onverwante klassen — zoals
+# skos:Concept en ctrl:Control, of asset:HumanAsset en asset:AssetComponent —
+# type-conflicten als inconsistency vangen.
+#
+# Een SHACL-shape die hetzelfde checkt als RDFS-inference is dubbel werk
+# en levert misleidende validatierapporten op: de shape rapporteert "OK"
+# terwijl de check feitelijk door de inference wordt overruled.
+#
+# Toekomstige overweging (buiten scope M18, vereist wijziging in M01 of
+# grc-core): voeg owl:disjointWith-asserties toe tussen onverwante
+# topklassen om type-fouten via DL-reasoning hard te vangen. Voorbeelden:
+#   skos:Concept owl:disjointWith ctrl:Control .
+#   asset:Asset owl:disjointWith asset:AssetComponent .
+# Deze geven HermiT-inconsistencies bij overtreding — een hardere
+# bewaking dan SHACL voor dit type fout kan bieden.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# SHAPE M18-3 — BVA TBB skos:exactMatch symmetrie
+# -----------------------------------------------------------------------------
+# Bewaakt: voor elke fw:TBB_* skos:exactMatch ?asset moet er een
+# wederkerige ?asset skos:exactMatch fw:TBB_* bestaan. SKOS exactMatch
+# is semantisch symmetrisch maar niet automatisch geïnferreerd in OWL RL.
+# Deze shape vangt eenzijdige mappings die door latere edits zouden
+# kunnen ontstaan.
+
+asset:BVASymmetryShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "BVA TBB exactMatch symmetry"@en ,
+               "BVA TBB exactMatch-symmetrie"@nl ;
+    rdfs:comment "Voor elke skos:exactMatch tussen fw:TBB_* en een asset:-klasse moet de inverse triple ook bestaan (SKOS-symmetrie expliciet bewaakt)."@nl ,
+                 "For each skos:exactMatch between fw:TBB_* and an asset: class, the inverse triple must also exist (SKOS symmetry explicitly enforced)."@en ;
+    sh:targetNode fw:TBB_Personen , fw:TBB_Informatie , fw:TBB_Informatiesystemen ,
+                  fw:TBB_Materieel , fw:TBB_Goederen , fw:TBB_Imago , fw:TBB_Objecten ;
+    sh:property [
+        sh:path <http://www.w3.org/2004/02/skos/core#exactMatch> ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "fw:TBB_*-concept zonder skos:exactMatch naar asset:-klasse — mapping ontbreekt."@nl ,
+                   "fw:TBB_* concept without skos:exactMatch to asset: class — mapping missing."@en ;
+        sh:severity sh:Violation ;
+    ] .
+
+# -----------------------------------------------------------------------------
+# SHAPE M18-4 — Asset-subklasse moet asset:Asset of asset:AssetComponent
+#               als (transitieve) superklasse hebben
+# -----------------------------------------------------------------------------
+# Bewaakt structurele integriteit: een klasse in de asset:-namespace die
+# géén asset:Asset of asset:AssetComponent als (in)directe superklasse
+# heeft, is een wees. Vangt copy-paste-fouten en onbedoelde toplaag-
+# uitbreidingen op.
+# NB: asset:AssetOrComponent (de unieklasse) is hierop een uitzondering
+# en wordt expliciet uitgesloten via sh:targetNode-deselect.
+
+asset:OrphanClassShape
+    rdf:type sh:NodeShape ;
+    rdfs:label "Asset orphan-class detection"@en ,
+               "Asset wees-klasse detectie"@nl ;
+    rdfs:comment "Klassen in de asset:-namespace moeten asset:Asset of asset:AssetComponent als (in)directe superklasse hebben. Uitzondering: asset:AssetOrComponent (unieklasse), asset:Asset zelf, asset:AssetComponent zelf."@nl ,
+                 "Classes in the asset: namespace must have asset:Asset or asset:AssetComponent as (in)direct superclass. Exceptions: asset:AssetOrComponent (union class), asset:Asset itself, asset:AssetComponent itself."@en ;
+    sh:targetClass <http://www.w3.org/2002/07/owl#Class> ;
+    sh:sparql [
+        sh:message "Asset-klasse zonder asset:Asset of asset:AssetComponent als superklasse — wees-klasse, controleer subClassOf. Klasse: {$this}"@nl ,
+                   "Asset class without asset:Asset or asset:AssetComponent as superclass — orphan class, check subClassOf. Class: {$this}"@en ;
+        sh:prefixes <https://grc.example.org/ontology/m18-shacl> ;
+        sh:select """
+            PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX owl:   <http://www.w3.org/2002/07/owl#>
+            PREFIX asset: <https://grc.example.org/asset/>
+            SELECT $this WHERE {
+                $this rdf:type owl:Class .
+                FILTER(STRSTARTS(STR($this), "https://grc.example.org/asset/"))
+                FILTER($this NOT IN (asset:Asset, asset:AssetComponent, asset:AssetOrComponent))
+                FILTER NOT EXISTS { $this rdfs:subClassOf* asset:Asset }
+                FILTER NOT EXISTS { $this rdfs:subClassOf* asset:AssetComponent }
+            }
+        """ ;
+        sh:severity sh:Violation ;
+    ] .
+
+# =============================================================================
+# EINDE grc-shacl.ttl (v4.3.0 — gesplitste validatie, SECTIE A + SECTIE B;
+# NamespaceShape verplaatst B → A vanwege D11-sameAs-bruggen)
+# =============================================================================

@@ -1,0 +1,764 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M7: Business Context
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m07-business>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M7 — Business Context"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+biz:StrategicObjective
+    rdf:type owl:Class ;
+    rdfs:label "Strategic Objective"@en , "Strategische doelstelling"@nl ;
+    rdfs:comment
+        "A high-level organisational objective derived from the mission and strategy. GRC activities are aligned to support these objectives. [COBIT 2019 / ISO 31000:2018 §6.2]"@en ,
+        "Een hoog-niveau organisatiedoelstelling afgeleid van de missie en strategie. GRC-activiteiten zijn afgestemd om deze doelstellingen te ondersteunen. [COBIT 2019 / ISO 31000:2018 §6.2]"@nl ;
+    prov:wasDerivedFrom fw:COSO_ERM .
+
+biz:BusinessProcess
+    rdf:type owl:Class ;
+    rdfs:label "Business Process"@en , "Bedrijfsproces"@nl ;
+    rdfs:comment "A repeatable set of activities that delivers a defined business output or service."@en ,
+                 "Een herhaalbaar geheel van activiteiten dat een gedefinieerde bedrijfsoutput of dienst levert."@nl .
+
+biz:BusinessService
+    rdf:type owl:Class ;
+    rdfs:label "Business Service"@en , "Bedrijfsdienst"@nl ;
+    rdfs:comment "An externally or internally visible service delivered by the organisation, supported by one or more business processes."@en ,
+                 "Een extern of intern zichtbare dienst geleverd door de organisatie, ondersteund door een of meer bedrijfsprocessen."@nl .
+
+biz:CriticalService
+    rdf:type owl:Class ;
+    rdfs:subClassOf biz:BusinessService ;
+    rdfs:label "Critical Service"@en , "Kritieke dienst"@nl ;
+    rdfs:comment "A business service whose disruption would have significant impact on public tasks, safety or trust. Relevant for NIS2 Art.21(c) and ISO 22301 scoping."@en ,
+                 "Een bedrijfsdienst waarvan uitval aanzienlijke impact heeft op publieke taken, veiligheid of vertrouwen. Relevant voor NIS2 Art.21(c) en ISO 22301-scoping."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.2 Risicobereidheid en -tolerantie
+# -----------------------------------------------------------------------------
+
+biz:RiskAppetite
+    rdf:type owl:Class ;
+    rdfs:label "Risk Appetite"@en , "Risicobereidheid"@nl ;
+    rdfs:comment
+        "The amount and type of risk an organisation is willing to pursue or retain in order to achieve its objectives. [ISO 31000:2018 §3.28 / COBIT 2019]"@en ,
+        "De hoeveelheid en het soort risico dat een organisatie bereid is na te streven of te behouden om haar doelstellingen te bereiken. [ISO 31000:2018 §3.28 / COBIT 2019]"@nl ;
+    prov:wasDerivedFrom fw:COSO_ERM .
+
+biz:RiskTolerance
+    rdf:type owl:Class ;
+    rdfs:label "Risk Tolerance"@en , "Risicotolerantie"@nl ;
+    rdfs:comment
+        "The acceptable variation in outcomes related to specific performance measures. Operationalises risk appetite at process or system level. [ISO 31000:2018]"@en ,
+        "De aanvaardbare variatie in uitkomsten gerelateerd aan specifieke prestatiemetingen. Maakt risicobereidheid operationeel op proces- of systeemniveau. [ISO 31000:2018]"@nl .
+
+biz:RiskAppetiteStatement
+    rdf:type owl:Class ;
+    rdfs:label "Risk Appetite Statement"@en , "Risicobereidheidsverklaring"@nl ;
+    rdfs:comment "A formal document expressing the organisation's risk appetite, approved by senior management. [NIST SP 800-39 / ISO 31000]"@en ,
+                 "Een formeel document dat de risicobereidheid van de organisatie uitdrukt, goedgekeurd door het senior management. [NIST SP 800-39 / ISO 31000]"@nl .
+
+# -----------------------------------------------------------------------------
+# 1.3 Prestatie-indicatoren
+# -----------------------------------------------------------------------------
+
+biz:PerformanceIndicator
+    rdf:type owl:Class ;
+    rdfs:label "Performance Indicator"@en , "Prestatie-indicator"@nl ;
+    prov:wasDerivedFrom fw:COSO_ERM .
+
+biz:KPI
+    rdf:type owl:Class ;
+    rdfs:subClassOf biz:PerformanceIndicator ;
+    rdfs:label "Key Performance Indicator (KPI)"@en , "Kritieke prestatie-indicator (KPI)"@nl ;
+    rdfs:comment
+        "A measurable value that demonstrates how effectively a GRC objective is being achieved. [COBIT 2019 / ISO 27004]"@en ,
+        "Een meetbare waarde die aantoont hoe effectief een GRC-doelstelling wordt bereikt. [COBIT 2019 / ISO 27004]"@nl .
+
+biz:KRI
+    rdf:type owl:Class ;
+    rdfs:subClassOf biz:PerformanceIndicator ;
+    rdfs:label "Key Risk Indicator (KRI)"@en , "Kritieke risico-indicator (KRI)"@nl ;
+    rdfs:comment
+        "A metric used to indicate the likelihood that a risk will exceed the organisation's risk tolerance threshold. [COBIT 2019 / ISO 31000]"@en ,
+        "Een meting gebruikt om de kans aan te geven dat een risico de risicotolerantiedrempel van de organisatie overschrijdt. [COBIT 2019 / ISO 31000]"@nl .
+
+biz:KCI
+    rdf:type owl:Class ;
+    rdfs:subClassOf biz:PerformanceIndicator ;
+    rdfs:label "Key Control Indicator (KCI)"@en , "Kritieke beheersmaatregel-indicator (KCI)"@nl ;
+    rdfs:comment "A metric indicating the effectiveness of a specific control. [COBIT 2019]"@en ,
+                 "Een meting die de effectiviteit van een specifieke beheersmaatregel aangeeft. [COBIT 2019]"@nl .
+
+# -----------------------------------------------------------------------------
+# 1.4 Volwassenheidsmodel
+# -----------------------------------------------------------------------------
+
+biz:MaturityLevel
+    rdf:type owl:Class ;
+    rdfs:label "Maturity Level"@en , "Volwassenheidsniveau"@nl ;
+    rdfs:comment "A defined level in a capability maturity model. Based on COBIT 2019 / CMMI scale (0–5)."@en ,
+                 "Een gedefinieerd niveau in een volwassenheidsmodel. Gebaseerd op COBIT 2019 / CMMI-schaal (0–5)."@nl .
+
+biz:MaturityAssessment
+    rdf:type owl:Class ;
+    rdfs:label "Maturity Assessment"@en , "Volwassenheidsbeoordeling"@nl ;
+    rdfs:comment "A formal evaluation of the current maturity level of a GRC domain or control area."@en ,
+                 "Een formele evaluatie van het huidige volwassenheidsniveau van een GRC-domein of beheersgebied."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.5 Governance-rapportage
+# -----------------------------------------------------------------------------
+
+biz:GRCDashboard
+    rdf:type owl:Class ;
+    rdfs:label "GRC Dashboard"@en , "GRC-dashboard"@nl ;
+    rdfs:comment "A structured management reporting view aggregating compliance status, risk exposure, KPIs and open findings for senior management."@en ,
+                 "Een gestructureerd managementrapportageoverzicht dat nalevingsstatus, risicobelichting, KPI's en openstaande bevindingen samenvoegt voor het senior management."@nl .
+
+biz:ManagementReport
+    rdf:type owl:Class ;
+    rdfs:label "Management Report"@en , "Managementrapportage"@nl ;
+    rdfs:comment "Periodic formal report to governing bodies on ISMS / GRC performance, as required by ISO 27001:2022 Clause 9.3."@en ,
+                 "Periodieke formele rapportage aan bestuursorganen over ISMS/GRC-prestaties, vereist door ISO 27001:2022 Clausule 9.3."@nl .
+
+biz:DirectieBeoordeling
+    rdf:type owl:Class ;
+    rdfs:subClassOf biz:ManagementReport ;
+    rdfs:label "Management Review (Directiebeoordeling)"@en , "Directiebeoordeling"@nl ;
+    rdfs:comment "The formal management review of the ISMS as required by ISO/IEC 27001:2022 Clause 9.3. Must cover changes in context, risk treatment outcomes, audit results, KPIs and improvement opportunities."@en ,
+                 "De formele directiebeoordeling van het ISMS conform ISO/IEC 27001:2022 Clausule 9.3. Moet betrekking hebben op contextwijzigingen, risicobehandelingsresultaten, auditresultaten, KPI's en verbetermogelijkheden."@nl .
+
+biz:ComplianceCalendar
+    rdf:type owl:Class ;
+    rdfs:label "Compliance Calendar"@en , "Compliancekalender"@nl ;
+    rdfs:comment "A scheduled overview of recurring GRC obligations and activities (reporting deadlines, audits, reviews, training cycles)."@en ,
+                 "Een gepland overzicht van terugkerende GRC-verplichtingen en -activiteiten (rapportagedeadlines, audits, beoordelingen, trainingscycli)."@nl .
+
+biz:ComplianceCalendarEntry
+    rdf:type owl:Class ;
+    rdfs:label "Compliance Calendar Entry"@en , "Compliancekalender-invoer"@nl ;
+    rdfs:comment "A single recurring obligation or activity in the compliance calendar."@en ,
+                 "Een enkele terugkerende verplichting of activiteit in de compliancekalender."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.6 GRC-programmastructuur
+# -----------------------------------------------------------------------------
+
+biz:GRCProgram
+    rdf:type owl:Class ;
+    rdfs:label "GRC Program"@en , "GRC-programma"@nl ;
+    rdfs:comment "The overarching programme coordinating governance, risk management and compliance activities within the organisation."@en ,
+                 "Het overkoepelende programma dat governance-, risicobeheer- en complianceactiviteiten binnen de organisatie coördineert."@nl .
+
+biz:GRCDomain
+    rdf:type owl:Class ;
+    rdfs:label "GRC Domain"@en , "GRC-domein"@nl ;
+    rdfs:comment "A thematic area within the GRC program (e.g. risk management, access control, incident management, supply chain)."@en ,
+                 "Een thematisch gebied binnen het GRC-programma (bijv. risicobeheer, toegangsbeveiliging, incidentbeheer, leveranciersketen)."@nl .
+
+# Disjointness op indicatoren
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( biz:KPI biz:KRI biz:KCI ) .
+
+# =============================================================================
+# SECTIE 2 – OBJECT PROPERTIES
+# =============================================================================
+
+# --- Strategische afstemming -------------------------------------------------
+
+biz:supportsObjective
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCProgram ;
+    rdfs:range biz:StrategicObjective ;
+    rdfs:label "supports objective"@en , "ondersteunt doelstelling"@nl .
+
+biz:alignedWith
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range biz:StrategicObjective ;
+    rdfs:label "aligned with"@en , "afgestemd op"@nl .
+
+biz:deliveredBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:BusinessService ;
+    rdfs:range biz:BusinessProcess ;
+    rdfs:label "delivered by"@en , "geleverd door"@nl .
+
+biz:supportsService
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:BusinessProcess ;
+    rdfs:range biz:BusinessService ;
+    rdfs:label "supports service"@en , "ondersteunt dienst"@nl .
+
+# --- Risicobereidheid --------------------------------------------------------
+
+biz:hasRiskAppetite
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCProgram ;
+    rdfs:range biz:RiskAppetite ;
+    rdfs:label "has risk appetite"@en , "heeft risicobereidheid"@nl .
+
+biz:hasRiskTolerance
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range biz:RiskTolerance ;
+    rdfs:label "has risk tolerance"@en , "heeft risicotolerantie"@nl .
+
+biz:documentedIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:RiskAppetite ;
+    rdfs:range biz:RiskAppetiteStatement ;
+    rdfs:label "documented in"@en , "gedocumenteerd in"@nl .
+
+biz:constrainsRisk
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:RiskAppetite ;
+    rdfs:range risk:Risk ;
+    rdfs:label "constrains risk"@en , "begrenst risico"@nl .
+
+# --- KPI / KRI / KCI ---------------------------------------------------------
+
+biz:measuredBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range biz:PerformanceIndicator ;
+    rdfs:label "measured by"@en , "gemeten door"@nl .
+
+biz:indicatesRisk
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:KRI ;
+    rdfs:range risk:Risk ;
+    rdfs:label "indicates risk"@en , "geeft risico aan"@nl .
+
+biz:measuresControl
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:KCI ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "measures control"@en , "meet beheersmaatregel"@nl .
+
+biz:hasThreshold
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range biz:RiskTolerance ;
+    rdfs:label "has threshold"@en , "heeft drempelwaarde"@nl .
+
+# --- Volwassenheid -----------------------------------------------------------
+
+biz:hasMaturityLevel
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range biz:MaturityLevel ;
+    rdfs:label "has maturity level"@en , "heeft volwassenheidsniveau"@nl .
+
+biz:targetMaturityLevel
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range biz:MaturityLevel ;
+    rdfs:label "target maturity level"@en , "streef-volwassenheidsniveau"@nl .
+
+biz:assessedIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range biz:MaturityAssessment ;
+    rdfs:label "assessed in"@en , "beoordeeld in"@nl .
+
+# --- Dashboard / Rapportage --------------------------------------------------
+
+biz:aggregates
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDashboard ;
+    rdfs:range biz:GRCDomain ;
+    rdfs:label "aggregates"@en , "aggregeert"@nl .
+
+biz:reportedIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range biz:GRCDashboard ;
+    rdfs:label "reported in"@en , "gerapporteerd in"@nl .
+
+biz:containsEntry
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:ComplianceCalendar ;
+    rdfs:range biz:ComplianceCalendarEntry ;
+    rdfs:label "contains entry"@en , "bevat invoer"@nl .
+
+biz:linkedToObligation
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:ComplianceCalendarEntry ;
+    rdfs:range compl:Obligation ;
+    rdfs:label "linked to obligation"@en , "gekoppeld aan verplichting"@nl .
+
+biz:ownedByRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:ComplianceCalendarEntry ;
+    rdfs:range roles:Role ;
+    rdfs:label "owned by role"@en , "eigendom van rol"@nl .
+
+biz:coversDomain
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range compl:ComplianceDomain ;
+    rdfs:label "covers domain"@en , "dekt domein"@nl .
+
+biz:addressedByISMS
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range isms:ISMS ;
+    rdfs:label "addressed by ISMS"@en , "geadresseerd door ISMS"@nl .
+
+# =============================================================================
+# SECTIE 3 – DATA PROPERTIES
+# =============================================================================
+
+biz:objectiveID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:StrategicObjective ;
+    rdfs:range xsd:string ;
+    rdfs:label "objective ID"@en , "doelstelling-ID"@nl .
+
+biz:objectiveDescription
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:StrategicObjective ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "objective description"@en , "doelstelling omschrijving"@nl .
+
+biz:kpiID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range xsd:string ;
+    rdfs:label "KPI/KRI ID"@en , "KPI/KRI-ID"@nl .
+
+biz:kpiDescription
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "KPI/KRI description"@en , "KPI/KRI beschrijving"@nl .
+
+biz:targetValue
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range xsd:string ;
+    rdfs:label "target value"@en , "streefwaarde"@nl .
+
+biz:currentValue
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range xsd:string ;
+    rdfs:label "current value"@en , "huidige waarde"@nl .
+
+biz:measurementFrequency
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:PerformanceIndicator ;
+    rdfs:range xsd:string ;
+    rdfs:label "measurement frequency"@en , "meetfrequentie"@nl .
+
+biz:maturityScore
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:MaturityLevel ;
+    rdfs:range xsd:integer ;
+    rdfs:label "maturity score (0-5)"@en , "volwassenheidscore (0-5)"@nl .
+
+biz:riskAppetiteNarrative
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:RiskAppetite ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "risk appetite narrative"@en , "risicobereidheidsformulering"@nl .
+
+biz:calendarEntryDueDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:ComplianceCalendarEntry ;
+    rdfs:range xsd:date ;
+    rdfs:label "due date"@en , "vervaldatum"@nl .
+
+biz:calendarEntryFrequency
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:ComplianceCalendarEntry ;
+    rdfs:range xsd:string ;
+    rdfs:label "recurrence frequency"@en , "herhalingsfrequentie"@nl .
+
+biz:calendarEntryTitle
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:ComplianceCalendarEntry ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "activity title"@en , "activiteitstitel"@nl .
+
+biz:domainID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain biz:GRCDomain ;
+    rdfs:range xsd:string ;
+    rdfs:label "domain ID"@en , "domein-ID"@nl .
+
+# =============================================================================
+# SECTIE 4 – ABOX: NAMED INDIVIDUALS
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 4.1 Volwassenheidsniveaus (COBIT 2019 / CMMI schaal)
+# -----------------------------------------------------------------------------
+
+biz:ML_0  rdf:type biz:MaturityLevel ;
+    rdfs:label "Niveau 0 – Onvolledig"@nl , "Level 0 – Incomplete"@en ;
+    biz:maturityScore "0"^^xsd:integer ;
+    rdfs:comment "Geen of nauwelijks aantoonbaar proces aanwezig."@nl .
+
+biz:ML_1  rdf:type biz:MaturityLevel ;
+    rdfs:label "Niveau 1 – Initieel / Ad hoc"@nl , "Level 1 – Initial / Ad hoc"@en ;
+    biz:maturityScore "1"^^xsd:integer ;
+    rdfs:comment "Processen bestaan maar zijn niet gedocumenteerd of herhaalbaar."@nl .
+
+biz:ML_2  rdf:type biz:MaturityLevel ;
+    rdfs:label "Niveau 2 – Herhaalbaar"@nl , "Level 2 – Managed / Repeatable"@en ;
+    biz:maturityScore "2"^^xsd:integer ;
+    rdfs:comment "Processen zijn gedocumenteerd en worden consequent gevolgd."@nl .
+
+biz:ML_3  rdf:type biz:MaturityLevel ;
+    rdfs:label "Niveau 3 – Gedefinieerd"@nl , "Level 3 – Defined"@en ;
+    biz:maturityScore "3"^^xsd:integer ;
+    rdfs:comment "Gestandaardiseerde processen; organisatiebreed geïmplementeerd."@nl .
+
+biz:ML_4  rdf:type biz:MaturityLevel ;
+    rdfs:label "Niveau 4 – Beheerst / Kwantitatief"@nl , "Level 4 – Quantitatively Managed"@en ;
+    biz:maturityScore "4"^^xsd:integer ;
+    rdfs:comment "Processen worden kwantitatief gemeten en gestuurd."@nl .
+
+biz:ML_5  rdf:type biz:MaturityLevel ;
+    rdfs:label "Niveau 5 – Optimaliserend"@nl , "Level 5 – Optimising"@en ;
+    biz:maturityScore "5"^^xsd:integer ;
+    rdfs:comment "Continu verbeteren op basis van kwantitatieve procesdata."@nl .
+
+# -----------------------------------------------------------------------------
+# 4.2 Strategische doelstellingen
+# -----------------------------------------------------------------------------
+
+biz:SO_01  rdf:type biz:StrategicObjective ;
+    biz:objectiveID "SO-01" ;
+    biz:objectiveDescription "Waarborgen van de continuïteit van publieke dienstverlening."@nl ;
+    rdfs:label "SO-01: Dienstverleningscontinuïteit"@nl .
+
+biz:SO_02  rdf:type biz:StrategicObjective ;
+    biz:objectiveID "SO-02" ;
+    biz:objectiveDescription "Beschermen van persoonsgegevens en voldoen aan AVG-vereisten."@nl ;
+    rdfs:label "SO-02: Privacy en gegevensbescherming"@nl .
+
+biz:SO_03  rdf:type biz:StrategicObjective ;
+    biz:objectiveID "SO-03" ;
+    biz:objectiveDescription "Aantoonbaar voldoen aan alle wettelijke en regulatoire verplichtingen (NIS2/CBW, BIO 2.0, VIR/VIRBI)."@nl ;
+    rdfs:label "SO-03: Regulatoire compliance"@nl .
+
+biz:SO_04  rdf:type biz:StrategicObjective ;
+    biz:objectiveID "SO-04" ;
+    biz:objectiveDescription "Vertrouwen van burgers en partners behouden door transparantie en veerkracht."@nl ;
+    rdfs:label "SO-04: Vertrouwen en veerkracht"@nl .
+
+biz:SO_05  rdf:type biz:StrategicObjective ;
+    biz:objectiveID "SO-05" ;
+    biz:objectiveDescription "Beheersbaar en doelmatig informatiebeveiligingsprogramma."@nl ;
+    rdfs:label "SO-05: Doelmatig GRC-programma"@nl .
+
+# -----------------------------------------------------------------------------
+# 4.3 GRC-programma en -domeinen
+# -----------------------------------------------------------------------------
+
+biz:GRCProgramHoofdOrg
+    rdf:type biz:GRCProgram ;
+    rdfs:label "GRC-programma Hoofdorganisatie"@nl ;
+    biz:supportsObjective biz:SO_01 , biz:SO_02 , biz:SO_03 , biz:SO_04 , biz:SO_05 ;
+    biz:hasRiskAppetite biz:RA_Informatiebeveiliging ;
+    biz:addressedByISMS isms:ISMS_HoofdOrganisatie .
+
+# GRC-domeinen (afgestemd op compl:ComplianceDomain individuen uit M5)
+biz:DOM_01  rdf:type biz:GRCDomain ;
+    biz:domainID "DOM-01" ;
+    rdfs:label "Domein: Risicobeheer"@nl ;
+    biz:alignedWith biz:SO_03 , biz:SO_05 ;
+    biz:hasMaturityLevel biz:ML_2 ;
+    biz:targetMaturityLevel biz:ML_3 ;
+    biz:coversDomain compl:CD_RiskManagement .
+
+biz:DOM_02  rdf:type biz:GRCDomain ;
+    biz:domainID "DOM-02" ;
+    rdfs:label "Domein: Incidentbeheer"@nl ;
+    biz:alignedWith biz:SO_01 , biz:SO_04 ;
+    biz:hasMaturityLevel biz:ML_1 ;
+    biz:targetMaturityLevel biz:ML_3 ;
+    biz:coversDomain compl:CD_IncidentManagement .
+
+biz:DOM_03  rdf:type biz:GRCDomain ;
+    biz:domainID "DOM-03" ;
+    rdfs:label "Domein: Toegangsbeveiliging"@nl ;
+    biz:alignedWith biz:SO_02 , biz:SO_03 ;
+    biz:hasMaturityLevel biz:ML_3 ;
+    biz:targetMaturityLevel biz:ML_4 ;
+    biz:coversDomain compl:CD_AccessControl .
+
+biz:DOM_04  rdf:type biz:GRCDomain ;
+    biz:domainID "DOM-04" ;
+    rdfs:label "Domein: Leveranciersketen"@nl ;
+    biz:alignedWith biz:SO_03 , biz:SO_04 ;
+    biz:hasMaturityLevel biz:ML_1 ;
+    biz:targetMaturityLevel biz:ML_3 ;
+    biz:coversDomain compl:CD_SupplyChainSecurity .
+
+biz:DOM_05  rdf:type biz:GRCDomain ;
+    biz:domainID "DOM-05" ;
+    rdfs:label "Domein: Continuïteit & veerkracht"@nl ;
+    biz:alignedWith biz:SO_01 , biz:SO_04 ;
+    biz:hasMaturityLevel biz:ML_2 ;
+    biz:targetMaturityLevel biz:ML_3 ;
+    biz:coversDomain compl:CD_ContinuityResilience .
+
+biz:DOM_06  rdf:type biz:GRCDomain ;
+    biz:domainID "DOM-06" ;
+    rdfs:label "Domein: Privacy & gegevensbescherming"@nl ;
+    biz:alignedWith biz:SO_02 ;
+    biz:hasMaturityLevel biz:ML_2 ;
+    biz:targetMaturityLevel biz:ML_3 ;
+    biz:coversDomain compl:CD_PrivacyDataProtection .
+
+# -----------------------------------------------------------------------------
+# 4.4 Risicobereidheid
+# -----------------------------------------------------------------------------
+
+biz:RA_Informatiebeveiliging
+    rdf:type biz:RiskAppetite ;
+    rdfs:label "Risicobereidheid Informatiebeveiliging"@nl ;
+    biz:riskAppetiteNarrative "De organisatie hanteert een lage risicobereidheid voor informatiebeveiliging. Risico's die de vertrouwelijkheid van persoonsgegevens, de continuïteit van publieke dienstverlening of de naleving van wet- en regelgeving in gevaar brengen, worden niet geaccepteerd en vereisen actieve behandeling. Operationele risico's met beperkte impact (residueel risicoscore ≤6 op 5×5-matrix) kunnen onder voorwaarden worden geaccepteerd."@nl ;
+    biz:documentedIn biz:RAS_2025 ;
+    biz:constrainsRisk <https://grc.example.org/risk/R_001> ,
+                    <https://grc.example.org/risk/R_002> ,
+                    <https://grc.example.org/risk/R_003> .
+
+biz:RAS_2025
+    rdf:type biz:RiskAppetiteStatement ;
+    rdfs:label "Risicobereidheidsverklaring 2025"@nl ;
+    rdfs:comment "Vastgesteld door Secretaris-Generaal, november 2025. Jaarlijks te herzien conform ISO 31000:2018 §6.4.2."@nl .
+
+biz:RT_HoogRisico
+    rdf:type biz:RiskTolerance ;
+    rdfs:label "Tolerantie: Hoog risico – niet acceptabel"@nl ;
+    rdfs:comment "Risicoscore 16–25: altijd behandelen. Geen uitzonderingen."@nl .
+
+biz:RT_MiddelRisico
+    rdf:type biz:RiskTolerance ;
+    rdfs:label "Tolerantie: Middel risico – behandelen"@nl ;
+    rdfs:comment "Risicoscore 8–15: risicobehandeling vereist; escalatie naar CISO."@nl .
+
+biz:RT_LaagRisico
+    rdf:type biz:RiskTolerance ;
+    rdfs:label "Tolerantie: Laag risico – accepteerbaar"@nl ;
+    rdfs:comment "Risicoscore 1–6: accepteerbaar; monitoren en jaarlijks herbeoordelen."@nl .
+
+# -----------------------------------------------------------------------------
+# 4.5 KPI's en KRI's
+# -----------------------------------------------------------------------------
+
+# KPI's
+biz:KPI_01  rdf:type biz:KPI ;
+    biz:kpiID "KPI-01" ;
+    biz:kpiDescription "Percentage NIS2 Art.21-eisen volledig geïmplementeerd"@nl ;
+    biz:targetValue "100%"^^xsd:string ;
+    biz:currentValue "47%"^^xsd:string ;
+    biz:measurementFrequency "Kwartaal"^^xsd:string ;
+    rdfs:label "KPI-01: NIS2 Art.21 implementatie"@nl .
+
+biz:KPI_02  rdf:type biz:KPI ;
+    biz:kpiID "KPI-02" ;
+    biz:kpiDescription "Percentage SoA-controls volledig geïmplementeerd (van 93 totaal)"@nl ;
+    biz:targetValue "80%"^^xsd:string ;
+    biz:currentValue "20%"^^xsd:string ;
+    biz:measurementFrequency "Kwartaal"^^xsd:string ;
+    rdfs:label "KPI-02: SoA-implementatiegraad"@nl .
+
+biz:KPI_03  rdf:type biz:KPI ;
+    biz:kpiID "KPI-03" ;
+    biz:kpiDescription "Percentage medewerkers dat jaarlijkse IB-bewustzijnstraining heeft voltooid"@nl ;
+    biz:targetValue "100%"^^xsd:string ;
+    biz:currentValue "72%"^^xsd:string ;
+    biz:measurementFrequency "Jaarlijks"^^xsd:string ;
+    rdfs:label "KPI-03: Bewustzijnstraining voltooiing"@nl .
+
+biz:KPI_04  rdf:type biz:KPI ;
+    biz:kpiID "KPI-04" ;
+    biz:kpiDescription "Gemiddelde tijd tot sluiting van openstaande auditbevindingen (dagen)"@nl ;
+    biz:targetValue "≤60 dagen"^^xsd:string ;
+    biz:currentValue "Niet gemeten"^^xsd:string ;
+    biz:measurementFrequency "Kwartaal"^^xsd:string ;
+    rdfs:label "KPI-04: Doorlooptijd auditbevindingen"@nl .
+
+biz:KPI_05  rdf:type biz:KPI ;
+    biz:kpiID "KPI-05" ;
+    biz:kpiDescription "Gemiddeld volwassenheidsniveau GRC-domeinen"@nl ;
+    biz:targetValue "3.0 (gedefinieerd)"^^xsd:string ;
+    biz:currentValue "1.8"^^xsd:string ;
+    biz:measurementFrequency "Jaarlijks"^^xsd:string ;
+    rdfs:label "KPI-05: Gemiddeld volwassenheidsniveau"@nl .
+
+# KRI's
+biz:KRI_01  rdf:type biz:KRI ;
+    biz:kpiID "KRI-01" ;
+    biz:kpiDescription "Aantal kritieke kwetsbaarheden (CVSS ≥9.0) niet gepatcht binnen 72 uur"@nl ;
+    biz:targetValue "0"^^xsd:string ;
+    biz:currentValue "Niet gemeten"^^xsd:string ;
+    biz:measurementFrequency "Wekelijks"^^xsd:string ;
+    rdfs:label "KRI-01: Ongepatcht kritieke kwetsbaarheden"@nl ;
+    biz:indicatesRisk <https://grc.example.org/risk/R_001> .
+
+biz:KRI_02  rdf:type biz:KRI ;
+    biz:kpiID "KRI-02" ;
+    biz:kpiDescription "Aantal leveranciers zonder actueel IB-assessment (>12 maanden)"@nl ;
+    biz:targetValue "0"^^xsd:string ;
+    biz:currentValue "Niet gemeten"^^xsd:string ;
+    biz:measurementFrequency "Kwartaal"^^xsd:string ;
+    rdfs:label "KRI-02: Leveranciers zonder actueel IB-assessment"@nl ;
+    biz:indicatesRisk <https://grc.example.org/risk/R_003> .
+
+biz:KRI_03  rdf:type biz:KRI ;
+    biz:kpiID "KRI-03" ;
+    biz:kpiDescription "Percentage systemen zonder actieve MFA (intern)"@nl ;
+    biz:targetValue "0%"^^xsd:string ;
+    biz:currentValue "Niet gemeten"^^xsd:string ;
+    biz:measurementFrequency "Maandelijks"^^xsd:string ;
+    rdfs:label "KRI-03: Systemen zonder MFA"@nl ;
+    biz:indicatesRisk <https://grc.example.org/risk/R_002> .
+
+# KCI's
+biz:KCI_01  rdf:type biz:KCI ;
+    biz:kpiID "KCI-01" ;
+    biz:kpiDescription "Effectiviteitsscore toegangsreview (percentage accounts correct beheerd)"@nl ;
+    biz:targetValue "≥95%"^^xsd:string ;
+    biz:measurementFrequency "Kwartaal"^^xsd:string ;
+    rdfs:label "KCI-01: Effectiviteit toegangsreview"@nl ;
+    biz:measuresControl ctrl:ISO27002_5_15 .
+
+# Koppel KPI's/KRI's aan domeinen
+biz:DOM_01 biz:measuredBy biz:KPI_01 , biz:KPI_05 .
+biz:DOM_02 biz:measuredBy biz:KPI_04 , biz:KRI_01 .
+biz:DOM_03 biz:measuredBy biz:KRI_03 , biz:KCI_01 .
+biz:DOM_04 biz:measuredBy biz:KRI_02 .
+biz:DOM_05 biz:measuredBy biz:KPI_02 .
+
+# -----------------------------------------------------------------------------
+# 4.6 GRC-dashboard
+# -----------------------------------------------------------------------------
+
+biz:Dashboard_2026_Q1
+    rdf:type biz:GRCDashboard ;
+    rdfs:label "GRC Management Dashboard Q1 2026"@nl ;
+    biz:aggregates biz:DOM_01 , biz:DOM_02 , biz:DOM_03 , biz:DOM_04 , biz:DOM_05 , biz:DOM_06 .
+
+# -----------------------------------------------------------------------------
+# 4.7 Compliancekalender 2026
+# -----------------------------------------------------------------------------
+
+biz:CAL_2026
+    rdf:type biz:ComplianceCalendar ;
+    rdfs:label "Compliancekalender 2026"@nl .
+
+biz:CE_01  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "NIS2/CBW: Jaarlijkse melding bij NCSC (als van toepassing)"@nl ;
+    biz:calendarEntryDueDate "2026-12-31"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_NIS2_Art23 ;
+    biz:ownedByRole roles:R_CISO .
+
+biz:CE_02  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "BIO 2.0: Jaarlijkse zelfevaluatie en rapportage aan de CIO"@nl ;
+    biz:calendarEntryDueDate "2026-06-30"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_BIO2_Governance ;
+    biz:ownedByRole roles:R_CISO .
+
+biz:CE_03  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "ISO 27001: Interne audit ISMS Q3 2026"@nl ;
+    biz:calendarEntryDueDate "2026-09-30"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_ISO27001_Cl9_2 ;
+    biz:ownedByRole roles:R_InternAuditor .
+
+biz:CE_04  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "ISO 27001: Directiebeoordeling Q4 2026"@nl ;
+    biz:calendarEntryDueDate "2026-11-30"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_ISO27001_Cl9_3 ;
+    biz:ownedByRole roles:R_Bestuur .
+
+biz:CE_05  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "IB-bewustzijnstraining: jaarlijkse cyclus alle medewerkers"@nl ;
+    biz:calendarEntryDueDate "2026-12-31"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_NIS2_Art20 ;
+    biz:ownedByRole roles:R_CISO .
+
+biz:CE_06  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "Risicoregister: kwartaalupdate en review"@nl ;
+    biz:calendarEntryDueDate "2026-04-01"^^xsd:date ;
+    biz:calendarEntryFrequency "Kwartaal"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_ISO27001_Cl6_1 ;
+    biz:ownedByRole roles:R_CISO .
+
+biz:CE_07  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "SoA: jaarlijkse herziening en actualisatie"@nl ;
+    biz:calendarEntryDueDate "2026-12-01"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_ISO27001_Cl6_1 ;
+    biz:ownedByRole roles:R_CISO .
+
+biz:CE_08  rdf:type biz:ComplianceCalendarEntry ;
+    biz:calendarEntryTitle "VIRBI 2025: beoordeling gerubriceerde informatieregisters"@nl ;
+    biz:calendarEntryDueDate "2026-06-30"^^xsd:date ;
+    biz:calendarEntryFrequency "Jaarlijks"^^xsd:string ;
+    biz:linkedToObligation compl:OBL_VIRBI_Staatsgeheim ;
+    biz:ownedByRole roles:R_BVA .
+
+# Alle entries aan kalender
+biz:CAL_2026 biz:containsEntry biz:CE_01 , biz:CE_02 , biz:CE_03 , biz:CE_04 ,
+                          biz:CE_05 , biz:CE_06 , biz:CE_07 , biz:CE_08 .
+
+# -----------------------------------------------------------------------------
+# 4.8 Directiebeoordeling 2026
+# -----------------------------------------------------------------------------
+
+biz:DB_2026
+    rdf:type biz:DirectieBeoordeling ;
+    rdfs:label "Directiebeoordeling ISMS – November 2026"@nl ;
+    rdfs:comment "Jaarlijkse directiebeoordeling conform ISO 27001:2022 Clausule 9.3. Input: auditbevindingen, KPI-rapportage, risicoregister, wijzigingen in context, NIS2/BIO compliance-status."@nl .
+
+# =============================================================================
+# SKOS ALIGNMENT: M7 Business → COSO ERM (GAP 4 laag 4, toegevoegd 2026-03-26)
+# Validatieniveau: analytisch
+# =============================================================================
+
+biz:StrategicObjective    skos:relatedMatch  ext:COSO_ERM_StrategyObjectiveSetting .
+biz:RiskAppetite          skos:closeMatch    ext:COSO_ERM_GovernanceCulture .
+biz:RiskAppetiteStatement skos:relatedMatch  ext:COSO_ERM_GovernanceCulture .
+biz:PerformanceIndicator  skos:relatedMatch  ext:COSO_ERM_Performance .
+biz:KPI                   skos:relatedMatch  ext:COSO_ERM_Performance .
+biz:KRI                   skos:relatedMatch  ext:COSO_ERM_Performance .
+biz:KCI                   skos:relatedMatch  ext:COSO_ERM_ReviewRevision .
+biz:GRCDashboard          skos:relatedMatch  ext:COSO_ERM_InformationCommunicationReporting .
+biz:ManagementReport      skos:relatedMatch  ext:COSO_ERM_InformationCommunicationReporting .
+biz:DirectieBeoordeling   skos:relatedMatch  ext:COSO_ERM_ReviewRevision .
+
+# =============================================================================
+# EINDE MODULE M7

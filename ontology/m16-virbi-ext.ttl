@@ -1,0 +1,308 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M16: VIRBI 2025 uitbreiding
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+#
+# VIRBI 2025 = Besluit voorschrift informatiebeveiliging rijksdienst
+#              bijzondere informatie 2025
+# Bron: Staatscourant 2025, 30222 (8 september 2025)
+#       Besluit Minister-President van 21 augustus 2025, nr. 9070201
+#
+# Dit is een KERNVERPLICHTING voor de organisatie vanwege de verwerking
+# van gerubriceerde/staatsgeheime informatie. Heeft impact op fysieke
+# beveiliging, personeelsbeveiliging (VGB), compartimentering en
+# cryptografie.
+#
+# Vervangt: VIRBI 2013 (art. 12)
+# Overgangsperiode: 6 maanden voor aanvullende maatregelen (art. 11)
+#
+# De fw:VIRBI_2025 individual is reeds gedefinieerd in m01-framework.ttl.
+# compl:VIRBI_Art6_Verplichting en compl:VIRBI_Art10_Verplichting zijn
+# reeds gedefinieerd in m05-compliance.ttl.
+# Deze module BREIDT UIT met de overige artikelen en de Bijlage-domeinen.
+# =============================================================================
+
+<https://grc.example.org/ontology/m16-virbi-ext>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M16 — VIRBI 2025 uitbreiding"@nl ;
+    rdfs:comment "Uitbreiding van de VIRBI 2025-modellering: volledige artikelstructuur en 8 beveiligingsdomeinen uit de Bijlage."@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# =============================================================================
+# SECTIE 1 — TBOX: VIRBI-SPECIFIEKE KLASSEN
+# =============================================================================
+
+ext:VIRBISecurityDomain
+    rdf:type owl:Class ;
+    rdfs:label "VIRBI Security Domain"@en , "VIRBI-beveiligingsdomein"@nl ;
+    rdfs:comment
+        "One of the eight security domains defined in the VIRBI 2025 Bijlage (Annex). Each domain contains minimum security measures per classification level (Dep.V, Stg.C, Stg.G, Stg.ZG)."@en ,
+        "Een van de acht beveiligingsdomeinen uit de VIRBI 2025 Bijlage. Elk domein bevat minimale beveiligingsmaatregelen per rubriceringsniveau (Dep.V, Stg.C, Stg.G, Stg.ZG)."@nl .
+
+ext:ClassificationLevel
+    rdf:type owl:Class ;
+    rdfs:label "Classification Level"@en , "Rubriceringsniveau"@nl ;
+    rdfs:comment
+        "A classification level for bijzondere informatie as defined in VIRBI 2025 art. 4. Four levels: Dep.V, Stg.C, Stg.G, Stg.ZG."@en ,
+        "Een rubriceringsniveau voor bijzondere informatie conform VIRBI 2025 art. 4. Vier niveaus: Dep.V, Stg.C, Stg.G, Stg.ZG."@nl .
+
+ext:hasVIRBIDomain
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain fw:GRCFramework ;
+    rdfs:range ext:VIRBISecurityDomain ;
+    rdfs:label "has VIRBI domain"@en , "heeft VIRBI-domein"@nl .
+
+# =============================================================================
+# SECTIE 2 — ABOX: RUBRICERINGSNIVEAUS (art. 4)
+# =============================================================================
+
+ext:DepV
+    rdf:type ext:ClassificationLevel , owl:NamedIndividual ;
+    rdfs:label "Departementaal VERTROUWELIJK (Dep.V)"@nl ,
+               "Departmental CONFIDENTIAL (Dep.V)"@en ;
+    rdfs:comment "Kennisname door niet-geautoriseerden kan schade toebrengen aan de belangen van één of meerdere ministeries of bondgenoten."@nl .
+
+ext:StgC
+    rdf:type ext:ClassificationLevel , owl:NamedIndividual ;
+    rdfs:label "Staatsgeheim CONFIDENTIEEL (Stg.C)"@nl ,
+               "State Secret CONFIDENTIAL (Stg.C)"@en ;
+    rdfs:comment "Kennisname door niet-geautoriseerden kan schade toebrengen aan een van de vitale belangen van Nederland en de Nederlandse staat, of zijn bondgenoten."@nl .
+
+ext:StgG
+    rdf:type ext:ClassificationLevel , owl:NamedIndividual ;
+    rdfs:label "Staatsgeheim GEHEIM (Stg.G)"@nl ,
+               "State Secret SECRET (Stg.G)"@en ;
+    rdfs:comment "Kennisname door niet-geautoriseerden kan ernstige schade toebrengen aan een van de vitale belangen van Nederland en de Nederlandse staat, of zijn bondgenoten."@nl .
+
+ext:StgZG
+    rdf:type ext:ClassificationLevel , owl:NamedIndividual ;
+    rdfs:label "Staatsgeheim ZEER GEHEIM (Stg.ZG)"@nl ,
+               "State Secret TOP SECRET (Stg.ZG)"@en ;
+    rdfs:comment "Kennisname door niet-geautoriseerden kan zeer ernstige schade toebrengen aan een van de vitale belangen van Nederland en de Nederlandse staat, of zijn bondgenoten."@nl .
+
+# =============================================================================
+# SECTIE 3 — ABOX: WETTELIJKE VERPLICHTINGEN (art. 1-14)
+# Art. 6 (BVC-aanwijzing) en art. 10 (evaluatie) zijn reeds in M5.
+# =============================================================================
+
+compl:VIRBI_Art2_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 2 — Plaatsbepaling en reikwijdte"@nl ,
+               "VIRBI 2025 Art. 2 — Scope and applicability"@en ;
+    rdfs:comment "Het besluit geldt voor de Rijksdienst en is van toepassing op beveiliging van bijzondere informatie, onverminderd VIR 2007, Besluit BVA-stelsel en Besluit CIO-stelsel. Internationaal verkregen informatie behoudt toegekende rubricering."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 2"^^xsd:string .
+
+compl:VIRBI_Art3_Verplichting_ext
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 3 — Beveiligingsbeleid bijzondere informatie"@nl ,
+               "VIRBI 2025 Art. 3 — Security policy for classified information"@en ;
+    rdfs:comment "Het ministeriële beveiligingsbeleid (vastgesteld door SG) omvat ten minste uitgangspunten voor beveiliging, toegang, omgang met en verwerking van bijzondere informatie, inclusief rubriceringsbeleid, accreditatieproces en toezicht. De beveiligingsautoriteit bewaakt integraal karakter, coördineert aanpak, en onderzoekt compromitteringen."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 3"^^xsd:string ;
+    compl:responsibleRole roles:R_SecretarisDirecteur .
+
+compl:VIRBI_Art4_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 4 — Rubriceringen"@nl ,
+               "VIRBI 2025 Art. 4 — Classifications"@en ;
+    rdfs:comment "Informatie waarvan geheimhouding geboden is moet worden voorzien van passend rubriceringsniveau. Vier niveaus: Dep.V, Stg.C, Stg.G, Stg.ZG. Opsteller doet voorstel; vaststeller van inhoud stelt rubricering vast."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 4"^^xsd:string .
+
+compl:VIRBI_Art5_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 5 — Herzien en beëindigen rubricering"@nl ,
+               "VIRBI 2025 Art. 5 — Review and termination of classification"@en ;
+    rdfs:comment "Rubriceringen worden verbonden aan maximaal tijdsverloop of bepaalde gebeurtenis. Na die periode/gebeurtenis weegt vaststeller af of herziening/beëindiging aan de orde is. Uitsluitend de vaststeller is bevoegd tot herziening."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 5"^^xsd:string .
+
+compl:VIRBI_Art7_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 7 — Buiten de Rijksdienst brengen"@nl ,
+               "VIRBI 2025 Art. 7 — Release outside government service"@en ;
+    rdfs:comment "Bij het buiten de Rijksdienst brengen van bijzondere informatie blijven beveiligingseisen en toezicht onverkort van kracht. Internationaal verkregen informatie vereist voorafgaande toestemming van het land/organisatie van herkomst."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 7"^^xsd:string .
+
+compl:VIRBI_Art8_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 8 — Compromittering meldplicht"@nl ,
+               "VIRBI 2025 Art. 8 — Compromise reporting obligation"@en ;
+    rdfs:comment "Elke ambtenaar is verplicht onmiddellijk melding te doen van inbreuk of mogelijke inbreuk op de beveiliging die leidt tot compromittering. Bij internationaal verkregen informatie: tevens melding aan verantwoordelijke instantie."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 8"^^xsd:string ;
+    compl:responsibleRole roles:R_BVA .
+
+compl:VIRBI_Art9_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art. 9 — Commissie van onderzoek"@nl ,
+               "VIRBI 2025 Art. 9 — Investigation committee"@en ;
+    rdfs:comment "De SG stelt een commissie van onderzoek in bij ernstige compromittering. Onderzoek naar wijze van compromittering, aard/omvang schade, en te nemen maatregelen. Bij staatsgeheimen: melding aan hoofd AIVD (of MIVD voor Defensie)."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "Art. 9"^^xsd:string ;
+    compl:responsibleRole roles:R_SecretarisDirecteur .
+
+# =============================================================================
+# SECTIE 4 — ABOX: VIRBI BIJLAGE BEVEILIGINGSDOMEINEN (8 stuks)
+# Bron: Bijlage bij VIRBI 2025, tabellen 1-9
+# =============================================================================
+
+ext:VIRBI_Dom_VeiligPersoneel
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "1. Veilig personeel"@nl , "1. Personnel Security"@en ;
+    rdfs:comment "VGB, geheimhoudingsverklaring, security awareness programma, functiescheiding, logging voor compromitteringsonderzoek. Tabel 3 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_Bedrijfsmiddelen
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "2. Beheer van bedrijfsmiddelen"@nl , "2. Asset Management"@en ;
+    rdfs:comment "Registratie middelen, eigenaarschap, centraal register, inleverings-/vernietigingsprocedures. Tabel 4 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_FysiekeBeveiliging
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "3. Fysieke beveiliging en beveiliging omgeving"@nl , "3. Physical and Environmental Security"@en ;
+    rdfs:comment "Zonering/compartimentering, toegangsbeheersing, clear desk, TEMPEST-maatregelen, sleutelbeheer, netwerkbescherming. Tabel 5 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_Toegangsbeveiliging
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "4. Toegangsbeveiliging"@nl , "4. Access Control"@en ;
+    rdfs:comment "Identificatie/authenticatie, multifactor authenticatie, autorisatiebeheer, logging en monitoring. Tabel 6 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_ICTBeveiliging
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "5. Beveiligingseisen voor ICT-voorzieningen"@nl , "5. ICT Security Requirements"@en ;
+    rdfs:comment "Accreditatie informatiesystemen, hardening, kwetsbaarhedenbeheer, scheiding productie/test, verwijdering data. Tabel 7 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_Communicatiebeveiliging
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "6. Communicatiebeveiliging"@nl , "6. Communications Security"@en ;
+    rdfs:comment "Versleuteling (goedgekeurde crypto), netwerksegmentatie, verbindingsbeveiligingsvoorschriften (VBV's), koppelvlakbeveiliging. Tabel 8 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_BeheerBijzondereInformatie
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "7. Beheer van bijzondere informatie"@nl , "7. Classified Information Management"@en ;
+    rdfs:comment "Markering, registratie, verzending, opslag, reproductie, vernietiging van gerubriceerde informatie. Tabel 9 VIRBI 2025."@nl .
+
+ext:VIRBI_Dom_Incidenten
+    rdf:type ext:VIRBISecurityDomain , owl:NamedIndividual ;
+    rdfs:label "8. Incidenten en compromittering"@nl , "8. Incidents and Compromise"@en ;
+    rdfs:comment "Meldplicht, onderzoeksproces, commissie van onderzoek, melding aan AIVD/MIVD bij staatsgeheimen. Tabel 10 VIRBI 2025."@nl .
+
+# Link domains to VIRBI
+fw:VIRBI_2025
+    ext:hasVIRBIDomain ext:VIRBI_Dom_VeiligPersoneel ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_Bedrijfsmiddelen ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_FysiekeBeveiliging ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_Toegangsbeveiliging ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_ICTBeveiliging ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_Communicatiebeveiliging ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_BeheerBijzondereInformatie ;
+    ext:hasVIRBIDomain ext:VIRBI_Dom_Incidenten .
+
+# =============================================================================
+# SECTIE 5 — SKOS MAPPINGS: VIRBI domeinen → ISO 27002 controls
+# Validatieniveau: analytisch (expert-mapping)
+# =============================================================================
+
+# 1. Veilig personeel → ISO 27002 groep 6 (People controls)
+ext:VIRBI_Dom_VeiligPersoneel
+    skos:relatedMatch ctrl:ISO27002_6_01 ;    # Screening
+    skos:relatedMatch ctrl:ISO27002_6_02 ;    # Arbeidsovereenkomst
+    skos:relatedMatch ctrl:ISO27002_6_03 ;    # Bewustwording/opleiding
+    skos:relatedMatch ctrl:ISO27002_6_05 ;    # Verantwoordelijkheden na beëindiging
+    skos:relatedMatch ctrl:ISO27002_6_06 .    # Geheimhoudingsovereenkomsten
+
+# 2. Beheer bedrijfsmiddelen → ISO 27002 groep 5.09-5.13
+ext:VIRBI_Dom_Bedrijfsmiddelen
+    skos:relatedMatch ctrl:ISO27002_5_09 ;    # Inventarisatie bedrijfsmiddelen
+    skos:relatedMatch ctrl:ISO27002_5_10 ;    # Aanvaard gebruik
+    skos:relatedMatch ctrl:ISO27002_5_11 ;    # Retourneren bedrijfsmiddelen
+    skos:relatedMatch ctrl:ISO27002_5_12 ;    # Classificeren informatie
+    skos:relatedMatch ctrl:ISO27002_5_13 .    # Labelen informatie
+
+# 3. Fysieke beveiliging → ISO 27002 groep 7
+ext:VIRBI_Dom_FysiekeBeveiliging
+    skos:relatedMatch ctrl:ISO27002_7_01 ;    # Fysieke beveiligingszones
+    skos:relatedMatch ctrl:ISO27002_7_02 ;    # Fysieke toegangsbeveiliging
+    skos:relatedMatch ctrl:ISO27002_7_03 ;    # Beveiligen kantoren/ruimten
+    skos:relatedMatch ctrl:ISO27002_7_04 ;    # Monitoren fysieke beveiliging
+    skos:relatedMatch ctrl:ISO27002_7_06 ;    # Werken in beveiligde zones
+    skos:relatedMatch ctrl:ISO27002_7_07 ;    # Clear desk / clear screen
+    skos:relatedMatch ctrl:ISO27002_7_10 ;    # Opslagmedia
+    skos:relatedMatch ctrl:ISO27002_7_12 .    # Beveiligen bekabeling
+
+# 4. Toegangsbeveiliging → ISO 27002 groep 5.15-5.18, 8.02-8.05
+ext:VIRBI_Dom_Toegangsbeveiliging
+    skos:relatedMatch ctrl:ISO27002_5_15 ;    # Toegangsbeveiliging
+    skos:relatedMatch ctrl:ISO27002_5_16 ;    # Identiteitsbeheer
+    skos:relatedMatch ctrl:ISO27002_5_17 ;    # Authenticatie-informatie
+    skos:relatedMatch ctrl:ISO27002_5_18 ;    # Toegangsrechten
+    skos:relatedMatch ctrl:ISO27002_8_02 ;    # Speciale toegangsrechten
+    skos:relatedMatch ctrl:ISO27002_8_03 ;    # Beperking toegang informatie
+    skos:relatedMatch ctrl:ISO27002_8_05 .    # Beveiligde authenticatie
+
+# 5. ICT-beveiliging → ISO 27002 groep 8 (technologisch)
+ext:VIRBI_Dom_ICTBeveiliging
+    skos:relatedMatch ctrl:ISO27002_8_08 ;    # Technische kwetsbaarheden
+    skos:relatedMatch ctrl:ISO27002_8_09 ;    # Configuratiebeheer
+    skos:relatedMatch ctrl:ISO27002_8_19 ;    # Installeren software
+    skos:relatedMatch ctrl:ISO27002_8_25 ;    # Beveiligen ontwikkelcyclus
+    skos:relatedMatch ctrl:ISO27002_8_31 ;    # Scheiden omgevingen
+    skos:relatedMatch ctrl:ISO27002_7_14 .    # Veilig verwijderen apparatuur
+
+# 6. Communicatiebeveiliging → ISO 27002 cryptografie + netwerk
+ext:VIRBI_Dom_Communicatiebeveiliging
+    skos:relatedMatch ctrl:ISO27002_8_24 ;    # Cryptografie
+    skos:relatedMatch ctrl:ISO27002_8_20 ;    # Beveiliging netwerkcomponenten
+    skos:relatedMatch ctrl:ISO27002_8_21 ;    # Beveiliging netwerkdiensten
+    skos:relatedMatch ctrl:ISO27002_8_22 ;    # Netwerksegmentatie
+    skos:relatedMatch ctrl:ISO27002_5_14 .    # Overdragen informatie
+
+# 7. Beheer bijzondere informatie → ISO 27002 informatielevenscyclus
+ext:VIRBI_Dom_BeheerBijzondereInformatie
+    skos:relatedMatch ctrl:ISO27002_5_12 ;    # Classificeren
+    skos:relatedMatch ctrl:ISO27002_5_13 ;    # Labelen
+    skos:relatedMatch ctrl:ISO27002_5_14 ;    # Overdragen
+    skos:relatedMatch ctrl:ISO27002_5_33 ;    # Beschermen registraties
+    skos:relatedMatch ctrl:ISO27002_8_10 ;    # Wissen informatie
+    skos:relatedMatch ctrl:ISO27002_7_10 .    # Opslagmedia
+
+# 8. Incidenten en compromittering → ISO 27002 incidentbeheer
+ext:VIRBI_Dom_Incidenten
+    skos:relatedMatch ctrl:ISO27002_5_24 ;    # Plannen incidentbeheer
+    skos:relatedMatch ctrl:ISO27002_5_25 ;    # Beoordelen gebeurtenissen
+    skos:relatedMatch ctrl:ISO27002_5_26 ;    # Reageren op incidenten
+    skos:relatedMatch ctrl:ISO27002_5_27 ;    # Leren van incidenten
+    skos:relatedMatch ctrl:ISO27002_5_28 ;    # Verzamelen bewijsmateriaal
+    skos:relatedMatch ctrl:ISO27002_6_08 .    # Melden gebeurtenissen
+
+# =============================================================================
+# SECTIE 6 — FRAMEWORK-LEVEL RELATIES
+# =============================================================================
+
+# VIRBI 2025 bouwt voort op BIO als basis (Bijlage Tabel 1, uitgangspunt A)
+fw:VIRBI_2025
+    fw:relatedTo fw:VIR_2007 ;
+    rdfs:comment "VIRBI 2025 bouwt voort op de BIO als basis (Bijlage, uitgangspunt A). Daarbovenop worden aanvullende maatregelen vereist per rubriceringsniveau. Publicatiedatum: 8 september 2025 (Stcrt. 2025, 30222). Gecorrigeerd 2026-03-19."@nl .
+
+# =============================================================================
+# EINDE MODULE M16
+# =============================================================================

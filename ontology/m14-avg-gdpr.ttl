@@ -1,0 +1,173 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M14: AVG/GDPR (IB-raakvlakken)
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+#
+# Scope: UITSLUITEND de informatiebeveiliging-raakvlakartikelen van de AVG.
+# Geen volledige AVG-implementatie — dat valt buiten scope van het GRC Kennismodel.
+# Artikelen: 5(1)(f), 25, 32, 33, 34.
+# Besluit: 16 maart 2026 (masterchat).
+# =============================================================================
+
+<https://grc.example.org/ontology/m14-avg-gdpr>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M14 — AVG/GDPR (IB-raakvlakken)"@nl ;
+    rdfs:comment "Alleen de informatiebeveiliging-raakvlakartikelen van de AVG/GDPR. Geen volledige AVG-implementatie in scope."@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# =============================================================================
+# SECTIE 1 — FRAMEWORK INDIVIDUAL
+# =============================================================================
+
+fw:AVG_GDPR
+    rdf:type fw:Regulation ;
+    rdfs:label "AVG / GDPR (EU) 2016/679"@nl ,
+               "GDPR (EU) 2016/679"@en ;
+    rdfs:comment
+        "Algemene Verordening Gegevensbescherming. In dit model uitsluitend de IB-raakvlakartikelen: art. 5(1)(f) integriteit en vertrouwelijkheid, art. 25 gegevensbescherming door ontwerp en door standaardinstellingen, art. 32 beveiliging van de verwerking, art. 33 melding inbreuk aan toezichthoudende autoriteit, art. 34 mededeling inbreuk aan betrokkene."@nl ,
+        "General Data Protection Regulation. In this model only the information security interface articles: art. 5(1)(f) integrity and confidentiality, art. 25 data protection by design and by default, art. 32 security of processing, art. 33 notification of breach to supervisory authority, art. 34 communication of breach to data subject."@en ;
+    fw:hasIdentifier "EU-2016-679" ;
+    fw:hasVersionLabel "2016/679" ;
+    fw:hasPublicationDate "2016-04-27"^^xsd:date ;
+    fw:isMandatoryForDutchGovernment "true"^^xsd:boolean ;
+    fw:issuedBy fw:EuropeanCommission ;
+    fw:appliesInJurisdiction fw:JurisdictionEU , fw:JurisdictionNL ;
+    fw:hasDomain fw:DomainPrivacy , fw:DomainInformationSecurity ;
+    fw:officialURL "https://eur-lex.europa.eu/legal-content/NL/TXT/?uri=CELEX:32016R0679"^^xsd:anyURI .
+
+# =============================================================================
+# SECTIE 2 — IB-RAAKVLAK OBLIGATIONS (5 stuks)
+# =============================================================================
+
+compl:AVG_Art5_1f
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "AVG Art. 5(1)(f) — Integriteit en vertrouwelijkheid"@nl ,
+               "GDPR Art. 5(1)(f) — Integrity and confidentiality"@en ;
+    rdfs:comment
+        "Persoonsgegevens moeten door het nemen van passende technische of organisatorische maatregelen op een dusdanige manier worden verwerkt dat een passende beveiliging ervan gewaarborgd is, en dat zij onder meer beschermd zijn tegen ongeoorloofde of onrechtmatige verwerking en tegen onopzettelijk verlies, vernietiging of beschadiging."@nl ;
+    compl:derivedFrom fw:AVG_GDPR ;
+    compl:articleRef "Art. 5 lid 1 sub f"^^xsd:string ;
+    compl:responsibleRole roles:R_SecretarisDirecteur .
+
+compl:AVG_Art25
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "AVG Art. 25 — Gegevensbescherming door ontwerp en door standaardinstellingen"@nl ,
+               "GDPR Art. 25 — Data protection by design and by default"@en ;
+    rdfs:comment
+        "De verwerkingsverantwoordelijke treft zowel bij de bepaling van de verwerkingsmiddelen als bij de verwerking zelf passende technische en organisatorische maatregelen ter waarborging van de gegevensbeschermingsbeginselen, zoals dataminimalisatie."@nl ;
+    compl:derivedFrom fw:AVG_GDPR ;
+    compl:articleRef "Art. 25"^^xsd:string ;
+    compl:responsibleRole roles:R_SecretarisDirecteur .
+
+compl:AVG_Art32
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "AVG Art. 32 — Beveiliging van de verwerking"@nl ,
+               "GDPR Art. 32 — Security of processing"@en ;
+    rdfs:comment
+        "De verwerkingsverantwoordelijke en de verwerker treffen passende technische en organisatorische maatregelen om een op het risico afgestemd beveiligingsniveau te waarborgen, met inachtneming van de stand van de techniek, uitvoeringskosten, aard/omvang/context/doeleinden van de verwerking en de risico's voor rechten en vrijheden. Maatregelen omvatten onder meer: pseudonimisering en versleuteling, vermogen om CIA te garanderen, vermogen tot herstel, en regelmatige beoordeling/evaluatie."@nl ;
+    compl:derivedFrom fw:AVG_GDPR ;
+    compl:articleRef "Art. 32"^^xsd:string ;
+    compl:responsibleRole roles:R_SecretarisDirecteur .
+
+compl:AVG_Art33
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "AVG Art. 33 — Melding inbreuk aan toezichthoudende autoriteit"@nl ,
+               "GDPR Art. 33 — Notification of breach to supervisory authority"@en ;
+    rdfs:comment
+        "Inbreuk in verband met persoonsgegevens wordt zonder onredelijke vertraging en indien mogelijk uiterlijk 72 uur na kennisneming gemeld aan de toezichthoudende autoriteit (Autoriteit Persoonsgegevens), tenzij het niet waarschijnlijk is dat de inbreuk een risico inhoudt voor de rechten en vrijheden van natuurlijke personen."@nl ;
+    compl:derivedFrom fw:AVG_GDPR ;
+    compl:articleRef "Art. 33"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:AVG_Art34
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "AVG Art. 34 — Mededeling inbreuk aan betrokkene"@nl ,
+               "GDPR Art. 34 — Communication of breach to data subject"@en ;
+    rdfs:comment
+        "Wanneer een inbreuk in verband met persoonsgegevens waarschijnlijk een hoog risico inhoudt voor de rechten en vrijheden van natuurlijke personen, deelt de verwerkingsverantwoordelijke de inbreuk onverwijld mede aan de betrokkene."@nl ;
+    compl:derivedFrom fw:AVG_GDPR ;
+    compl:articleRef "Art. 34"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+# =============================================================================
+# SECTIE 3 — SKOS MAPPINGS: AVG obligations → ISO 27002 controls
+# Validatieniveau: analytisch (expert-mapping, geen officiële crosswalk)
+# =============================================================================
+
+# --- Art. 5(1)(f): Integriteit en vertrouwelijkheid ---
+# Breed principe: raakt alle controls die CIA waarborgen
+compl:AVG_Art5_1f
+    skos:broadMatch ctrl:ISO27002_5_01 ;    # Beleidsregels IB
+    skos:broadMatch ctrl:ISO27002_5_12 ;    # Classificeren informatie
+    skos:relatedMatch ctrl:ISO27002_5_15 ;  # Toegangsbeveiliging
+    skos:relatedMatch ctrl:ISO27002_8_24 ;  # Cryptografie
+    skos:relatedMatch ctrl:ISO27002_8_10 ;  # Wissen van informatie
+    skos:relatedMatch ctrl:ISO27002_8_11 ;  # Maskeren van gegevens
+    skos:relatedMatch ctrl:ISO27002_8_12 .  # Voorkomen gegevenslekken (DLP)
+
+# --- Art. 25: Data protection by design and by default ---
+compl:AVG_Art25
+    skos:relatedMatch ctrl:ISO27002_8_25 ;  # Beveiligen tijdens ontwikkelcyclus
+    skos:relatedMatch ctrl:ISO27002_8_26 ;  # Toepassingsbeveiligingseisen
+    skos:relatedMatch ctrl:ISO27002_8_27 ;  # Veilige systeemarchitectuur
+    skos:relatedMatch ctrl:ISO27002_8_28 ;  # Veilig coderen
+    skos:relatedMatch ctrl:ISO27002_8_11 ;  # Maskeren van gegevens
+    skos:relatedMatch ctrl:ISO27002_8_33 .  # Testgegevens (dataminimalisatie)
+
+# --- Art. 32: Beveiliging van de verwerking ---
+# Kernverplichting: passende technische en organisatorische maatregelen
+compl:AVG_Art32
+    skos:closeMatch ctrl:ISO27002_5_01 ;    # Beleidsregels IB
+    skos:relatedMatch ctrl:ISO27002_8_24 ;  # Cryptografie (versleuteling, pseudonimisering)
+    skos:relatedMatch ctrl:ISO27002_5_15 ;  # Toegangsbeveiliging
+    skos:relatedMatch ctrl:ISO27002_5_16 ;  # Identiteitsbeheer
+    skos:relatedMatch ctrl:ISO27002_5_17 ;  # Authenticatie-informatie
+    skos:relatedMatch ctrl:ISO27002_5_18 ;  # Toegangsrechten
+    skos:relatedMatch ctrl:ISO27002_8_13 ;  # Back-up (vermogen tot herstel)
+    skos:relatedMatch ctrl:ISO27002_5_29 ;  # IB tijdens verstoring (continuïteit CIA)
+    skos:relatedMatch ctrl:ISO27002_5_30 ;  # ICT-gereedheid BCM
+    skos:relatedMatch ctrl:ISO27002_8_07 ;  # Bescherming tegen malware
+    skos:relatedMatch ctrl:ISO27002_5_35 ;  # Onafhankelijke beoordeling (regelmatige evaluatie)
+    skos:relatedMatch ctrl:ISO27002_5_36 .  # Naleving beleid/regels/normen
+
+# --- Art. 33: Melding inbreuk aan AP ---
+compl:AVG_Art33
+    skos:closeMatch ctrl:ISO27002_5_24 ;    # Plannen incidentbeheer
+    skos:relatedMatch ctrl:ISO27002_5_25 ;  # Beoordelen beveiligingsgebeurtenissen
+    skos:relatedMatch ctrl:ISO27002_5_26 ;  # Reageren op incidenten
+    skos:relatedMatch ctrl:ISO27002_6_08 .  # Melden beveiligingsgebeurtenissen
+
+# --- Art. 34: Mededeling inbreuk aan betrokkene ---
+compl:AVG_Art34
+    skos:relatedMatch ctrl:ISO27002_5_26 ;  # Reageren op incidenten
+    skos:relatedMatch ctrl:ISO27002_5_34 .  # Privacy en bescherming persoonsgegevens
+
+# =============================================================================
+# SECTIE 4 — FRAMEWORK-LEVEL SKOS ALIGNMENT
+# Validatieniveau: analytisch
+# =============================================================================
+
+fw:AVG_GDPR
+    skos:relatedMatch fw:ISO_IEC_27001_2022 ;   # ISMS ondersteunt AVG-compliance
+    skos:relatedMatch fw:BIO_2_0 .              # BIO 2.0 ondersteunt AVG IB-vereisten
+
+# =============================================================================
+# EINDE MODULE M14
+# =============================================================================

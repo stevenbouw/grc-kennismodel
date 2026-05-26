@@ -1,0 +1,933 @@
+{
+  "meta": {
+    "version_label": "v4.6.0",
+    "measured_at_utc": "2026-05-22T06:01:04.627797+00:00",
+    "workdir": "/home/claude/v433",
+    "tool_versions": {
+      "rdflib": "7.6.0",
+      "owlrl": "7.1.4",
+      "pyshacl": "0.31.0"
+    },
+    "file_count_data_modules": 21
+  },
+  "per_module": {
+    "grc-bridges.ttl": {
+      "triples": 104,
+      "classes": 0,
+      "named_individuals": 0,
+      "object_properties": 0,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ctrl": 93,
+        "asset": 4
+      },
+      "labels_nl": 1,
+      "labels_en": 1,
+      "labels_untagged": 0,
+      "comments_nl": 1,
+      "comments_en": 1,
+      "comments_untagged": 0,
+      "sha256": "4cf7f850340d9e7122a2cd13aa964965b47b7894435069ae567a8e2b7ece4f17"
+    },
+    "grc-core.ttl": {
+      "triples": 232,
+      "classes": 11,
+      "named_individuals": 0,
+      "object_properties": 6,
+      "datatype_properties": 13,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ext": 22,
+        "csf": 8
+      },
+      "labels_nl": 32,
+      "labels_en": 31,
+      "labels_untagged": 0,
+      "comments_nl": 26,
+      "comments_en": 25,
+      "comments_untagged": 0,
+      "sha256": "057aa76be5b67477a502c312de9ddafc1c91ee441d67ab23faec6a6b8be8589d"
+    },
+    "m01-framework.ttl": {
+      "triples": 770,
+      "classes": 15,
+      "named_individuals": 4,
+      "object_properties": 15,
+      "datatype_properties": 7,
+      "annotation_properties": 0,
+      "skos_concepts": 7,
+      "subjects_per_namespace": {
+        "fw": 92,
+        "ext": 1
+      },
+      "labels_nl": 94,
+      "labels_en": 93,
+      "labels_untagged": 0,
+      "comments_nl": 64,
+      "comments_en": 64,
+      "comments_untagged": 0,
+      "sha256": "f374e68c4aeb8e9b3de70b726d53ca9accb1e98ae0d9305337f706451dc9d096"
+    },
+    "m02-control.ttl": {
+      "triples": 1909,
+      "classes": 12,
+      "named_individuals": 0,
+      "object_properties": 14,
+      "datatype_properties": 4,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ctrl": 178
+      },
+      "labels_nl": 159,
+      "labels_en": 178,
+      "labels_untagged": 0,
+      "comments_nl": 20,
+      "comments_en": 20,
+      "comments_untagged": 0,
+      "sha256": "e8abfac5bc28f5b13bc7f55432357d679b6f14f77a327299741798cb1ef8c36c"
+    },
+    "m03-risk.ttl": {
+      "triples": 795,
+      "classes": 40,
+      "named_individuals": 3,
+      "object_properties": 22,
+      "datatype_properties": 12,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "risk": 128
+      },
+      "labels_nl": 125,
+      "labels_en": 125,
+      "labels_untagged": 0,
+      "comments_nl": 65,
+      "comments_en": 65,
+      "comments_untagged": 0,
+      "sha256": "112738fe03822ae9ade0fb9f34368e855b5004b7ded3b96938ac9628af5663a7"
+    },
+    "m04-roles.ttl": {
+      "triples": 567,
+      "classes": 17,
+      "named_individuals": 1,
+      "object_properties": 13,
+      "datatype_properties": 6,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "roles": 75
+      },
+      "labels_nl": 42,
+      "labels_en": 42,
+      "labels_untagged": 0,
+      "comments_nl": 29,
+      "comments_en": 29,
+      "comments_untagged": 0,
+      "sha256": "d79e90d600b2c212d3d120aeeb0525ddab79bef0cb30dea4b4e4720967a4626e"
+    },
+    "m05-compliance.ttl": {
+      "triples": 864,
+      "classes": 20,
+      "named_individuals": 38,
+      "object_properties": 16,
+      "datatype_properties": 13,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "compl": 122
+      },
+      "labels_nl": 104,
+      "labels_en": 99,
+      "labels_untagged": 0,
+      "comments_nl": 57,
+      "comments_en": 31,
+      "comments_untagged": 0,
+      "sha256": "781f884abc624b5ae43bc61b5d5f450cb081af8f865f6aeb926e67421db60cea"
+    },
+    "m06-isms.ttl": {
+      "triples": 3171,
+      "classes": 33,
+      "named_individuals": 296,
+      "object_properties": 27,
+      "datatype_properties": 18,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "isms": 406,
+        "ext": 1
+      },
+      "labels_nl": 396,
+      "labels_en": 396,
+      "labels_untagged": 0,
+      "comments_nl": 309,
+      "comments_en": 149,
+      "comments_untagged": 0,
+      "sha256": "baa2d98a9861f56641333479abed8a7664c4afc600019cc62a09bc5e4ea38b11"
+    },
+    "m07-business.ttl": {
+      "triples": 570,
+      "classes": 20,
+      "named_individuals": 0,
+      "object_properties": 22,
+      "datatype_properties": 13,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "biz": 98
+      },
+      "labels_nl": 91,
+      "labels_en": 61,
+      "labels_untagged": 0,
+      "comments_nl": 30,
+      "comments_en": 19,
+      "comments_untagged": 0,
+      "sha256": "32e3c381b430eb92f9e2e887c06600eb17ac848f0b090c82e161eb80af4bc890"
+    },
+    "m08-bio20.ttl": {
+      "triples": 2876,
+      "classes": 2,
+      "named_individuals": 241,
+      "object_properties": 3,
+      "datatype_properties": 6,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "csf": 121,
+        "bio": 252
+      },
+      "labels_nl": 253,
+      "labels_en": 2,
+      "labels_untagged": 0,
+      "comments_nl": 93,
+      "comments_en": 0,
+      "comments_untagged": 0,
+      "sha256": "38ebc810a635b0badd7f84dd5d7c31dd5856525f66faf685df960887db8db635"
+    },
+    "m09-iso27001-ext.ttl": {
+      "triples": 509,
+      "classes": 1,
+      "named_individuals": 48,
+      "object_properties": 1,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "csf": 65,
+        "ext": 50
+      },
+      "labels_nl": 51,
+      "labels_en": 51,
+      "labels_untagged": 0,
+      "comments_nl": 3,
+      "comments_en": 3,
+      "comments_untagged": 0,
+      "sha256": "f0eeb6dac92d0ed5157877880afa86d09d00d30caa842c6ad02b774683841f8f"
+    },
+    "m10-nis2-ext.ttl": {
+      "triples": 555,
+      "classes": 1,
+      "named_individuals": 43,
+      "object_properties": 0,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ctrl": 120,
+        "compl": 16,
+        "ext": 1
+      },
+      "labels_nl": 45,
+      "labels_en": 44,
+      "labels_untagged": 0,
+      "comments_nl": 14,
+      "comments_en": 1,
+      "comments_untagged": 0,
+      "sha256": "78b8ee44453202c8826afca998d44e4bd71a4662e13c37a61cf2837b389735ee"
+    },
+    "m11-nist-800-53.ttl": {
+      "triples": 1514,
+      "classes": 0,
+      "named_individuals": 124,
+      "object_properties": 0,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "csf": 98,
+        "ext": 124
+      },
+      "labels_nl": 21,
+      "labels_en": 124,
+      "labels_untagged": 0,
+      "comments_nl": 0,
+      "comments_en": 0,
+      "comments_untagged": 0,
+      "sha256": "3300463010429d6ce4b9a7728a963d32d12547058f0640de6367b6880637c423"
+    },
+    "m12-dora.ttl": {
+      "triples": 152,
+      "classes": 0,
+      "named_individuals": 14,
+      "object_properties": 0,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ext": 14
+      },
+      "labels_nl": 15,
+      "labels_en": 14,
+      "labels_untagged": 0,
+      "comments_nl": 0,
+      "comments_en": 0,
+      "comments_untagged": 0,
+      "sha256": "9239588126a5be71bfa1d0a48457ce18f62eb26cf4a1f103ac5fbfed7369cead"
+    },
+    "m13-iso22301.ttl": {
+      "triples": 128,
+      "classes": 0,
+      "named_individuals": 17,
+      "object_properties": 0,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ext": 17
+      },
+      "labels_nl": 18,
+      "labels_en": 17,
+      "labels_untagged": 0,
+      "comments_nl": 0,
+      "comments_en": 0,
+      "comments_untagged": 0,
+      "sha256": "257055ca7ac1d5a3e172ba66bd35a6848c29d1929f424ac5c6df38f23ebac403"
+    },
+    "m14-avg-gdpr.ttl": {
+      "triples": 92,
+      "classes": 0,
+      "named_individuals": 5,
+      "object_properties": 0,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "compl": 5,
+        "fw": 1
+      },
+      "labels_nl": 7,
+      "labels_en": 6,
+      "labels_untagged": 0,
+      "comments_nl": 7,
+      "comments_en": 1,
+      "comments_untagged": 0,
+      "sha256": "47daeb7e6f37080b5f88b6d4d594a0401e5f1e32356d330d9cbc0b287251d353"
+    },
+    "m15-ensia.ttl": {
+      "triples": 79,
+      "classes": 1,
+      "named_individuals": 8,
+      "object_properties": 1,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ext": 10,
+        "fw": 3
+      },
+      "labels_nl": 13,
+      "labels_en": 13,
+      "labels_untagged": 0,
+      "comments_nl": 13,
+      "comments_en": 4,
+      "comments_untagged": 0,
+      "sha256": "ae85601ed99bc6e0eb4089be8fc465c81206212eba8dd60d535b684f22894e1c"
+    },
+    "m16-virbi-ext.ttl": {
+      "triples": 189,
+      "classes": 2,
+      "named_individuals": 19,
+      "object_properties": 1,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "ext": 15,
+        "compl": 7,
+        "fw": 1
+      },
+      "labels_nl": 23,
+      "labels_en": 22,
+      "labels_untagged": 0,
+      "comments_nl": 23,
+      "comments_en": 2,
+      "comments_untagged": 0,
+      "sha256": "732e93cedbeead8d4bae3e5798089d0bfdc8be972d142e0cd3ab56f0c2814591"
+    },
+    "m17-coso-cobit.ttl": {
+      "triples": 252,
+      "classes": 3,
+      "named_individuals": 19,
+      "object_properties": 2,
+      "datatype_properties": 2,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "csf": 5,
+        "ext": 25,
+        "fw": 9
+      },
+      "labels_nl": 30,
+      "labels_en": 29,
+      "labels_untagged": 0,
+      "comments_nl": 28,
+      "comments_en": 9,
+      "comments_untagged": 0,
+      "sha256": "cdae96d906c6bcf3439cf9da463bda51d0da6e826ac2495440338fac76d0cecc"
+    },
+    "m18-assets.ttl": {
+      "triples": 642,
+      "classes": 20,
+      "named_individuals": 0,
+      "object_properties": 6,
+      "datatype_properties": 0,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "asset": 25,
+        "bio": 148,
+        "ctrl": 93,
+        "fw": 7
+      },
+      "labels_nl": 26,
+      "labels_en": 26,
+      "labels_untagged": 0,
+      "comments_nl": 26,
+      "comments_en": 26,
+      "comments_untagged": 0,
+      "sha256": "0aaf689236481f76cdf8be51ccf6afda2af752f1aa37ca96c33d5da6324d400b"
+    },
+    "m21-csf.ttl": {
+      "triples": 5085,
+      "classes": 1,
+      "named_individuals": 503,
+      "object_properties": 0,
+      "datatype_properties": 2,
+      "annotation_properties": 0,
+      "skos_concepts": 0,
+      "subjects_per_namespace": {
+        "csf": 504,
+        "ext": 2
+      },
+      "labels_nl": 401,
+      "labels_en": 506,
+      "labels_untagged": 0,
+      "comments_nl": 3,
+      "comments_en": 500,
+      "comments_untagged": 0,
+      "sha256": "7f987199a7811db6834b763b5be4bc25e9b9e49134911d42349d55fea17339f7"
+    }
+  },
+  "global_pre_inference": {
+    "label": "pre_inference",
+    "triples": 20950,
+    "owl_Class": 199,
+    "owl_NamedIndividual": 1383,
+    "owl_ObjectProperty": 149,
+    "owl_DatatypeProperty": 96,
+    "owl_AnnotationProperty": 0,
+    "owl_sameAs": 98,
+    "skos_Concept": 7,
+    "skos_mappings_total": 1798,
+    "skos_mappings_breakdown": {
+      "exactMatch": 46,
+      "closeMatch": 1489,
+      "broadMatch": 38,
+      "narrowMatch": 0,
+      "relatedMatch": 225
+    },
+    "rdfs_label_total": 3827,
+    "rdfs_label_per_lang": {
+      "nl": 1947,
+      "en": 1880
+    },
+    "rdfs_comment_total": 1760,
+    "rdfs_comment_per_lang": {
+      "nl": 811,
+      "en": 949
+    },
+    "rdfs_seeAlso": 7
+  },
+  "global_post_inference_owlrl": {
+    "label": "post_inference_owlrl",
+    "triples": 44907,
+    "owl_Class": 201,
+    "owl_NamedIndividual": 1476,
+    "owl_ObjectProperty": 149,
+    "owl_DatatypeProperty": 96,
+    "owl_AnnotationProperty": 9,
+    "owl_sameAs": 9745,
+    "skos_Concept": 7,
+    "skos_mappings_total": 2754,
+    "skos_mappings_breakdown": {
+      "exactMatch": 80,
+      "closeMatch": 2222,
+      "broadMatch": 66,
+      "narrowMatch": 0,
+      "relatedMatch": 386
+    },
+    "rdfs_label_total": 3922,
+    "rdfs_label_per_lang": {
+      "nl": 1949,
+      "en": 1973
+    },
+    "rdfs_comment_total": 1877,
+    "rdfs_comment_per_lang": {
+      "nl": 916,
+      "en": 961
+    },
+    "rdfs_seeAlso": 21
+  },
+  "owl_Nothing_assertions_post_inference": 0,
+  "per_namespace_pre": {
+    "fw": {
+      "classes": 15,
+      "named_individuals": 3,
+      "object_properties": 16,
+      "datatype_properties": 7,
+      "subjects": 99,
+      "objects": 76
+    },
+    "ctrl": {
+      "classes": 13,
+      "named_individuals": 26,
+      "object_properties": 14,
+      "datatype_properties": 4,
+      "subjects": 205,
+      "objects": 153
+    },
+    "risk": {
+      "classes": 40,
+      "named_individuals": 3,
+      "object_properties": 22,
+      "datatype_properties": 12,
+      "subjects": 128,
+      "objects": 77
+    },
+    "roles": {
+      "classes": 17,
+      "named_individuals": 1,
+      "object_properties": 13,
+      "datatype_properties": 6,
+      "subjects": 75,
+      "objects": 40
+    },
+    "compl": {
+      "classes": 20,
+      "named_individuals": 66,
+      "object_properties": 16,
+      "datatype_properties": 13,
+      "subjects": 150,
+      "objects": 53
+    },
+    "isms": {
+      "classes": 33,
+      "named_individuals": 295,
+      "object_properties": 27,
+      "datatype_properties": 18,
+      "subjects": 406,
+      "objects": 90
+    },
+    "biz": {
+      "classes": 20,
+      "named_individuals": 0,
+      "object_properties": 22,
+      "datatype_properties": 13,
+      "subjects": 98,
+      "objects": 52
+    },
+    "bio": {
+      "classes": 2,
+      "named_individuals": 241,
+      "object_properties": 3,
+      "datatype_properties": 6,
+      "subjects": 252,
+      "objects": 244
+    },
+    "ext": {
+      "classes": 14,
+      "named_individuals": 247,
+      "object_properties": 7,
+      "datatype_properties": 14,
+      "subjects": 282,
+      "objects": 186
+    },
+    "asset": {
+      "classes": 19,
+      "named_individuals": 0,
+      "object_properties": 6,
+      "datatype_properties": 0,
+      "subjects": 25,
+      "objects": 21
+    },
+    "csf": {
+      "classes": 5,
+      "named_individuals": 501,
+      "object_properties": 3,
+      "datatype_properties": 3,
+      "subjects": 512,
+      "objects": 139
+    }
+  },
+  "per_namespace_post": {
+    "fw": {
+      "classes": 15,
+      "named_individuals": 3,
+      "object_properties": 16,
+      "datatype_properties": 7,
+      "subjects": 99,
+      "objects": 99
+    },
+    "ctrl": {
+      "classes": 13,
+      "named_individuals": 119,
+      "object_properties": 14,
+      "datatype_properties": 4,
+      "subjects": 205,
+      "objects": 205
+    },
+    "risk": {
+      "classes": 40,
+      "named_individuals": 3,
+      "object_properties": 22,
+      "datatype_properties": 12,
+      "subjects": 129,
+      "objects": 129
+    },
+    "roles": {
+      "classes": 17,
+      "named_individuals": 1,
+      "object_properties": 13,
+      "datatype_properties": 6,
+      "subjects": 75,
+      "objects": 75
+    },
+    "compl": {
+      "classes": 20,
+      "named_individuals": 66,
+      "object_properties": 16,
+      "datatype_properties": 13,
+      "subjects": 150,
+      "objects": 150
+    },
+    "isms": {
+      "classes": 33,
+      "named_individuals": 295,
+      "object_properties": 27,
+      "datatype_properties": 18,
+      "subjects": 407,
+      "objects": 407
+    },
+    "biz": {
+      "classes": 20,
+      "named_individuals": 0,
+      "object_properties": 22,
+      "datatype_properties": 13,
+      "subjects": 98,
+      "objects": 98
+    },
+    "bio": {
+      "classes": 2,
+      "named_individuals": 241,
+      "object_properties": 3,
+      "datatype_properties": 6,
+      "subjects": 252,
+      "objects": 252
+    },
+    "ext": {
+      "classes": 14,
+      "named_individuals": 247,
+      "object_properties": 7,
+      "datatype_properties": 14,
+      "subjects": 282,
+      "objects": 282
+    },
+    "asset": {
+      "classes": 19,
+      "named_individuals": 0,
+      "object_properties": 6,
+      "datatype_properties": 0,
+      "subjects": 25,
+      "objects": 25
+    },
+    "csf": {
+      "classes": 5,
+      "named_individuals": 501,
+      "object_properties": 3,
+      "datatype_properties": 3,
+      "subjects": 512,
+      "objects": 512
+    }
+  },
+  "skos_mapping_pairs": {
+    "asset->fw::exactMatch": 7,
+    "biz->ext::closeMatch": 1,
+    "biz->ext::relatedMatch": 9,
+    "compl->compl::closeMatch": 5,
+    "compl->ctrl::broadMatch": 2,
+    "compl->ctrl::closeMatch": 2,
+    "compl->ctrl::relatedMatch": 27,
+    "compl->fw::broadMatch": 1,
+    "csf->bio::closeMatch": 699,
+    "csf->ext::closeMatch": 736,
+    "csf->ext::relatedMatch": 13,
+    "csf->isms::relatedMatch": 4,
+    "ctrl->compl::broadMatch": 25,
+    "ctrl->compl::closeMatch": 32,
+    "ctrl->compl::exactMatch": 28,
+    "ctrl->compl::relatedMatch": 33,
+    "ctrl->ctrl::relatedMatch": 19,
+    "ext->ctrl::broadMatch": 1,
+    "ext->ctrl::relatedMatch": 82,
+    "ext->ext::relatedMatch": 6,
+    "ext->fw::closeMatch": 1,
+    "ext->fw::relatedMatch": 12,
+    "fw->asset::exactMatch": 7,
+    "fw->ext::relatedMatch": 2,
+    "fw->fw::broadMatch": 4,
+    "fw->fw::closeMatch": 6,
+    "fw->fw::relatedMatch": 12,
+    "risk->ext::broadMatch": 1,
+    "risk->ext::relatedMatch": 6,
+    "risk->fw::broadMatch": 4,
+    "risk->fw::closeMatch": 4,
+    "risk->fw::exactMatch": 2,
+    "roles->fw::closeMatch": 3,
+    "roles->fw::exactMatch": 2
+  },
+  "tbox_abox_per_namespace": {
+    "fw": {
+      "classes_declared": 15,
+      "classes_with_instances": 13,
+      "classes_unused_pct": 13.3,
+      "properties_declared": 23,
+      "properties_used": 22,
+      "object_properties": 16,
+      "datatype_properties": 7
+    },
+    "ctrl": {
+      "classes_declared": 13,
+      "classes_with_instances": 9,
+      "classes_unused_pct": 30.8,
+      "properties_declared": 18,
+      "properties_used": 12,
+      "object_properties": 14,
+      "datatype_properties": 4
+    },
+    "risk": {
+      "classes_declared": 40,
+      "classes_with_instances": 12,
+      "classes_unused_pct": 70.0,
+      "properties_declared": 34,
+      "properties_used": 17,
+      "object_properties": 22,
+      "datatype_properties": 12
+    },
+    "roles": {
+      "classes_declared": 17,
+      "classes_with_instances": 9,
+      "classes_unused_pct": 47.1,
+      "properties_declared": 19,
+      "properties_used": 13,
+      "object_properties": 13,
+      "datatype_properties": 6
+    },
+    "compl": {
+      "classes_declared": 20,
+      "classes_with_instances": 10,
+      "classes_unused_pct": 50.0,
+      "properties_declared": 29,
+      "properties_used": 24,
+      "object_properties": 16,
+      "datatype_properties": 13
+    },
+    "isms": {
+      "classes_declared": 33,
+      "classes_with_instances": 21,
+      "classes_unused_pct": 36.4,
+      "properties_declared": 45,
+      "properties_used": 32,
+      "object_properties": 27,
+      "datatype_properties": 18
+    },
+    "biz": {
+      "classes_declared": 20,
+      "classes_with_instances": 14,
+      "classes_unused_pct": 30.0,
+      "properties_declared": 35,
+      "properties_used": 29,
+      "object_properties": 22,
+      "datatype_properties": 13
+    },
+    "bio": {
+      "classes_declared": 2,
+      "classes_with_instances": 2,
+      "classes_unused_pct": 0.0,
+      "properties_declared": 9,
+      "properties_used": 9,
+      "object_properties": 3,
+      "datatype_properties": 6
+    },
+    "ext": {
+      "classes_declared": 14,
+      "classes_with_instances": 13,
+      "classes_unused_pct": 7.1,
+      "properties_declared": 21,
+      "properties_used": 21,
+      "object_properties": 7,
+      "datatype_properties": 14
+    },
+    "asset": {
+      "classes_declared": 19,
+      "classes_with_instances": 0,
+      "classes_unused_pct": 100.0,
+      "properties_declared": 6,
+      "properties_used": 1,
+      "object_properties": 6,
+      "datatype_properties": 0
+    },
+    "csf": {
+      "classes_declared": 5,
+      "classes_with_instances": 5,
+      "classes_unused_pct": 0.0,
+      "properties_declared": 6,
+      "properties_used": 6,
+      "object_properties": 3,
+      "datatype_properties": 3
+    }
+  },
+  "integrity_checks": {
+    "grc_subjects_zonder_type": {
+      "count": 0,
+      "sample": []
+    },
+    "object_properties_zonder_domain": {
+      "count": 0,
+      "sample": []
+    },
+    "object_properties_zonder_range": {
+      "count": 0,
+      "sample": []
+    },
+    "datatype_properties_zonder_domain": {
+      "count": 0,
+      "sample": []
+    },
+    "datatype_properties_zonder_range": {
+      "count": 0,
+      "sample": []
+    },
+    "dangling_grc_references": {
+      "count": 3,
+      "sample": [
+        "https://grc.example.org/isms/",
+        "https://grc.example.org/ontology/v4.6.0/",
+        "https://grc.example.org/risk/"
+      ]
+    },
+    "duplicate_owl_Class_decls": {
+      "count": 0,
+      "sample": []
+    },
+    "namespace_leakage": {
+      "count": 22,
+      "sample": [
+        "https://grc.example.org/ontology/",
+        "https://grc.example.org/ontology/grc-bridges",
+        "https://grc.example.org/ontology/m01-framework",
+        "https://grc.example.org/ontology/m02-control",
+        "https://grc.example.org/ontology/m03-risk",
+        "https://grc.example.org/ontology/m04-roles",
+        "https://grc.example.org/ontology/m05-compliance",
+        "https://grc.example.org/ontology/m06-isms",
+        "https://grc.example.org/ontology/m07-business",
+        "https://grc.example.org/ontology/m08-bio20",
+        "https://grc.example.org/ontology/m09-iso27001-ext",
+        "https://grc.example.org/ontology/m10-nis2-ext",
+        "https://grc.example.org/ontology/m11-nist-800-53",
+        "https://grc.example.org/ontology/m12-dora",
+        "https://grc.example.org/ontology/m13-iso22301",
+        "https://grc.example.org/ontology/m14-avg-gdpr",
+        "https://grc.example.org/ontology/m15-ensia",
+        "https://grc.example.org/ontology/m16-virbi-ext",
+        "https://grc.example.org/ontology/m17-coso-cobit",
+        "https://grc.example.org/ontology/m18-assets"
+      ]
+    },
+    "empty_rdfs_labels": 0,
+    "empty_rdfs_comments": 0,
+    "owl_sameAs_per_ns_pair": {
+      "ctrl<->bio": 93,
+      "asset<->risk": 4,
+      "asset<->isms": 1
+    }
+  },
+  "d_decision_conformance": {
+    "D3_namespaces_used": {
+      "biz": 98,
+      "compl": 150,
+      "ext": 282,
+      "bio": 252,
+      "isms": 406,
+      "ctrl": 205,
+      "csf": 512,
+      "risk": 128,
+      "roles": 75,
+      "fw": 99,
+      "asset": 25
+    },
+    "D5_ctrl_bio_sameAs_count": 93,
+    "D5_target_count": 93,
+    "D5_conform": true,
+    "D7_ctrl_BIO2_overblijfselen": {
+      "count": 0,
+      "sample": []
+    },
+    "D8_SoA_containers": [
+      "https://grc.example.org/isms/SoA_2026"
+    ],
+    "D8_SoAEntry_count": 93,
+    "D11_asset_brug_count": 5,
+    "D11_target_count": 5,
+    "D11_conform": true,
+    "D11_pairs": [
+      [
+        "https://grc.example.org/asset/Asset",
+        "https://grc.example.org/risk/Asset"
+      ],
+      [
+        "https://grc.example.org/asset/InformationAsset",
+        "https://grc.example.org/risk/InformationAsset"
+      ],
+      [
+        "https://grc.example.org/asset/InformationAsset",
+        "https://grc.example.org/isms/InformationAsset"
+      ],
+      [
+        "https://grc.example.org/asset/HumanAsset",
+        "https://grc.example.org/risk/HumanAsset"
+      ],
+      [
+        "https://grc.example.org/asset/PhysicalAsset",
+        "https://grc.example.org/risk/PhysicalAsset"
+      ]
+    ],
+    "ext_hasHandreikingBBN_values": {
+      "1": 154,
+      "2": 87
+    },
+    "ext_hasHandreikingBBN_total_assertions": 241
+  }
+}

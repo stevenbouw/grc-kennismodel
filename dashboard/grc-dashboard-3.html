@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC Dashboard — Nederlandse Overheidsorganisatie</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--bg4:#2d333b;
+  --border:#30363d;--blue:#1f6feb;--blue-bright:#58a6ff;
+  --green:#2ea043;--green-bright:#3fb950;--yellow:#d29922;--yellow-bright:#e3b341;
+  --orange:#db6d28;--red:#da3633;--red-bright:#f85149;--purple:#8957e5;
+  --text:#e6edf3;--text-dim:#8b949e;--text-muted:#484f58;
+  --font-mono:'IBM Plex Mono',monospace;--font-sans:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:13px;line-height:1.5;min-height:100vh}
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.header-brand{display:flex;align-items:center;gap:10px}
+.header-logo{width:28px;height:28px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.header-title{font-weight:600;font-size:15px}
+.header-sub{color:var(--text-dim);font-size:11px}
+.header-meta{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-align:right}
+.header-meta span{color:var(--green-bright)}
+.nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;overflow-x:auto}
+.nav-tab{padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;font-size:12px;font-weight:500;color:var(--text-dim);white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px}
+.nav-tab:hover{color:var(--text);background:var(--bg3)}
+.nav-tab.active{color:var(--blue-bright);border-bottom-color:var(--blue-bright)}
+.badge{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--font-mono);color:var(--yellow-bright)}
+.main{padding:20px 24px;max-width:1400px;margin:0 auto}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.grid-21{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:0}
+.card-title{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--blue))}
+.stat-value{font-family:var(--font-mono);font-size:26px;font-weight:600;line-height:1}
+.stat-label{color:var(--text-dim);font-size:11px;margin-top:4px}
+.stat-sub{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-top:5px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:var(--bg3);color:var(--text-dim);font-weight:600;padding:7px 10px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border)}
+.tbl td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg3)}
+.pill{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;font-family:var(--font-mono)}
+.pg{background:rgba(46,160,67,.15);color:var(--green-bright);border:1px solid rgba(46,160,67,.3)}
+.py{background:rgba(210,153,34,.15);color:var(--yellow-bright);border:1px solid rgba(210,153,34,.3)}
+.po{background:rgba(219,109,40,.15);color:var(--orange);border:1px solid rgba(219,109,40,.3)}
+.pr{background:rgba(218,54,51,.15);color:var(--red-bright);border:1px solid rgba(218,54,51,.3)}
+.pb{background:rgba(31,111,235,.15);color:var(--blue-bright);border:1px solid rgba(31,111,235,.3)}
+.pp{background:rgba(137,87,229,.15);color:#c084fc;border:1px solid rgba(137,87,229,.3)}
+.pz{background:var(--bg3);color:var(--text-dim);border:1px solid var(--border)}
+.pw{width:100%;background:var(--bg3);border-radius:4px;height:6px;overflow:hidden;margin-top:3px}
+.pb2{height:6px;border-radius:4px}
+.scroll{overflow-y:auto;max-height:400px}
+.alert{background:rgba(210,153,34,.08);border:1px solid rgba(210,153,34,.3);border-radius:6px;padding:10px 14px;font-size:11px;color:var(--yellow-bright);margin-bottom:16px}
+.pdca{border-left:3px solid;padding:8px 12px;margin-bottom:10px;border-radius:0 6px 6px 0;background:var(--bg3)}
+.fbar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.fcode{font-family:var(--font-mono);font-size:10px;font-weight:600;width:26px;color:var(--text-dim)}
+.fname{font-size:11px;width:195px;flex-shrink:0}
+.ftrack{flex:1;background:var(--bg3);border-radius:3px;height:16px;position:relative;overflow:hidden}
+.ffill{height:16px;border-radius:3px;display:flex;align-items:center;padding:0 6px;font-family:var(--font-mono);font-size:9px;font-weight:600;color:#fff}
+.fiso{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);width:46px;text-align:right}
+canvas{max-height:270px}
+[data-tip]{position:relative;cursor:help}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:115%;left:50%;transform:translateX(-50%);background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:10px;white-space:nowrap;z-index:200;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <div class="header-logo">🛡️</div>
+    <div>
+      <div class="header-title">GRC Dashboard — Nederlandse Overheidsorganisatie</div>
+      <div class="header-sub">ISMS &amp; Multi-Framework Compliance · M1–M13 geladen</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div>Triples: <span>17.287</span> · GraphDB 11.3 · OWL2-RL</div>
+    <div>BIO 2.0 v1.3 · NIS2 · DORA · NIST 800-53 · 9 mrt 2026</div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab active"  onclick="go(event,'overzicht')">📊 Overzicht</div>
+  <div class="nav-tab" onclick="go(event,'risico')">⚠️ Risicoregister</div>
+  <div class="nav-tab" onclick="go(event,'nis2')">🇪🇺 NIS2 Art.21</div>
+  <div class="nav-tab" onclick="go(event,'soa')">📋 SoA</div>
+  <div class="nav-tab" onclick="go(event,'kalender')">📅 Kalender</div>
+  <div class="nav-tab" onclick="go(event,'bio')">🏛️ BIO 2.0 <span class="badge">M8</span></div>
+  <div class="nav-tab" onclick="go(event,'nist')">🇺🇸 NIST 800-53 <span class="badge">M11</span></div>
+  <div class="nav-tab" onclick="go(event,'dora')">🏦 DORA <span class="badge">M12</span></div>
+  <div class="nav-tab" onclick="go(event,'iso27001')">📐 ISO 27001 <span class="badge">M9</span></div>
+</div>
+
+<div class="main">
+
+<!-- ═══ OVERZICHT ═══ -->
+<div id="tab-overzicht" class="tab-panel active">
+  <div class="grid-4">
+    <div class="stat-card" style="--ac:var(--blue)"><div class="stat-value">17.287</div><div class="stat-label">RDF triples in ontologie</div><div class="stat-sub">M1–M13 · GraphDB OWL2-RL</div></div>
+    <div class="stat-card" style="--ac:var(--green)"><div class="stat-value">616</div><div class="stat-label">Controls (totaal)</div><div class="stat-sub">93 BIO · 104 NIST · 93 ISO27002</div></div>
+    <div class="stat-card" style="--ac:var(--yellow)"><div class="stat-value">95</div><div class="stat-label">Compliance-eisen</div><div class="stat-sub">NIS2 · DORA · ISO 27001 · BCM</div></div>
+    <div class="stat-card" style="--ac:var(--purple)"><div class="stat-value">13</div><div class="stat-label">Ontologie-modules</div><div class="stat-sub">Frameworks · Risico · SoA · BIO · NIST</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Framework-inhoud per module</div>
+      <table class="tbl">
+        <thead><tr><th>Module</th><th>Framework</th><th>Type</th><th>Individuen</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill pz">M8</span></td><td>BIO 2.0 v1.3</td><td>Overheidsstandaard NL</td><td style="font-family:var(--font-mono)"><b>241</b> (93+148)</td></tr>
+          <tr><td><span class="pill pb">M11</span></td><td>NIST SP 800-53 Rev5</td><td>Standaard (VS)</td><td style="font-family:var(--font-mono)"><b>124</b> (20+104)</td></tr>
+          <tr><td><span class="pill pp">M9</span></td><td>ISO/IEC 27001:2022</td><td>ISMS-norm</td><td style="font-family:var(--font-mono)"><b>41</b> clausules</td></tr>
+          <tr><td><span class="pill po">M12</span></td><td>DORA 2022/2554</td><td>EU-verordening</td><td style="font-family:var(--font-mono)"><b>14</b> artikelen</td></tr>
+          <tr><td><span class="pill py">M13</span></td><td>ISO 22301:2019</td><td>BCM-norm</td><td style="font-family:var(--font-mono)"><b>17</b> clausules</td></tr>
+          <tr><td><span class="pill pb">M5/M10</span></td><td>NIS2 2022/2555</td><td>EU-richtlijn</td><td style="font-family:var(--font-mono)"><b>17</b> artikelen</td></tr>
+          <tr><td><span class="pill pz">M6</span></td><td>ISO 27001 SoA</td><td>ISMS-documentatie</td><td style="font-family:var(--font-mono)"><b>15</b> entries</td></tr>
+          <tr><td><span class="pill pr">M3</span></td><td>Risicoregister</td><td>Intern</td><td style="font-family:var(--font-mono)"><b>4</b> risico's</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Verdeling compliance-eisen per framework</div>
+      <canvas id="c-overzicht"></canvas>
+    </div>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">SoA implementatiestatus</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>Volledig</span><span class="pill pg">3/15</span></div>
+      <div class="pw"><div class="pb2" style="width:20%;background:var(--green)"></div></div>
+      <div style="display:flex;justify-content:space-between;margin:8px 0 5px"><span>Gedeeltelijk</span><span class="pill py">8/15</span></div>
+      <div class="pw"><div class="pb2" style="width:53%;background:var(--yellow)"></div></div>
+      <div style="display:flex;justify-content:space-between;margin:8px 0 5px"><span>In uitvoering</span><span class="pill po">3/15</span></div>
+      <div class="pw"><div class="pb2" style="width:20%;background:var(--orange)"></div></div>
+      <div style="display:flex;justify-content:space-between;margin:8px 0 5px"><span>Niet gestart ⚠️</span><span class="pill pr">1/15</span></div>
+      <div class="pw"><div class="pb2" style="width:7%;background:var(--red)"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">NIS2 Art.21 dekking</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>Subart. gedekt (a–j)</span><span class="pill pg">10/10</span></div>
+      <div class="pw" style="margin-bottom:14px"><div class="pb2" style="width:100%;background:var(--green)"></div></div>
+      <div style="font-size:11px;color:var(--text-dim);line-height:1.8">
+        ⚠️ 5.24 Incidentbeheer: <b>niet gestart</b> — NIS2 Art.23 prioriteit<br>
+        ✅ Art.20 Governance gedekt<br>
+        ✅ Art.21(d) Toeleveringsketen gedekt<br>
+        ✅ Art.21(h) Cyberhygiëne &amp; training volledig
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Openstaande risico's</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span>Hoog (score ≥15)</span><span class="pill pr">1</span></div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:12px">R_001: Ongeautoriseerde toegang (score 20)</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span>Gemiddeld (score 10–14)</span><span class="pill py">3</span></div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:12px">R_002/003/004: score 12 elk</div>
+      <div style="font-size:11px;color:var(--text-muted)">⚠️ risk:ownedBy ontbreekt — eigenaren nog in te vullen</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RISICO ═══ -->
+<div id="tab-risico" class="tab-panel">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Risico-heatmap (Kans × Impact)</div>
+      <div id="heatmap"></div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px">Klik op een cel om risico-details te zien</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Risicoscores per risico</div>
+      <canvas id="c-risico"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Risicoregister — detail</div>
+    <table class="tbl">
+      <thead><tr><th>ID</th><th>Risico</th><th>Kans</th><th>Impact</th><th>Score</th><th>Niveau</th><th>Maatregel</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pr">R_001</span></td><td>Ongeautoriseerde toegang tot gevoelige systemen</td><td><span class="pill pr">Hoog (4)</span></td><td><span class="pill pr">Kritiek (5)</span></td><td style="font-family:var(--font-mono);font-weight:700;color:var(--red-bright)">20</td><td><span class="pill pr">HOOG</span></td><td style="font-family:var(--font-mono);font-size:10px">8.07</td></tr>
+        <tr><td><span class="pill py">R_002</span></td><td>Ransomware-aanval op kritieke systemen</td><td><span class="pill po">Gemiddeld (3)</span></td><td><span class="pill py">Aanzienlijk (4)</span></td><td style="font-family:var(--font-mono);font-weight:700;color:var(--yellow)">12</td><td><span class="pill py">GEMIDDELD</span></td><td style="font-family:var(--font-mono);font-size:10px">8.13</td></tr>
+        <tr><td><span class="pill py">R_003</span></td><td>Datalekken via leveranciers</td><td><span class="pill po">Gemiddeld (3)</span></td><td><span class="pill py">Aanzienlijk (4)</span></td><td style="font-family:var(--font-mono);font-weight:700;color:var(--yellow)">12</td><td><span class="pill py">GEMIDDELD</span></td><td style="font-family:var(--font-mono);font-size:10px">5.19</td></tr>
+        <tr><td><span class="pill py">R_004</span></td><td>Uitval kritieke ICT-systemen</td><td><span class="pill po">Gemiddeld (3)</span></td><td><span class="pill py">Aanzienlijk (4)</span></td><td style="font-family:var(--font-mono);font-weight:700;color:var(--yellow)">12</td><td><span class="pill py">GEMIDDELD</span></td><td style="font-family:var(--font-mono);font-size:10px">5.30</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ NIS2 ═══ -->
+<div id="tab-nis2" class="tab-panel">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">NIS2 Art.21 — Dekkingsmatrix</div>
+      <table class="tbl"><thead><tr><th>Art.</th><th>Verplichting</th><th>ISO 27002</th><th>Status</th></tr></thead><tbody id="nis2-tbl"></tbody></table>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Implementatiestatus per subartikel</div>
+        <canvas id="c-nis2"></canvas>
+      </div>
+      <div class="card">
+        <div class="card-title">Aanvullende NIS2-artikelen (M10)</div>
+        <table class="tbl">
+          <thead><tr><th>Art.</th><th>Onderwerp</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pb">18</span></td><td>Melding significante cyberdreigingen</td><td><span class="pill py">Te beoordelen</span></td></tr>
+            <tr><td><span class="pill pb">19</span></td><td>Cyberbeveiligingscertificering</td><td><span class="pill pz">Niet van toepassing</span></td></tr>
+            <tr><td><span class="pill pb">20</span></td><td>Governance — bestuurlijke verantwoordelijkheid</td><td><span class="pill pg">Gedekt</span></td></tr>
+            <tr><td><span class="pill pb">22</span></td><td>Gecoördineerde supply chain risicobeoordeling</td><td><span class="pill py">Gedeeltelijk</span></td></tr>
+            <tr><td><span class="pill pb">23</span></td><td>Meldingsverplichtingen (72-uurs meldplicht)</td><td><span class="pill pr">Prioriteit ⚠️</span></td></tr>
+            <tr><td><span class="pill pb">24</span></td><td>Certificeringsverplichtingen essentiële entiteiten</td><td><span class="pill py">Te beoordelen</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SoA ═══ -->
+<div id="tab-soa" class="tab-panel">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Verklaring van Toepasselijkheid (SoA)</div>
+      <div class="scroll"><table class="tbl"><thead><tr><th>Control</th><th>Besluit</th><th>Status</th><th>Motivatie</th></tr></thead><tbody id="soa-tbl"></tbody></table></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Implementatiestatus</div>
+        <canvas id="c-soa"></canvas>
+      </div>
+      <div class="card">
+        <div class="card-title">Voortgang</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Volledig</span><span style="font-family:var(--font-mono)">3/15 · 20%</span></div>
+        <div class="pw" style="margin-bottom:10px"><div class="pb2" style="width:20%;background:var(--green)"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Gedeeltelijk</span><span style="font-family:var(--font-mono)">8/15 · 53%</span></div>
+        <div class="pw" style="margin-bottom:10px"><div class="pb2" style="width:53%;background:var(--yellow)"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>In uitvoering</span><span style="font-family:var(--font-mono)">3/15 · 20%</span></div>
+        <div class="pw" style="margin-bottom:10px"><div class="pb2" style="width:20%;background:var(--orange)"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Niet gestart ⚠️</span><span style="font-family:var(--font-mono)">1/15 · 7%</span></div>
+        <div class="pw"><div class="pb2" style="width:7%;background:var(--red)"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ KALENDER ═══ -->
+<div id="tab-kalender" class="tab-panel">
+  <div class="grid-21">
+    <div class="card">
+      <div class="card-title">Compliancekalender 2026</div>
+      <table class="tbl"><thead><tr><th>Activiteit</th><th>Deadline</th><th>Frequentie</th><th>Urgentie</th></tr></thead><tbody id="kal-tbl"></tbody></table>
+    </div>
+    <div class="card">
+      <div class="card-title">Activiteiten per kwartaal</div>
+      <canvas id="c-kal"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BIO 2.0 ═══ -->
+<div id="tab-bio" class="tab-panel">
+  <div class="grid-4">
+    <div class="stat-card" style="--ac:var(--blue)"><div class="stat-value">93</div><div class="stat-label">BIO 2.0 Controls</div><div class="stat-sub">Conform ISO/IEC 27002:2022</div></div>
+    <div class="stat-card" style="--ac:var(--green)"><div class="stat-value">148</div><div class="stat-label">Overheidsmaatregelen</div><div class="stat-sub">Specifiek NL-overheid</div></div>
+    <div class="stat-card" style="--ac:var(--yellow)"><div class="stat-value">80</div><div class="stat-label">BBN1 Controls</div><div class="stat-sub">Basisbeveiligingsniveau</div></div>
+    <div class="stat-card" style="--ac:var(--orange)"><div class="stat-value">13</div><div class="stat-label">BBN2 Controls</div><div class="stat-sub">Verhoogd beveiligingsniveau</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Controls per soort — donut</div>
+      <canvas id="c-bio1"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">Controls vs overheidsmaatregelen per soort</div>
+      <canvas id="c-bio2"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">BIO 2.0 controlsoorten — detail (Query 4)</div>
+    <table class="tbl">
+      <thead><tr><th>Controlsoort</th><th>Controls</th><th>Overheidsmaatregelen</th><th>Gem./control</th><th>Aandeel controls</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pb">Organisatorisch</span></td><td style="font-family:var(--font-mono)">37</td><td style="font-family:var(--font-mono)">66</td><td style="font-family:var(--font-mono)">1.8</td><td><div class="pw"><div class="pb2" style="width:40%;background:var(--blue)"></div></div></td></tr>
+        <tr><td><span class="pill pg">Technologisch</span></td><td style="font-family:var(--font-mono)">34</td><td style="font-family:var(--font-mono)">57</td><td style="font-family:var(--font-mono)">1.7</td><td><div class="pw"><div class="pb2" style="width:37%;background:var(--green)"></div></div></td></tr>
+        <tr><td><span class="pill py">Fysiek</span></td><td style="font-family:var(--font-mono)">14</td><td style="font-family:var(--font-mono)">17</td><td style="font-family:var(--font-mono)">1.2</td><td><div class="pw"><div class="pb2" style="width:15%;background:var(--yellow)"></div></div></td></tr>
+        <tr><td><span class="pill pp">Mensgericht</span></td><td style="font-family:var(--font-mono)">8</td><td style="font-family:var(--font-mono)">8</td><td style="font-family:var(--font-mono)">1.0</td><td><div class="pw"><div class="pb2" style="width:9%;background:var(--purple)"></div></div></td></tr>
+        <tr style="font-weight:600"><td>Totaal</td><td style="font-family:var(--font-mono)">93</td><td style="font-family:var(--font-mono)">148</td><td style="font-family:var(--font-mono)">1.6</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ NIST ═══ -->
+<div id="tab-nist" class="tab-panel">
+  <div class="grid-4">
+    <div class="stat-card" style="--ac:var(--blue)"><div class="stat-value">20</div><div class="stat-label">Control families</div><div class="stat-sub">NIST SP 800-53 Rev5</div></div>
+    <div class="stat-card" style="--ac:var(--green)"><div class="stat-value">104</div><div class="stat-label">Controls (baseline set)</div><div class="stat-sub">Geselecteerde controls</div></div>
+    <div class="stat-card" style="--ac:var(--yellow)"><div class="stat-value">55</div><div class="stat-label">ISO 27002 mappings</div><div class="stat-sub">Cross-framework koppelingen</div></div>
+    <div class="stat-card" style="--ac:var(--purple)"><div class="stat-value">5.2</div><div class="stat-label">Gem. controls/familie</div><div class="stat-sub">Range: 3 (PL) – 7 (SC)</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Controls per familie (Query 2)</div>
+      <div style="max-height:370px;overflow-y:auto" id="nist-bars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Controls vs ISO 27002-koppelingen</div>
+      <canvas id="c-nist"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">NIST families — volledig overzicht</div>
+    <table class="tbl"><thead><tr><th>Code</th><th>Familie (NL)</th><th>Controls</th><th>ISO 27002</th><th>ISO-dekkingsgraad</th></tr></thead><tbody id="nist-tbl"></tbody></table>
+  </div>
+</div>
+
+<!-- ═══ DORA ═══ -->
+<div id="tab-dora" class="tab-panel">
+  <div class="grid-4">
+    <div class="stat-card" style="--ac:var(--orange)"><div class="stat-value">14</div><div class="stat-label">DORA artikelen</div><div class="stat-sub">Art. 5–19 · Verordening EU 2022/2554</div></div>
+    <div class="stat-card" style="--ac:var(--green)"><div class="stat-value">8</div><div class="stat-label">ISO 27002 koppelingen</div><div class="stat-sub">57% van artikelen gekoppeld</div></div>
+    <div class="stat-card" style="--ac:var(--yellow)"><div class="stat-value">6</div><div class="stat-label">ICT-risicobeheer art.</div><div class="stat-sub">Kern: Art. 5–10</div></div>
+    <div class="stat-card" style="--ac:var(--red)"><div class="stat-value">3</div><div class="stat-label">Incidentmelding art.</div><div class="stat-sub">Art. 17–19</div></div>
+  </div>
+  <div class="alert">⚠️ <b>Toepasselijkheid:</b> DORA is primair van toepassing op financiële entiteiten. Verifieer of uw organisatie onder DORA valt. ISO 27002-koppelingen zijn in de ontologie aanwezig maar vereisen een namespace-correctie (ctrl: vs bio:) voordat SPARQL-queries ze correct tonen.</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Artikelen per categorie</div>
+      <canvas id="c-dora"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">DORA art. → ISO 27002 dekking (Query 3)</div>
+      <table class="tbl">
+        <thead><tr><th>DORA Art.</th><th>Titel</th><th>ISO 27002 controls</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill po">Art.6</span></td><td>ICT-risicobeheerkader</td><td style="font-family:var(--font-mono);font-size:10px">5.01, 5.09</td></tr>
+          <tr><td><span class="pill po">Art.8</span></td><td>Identificatie</td><td style="font-family:var(--font-mono);font-size:10px">5.09, 8.09</td></tr>
+          <tr><td><span class="pill po">Art.9</span></td><td>Bescherming &amp; preventie</td><td style="font-family:var(--font-mono);font-size:10px">8.07, 8.08, 5.15</td></tr>
+          <tr><td><span class="pill po">Art.10</span></td><td>Detectie</td><td style="font-family:var(--font-mono);font-size:10px">8.15, 8.16</td></tr>
+          <tr><td><span class="pill po">Art.11</span></td><td>Reactie &amp; herstel</td><td style="font-family:var(--font-mono);font-size:10px">5.29, 5.30</td></tr>
+          <tr><td><span class="pill po">Art.12</span></td><td>Back-up &amp; herstel</td><td style="font-family:var(--font-mono);font-size:10px">8.13</td></tr>
+          <tr><td><span class="pill po">Art.17</span></td><td>ICT-incidentbeheer</td><td style="font-family:var(--font-mono);font-size:10px">5.24, 5.25</td></tr>
+          <tr><td><span class="pill po">Art.19</span></td><td>Melding ernstige incidenten</td><td style="font-family:var(--font-mono);font-size:10px">5.26, 6.08</td></tr>
+          <tr><td><span class="pill pz">Art.5</span></td><td>ICT-governancekader</td><td style="color:var(--text-muted)">— namespace fix vereist</td></tr>
+          <tr><td><span class="pill pz">Art.7</span></td><td>ICT-systemen &amp; tools</td><td style="color:var(--text-muted)">— namespace fix vereist</td></tr>
+          <tr><td><span class="pill pz">Art.13</span></td><td>Leren &amp; evolueren</td><td style="color:var(--text-muted)">— namespace fix vereist</td></tr>
+          <tr><td><span class="pill pz">Art.14</span></td><td>Communicatie</td><td style="color:var(--text-muted)">— namespace fix vereist</td></tr>
+          <tr><td><span class="pill pz">Art.16</span></td><td>Vereenvoudigd kader</td><td style="color:var(--text-muted)">— niet van toepassing (groot)</td></tr>
+          <tr><td><span class="pill pz">Art.18</span></td><td>Incidentclassificatie</td><td style="color:var(--text-muted)">— namespace fix vereist</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ISO 27001 ═══ -->
+<div id="tab-iso27001" class="tab-panel">
+  <div class="grid-4">
+    <div class="stat-card" style="--ac:var(--purple)"><div class="stat-value">41</div><div class="stat-label">ISO 27001 clausules</div><div class="stat-sub">Clausules 4–10 incl. sub-subclauses · M9</div></div>
+    <div class="stat-card" style="--ac:var(--blue)"><div class="stat-value">12</div><div class="stat-label">ISO 27002 koppelingen</div><div class="stat-sub">ext:implementedBy</div></div>
+    <div class="stat-card" style="--ac:var(--green)"><div class="stat-value">4</div><div class="stat-label">PDCA-fasen</div><div class="stat-sub">Plan · Do · Check · Act</div></div>
+    <div class="stat-card" style="--ac:var(--yellow)"><div class="stat-value">17</div><div class="stat-label">BCM-clausules (M13)</div><div class="stat-sub">ISO 22301:2019 · Parallel</div></div>
+  </div>
+  <div class="alert">ℹ️ Query 4 toont lege ISO 27002-koppelingen in SPARQL. Oorzaak: <code style="font-family:var(--font-mono);color:var(--yellow)">ext:implementedBy</code> verwijst naar <code style="font-family:var(--font-mono)">ctrl:</code>-namespace; controls staan in <code style="font-family:var(--font-mono)">bio:</code>-namespace. Fix: <code style="font-family:var(--font-mono);color:var(--green-bright)">owl:sameAs</code> axioma's toevoegen — geplande actie volgende sessie.</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">PDCA-structuur ISO 27001:2022</div>
+      <div class="pdca" style="border-color:var(--blue)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--blue);margin-bottom:6px">📋 PLAN — Clausules 4, 5, 6</div>
+        <table class="tbl"><thead><tr><th>Cl.</th><th>Titel</th><th>ISO 27002 link</th></tr></thead><tbody>
+          <tr><td style="font-family:var(--font-mono)">4.1</td><td>Context van de organisatie</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">4.2</td><td>Behoeften belanghebbenden</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">4.3</td><td>Toepassingsgebied ISMS</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">4.4</td><td>ISMS opzet &amp; onderhoud</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">5.1</td><td>Leiderschap &amp; betrokkenheid</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">5.2</td><td>IB-beleid vaststellen</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">5.3</td><td>Rollen &amp; verantwoordelijkheden</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">6.1.2</td><td>Risicobeoordeling</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.07, 5.09</td></tr>
+          <tr><td style="font-family:var(--font-mono)">6.1.3</td><td>Risicobehandeling + SoA</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.01, 5.19</td></tr>
+          <tr><td style="font-family:var(--font-mono)">6.2</td><td>IB-doelstellingen</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">6.3</td><td>Planning van wijzigingen</td><td></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pdca" style="border-color:var(--green);margin-top:10px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green);margin-bottom:6px">⚙️ DO — Clausules 7, 8</div>
+        <table class="tbl"><thead><tr><th>Cl.</th><th>Titel</th><th>ISO 27002 link</th></tr></thead><tbody>
+          <tr><td style="font-family:var(--font-mono)">7.1</td><td>Middelen</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">7.2</td><td>Competentie</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 6.03</td></tr>
+          <tr><td style="font-family:var(--font-mono)">7.3</td><td>Bewustzijn</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 6.03</td></tr>
+          <tr><td style="font-family:var(--font-mono)">7.4</td><td>Communicatie</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">7.5</td><td>Gedocumenteerde informatie</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">8.1</td><td>Operationele planning</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.02, 5.37</td></tr>
+          <tr><td style="font-family:var(--font-mono)">8.2</td><td>Risicobeoordeling (uitvoering)</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.07, 5.08</td></tr>
+          <tr><td style="font-family:var(--font-mono)">8.3</td><td>Risicobehandeling (uitvoering)</td><td></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">PDCA-verdeling clausules</div>
+        <canvas id="c-pdca"></canvas>
+      </div>
+      <div class="pdca" style="border-color:var(--yellow)">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--yellow);margin-bottom:6px">🔍 CHECK — Clausule 9</div>
+        <table class="tbl"><thead><tr><th>Cl.</th><th>Titel</th><th>ISO 27002 link</th></tr></thead><tbody>
+          <tr><td style="font-family:var(--font-mono)">9.1</td><td>Bewaking, meting &amp; evaluatie</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.35, 5.36</td></tr>
+          <tr><td style="font-family:var(--font-mono)">9.2</td><td>Interne audit</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.35</td></tr>
+          <tr><td style="font-family:var(--font-mono)">9.3</td><td>Directiebeoordeling</td><td></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pdca" style="border-color:var(--orange);margin-top:10px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--orange);margin-bottom:6px">🔄 ACT — Clausule 10</div>
+        <table class="tbl"><thead><tr><th>Cl.</th><th>Titel</th><th>ISO 27002 link</th></tr></thead><tbody>
+          <tr><td style="font-family:var(--font-mono)">10.1</td><td>Voortdurende verbetering</td><td></td></tr>
+          <tr><td style="font-family:var(--font-mono)">10.2</td><td>Afwijking &amp; corrigerende maatregel</td><td style="font-family:var(--font-mono);font-size:10px;color:var(--blue-bright)">→ 5.27</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── Tab nav ────────────────────────────────────────────────────
+function go(e, name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+
+// ── Data ────────────────────────────────────────────────────────
+const risks = [
+  {id:'R_001',kans:4,impact:5,score:20,label:'Ongeautoriseerde toegang'},
+  {id:'R_002',kans:3,impact:4,score:12,label:'Ransomware-aanval'},
+  {id:'R_003',kans:3,impact:4,score:12,label:'Datalekken via leveranciers'},
+  {id:'R_004',kans:3,impact:4,score:12,label:'Uitval ICT-systemen'},
+];
+
+const nis2 = [
+  {art:'21(a)',titel:'Risicoanalyse & IB-beleid',ctrl:'5.01, 5.07',status:'Gedeeltelijk'},
+  {art:'21(b)',titel:'Incidentafhandeling',ctrl:'5.24, 5.25, 5.26',status:'Niet gestart'},
+  {art:'21(c)',titel:'Bedrijfscontinuïteit & BCM',ctrl:'5.29, 5.30, 8.13',status:'Gedeeltelijk'},
+  {art:'21(d)',titel:'Beveiliging toeleveringsketen',ctrl:'5.19, 5.20, 5.21',status:'In uitvoering'},
+  {art:'21(e)',titel:'Beveiliging netwerk & systemen',ctrl:'8.20, 8.21, 8.22',status:'Gedeeltelijk'},
+  {art:'21(f)',titel:'Kwetsbaarheidsbeheer',ctrl:'8.08, 5.07',status:'In uitvoering'},
+  {art:'21(g)',titel:'Evaluatie cybermaatregelen',ctrl:'5.35, 5.36',status:'Gedeeltelijk'},
+  {art:'21(h)',titel:'Cyberhygiëne & training',ctrl:'6.03',status:'Volledig'},
+  {art:'21(i)',titel:'Cryptografie',ctrl:'8.24',status:'Gedeeltelijk'},
+  {art:'21(j)',titel:'MFA & communicatiebeveiliging',ctrl:'8.05, 5.15',status:'Volledig'},
+];
+
+const soa = [
+  {ctrl:'5.15 Toegangsbeveiliging',status:'Volledig',mot:'Primaire beveiligingseis'},
+  {ctrl:'8.07 Bescherming malware',status:'Volledig',mot:'BIO 2.0 + NIS2 vereiste'},
+  {ctrl:'8.13 Back-up informatie',status:'Volledig',mot:'BCM-verplichting ISO 22301'},
+  {ctrl:'5.01 IB-beleidsregels',status:'Gedeeltelijk',mot:'Basis ISMS-eis'},
+  {ctrl:'5.07 Dreigingsanalyse',status:'Gedeeltelijk',mot:'NIS2 Art.21(a)'},
+  {ctrl:'5.09 Asset inventarisatie',status:'Gedeeltelijk',mot:'ISMS scope-vereiste'},
+  {ctrl:'5.16 Identiteitsbeheer',status:'Gedeeltelijk',mot:'Toegangsbeheer kerncontrol'},
+  {ctrl:'5.21 ICT-toeleveringsketen',status:'Gedeeltelijk',mot:'Supply chain risico'},
+  {ctrl:'5.29 IB bij verstoringen',status:'Gedeeltelijk',mot:'ISO 22301 + DORA Art.11'},
+  {ctrl:'5.35 Onafh. beoordeling',status:'Gedeeltelijk',mot:'Auditplicht NIS2'},
+  {ctrl:'6.03 Bewustzijn & training',status:'Gedeeltelijk',mot:'NIS2 Art.21(h)'},
+  {ctrl:'8.08 Kwetsbaarheidsbeheer',status:'In uitvoering',mot:'NIS2 Art.21(f)'},
+  {ctrl:'8.25 Beveiligen ontwikkeling',status:'In uitvoering',mot:'DORA Art.9'},
+  {ctrl:'5.19 Leveranciersbeveiliging',status:'In uitvoering',mot:'NIS2 Art.21(d)'},
+  {ctrl:'5.24 Incidentbeheer plan',status:'Niet gestart',mot:'⚠️ NIS2 Art.23 — PRIORITEIT'},
+];
+
+const kal = [
+  {titel:'Jaarlijkse ISMS risicobeoordeling',deadline:'2026-03-31',freq:'Jaarlijks'},
+  {titel:'NIS2 incidentmelding oefening',deadline:'2026-04-30',freq:'Jaarlijks'},
+  {titel:'BIO 2.0 gap-analyse update',deadline:'2026-06-30',freq:'Halfjaarlijks'},
+  {titel:'Interne ISMS audit',deadline:'2026-09-30',freq:'Jaarlijks'},
+  {titel:'Directiebeoordeling ISMS',deadline:'2026-10-31',freq:'Jaarlijks'},
+  {titel:'BIO 2.0 zelfevaluatie',deadline:'2026-11-30',freq:'Jaarlijks'},
+  {titel:'SoA update & beoordeling',deadline:'2026-12-15',freq:'Jaarlijks'},
+  {titel:'Compliancerapportage bestuur',deadline:'2026-12-31',freq:'Jaarlijks'},
+];
+
+const nistF = [
+  {code:'AC',naam:'Toegangsbeveiliging',c:6,i:4},
+  {code:'AT',naam:'Bewustzijn en training',c:4,i:1},
+  {code:'AU',naam:'Audit en verantwoording',c:6,i:3},
+  {code:'CA',naam:'Beoordeling autorisatie bewaking',c:5,i:2},
+  {code:'CM',naam:'Configuratiebeheer',c:6,i:2},
+  {code:'CP',naam:'Contingentyplanning',c:6,i:3},
+  {code:'IA',naam:'Identificatie en authenticatie',c:5,i:3},
+  {code:'IR',naam:'Incidentrespons',c:6,i:3},
+  {code:'MA',naam:'Onderhoud',c:4,i:1},
+  {code:'MP',naam:'Mediabescherming',c:4,i:2},
+  {code:'PE',naam:'Fysieke en omgevingsbeveiliging',c:6,i:3},
+  {code:'PL',naam:'Planning',c:3,i:1},
+  {code:'PM',naam:'Programmabeheer',c:4,i:2},
+  {code:'PS',naam:'Personeelsbeveiliging',c:6,i:3},
+  {code:'PT',naam:'PII-verwerking',c:4,i:1},
+  {code:'RA',naam:'Risicobeoordeling',c:5,i:2},
+  {code:'SA',naam:'Systeem- en dienstverwerving',c:6,i:3},
+  {code:'SC',naam:'Systeem- en communicatiebeveiliging',c:7,i:4},
+  {code:'SI',naam:'Systeem- en informatie-integriteit',c:6,i:3},
+  {code:'SR',naam:'Toeleveringsketenrisicobeheer',c:5,i:4},
+];
+
+// ── Helpers ────────────────────────────────────────────────────
+const sc = s => s==='Volledig'?'pg':s==='Gedeeltelijk'?'py':s==='In uitvoering'?'po':'pr';
+const COLORS = ['#1f6feb','#2ea043','#d29922','#db6d28','#8957e5','#58a6ff','#3fb950','#e3b341'];
+const gridOpts = {x:{ticks:{color:'#8b949e',font:{size:10}},grid:{color:'#21262d'}},y:{ticks:{color:'#8b949e',font:{size:10}},grid:{color:'#21262d'}}};
+
+function mkChart(id, cfg) {
+  const ctx = document.getElementById(id);
+  if (ctx) new Chart(ctx, cfg);
+}
+
+// ── Build DOM ──────────────────────────────────────────────────
+function buildHeatmap() {
+  const el = document.getElementById('heatmap');
+  if (!el) return;
+  const rFind = (k,i) => risks.find(r=>r.kans===k&&r.impact===i);
+  const col = s => s>=15?'rgba(90,29,29,0.9)':s>=8?'rgba(74,48,0,0.9)':'rgba(26,40,26,0.8)';
+  const tc  = s => s>=15?'#f85149':s>=8?'#e3b341':'#484f58';
+  let h = '<div style="display:flex;flex-direction:column;gap:4px">';
+  h += '<div style="display:flex;gap:4px;margin-bottom:2px"><div style="width:66px"></div>';
+  [1,2,3,4,5].forEach(i => h += `<div style="width:46px;text-align:center;font-size:9px;color:var(--text-muted)">Impact ${i}</div>`);
+  h += '</div>';
+  [5,4,3,2,1].forEach(k => {
+    h += `<div style="display:flex;gap:4px;align-items:center"><div style="width:66px;font-size:9px;color:var(--text-muted);text-align:right;padding-right:6px">Kans ${k}</div>`;
+    [1,2,3,4,5].forEach(i => {
+      const s = k*i, r = rFind(k,i);
+      const tip = r ? r.id+': '+r.label : 'Score: '+s;
+      h += `<div data-tip="${tip}" style="width:46px;height:40px;border-radius:4px;background:${col(s)};color:${tc(s)};display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;font-weight:600;border:1px solid var(--border)">${s}${r?'<br><span style="font-size:8px">'+r.id+'</span>':''}</div>`;
+    });
+    h += '</div>';
+  });
+  h += '</div>';
+  el.innerHTML = h;
+}
+
+function buildTable(id, rows) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = rows;
+}
+
+// ── Init ────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildHeatmap();
+
+  // NIS2 table
+  buildTable('nis2-tbl', nis2.map(r =>
+    `<tr><td><span class="pill pb">${r.art}</span></td><td>${r.titel}</td><td style="font-family:var(--font-mono);font-size:10px">${r.ctrl}</td><td><span class="pill ${sc(r.status)}">${r.status}</span></td></tr>`
+  ).join(''));
+
+  // SoA table
+  buildTable('soa-tbl', soa.map(r =>
+    `<tr><td style="font-family:var(--font-mono);font-size:10px">${r.ctrl}</td><td><span class="pill pg">Opgenomen</span></td><td><span class="pill ${sc(r.status)}">${r.status}</span></td><td style="font-size:11px;color:var(--text-dim)">${r.mot}</td></tr>`
+  ).join(''));
+
+  // Kalender table
+  const now = new Date();
+  buildTable('kal-tbl', kal.map(r => {
+    const d = new Date(r.deadline), days = Math.ceil((d-now)/86400000);
+    const [uc,ul] = days<30?['pr','🔴 Dringend']:days<90?['po','🟠 Spoedig']:days<180?['py','🟡 Plannen']:['pg','🟢 Op schema'];
+    return `<tr><td>${r.titel}</td><td style="font-family:var(--font-mono)">${r.deadline}</td><td>${r.freq}</td><td><span class="pill ${uc}">${ul}</span></td></tr>`;
+  }).join(''));
+
+  // NIST bars
+  const nb = document.getElementById('nist-bars');
+  if (nb) {
+    const mx = Math.max(...nistF.map(f=>f.c));
+    nb.innerHTML = nistF.map((f,i) =>
+      `<div class="fbar"><div class="fcode">${f.code}</div><div class="fname">${f.naam}</div><div class="ftrack"><div class="ffill" style="width:${f.c/mx*100}%;background:${COLORS[i%COLORS.length]}">${f.c}</div></div><div class="fiso">${f.i} ISO</div></div>`
+    ).join('');
+  }
+
+  // NIST table
+  buildTable('nist-tbl', nistF.map(f => {
+    const pct = Math.round(f.i/f.c*100);
+    return `<tr><td><span class="pill pb" style="font-family:var(--font-mono)">${f.code}</span></td><td>${f.naam}</td><td style="font-family:var(--font-mono)">${f.c}</td><td style="font-family:var(--font-mono)">${f.i}</td><td><div class="pw"><div class="pb2" style="width:${pct}%;background:var(--blue)"></div></div><span style="font-size:10px;font-family:var(--font-mono)">${pct}%</span></td></tr>`;
+  }).join(''));
+
+  // ── Charts ──────────────────────────────────────────────────
+
+  // Overzicht donut
+  mkChart('c-overzicht',{type:'doughnut',data:{
+    labels:['BIO Controls (93)','NIST Controls (104)','ISO 27001 (41)','DORA (14)','ISO 22301 (17)','NIS2 (17)'],
+    datasets:[{data:[93,104,26,14,17,17],backgroundColor:['#1f6feb','#2ea043','#8957e5','#db6d28','#d29922','#58a6ff'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'right',labels:{color:'#8b949e',font:{size:11},padding:8}}},cutout:'58%'}});
+
+  // Risico bar
+  mkChart('c-risico',{type:'bar',data:{
+    labels:risks.map(r=>r.id),
+    datasets:[{label:'Score',data:risks.map(r=>r.score),
+      backgroundColor:risks.map(r=>r.score>=15?'rgba(90,29,29,0.9)':'rgba(74,48,0,0.9)'),
+      borderColor:risks.map(r=>r.score>=15?'#f85149':'#e3b341'),
+      borderWidth:1,borderRadius:4}]
+  },options:{plugins:{legend:{display:false}},scales:{...gridOpts,y:{max:25,ticks:{color:'#8b949e'},grid:{color:'#21262d'}}}}});
+
+  // NIS2 horizontal bar
+  mkChart('c-nis2',{type:'bar',data:{
+    labels:nis2.map(r=>r.art),
+    datasets:[{label:'Status',
+      data:nis2.map(r=>r.status==='Volledig'?3:r.status==='Gedeeltelijk'?2:r.status==='In uitvoering'?1:0),
+      backgroundColor:nis2.map(r=>r.status==='Volledig'?'#2ea043':r.status==='Gedeeltelijk'?'#d29922':r.status==='In uitvoering'?'#db6d28':'#da3633'),
+      borderRadius:3,borderWidth:0}]
+  },options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{
+    x:{max:3,ticks:{color:'#8b949e',callback:v=>['Niet gestart','In uitvoering','Gedeeltelijk','Volledig'][v]},grid:{color:'#21262d'}},
+    y:{ticks:{color:'#8b949e',font:{size:10}},grid:{color:'#21262d'}}
+  }}});
+
+  // SoA donut
+  const soaCnt = {Volledig:0,Gedeeltelijk:0,'In uitvoering':0,'Niet gestart':0};
+  soa.forEach(r=>soaCnt[r.status]++);
+  mkChart('c-soa',{type:'doughnut',data:{
+    labels:Object.keys(soaCnt),datasets:[{data:Object.values(soaCnt),backgroundColor:['#2ea043','#d29922','#db6d28','#da3633'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'bottom',labels:{color:'#8b949e',font:{size:11}}}},cutout:'55%'}});
+
+  // Kalender kwartaal
+  const kw=[0,0,0,0];
+  kal.forEach(r=>{const m=new Date(r.deadline).getMonth();kw[Math.floor(m/3)]++;});
+  mkChart('c-kal',{type:'bar',data:{
+    labels:['Q1 2026','Q2 2026','Q3 2026','Q4 2026'],
+    datasets:[{label:'Activiteiten',data:kw,backgroundColor:['#1f6feb','#2ea043','#d29922','#db6d28'],borderRadius:4,borderWidth:0}]
+  },options:{plugins:{legend:{display:false}},scales:gridOpts}});
+
+  // BIO donut
+  mkChart('c-bio1',{type:'doughnut',data:{
+    labels:['Organisatorisch (37)','Technologisch (34)','Fysiek (14)','Mensgericht (8)'],
+    datasets:[{data:[37,34,14,8],backgroundColor:['#1f6feb','#2ea043','#d29922','#8957e5'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'bottom',labels:{color:'#8b949e',font:{size:11}}}},cutout:'55%'}});
+
+  // BIO grouped bar
+  mkChart('c-bio2',{type:'bar',data:{
+    labels:['Org.','Techn.','Fysiek','Mensger.'],
+    datasets:[
+      {label:'Controls',data:[37,34,14,8],backgroundColor:'#0d419d',borderRadius:3,borderWidth:0},
+      {label:'Overheidsmaatregelen',data:[66,57,17,8],backgroundColor:'#1f6feb',borderRadius:3,borderWidth:0}
+    ]
+  },options:{plugins:{legend:{labels:{color:'#8b949e',font:{size:11}}}},scales:gridOpts}});
+
+  // NIST controls+ISO grouped bar
+  mkChart('c-nist',{type:'bar',data:{
+    labels:nistF.map(f=>f.code),
+    datasets:[
+      {label:'NIST Controls',data:nistF.map(f=>f.c),backgroundColor:'#0d419d',borderRadius:2,borderWidth:0},
+      {label:'ISO 27002 koppelingen',data:nistF.map(f=>f.i),backgroundColor:'#58a6ff',borderRadius:2,borderWidth:0}
+    ]
+  },options:{plugins:{legend:{labels:{color:'#8b949e',font:{size:11}}}},scales:{
+    x:{ticks:{color:'#8b949e',font:{size:9}},grid:{color:'#21262d'}},
+    y:{ticks:{color:'#8b949e'},grid:{color:'#21262d'}}
+  }}});
+
+  // DORA donut
+  mkChart('c-dora',{type:'doughnut',data:{
+    labels:['Governance (Art.5)','ICT-risicobeheer (Art.6–10)','Continuiteit (Art.11–12)','Leren & comm. (Art.13–14)','Vereenvoudigd (Art.16)','Incidentmelding (Art.17–19)'],
+    datasets:[{data:[1,5,2,2,1,3],backgroundColor:['#8957e5','#1f6feb','#2ea043','#d29922','#484f58','#da3633'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'right',labels:{color:'#8b949e',font:{size:11},padding:8}}},cutout:'55%'}});
+
+  // PDCA donut
+  mkChart('c-pdca',{type:'doughnut',data:{
+    labels:['Plan (cl.4–6) · 13','Do (cl.7–8) · 11','Check (cl.9) · 6','Act (cl.10) · 3'],
+    datasets:[{data:[13,11,6,3],backgroundColor:['#1f6feb','#2ea043','#d29922','#db6d28'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'bottom',labels:{color:'#8b949e',font:{size:11}}}},cutout:'55%'}});
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1294 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M5: Compliance
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m05-compliance>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M5 — Compliance"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+compl:Obligation
+    rdf:type owl:Class ;
+    rdfs:label "Obligation"@en , "Verplichting"@nl ;
+    rdfs:comment
+        "A duty imposed on the organisation by a legal instrument, regulation, standard or contract."@en ,
+        "Een plicht opgelegd aan de organisatie door een wettelijk instrument, regelgeving, norm of contract."@nl .
+
+compl:LegalObligation
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:Obligation ;
+    rdfs:label "Legal Obligation"@en , "Wettelijke verplichting"@nl ;
+    rdfs:comment "An obligation arising directly from national or EU law or regulation."@en ,
+                 "Een verplichting die rechtstreeks voortvloeit uit nationale of EU-wet- of regelgeving."@nl ,
+                 "D12 obligation-laag (v4.3.3): juridische groepering onder artikel-niveau, via compl:derivedFrom-keten gekoppeld aan compl:RegulatoryObligation (wettelijke laag) en aan framework-specifieke compl:ComplianceRequirement-subklassen (requirement-laag)."@nl ,
+                 "D12 obligation layer (v4.3.3): legal grouping below article level, linked via compl:derivedFrom chain to compl:RegulatoryObligation (legal layer) and to framework-specific compl:ComplianceRequirement subclasses (requirement layer)."@en .
+
+compl:RegulatoryObligation
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:LegalObligation ;
+    rdfs:label "Regulatory Obligation"@en , "Regelgevingsverplichting"@nl ;
+    rdfs:comment "An obligation from a sector regulator or supervisory authority."@en ,
+                 "Een verplichting van een sectorale toezichthouder of bevoegde autoriteit."@nl ,
+                 "D12 wettelijke laag (v4.3.3): concrete juridische verplichting op artikel-niveau, typisch met dubbele compl:derivedFrom naar EU-directive + NL-transpositiewet. Masterchat-bevestigde typerings-correlatie: dubbele derivedFrom ⇒ RegulatoryObligation; enkelvoudige derivedFrom (EU only) ⇒ plain compl:ComplianceRequirement-subklasse."@nl ,
+                 "D12 legal layer (v4.3.3): concrete legal obligation at article level, typically with dual compl:derivedFrom to EU directive + NL transposition law. Masterchat-confirmed typing correlation: dual derivedFrom ⇒ RegulatoryObligation; single derivedFrom (EU only) ⇒ plain compl:ComplianceRequirement subclass."@en .
+
+compl:StandardsObligation
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:Obligation ;
+    rdfs:label "Standards Obligation"@en , "Normverplichting"@nl ;
+    rdfs:comment "A 'shall' requirement from a normative standard (ISO, NEN)."@en ,
+                 "Een 'shall'-eis uit een normatieve norm (ISO, NEN)."@nl .
+
+compl:PolicyObligation
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:Obligation ;
+    rdfs:label "Policy Obligation"@en , "Beleidsverplichting"@nl ;
+    rdfs:comment "An obligation from an internal policy, BIO 2.0 government measure, or VIR directive."@en ,
+                 "Een verplichting uit een intern beleid, BIO 2.0 overheidsmaatregel of VIR-voorschrift."@nl .
+
+compl:ContractualObligation
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:Obligation ;
+    rdfs:label "Contractual Obligation"@en , "Contractuele verplichting"@nl ;
+    rdfs:comment "An obligation arising from a contract, SLA or processor agreement."@en ,
+                 "Een verplichting uit een contract, SLA of verwerkersovereenkomst."@nl .
+
+# --- v4.4.0 Stap 2.2 — Leveranciers-uitsluitings-besluit (Cbb art. 18) ---
+# Bewust NIET opgenomen in onderstaande AllDisjointClasses-set: SupplierExclusionOrder
+# is geen vijfde categorische tak van Obligation (Contractual/Legal/Policy/Standards),
+# maar een ministerieel instrument dat in samenwerking met andere obligation-vormen
+# kan voorkomen. In v4.4.0 alleen TBox-declaratie; ABox-instances zijn Spoor B.
+
+compl:SupplierExclusionOrder
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:Obligation ;
+    rdfs:label "leveranciers-uitsluitings-besluit"@nl , "supplier exclusion order"@en ;
+    rdfs:comment "Een ministerieel besluit op grond van Cbb art. 18 dat een essentiële of belangrijke entiteit verplicht in aangewezen netwerk- en informatiesystemen géén gebruik te maken van producten of diensten van specifieke partijen, wanneer dat noodzakelijk is om risico's voor de nationale veiligheid te beheersen. ABox-populatie is Spoor B (afhankelijk van werkelijke ministeriële besluiten)."@nl ,
+                 "A ministerial decision under Cbb art. 18 that obliges an essential or important entity not to use products or services from specified parties in designated network and information systems, where necessary to manage national security risks. ABox population is Spoor B (dependent on actual ministerial decisions)."@en .
+
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( compl:LegalObligation compl:StandardsObligation compl:PolicyObligation compl:ContractualObligation ) .
+
+# -----------------------------------------------------------------------------
+# 1.2 Compliancevereiste / ComplianceRequirement
+# -----------------------------------------------------------------------------
+
+compl:ComplianceRequirement
+    rdf:type owl:Class ;
+    rdfs:label "Compliance Requirement"@en , "Compliancevereiste"@nl ;
+    rdfs:comment
+        "A specific, testable requirement derived from an obligation. One obligation may generate multiple requirements."@en ,
+        "Een specifieke, toetsbare vereiste afgeleid van een verplichting. Één verplichting kan meerdere vereisten genereren."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.3 Compliance Status
+# -----------------------------------------------------------------------------
+
+compl:ComplianceStatus
+    rdf:type owl:Class ;
+    rdfs:label "Compliance Status"@en , "Compliancestatus"@nl ;
+    rdfs:comment "The assessed status of a compliance requirement at a point in time."@en ,
+                 "De beoordeelde status van een compliancevereiste op een bepaald tijdstip."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.4 Audit & Bevinding
+# -----------------------------------------------------------------------------
+
+compl:AuditProgram
+    rdf:type owl:Class ;
+    rdfs:label "Audit Programme"@en , "Auditprogramma"@nl ;
+    rdfs:comment "A set of planned audits covering a defined scope and time period."@en ,
+                 "Een reeks geplande audits die een gedefinieerd toepassingsgebied en tijdsperiode bestrijken."@nl .
+
+compl:Audit
+    rdf:type owl:Class ;
+    rdfs:label "Audit"@en , "Audit"@nl ;
+    rdfs:comment "A systematic, independent examination to determine whether activities comply with requirements."@en ,
+                 "Een systematisch, onafhankelijk onderzoek om vast te stellen of activiteiten aan vereisten voldoen."@nl .
+
+compl:AuditFinding
+    rdf:type owl:Class ;
+    rdfs:label "Audit Finding"@en , "Auditbevinding"@nl ;
+    rdfs:comment "A result of evaluating collected audit evidence against audit criteria."@en ,
+                 "Een resultaat van het beoordelen van verzameld auditmateriaal aan de hand van auditcriteria."@nl .
+
+compl:NonConformity
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:AuditFinding ;
+    rdfs:label "Nonconformity"@en , "Non-conformiteit"@nl ;
+    rdfs:comment "Non-fulfilment of a requirement. [ISO 9000:2015]"@en ,
+                 "Niet-vervulling van een vereiste. [ISO 9000:2015]"@nl .
+
+compl:MajorNonConformity
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:NonConformity ;
+    rdfs:label "Major Nonconformity"@en , "Majeure non-conformiteit"@nl ;
+    rdfs:comment "A nonconformity that affects the capability of the ISMS to achieve intended results or violates a legal obligation."@en ,
+                 "Een non-conformiteit die het vermogen van het ISMS aantast om beoogde resultaten te bereiken, of die een wettelijke verplichting schendt."@nl .
+
+compl:MinorNonConformity
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:NonConformity ;
+    rdfs:label "Minor Nonconformity"@en , "Mineure non-conformiteit"@nl ;
+    rdfs:comment "An isolated failure to meet a requirement, with limited impact on ISMS effectiveness."@en ,
+                 "Een geïsoleerde tekortkoming in het voldoen aan een vereiste, met beperkte impact op de ISMS-effectiviteit."@nl .
+
+compl:Observation
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:AuditFinding ;
+    rdfs:label "Observation / Opportunity for Improvement"@en , "Observatie / verbetermogelijkheid"@nl ;
+    rdfs:comment "A finding that is not a nonconformity but indicates a potential improvement area."@en ,
+                 "Een bevinding die geen non-conformiteit is maar een potentieel verbeterpunt aangeeft."@nl .
+
+compl:PositiveFinding
+    rdf:type owl:Class ;
+    rdfs:subClassOf compl:AuditFinding ;
+    rdfs:label "Positive Finding"@en , "Positieve bevinding"@nl ;
+    rdfs:comment "An audit finding confirming that a requirement is effectively met."@en ,
+                 "Een auditbevinding die bevestigt dat een vereiste effectief wordt nageleefd."@nl .
+
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( compl:NonConformity compl:Observation compl:PositiveFinding ) .
+
+# -----------------------------------------------------------------------------
+# 1.5 Corrigerende maatregel / Corrective Action
+# -----------------------------------------------------------------------------
+
+compl:CorrectiveAction
+    rdf:type owl:Class ;
+    rdfs:label "Corrective Action"@en , "Corrigerende maatregel"@nl ;
+    rdfs:comment "Action to eliminate the cause of a nonconformity and to prevent recurrence. [ISO 9000]"@en ,
+                 "Maatregel om de oorzaak van een non-conformiteit weg te nemen en herhaling te voorkomen. [ISO 9000]"@nl .
+
+compl:RemediationPlan
+    rdf:type owl:Class ;
+    rdfs:label "Remediation Plan"@en , "Verbeterplan"@nl ;
+    rdfs:comment "A documented plan describing corrective actions, owners, timelines and success criteria."@en ,
+                 "Een gedocumenteerd plan met corrigerende maatregelen, eigenaren, tijdlijnen en succescriteria."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.6 Compliancedomeinen (taxonomie)
+# -----------------------------------------------------------------------------
+
+compl:ComplianceDomain
+    rdf:type owl:Class ;
+    rdfs:label "Compliance Domain"@en , "Compliancedomein"@nl ;
+    rdfs:comment "A thematic area under which obligations are grouped (e.g. risk management, incident reporting)."@en ,
+                 "Een thematisch gebied waaronder verplichtingen worden gegroepeerd."@nl .
+
+# =============================================================================
+# SECTIE 2 – OBJECT PROPERTIES
+# =============================================================================
+
+compl:derivedFrom
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range compl:Obligation ;
+    rdfs:label "derived from"@en , "afgeleid van"@nl ;
+    rdfs:comment "Links a specific requirement to the source obligation (article, clause)."@en ,
+                 "Koppelt een specifieke vereiste aan de bronverplichting (artikel, clausule)."@nl .
+
+compl:sourcedFromFramework
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range fw:GRCFramework ;
+    rdfs:label "sourced from framework"@en , "afkomstig uit kaderwerk"@nl .
+
+compl:satisfiedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "satisfied by"@en , "ingevuld door"@nl ;
+    rdfs:comment "A compliance requirement is satisfied by one or more controls."@en ,
+                 "Een compliancevereiste wordt ingevuld door een of meer beheersmaatregelen."@nl .
+
+compl:hasStatus
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range compl:ComplianceStatus ;
+    rdfs:label "has compliance status"@en , "heeft compliancestatus"@nl .
+
+compl:belongsToDomain
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range compl:ComplianceDomain ;
+    rdfs:label "belongs to domain"@en , "behoort tot domein"@nl .
+
+compl:assessedIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range compl:Audit ;
+    rdfs:label "assessed in audit"@en , "beoordeeld in audit"@nl .
+
+compl:partOfProgram
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:Audit ;
+    rdfs:range compl:AuditProgram ;
+    rdfs:label "part of programme"@en , "deel van programma"@nl .
+
+compl:producedFinding
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:Audit ;
+    rdfs:range compl:AuditFinding ;
+    rdfs:label "produced finding"@en , "heeft bevinding geproduceerd"@nl .
+
+compl:relatesToRequirement
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:AuditFinding ;
+    rdfs:range compl:ComplianceRequirement ;
+    rdfs:label "relates to requirement"@en , "heeft betrekking op vereiste"@nl .
+
+compl:addressedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:NonConformity ;
+    rdfs:range compl:CorrectiveAction ;
+    rdfs:label "addressed by"@en , "opgepakt door"@nl .
+
+compl:partOfPlan
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:CorrectiveAction ;
+    rdfs:range compl:RemediationPlan ;
+    rdfs:label "part of remediation plan"@en , "onderdeel van verbeterplan"@nl .
+
+compl:ownedByRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:CorrectiveAction ;
+    rdfs:range roles:Role ;
+    rdfs:label "owned by role"@en , "eigendom van rol"@nl .
+
+compl:evidencedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range rdfs:Resource ;
+    rdfs:label "evidenced by"@en , "bewezen door"@nl ;
+    rdfs:comment "Links a requirement to documentary evidence of compliance."@en ,
+                 "Koppelt een vereiste aan documentair bewijs van naleving."@nl .
+
+compl:accountableRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range roles:Role ;
+    rdfs:label "accountable role"@en , "eindverantwoordelijke rol"@nl ;
+    rdfs:comment "The role ultimately accountable for this obligation."@en ,
+                 "De rol die eindverantwoordelijk is voor deze verplichting."@nl .
+
+compl:responsibleRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range roles:Role ;
+    rdfs:label "responsible role"@en , "uitvoerend verantwoordelijke rol"@nl .
+
+compl:mitigatesRisk
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range risk:Risk ;
+    rdfs:label "mitigates risk"@en , "mitigeert risico"@nl .
+
+# =============================================================================
+# SECTIE 3 – DATA PROPERTIES
+# =============================================================================
+
+compl:hasObligationID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range xsd:string ;
+    rdfs:label "has obligation ID"@en , "heeft verplichtings-ID"@nl .
+
+compl:hasObligationTitle
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has obligation title"@en , "heeft verplichtingstitel"@nl .
+
+compl:hasArticleReference
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has article reference"@en , "heeft artikelreferentie"@nl ;
+    rdfs:comment "The article or clause number in the source instrument (e.g. 'Art. 21 NIS2')."@en ,
+                 "Het artikel- of clausulenummer in het broninstrument (bijv. 'Art. 21 NIS2')."@nl .
+
+compl:articleRef
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range xsd:string ;
+    rdfs:label "article reference"@en , "artikelreferentie"@nl ;
+    rdfs:comment "Short article reference (e.g. 'Art. 32'). Equivalent in intent to compl:hasArticleReference; retained for backward compatibility with v3 obligations."@en ,
+                 "Korte artikelreferentie (bijv. 'Art. 32'). Equivalent in bedoeling aan compl:hasArticleReference; behouden voor compatibiliteit met v3-verplichtingen."@nl .
+
+compl:hasDeadline
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range xsd:string ;
+    rdfs:label "has deadline / frequency"@en , "heeft deadline / frequentie"@nl .
+
+compl:isMandatory
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:Obligation ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is mandatory"@en , "is verplicht"@nl .
+
+compl:requirementID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range xsd:string ;
+    rdfs:label "requirement ID"@en , "vereiste-ID"@nl .
+
+compl:requirementText
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "requirement text"@en , "tekst van de vereiste"@nl .
+
+compl:findingID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:AuditFinding ;
+    rdfs:range xsd:string ;
+    rdfs:label "finding ID"@en , "bevindingen-ID"@nl .
+
+compl:findingDescription
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:AuditFinding ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "finding description"@en , "beschrijving bevinding"@nl .
+
+compl:findingDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:AuditFinding ;
+    rdfs:range xsd:date ;
+    rdfs:label "finding date"@en , "datum bevinding"@nl .
+
+compl:targetResolutionDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:CorrectiveAction ;
+    rdfs:range xsd:date ;
+    rdfs:label "target resolution date"@en , "streefdatum afhandeling"@nl .
+
+compl:actionDescription
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:CorrectiveAction ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "action description"@en , "beschrijving maatregel"@nl .
+
+# =============================================================================
+# SECTIE 4 – ABOX: COMPLIANCE STATUSSEN
+# =============================================================================
+
+compl:CS_Compliant
+    rdf:type compl:ComplianceStatus ;
+    rdfs:label "Compliant"@en , "Conform"@nl ;
+    rdfs:comment "The requirement is fully met with evidence."@en ,
+                 "De vereiste wordt volledig nageleefd met bewijs."@nl .
+
+compl:CS_PartiallyCompliant
+    rdf:type compl:ComplianceStatus ;
+    rdfs:label "Partially Compliant"@en , "Gedeeltelijk conform"@nl ;
+    rdfs:comment "The requirement is met in part; gaps remain."@en ,
+                 "De vereiste wordt gedeeltelijk nageleefd; er bestaan nog lacunes."@nl .
+
+compl:CS_NonCompliant
+    rdf:type compl:ComplianceStatus ;
+    rdfs:label "Non-Compliant"@en , "Niet conform"@nl ;
+    rdfs:comment "The requirement is not met."@en , "De vereiste wordt niet nageleefd."@nl .
+
+compl:CS_NotAssessed
+    rdf:type compl:ComplianceStatus ;
+    rdfs:label "Not Yet Assessed"@en , "Nog niet beoordeeld"@nl .
+
+compl:CS_NotApplicable
+    rdf:type compl:ComplianceStatus ;
+    rdfs:label "Not Applicable"@en , "Niet van toepassing"@nl .
+
+# =============================================================================
+# SECTIE 5 – ABOX: COMPLIANCEDOMEINEN
+# =============================================================================
+
+compl:CD_RiskManagement
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Risk Management"@en , "Risicobeheer"@nl .
+
+compl:CD_IncidentManagement
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Incident Management & Reporting"@en , "Incidentbeheer en -melding"@nl .
+
+compl:CD_SupplyChainSecurity
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Supply Chain Security"@en , "Leveranciersketenbeveiliging"@nl .
+
+compl:CD_AccessControl
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Access Control & Identity Management"@en , "Toegangsbeveiliging en identiteitsbeheer"@nl .
+
+compl:CD_ContinuityResilience
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Business Continuity & Resilience"@en , "Bedrijfscontinuïteit en veerkracht"@nl .
+
+compl:CD_AssetManagement
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Asset Management"@en , "Bedrijfsmiddelenbeheer"@nl .
+
+compl:CD_CryptographyKeyMgmt
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Cryptography & Key Management"@en , "Cryptografie en sleutelbeheer"@nl .
+
+compl:CD_VulnerabilityMgmt
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Vulnerability Management"@en , "Kwetsbaarhedenbeheer"@nl .
+
+compl:CD_GovernanceOversight
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Governance & Oversight"@en , "Governance en toezicht"@nl .
+
+compl:CD_PrivacyDataProtection
+    rdf:type compl:ComplianceDomain ;
+    rdfs:label "Privacy & Data Protection"@en , "Privacy en gegevensbescherming"@nl .
+
+# =============================================================================
+# SECTIE 6 – ABOX: NIS2 VERPLICHTINGEN (Richtlijn 2022/2555)
+# =============================================================================
+
+# --- NIS2 Art. 20 – Bestuursverantwoordelijkheid ----------------------------
+
+compl:OBL_NIS2_Art20
+    rdf:type compl:LegalObligation ;
+    compl:hasObligationID "NIS2-ART20" ;
+    compl:hasObligationTitle "Board accountability for cybersecurity"@en ;
+    compl:hasObligationTitle "Bestuursverantwoordelijkheid voor cyberbeveiliging"@nl ;
+    compl:hasArticleReference "Art. 20 NIS2 Directive (EU) 2022/2555" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:hasDeadline "Continu / Ongoing" ;
+    compl:sourcedFromFramework fw:NIS2_Directive ;
+    compl:belongsToDomain compl:CD_GovernanceOversight ;
+    compl:accountableRole roles:R_Bestuur ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:REQ_NIS2_Art20_1
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 20 lid 1 — goedkeuring en toezicht bestuursorgaan"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 20(1) — management body approval and supervision"@en ;
+    compl:requirementID "NIS2-ART20-R1" ;
+    compl:requirementText "Management bodies of essential and important entities shall approve cybersecurity risk management measures and oversee their implementation."@en ;
+    compl:requirementText "Bestuursorganen van essentiële en belangrijke entiteiten keuren maatregelen voor cyberbeveiligingsrisicobeheer goed en houden toezicht op de uitvoering ervan."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art20 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_5_01 , ctrl:ISO27002_5_04 ;
+    compl:accountableRole roles:R_Bestuur .
+
+compl:REQ_NIS2_Art20_2
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 20 lid 2 — cyberbeveiligingstraining bestuur"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 20(2) — management body cybersecurity training"@en ;
+    compl:requirementID "NIS2-ART20-R2" ;
+    compl:requirementText "Members of management bodies shall follow training on cybersecurity."@en ;
+    compl:requirementText "Leden van bestuursorganen volgen training op het gebied van cyberbeveiliging."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art20 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_6_03 ;
+    compl:accountableRole roles:R_SecretarisDirecteur .
+
+# --- NIS2 Art. 21 – Beveiligingsmaatregelen ----------------------------------
+
+compl:OBL_NIS2_Art21
+    rdf:type compl:LegalObligation ;
+    compl:hasObligationID "NIS2-ART21" ;
+    compl:hasObligationTitle "Cybersecurity risk management measures"@en ;
+    compl:hasObligationTitle "Maatregelen voor cyberbeveiligingsrisicobeheer"@nl ;
+    compl:hasArticleReference "Art. 21 NIS2 Directive (EU) 2022/2555" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:hasDeadline "Continu / Ongoing" ;
+    compl:sourcedFromFramework fw:NIS2_Directive ;
+    compl:belongsToDomain compl:CD_RiskManagement ;
+    compl:accountableRole roles:R_SecretarisDirecteur ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:REQ_NIS2_Art21_a
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel a — beleid risicoanalyse en informatiebeveiliging"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(a) — policy on risk analysis and information security"@en ;
+    compl:requirementID "NIS2-ART21-A" ;
+    compl:requirementText "Policies on risk analysis and information system security."@en ;
+    compl:requirementText "Beleid inzake risicoanalyse en beveiliging van informatiesystemen."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_5_01 ;
+    compl:belongsToDomain compl:CD_RiskManagement .
+
+compl:REQ_NIS2_Art21_b
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel b — beleid en procedures incidentafhandeling"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(b) — incident handling policies and procedures"@en ;
+    compl:requirementID "NIS2-ART21-B" ;
+    compl:requirementText "Incident handling policies and procedures."@en ;
+    compl:requirementText "Beleid en procedures voor incidentafhandeling."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 ;
+    compl:belongsToDomain compl:CD_IncidentManagement .
+
+compl:REQ_NIS2_Art21_c
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel c — bedrijfscontinuïteit en crisismanagement"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(c) — business continuity and crisis management"@en ;
+    compl:requirementID "NIS2-ART21-C" ;
+    compl:requirementText "Business continuity (backup management, disaster recovery, crisis management)."@en ;
+    compl:requirementText "Bedrijfscontinuïteit (back-upbeheer, disaster recovery, crisismanagement)."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 ;
+    compl:belongsToDomain compl:CD_ContinuityResilience .
+
+compl:REQ_NIS2_Art21_d
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel d — beveiliging toeleveringsketen"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(d) — supply chain security"@en ;
+    compl:requirementID "NIS2-ART21-D" ;
+    compl:requirementText "Supply chain security including security aspects of relationships between each entity and its direct suppliers or service providers."@en ;
+    compl:requirementText "Beveiliging van de toeleveringsketen inclusief beveiligingsaspecten van relaties met directe leveranciers."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 ;
+    compl:belongsToDomain compl:CD_SupplyChainSecurity .
+
+compl:REQ_NIS2_Art21_e
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel e — beveiliging bij verwerving en ontwikkeling"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(e) — security in acquisition, development and maintenance"@en ;
+    compl:requirementID "NIS2-ART21-E" ;
+    compl:requirementText "Security in network and information systems acquisition, development and maintenance."@en ;
+    compl:requirementText "Beveiliging bij verwerving, ontwikkeling en onderhoud van netwerken en informatiesystemen."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 , ctrl:ISO27002_8_27 , ctrl:ISO27002_8_28 ;
+    compl:belongsToDomain compl:CD_AssetManagement .
+
+compl:REQ_NIS2_Art21_f
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel f — doeltreffendheidsbeoordeling beveiligingsmaatregelen"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(f) — effectiveness assessment of cybersecurity measures"@en ;
+    compl:requirementID "NIS2-ART21-F" ;
+    compl:requirementText "Policies and procedures to assess the effectiveness of cybersecurity risk management measures."@en ;
+    compl:requirementText "Beleid en procedures voor het beoordelen van de doeltreffendheid van cyberbeveiligingsrisicobeheersmaatregelen."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight .
+
+compl:REQ_NIS2_Art21_g
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel g — basismaatregelen cyberhygiëne en training"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(g) — basic cyber hygiene practices and training"@en ;
+    compl:requirementID "NIS2-ART21-G" ;
+    compl:requirementText "Basic cyber hygiene practices and cybersecurity training."@en ;
+    compl:requirementText "Basismaatregelen voor cyberhygiëne en cyberbeveiligingstraining."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_6_03 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight .
+
+compl:REQ_NIS2_Art21_h
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel h — cryptografie en versleuteling"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(h) — cryptography and encryption"@en ;
+    compl:requirementID "NIS2-ART21-H" ;
+    compl:requirementText "Policies and procedures regarding the use of cryptography and encryption."@en ;
+    compl:requirementText "Beleid en procedures inzake het gebruik van cryptografie en versleuteling."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_8_24 ;
+    compl:belongsToDomain compl:CD_CryptographyKeyMgmt .
+
+compl:REQ_NIS2_Art21_i
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel i — personeelsbeveiliging, toegangsbeheer en bedrijfsmiddelenbeheer"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(i) — human resources security, access control and asset management"@en ;
+    compl:requirementID "NIS2-ART21-I" ;
+    compl:requirementText "Human resources security, access control policies and asset management."@en ;
+    compl:requirementText "Personeelsbeveiliging, toegangsbeveiligingsbeleid en bedrijfsmiddelenbeheer."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_6_01 , ctrl:ISO27002_5_15 , ctrl:ISO27002_5_09 ;
+    compl:belongsToDomain compl:CD_AccessControl .
+
+compl:REQ_NIS2_Art21_j
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 21 lid 2 onderdeel j — meervoudige authenticatie en beveiligde communicatie"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 21(2)(j) — multi-factor authentication and secured communications"@en ;
+    compl:requirementID "NIS2-ART21-J" ;
+    compl:requirementText "Use of multi-factor authentication or continuous authentication solutions, secured voice, video and text communications."@en ;
+    compl:requirementText "Gebruik van meervoudige authenticatie of oplossingen voor continue authenticatie, beveiligde spraak-, video- en tekstcommunicatie."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art21 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:satisfiedBy ctrl:ISO27002_8_05 ;
+    compl:belongsToDomain compl:CD_AccessControl .
+
+# --- NIS2 Art. 23 – Meldplicht incidenten ------------------------------------
+
+compl:OBL_NIS2_Art23
+    rdf:type compl:LegalObligation ;
+    compl:hasObligationID "NIS2-ART23" ;
+    compl:hasObligationTitle "Reporting obligations for significant incidents"@en ;
+    compl:hasObligationTitle "Meldingsverplichtingen voor significante incidenten"@nl ;
+    compl:hasArticleReference "Art. 23 NIS2 Directive (EU) 2022/2555" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:hasDeadline "24h (early warning) / 72h (notification) / 1 month (final report)" ;
+    compl:sourcedFromFramework fw:NIS2_Directive ;
+    compl:belongsToDomain compl:CD_IncidentManagement ;
+    compl:accountableRole roles:R_SecretarisDirecteur ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:REQ_NIS2_Art23_1
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 23 — vroege waarschuwing binnen 24 uur"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 23 — early warning within 24 hours"@en ;
+    compl:requirementID "NIS2-ART23-R1" ;
+    compl:requirementText "Submit an early warning to the competent authority or CSIRT without undue delay and in any event within 24 hours of becoming aware of a significant incident."@en ;
+    compl:requirementText "Dien een vroege waarschuwing in bij de bevoegde autoriteit of CSIRT zonder onnodige vertraging en in ieder geval binnen 24 uur na het bewust worden van een significant incident."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art23 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:hasDeadline "24 uur" .
+
+compl:REQ_NIS2_Art23_2
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 23 — incidentmelding binnen 72 uur"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 23 — incident notification within 72 hours"@en ;
+    compl:requirementID "NIS2-ART23-R2" ;
+    compl:requirementText "Submit an incident notification within 72 hours of becoming aware of the significant incident."@en ;
+    compl:requirementText "Dien een incidentmelding in binnen 72 uur na het bewust worden van het significante incident."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art23 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:hasDeadline "72 uur" .
+
+compl:REQ_NIS2_Art23_3
+    rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "Requirement: NIS2 art. 23 — eindrapportage binnen één maand"@nl ;
+    rdfs:label "Requirement: NIS2 Art. 23 — final report within one month"@en ;
+    compl:requirementID "NIS2-ART23-R3" ;
+    compl:requirementText "Submit a final report no later than one month after submission of the incident notification."@en ;
+    compl:requirementText "Dien uiterlijk één maand na de incidentmelding een eindrapportage in."@nl ;
+    compl:derivedFrom compl:OBL_NIS2_Art23 ;
+    compl:hasStatus compl:CS_NotAssessed ;
+    compl:hasDeadline "1 maand" .
+
+# =============================================================================
+# SECTIE 7 – ABOX: ISO/IEC 27001:2022 CLAUSULES (normatieve vereisten)
+# =============================================================================
+
+compl:OBL_ISO27001_Cl4
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL4" ;
+    compl:hasObligationTitle "Context of the organisation"@en ;
+    compl:hasObligationTitle "Context van de organisatie"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 4" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight .
+
+compl:OBL_ISO27001_Cl6_1
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL6.1" ;
+    compl:hasObligationTitle "Information security risk assessment"@en ;
+    compl:hasObligationTitle "Informatiebeveiligingsrisicobeoordeling"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 6.1.2" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_RiskManagement ;
+    compl:accountableRole roles:R_CISO ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:OBL_ISO27001_Cl6_1_3
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL6.1.3" ;
+    compl:hasObligationTitle "Information security risk treatment & Statement of Applicability"@en ;
+    compl:hasObligationTitle "Risicobehandeling en Verklaring van Toepasselijkheid"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 6.1.3" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_RiskManagement ;
+    compl:accountableRole roles:R_CISO .
+
+compl:OBL_ISO27001_Cl9_2
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL9.2" ;
+    compl:hasObligationTitle "ISMS internal audit"@en ;
+    compl:hasObligationTitle "ISMS interne audit"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 9.2" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:hasDeadline "Minimaal jaarlijks / At least annually" ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight ;
+    compl:accountableRole roles:R_InternAuditor .
+
+compl:OBL_ISO27001_Cl9_3
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL9.3" ;
+    compl:hasObligationTitle "ISMS management review"@en ;
+    compl:hasObligationTitle "Directiebeoordeling ISMS"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 9.3" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:hasDeadline "Minimaal jaarlijks / At least annually" ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight ;
+    compl:accountableRole roles:R_SecretarisDirecteur ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:OBL_ISO27001_Cl10_1
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL10.1" ;
+    compl:hasObligationTitle "Continual improvement"@en ;
+    compl:hasObligationTitle "Voortdurende verbetering"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 10.1" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight .
+
+compl:OBL_ISO27001_Cl10_2
+    rdf:type compl:StandardsObligation ;
+    compl:hasObligationID "ISO27001-CL10.2" ;
+    compl:hasObligationTitle "Nonconformity and corrective action"@en ;
+    compl:hasObligationTitle "Non-conformiteit en corrigerende maatregel"@nl ;
+    compl:hasArticleReference "ISO/IEC 27001:2022 Clause 10.2" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:ISO_IEC_27001_2022 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight ;
+    compl:accountableRole roles:R_CISO .
+
+# =============================================================================
+# SECTIE 8 – ABOX: BIO 2.0 VERPLICHTINGEN (Overheidsbeleid)
+# =============================================================================
+
+compl:OBL_BIO2_Governance
+    rdf:type compl:PolicyObligation ;
+    compl:hasObligationID "BIO2-GOV" ;
+    compl:hasObligationTitle "BIO 2.0 – Informatiebeveiliging in de bedrijfsvoering"@nl ;
+    compl:hasObligationTitle "BIO 2.0 – Information security governance"@en ;
+    compl:hasArticleReference "BIO 2.0 v2.0 – ISO 27002:2022 §5.1 / §5.2 overheidsmaatregelen" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:BIO_2_0 ;
+    compl:belongsToDomain compl:CD_GovernanceOversight ;
+    compl:accountableRole roles:R_SecretarisDirecteur ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:OBL_BIO2_BBN2
+    rdf:type compl:PolicyObligation ;
+    compl:hasObligationID "BIO2-BBN2" ;
+    compl:hasObligationTitle "BIO 2.0 – Verhoogd beschermingsniveau (BBN2) voor standaardsystemen"@nl ;
+    compl:hasObligationTitle "BIO 2.0 – Elevated protection level (BBN2) for standard systems"@en ;
+    compl:hasArticleReference "BIO 2.0 v2.0 – Baseline Beveiligingsniveau 2" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:BIO_2_0 ;
+    compl:belongsToDomain compl:CD_RiskManagement ;
+    compl:accountableRole roles:R_SecretarisDirecteur .
+
+compl:OBL_BIO2_MeldplichtNCCSA
+    rdf:type compl:PolicyObligation ;
+    compl:hasObligationID "BIO2-MELD" ;
+    compl:hasObligationTitle "BIO 2.0 – Melden van significante beveiligingsincidenten aan NCSC/SA"@nl ;
+    compl:hasObligationTitle "BIO 2.0 – Reporting significant incidents to NCSC/SA"@en ;
+    compl:hasArticleReference "BIO 2.0 v2.0 – §5.24 / §5.26 overheidsmaatregelen" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:BIO_2_0 ;
+    compl:belongsToDomain compl:CD_IncidentManagement ;
+    compl:accountableRole roles:R_SecretarisDirecteur ;
+    compl:responsibleRole roles:R_CISO .
+
+# =============================================================================
+# SECTIE 9 – ABOX: VIR / VIRBI VERPLICHTINGEN
+# =============================================================================
+
+compl:OBL_VIR_Classificatie
+    rdf:type compl:PolicyObligation ;
+    compl:hasObligationID "VIR-CLASS" ;
+    compl:hasObligationTitle "VIR 2007 – Informatieclassificatie rijksoverheidsinformatie"@nl ;
+    compl:hasObligationTitle "VIR 2007 – Information classification for central government"@en ;
+    compl:hasArticleReference "VIR 2007 Art. 4" ;
+    rdfs:comment "Het lijnmanagement stelt betrouwbaarheidseisen vast op basis van een expliciete risicoafweging (VIR 2007, art. 4). Gecorrigeerd 2026-03-26: was 'Art. 5-7' maar VIR 2007 heeft slechts 5 artikelen (art. 5 = Slotbepaling)."@nl ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:VIR_2007 ;
+    compl:belongsToDomain compl:CD_AssetManagement ;
+    compl:accountableRole roles:R_SecretarisDirecteur .
+
+compl:OBL_VIRBI_Staatsgeheim
+    rdf:type compl:PolicyObligation ;
+    compl:hasObligationID "VIRBI-STG" ;
+    compl:hasObligationTitle "VIRBI 2025 – Bescherming staatsgeheimen en bijzondere informatie"@nl ;
+    compl:hasObligationTitle "VIRBI 2025 – Protection of classified and sensitive government information"@en ;
+    compl:hasArticleReference "VIRBI 2025 (Voorschrift Informatiebeveiliging Rijksdienst Bijzondere Informatie)" ;
+    compl:isMandatory "true"^^xsd:boolean ;
+    compl:sourcedFromFramework fw:VIRBI_2025 ;
+    compl:belongsToDomain compl:CD_AssetManagement ;
+    compl:accountableRole roles:R_BVA ;
+    compl:responsibleRole roles:R_BVA .
+
+# =============================================================================
+# SECTIE 10 – ABOX: CROSS-FRAMEWORK ALIGNMENT (SKOS)
+# =============================================================================
+
+# NIS2 Art.21 maatregelen ↔ ISO 27001:2022 clausules
+compl:OBL_NIS2_Art21   skos:closeMatch   compl:OBL_ISO27001_Cl6_1 .
+compl:OBL_NIS2_Art21   skos:closeMatch   compl:OBL_ISO27001_Cl6_1_3 .
+compl:OBL_NIS2_Art20   skos:closeMatch   compl:OBL_ISO27001_Cl9_3 .
+compl:OBL_NIS2_Art21   skos:broadMatch   fw:BIO_2_0 .
+
+# BIO 2.0 ↔ ISO 27001
+compl:OBL_BIO2_Governance skos:closeMatch compl:OBL_ISO27001_Cl4 .
+compl:OBL_BIO2_BBN2       skos:closeMatch compl:OBL_ISO27001_Cl6_1 .
+
+# =============================================================================
+# SECTIE 11 – ABOX: VOORBEELDAUDIT & BEVINDINGEN
+# =============================================================================
+
+compl:AUD_2026_ISMS_Q1
+    rdf:type compl:Audit ;
+    rdfs:label "ISMS Interne Audit Q1 2026"@nl ;
+    rdfs:label "ISMS Internal Audit Q1 2026"@en ;
+    dcterms:date "2026-03-01"^^xsd:date .
+
+compl:FIND_001
+    rdf:type compl:MinorNonConformity ;
+    compl:findingID "FIND-001" ;
+    compl:findingDescription "Risicoregister is meer dan 12 maanden geleden voor het laatst bijgewerkt; voldoet niet aan ISO 27001:2022 clausule 6.1.2 (periodieke herbeoordeling vereist)."@nl ;
+    compl:findingDate "2026-03-01"^^xsd:date ;
+    compl:relatesToRequirement compl:OBL_ISO27001_Cl6_1 .
+
+compl:CA_001
+    rdf:type compl:CorrectiveAction ;
+    compl:actionDescription "Risicoregister actualiseren en formeel vaststellen voor 1 mei 2026; daarna kwartaallijkse reviewcyclus inrichten."@nl ;
+    compl:targetResolutionDate "2026-05-01"^^xsd:date ;
+    compl:ownedByRole roles:R_CISO .
+
+compl:FIND_001 compl:addressedBy compl:CA_001 .
+compl:AUD_2026_ISMS_Q1 compl:producedFinding compl:FIND_001 .
+
+compl:FIND_002
+    rdf:type compl:MajorNonConformity ;
+    compl:findingID "FIND-002" ;
+    compl:findingDescription "Geen gedocumenteerde procedure voor NIS2 Art.23 meldplicht aangetroffen; ontbreekt volledig."@nl ;
+    compl:findingDate "2026-03-01"^^xsd:date ;
+    compl:relatesToRequirement compl:OBL_NIS2_Art23 .
+
+compl:CA_002
+    rdf:type compl:CorrectiveAction ;
+    compl:actionDescription "Incidentmeldprocedure conform NIS2 Art.23 (24h/72h/1maand) opstellen, testen en vaststellen voor 1 april 2026."@nl ;
+    compl:targetResolutionDate "2026-04-01"^^xsd:date ;
+    compl:ownedByRole roles:R_CISO .
+
+compl:FIND_002 compl:addressedBy compl:CA_002 .
+compl:AUD_2026_ISMS_Q1 compl:producedFinding compl:FIND_002 .
+
+# =============================================================================
+# EINDE MODULE M5
+
+# --- Wettelijke verplichtingen (oorspronkelijk FIX 3) ---
+# ── VIR 2007 wettelijke verplichtingen als compl:LegalObligation ─────────────
+
+compl:VIR_Art2_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIR 2007 Art. 2 — Plaatsbepaling en reikwijdte"@nl ,
+               "VIR 2007 Art. 2 — Scope and applicability"@en ;
+    rdfs:comment "Het VIR geldt voor de gehele Rijksdienst, het gehele proces van informatievoorziening en de gehele levenscyclus van informatiesystemen, ongeacht technologie of karakter van de informatie. Informatiebeveiliging is een lijnverantwoordelijkheid en onderdeel van kwaliteitszorg (VIR 2007, art. 2)."@nl ;
+    compl:derivedFrom fw:VIR_2007 ;
+    compl:articleRef "art. 2"^^xsd:string .
+
+compl:VIR_Art3_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIR 2007 Art. 3 — Informatiebeveiligingsbeleid"@nl ,
+               "VIR 2007 Art. 3 — Information security policy"@en ;
+    rdfs:comment "De SG stelt het informatiebeveiligingsbeleid vast, draagt dit uit en legt verantwoording af. Het beleid omvat minimaal: strategische uitgangspunten, organisatie van de IB-functie, toewijzing ketenverantwoordelijkheden, betrouwbaarheidseisen/normen, evaluatiefrequentie, en bevordering beveiligingsbewustzijn (VIR 2007, art. 3)."@nl ;
+    compl:derivedFrom fw:VIR_2007 ;
+    compl:articleRef "art. 3"^^xsd:string ;
+    compl:responsibleRole roles:R_SecretarisDirecteur .
+
+compl:VIR_Art4_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIR 2007 Art. 4 — Verantwoordelijkheden lijnmanagement"@nl ,
+               "VIR 2007 Art. 4 — Line management responsibilities"@en ;
+    rdfs:comment "Het lijnmanagement is verantwoordelijk voor de beveiliging van zijn informatiesystemen: (a) stelt betrouwbaarheidseisen vast op basis van risicoafweging, (b) kiest en implementeert maatregelen, (c) stelt vast dat maatregelen overeenstemmen met eisen en worden nageleefd, (d) evalueert periodiek en stelt bij (VIR 2007, art. 4)."@nl ;
+    compl:derivedFrom fw:VIR_2007 ;
+    compl:articleRef "art. 4"^^xsd:string .
+
+# --- Gecorrigeerd 2026-03-26: oorspronkelijk foutief als VIR 2007 art. 5 gemodelleerd ---
+# De BVA-verplichting komt uit het Besluit BVA-stelsel, niet uit VIR 2007.
+compl:VIR_Art5_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Besluit BVA-stelsel Art. 3 — BVA-stelsel verplicht"@nl ,
+               "BVA Decree Art. 3 — BVA system mandatory"@en ;
+    rdfs:comment "De minister draagt zorg voor de aanstelling van een BVA met een kaderstellende, adviserende en toezichthoudende rol over de integrale beveiliging. De SG is eindverantwoordelijk voor de integrale beveiliging en stelt het departementale beveiligingsbeleid vast (Besluit BVA-stelsel Rijksdienst 2021, art. 3). Oorspronkelijk foutief als VIR 2007 art. 5 gemodelleerd — gecorrigeerd 2026-03-26."@nl ;
+    compl:derivedFrom fw:BesluitBVAStelsel ;
+    compl:articleRef "art. 3"^^xsd:string ;
+    compl:responsibleRole roles:R_BVA .
+
+# --- Gecorrigeerd 2026-03-26: oorspronkelijk foutief als VIR 2007 art. 9 gemodelleerd ---
+# De periodieke rapportageverplichting komt uit Besluit BVA-stelsel art. 4 lid 7.
+compl:VIR_Art9_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Besluit BVA-stelsel Art. 4 lid 7 — Periodieke IB-rapportage"@nl ,
+               "BVA Decree Art. 4(7) — Periodic security reporting"@en ;
+    rdfs:comment "De BVA rapporteert periodiek (schriftelijk) over de stand van de integrale beveiliging aan de ambtelijke leiding en informeert de BVA Rijk hierover (Besluit BVA-stelsel Rijksdienst 2021, art. 4 lid 7). Oorspronkelijk foutief als VIR 2007 art. 9 gemodelleerd — gecorrigeerd 2026-03-26."@nl ;
+    compl:derivedFrom fw:BesluitBVAStelsel ;
+    compl:articleRef "art. 4 lid 7"^^xsd:string ;
+    compl:responsibleRole roles:R_BVA .
+
+# ── VIRBI 2025 wettelijke verplichtingen ─────────────────────────────────────
+
+compl:VIRBI_Art6_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art.6 — Aanwijzing BVC"@nl ;
+    rdfs:comment "Het hoofd van een dienstonderdeel wijst een Beveiligingscoördinator (BVC) aan (VIRBI 2025, art.6)."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "art. 6"^^xsd:string ;
+    compl:responsibleRole roles:R_BVC .
+
+compl:VIRBI_Art10_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "VIRBI 2025 Art.10 — Driejaarlijkse evaluatie"@nl ;
+    rdfs:comment "Driejaarlijkse evaluatie van de beveiliging van bijzondere informatie (VIRBI 2025, art.10)."@nl ;
+    compl:derivedFrom fw:VIRBI_2025 ;
+    compl:articleRef "art. 10"^^xsd:string ;
+    compl:responsibleRole roles:R_BVA .
+
+# ── Besluit BVA-stelsel verplichtingen ───────────────────────────────────────
+
+compl:BesluitBVA_Art3_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Besluit BVA-stelsel 2021 Art.3 — BVA-aanstelling"@nl ;
+    rdfs:comment "De Minister stelt een BVA aan die belast is met de beveiliging van gerubriceerde informatie (Besluit BVA-stelsel, art.3)."@nl ;
+    compl:derivedFrom fw:BesluitBVAStelsel ;
+    compl:articleRef "art. 3"^^xsd:string ;
+    compl:responsibleRole roles:R_BVA .
+
+compl:BesluitBVA_Art6_Verplichting rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Besluit BVA-stelsel 2021 Art.6 — BVC-aanwijzing"@nl ;
+    rdfs:comment "Het hoofd van een dienstonderdeel wijst een BVC aan (Besluit BVA-stelsel, art.6). Grondslag voor de BVC-rol."@nl ;
+    compl:derivedFrom fw:BesluitBVAStelsel ;
+    compl:articleRef "art. 6"^^xsd:string ;
+    compl:responsibleRole roles:R_BVC .
+
+
+# ══════════════════════════════════════════════════════════════════════
+
+
+# =============================================================================
+# v4.4.0 Stap 4 — Cbb-laag-content (addendum 2 §4)
+# Datum: 2026-05-13
+# =============================================================================
+# 14 inhoudelijke zorgplichtartikelen uit Cbb hoofdstuk 4 (Zorgplicht):
+# art. 6 t/m 19 inclusief. Art. 5 is een verwijzings-artikel (geen zelfstandige
+# zorgplicht) en wordt NIET als individual opgenomen — kort vermeld in
+# rdfs:comment op compl:Cbb_Art6_Verplichting.
+#
+# Art. 18 (supplier-exclusion-order) krijgt zowel een gewone
+# compl:LegalObligation-individual als kruisverwijzing naar de aparte
+# compl:SupplierExclusionOrder-klasse (Stap 2.2, ABox-instances zijn Spoor B).
+#
+# Patroon (per inventarisatie 1.5):
+#   compl:LegalObligation + owl:NamedIndividual
+#   rdfs:label @nl + @en
+#   rdfs:comment @nl (volledige artikeltekst uit Cbb-PDF)
+#   compl:articleRef "Art. N"^^xsd:string
+#   compl:sourcedFromFramework fw:Cbb
+
+compl:Cbb_Art6_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 6 — beleid over beveiliging van netwerk- en informatiesystemen"@nl ,
+                "Cbb art. 6 — policy on network and information system security"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid over de beveiliging van haar 
+netwerk- en informatiesystemen. De entiteit legt dat beleid schriftelijk vast en past dat beleid 
+aantoonbaar toe. 
+2. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, de rollen, verantwoordelijkheden en bevoegdheden in relatie tot de 
+beveiliging van haar netwerk- en informatiesystemen vast. De entiteit zorgt er zoveel mogelijk 
+voor dat conflicterende rollen, verantwoordelijkheden en bevoegdheden gescheiden worden.
+3. De essentiële entiteit of belangrijke entiteit verlangt van haar personeel en andere binnen de 
+entiteit werkzame personen dat zij de beveiliging van haar netwerk- en informatiesystemen 
+toepassen overeenkomstig het beleid, bedoeld in het eerste lid.
+4. De essentiële entiteit of belangrijke entiteit hanteert een managementsystematiek voor de 
+beveiliging van haar netwerk- en informatiesystemen om aantoonbaar te kunnen voldoen aan het 
+bepaalde bij of krachtens artikel 21 van de wet."""@nl ,
+                  """Conform Cbb art. 5: "Ter uitvoering van artikel 21 van de wet neemt de essentiële entiteit of belangrijke entiteit ten minste de maatregelen, bedoeld in de artikelen 6 tot en met 19." Art. 5 is een verwijzings-artikel zonder zelfstandige zorgplicht en wordt daarom niet als aparte compl:LegalObligation-individual gemodelleerd; het juridisch-bindende geheel bestaat uit art. 6 t/m 19."""@nl ;
+    compl:articleRef "Art. 6"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art7_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 7 — beleid over risicomanagement"@nl ,
+                "Cbb art. 7 — risk management policy"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid over risicomanagement 
+voor de beveiliging van haar netwerk- en informatiesystemen. De entiteit legt dat beleid schriftelijk 
+vast en past dat beleid aantoonbaar toe. 
+2. Het beleid, bedoeld in het eerste lid, omvat ten minste:
+a. een risicomanagementmethodiek; en
+b. criteria voor risicoacceptatie. 
+3. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, processen en procedures vast voor risicoanalyse, risicobeoordeling en 
+risicobehandeling. De entiteit past deze processen en procedures aantoonbaar toe.
+4. De essentiële entiteit of belangrijke entiteit maakt op basis van de uitgevoerde risicoanalyse een 
+overzicht van de risico’s met betrekking tot de beveiliging van haar netwerk- en 
+informatiesystemen. 
+5. De essentiële entiteit of belangrijke entiteit stelt op basis van het overzicht van de risico’s, 
+bedoeld in het vierde lid, eisen met betrekking tot de beveiliging van haar netwerk- en 
+informatiesystemen. Indien de risicoanalyse hiertoe aanleiding geeft, neemt de entiteit
+maatregelen om de beveiliging van haar netwerk- en informatiesystemen op structurele en 
+aantoonbare wijze te borgen. VERSIE T.B.V. VERZENDING AAN TWEEDE KAMER"""@nl ;
+    compl:articleRef "Art. 7"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art8_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 8 — incidentenbehandeling"@nl ,
+                "Cbb art. 8 — incident handling"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid over incidentenbehandeling. 
+De entiteit legt dat beleid schriftelijk vast en past dat beleid aantoonbaar toe.
+2. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, de rollen, verantwoordelijkheden en bevoegdheden vast voor: 
+a. het tijdig detecteren van incidenten;
+b. het analyseren en beoordelen van incidenten;
+c. het reageren op, beperken van de gevolgen van, wegnemen van de oorzaak van en herstellen
+van incidenten; 
+d. het documenteren van incidenten;
+e. het rapporteren van incidenten; en
+f. het leren van incidenten.
+3. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, processen en procedures vast om relevante gebeurtenissen in haar 
+netwerk- en informatiesystemen te monitoren teneinde incidenten te detecteren, analyseren en 
+classificeren. De entiteit past deze processen en procedures aantoonbaar toe.
+4. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, processen en procedures vast voor: 
+a. het tijdig detecteren van incidenten;
+b. het analyseren en beoordelen van incidenten;
+c. het reageren op, beperken van de gevolgen van, wegnemen van de oorzaak van en herstellen 
+van incidenten;
+d. het documenteren van incidenten;
+e. het rapporteren van incidenten; en
+f. het leren van incidenten. 
+5. De essentiële entiteit of belangrijke entiteit past de processen en procedures, bedoeld in het 
+vierde lid, aantoonbaar toe.
+6. De essentiële entiteit of belangrijke entiteit logt de voor de beveiliging van haar netwerk- en 
+informatiesystemen relevante gebeurtenissen in haar netwerk- en informatiesystemen. De entiteit 
+houdt gedurende een vooraf bepaalde periode deze logbestanden bij en beschermt deze tegen 
+ongeautoriseerde wijzigingen."""@nl ;
+    compl:articleRef "Art. 8"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art9_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 9 — bedrijfscontinuïteit en crisisbeheer"@nl ,
+                "Cbb art. 9 — business continuity and crisis management"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld bedrijfscontinuïteitsbeleid met 
+betrekking tot haar netwerk- en informatiesystemen. De entiteit legt dat beleid schriftelijk vast en 
+past dat beleid aantoonbaar toe.
+2. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, processen en procedures vast voor het borgen van haar 
+bedrijfscontinuïteit, waaronder in ieder geval processen en procedures voor het herstellen van haar 
+netwerk- en informatiesystemen en voor het maken en periodiek verifiëren van de 
+betrouwbaarheid van back-ups van software en gegevens. De entiteit past deze processen en 
+procedures aantoonbaar toe en test deze periodiek.
+3. De essentiële entiteit of belangrijke entiteit heeft een vastgesteld bedrijfscontinuïteitsplan met 
+betrekking tot haar netwerk- en informatiesystemen. De entiteit legt dat plan schriftelijk vast, past 
+dat plan toe in geval van een incident die de bedrijfscontinuïteit in gevaar brengt, en test dit plan 
+periodiek. 
+4. De essentiële entiteit of belangrijke entiteit heeft een herstelplan. De entiteit legt dat plan 
+schriftelijk vast, past dat plan toe in geval van een incident en test dit plan periodiek. 
+5. De essentiële entiteit of belangrijke entiteit heeft een plan voor crisisbeheer, legt dit plan 
+schriftelijk vast, past dat plan toe in geval van een crisis en test en beoefent dit plan periodiek. Het 
+plan bevat ten minste:VERSIE T.B.V. VERZENDING AAN TWEEDE KAMER
+a. de taken, verantwoordelijkheden en bevoegdheden ten tijde van crisis voor het personeel en 
+andere binnen de entiteit werkzame personen; 
+b. een beschrijving van de communicatiemiddelen ten tijde van crisis; en 
+c. wanneer passend, een beschrijving van de beschikbare noodvoorzieningen, waaronder het 
+gebruik van beveiligde noodcommunicatiesystemen ten tijde van crisis."""@nl ;
+    compl:articleRef "Art. 9"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art10_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 10 — beveiliging van de toeleveringsketen"@nl ,
+                "Cbb art. 10 — supply chain security"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid over de beveiliging van de 
+toeleveringsketen. De entiteit bepaalt in dat beleid haar omgang met afhankelijkheden van de 
+producten en diensten van haar leveranciers en dienstverleners die invloed kunnen hebben op de 
+beveiliging van haar netwerk- en informatiesystemen. De entiteit legt dat beleid schriftelijk vast en 
+past dat beleid aantoonbaar toe.
+2. De essentiële entiteit of belangrijke entiteit toetst of haar rechtstreekse leveranciers en 
+rechtstreekse dienstverleners, bedoeld in het eerste lid, voldoen aan de beveiligingseisen, bedoeld 
+in artikel 7, vijfde lid. De entiteit controleert dit periodiek."""@nl ;
+    compl:articleRef "Art. 10"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art11_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 11 — beveiliging bij het verwerven, ontwikkelen en onderhouden van netwerk- en informatiesystemen"@nl ,
+                "Cbb art. 11 — security in acquisition, development and maintenance of network and information systems"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft op basis van de beveiligingseisen, bedoeld in 
+artikel 7, vijfde lid, vastgesteld beleid voor het mitigeren en beheersen van risico’s die voortvloeien 
+uit het verwerven van software, hardware of diensten die betrekking hebben op haar netwerk- en 
+informatiesystemen. De entiteit legt dat beleid schriftelijk vast en past dat beleid aantoonbaar toe. 
+2. Indien van toepassing stelt de essentiële entiteit of belangrijke entiteit processen en procedures 
+vast voor de veilige ontwikkeling van haar netwerk- en informatiesystemen. De entiteit past deze 
+processen en procedures aantoonbaar toe. Deze processen en procedures hebben betrekking op 
+alle ontwikkelingsfasen van de netwerk- en informatiesystemen van de entiteit. 
+3. De essentiële entiteit of belangrijke entiteit stelt processen en procedures vast voor het 
+onderhoud en beheer van haar netwerk- en informatiesystemen. De entiteit past deze processen 
+en procedures aantoonbaar toe. Deze processen en procedures hebben ten minste betrekking op 
+het configuratiebeheer en het wijzigingsbeheer van de netwerk- en informatiesystemen van de 
+entiteit."""@nl ;
+    compl:articleRef "Art. 11"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art12_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 12 — basispraktijken op het gebied van cyberhygiëne en opleiding op het gebied van cyberbeveiliging"@nl ,
+                "Cbb art. 12 — basic cyber hygiene practices and cybersecurity training"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit zorgt ervoor dat haar personeel en andere binnen 
+de entiteit werkzame personen, voor zover relevant voor hun functie: 
+a. bewust zijn van de risico’s met betrekking tot de netwerk- en informatiesystemen van de 
+entiteit; en
+b. praktijken op het gebied van cyberhygiëne toepassen. 
+2. De essentiële entiteit of belangrijke entiteit wijst het personeel en andere binnen de entiteit 
+werkzame personen aan waarvan de rollen, verantwoordelijkheden en bevoegdheden
+vaardigheden en deskundigheid vereisen op het gebied van de beveiliging van netwerk- en 
+informatiesystemen en zorgt ervoor dat zij regelmatig opleiding krijgen over de beveiliging van 
+netwerk- en informatiesystemen."""@nl ;
+    compl:articleRef "Art. 12"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art13_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 13 — beleid over het gebruik van cryptografie"@nl ,
+                "Cbb art. 13 — cryptography policy"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid over het gebruik van 
+cryptografie. De entiteit legt dat beleid schriftelijk vast en past dat beleid aantoonbaar toe.
+2. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, processen en procedures vast over het gebruik van cryptografie. De 
+entiteit past deze processen en procedures aantoonbaar toe.
+3. In het beleid en de processen en procedures, bedoeld in het eerste en tweede lid, worden in 
+ieder geval uitgewerkt:VERSIE T.B.V. VERZENDING AAN TWEEDE KAMER
+a. in welke gevallen cryptografie ingezet wordt;
+b. in voorkomende gevallen, welke typen encryptie worden gebruikt en de wijze waarop deze 
+worden toegepast;
+c. wie binnen de entiteit verantwoordelijk zijn voor de implementatie van cryptografie; en
+d. wie binnen de entiteit verantwoordelijk zijn voor het sleutelbeheer."""@nl ;
+    compl:articleRef "Art. 13"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art14_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 14 — beveiligingsaspecten ten aanzien van personeel"@nl ,
+                "Cbb art. 14 — personnel security aspects"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit wijst het personeel en andere binnen de entiteit 
+werkzame personen aan die worden belast met rollen, verantwoordelijkheden en bevoegdheden
+met betrekking tot de beveiliging van haar netwerk- en informatiesystemen. 
+2. De essentiële entiteit of belangrijke entiteit evalueert periodiek de aanwijzing, bedoeld in het 
+eerste lid, en werkt deze aanwijzing indien nodig bij. 
+3. De essentiële entiteit of belangrijke entiteit stelt betrouwbaarheidseisen op waaraan haar 
+personeel en andere binnen de entiteit werkzame personen moeten voldoen, voor zover deze 
+passend en noodzakelijk zijn voor hun taakuitoefening met betrekking tot de beveiliging van de 
+netwerk- en informatiesystemen van de entiteit."""@nl ;
+    compl:articleRef "Art. 14"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art15_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 15 — beveiligingsaspecten ten aanzien van toegangsbeleid"@nl ,
+                "Cbb art. 15 — access control security aspects"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid over de logische en fysieke 
+toegang tot haar netwerk- en informatiesystemen. De entiteit legt dat beleid schriftelijk vast en 
+past dat beleid aantoonbaar toe.
+2. Het beleid, bedoeld in het eerste lid, omvat in ieder geval het uitgeven, monitoren, gebruiken, 
+wijzigen en intrekken van identiteiten en autorisaties, en het beheer van identiteiten en 
+autorisaties. 
+3. De essentiële entiteit of belangrijke entiteit controleert identiteiten, authenticatiemiddelen en 
+autorisaties periodiek op de noodzakelijkheid, juistheid en actualiteit en voert indien nodig 
+wijzigingen door in de identiteiten, authenticatiemiddelen en autorisaties."""@nl ;
+    compl:articleRef "Art. 15"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art16_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 16 — beveiligingsaspecten ten aanzien van beheer van assets"@nl ,
+                "Cbb art. 16 — asset management security aspects"@en ;
+    rdfs:comment """1. De essentiële entiteit of belangrijke entiteit heeft vastgesteld beleid voor het beheer van haar 
+assets die zij voor haar werkzaamheden of voor het verlenen van haar diensten gebruikt. De 
+entiteit legt dat beleid schriftelijk vast en past dat beleid aantoonbaar toe.
+2. Het beleid, bedoeld in het eerste lid, omvat in ieder geval:
+a. een systeem om assets op verschillende niveaus te kunnen classificeren, indien van toepassing
+op basis van de eisen voor vertrouwelijkheid, integriteit en beschikbaarheid; en
+b. regels voor het aanvaardbaar gebruik van haar assets. 
+3. De essentiële entiteit of belangrijke entiteit stelt in het kader van de toepassing van het beleid, 
+bedoeld in het eerste lid, processen en procedures vast voor het beheer van haar assets. De 
+entiteit past deze processen en procedures aantoonbaar toe. 
+4. De essentiële entiteit of belangrijke entiteit heeft een volledige en actuele inventaris van haar 
+assets, en houdt deze bij."""@nl ;
+    compl:articleRef "Art. 16"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art17_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 17 — attenderingen, adviezen en informatie"@nl ,
+                "Cbb art. 17 — notifications, advisories and information"@en ;
+    rdfs:comment """Indien de essentiële entiteit of belangrijke entiteit door relevante partijen, waaronder CSIRT’s, 
+bevoegde autoriteiten, andere betrokken overheidsinstanties of rechtstreekse leveranciers of 
+dienstverleners, gericht wordt geattendeerd op de voor de beveiliging van haar netwerk- en 
+informatiesystemen relevante kwetsbaarheden of cyberdreigingen, of van die partijen gerichte
+beveiligingsadviezen of dreigingsinformatie ontvangt die relevant zijn voor de beveiliging van haar 
+netwerk- en informatiesystemen, beoordeelt zij of op basis daarvan aanpassingen of aanvullingen 
+nodig zijn van de maatregelen die nodig zijn ter uitvoering van artikel 21 van de wet. De entiteit 
+legt de uitkomsten van die beoordeling schriftelijk vast.VERSIE T.B.V. VERZENDING AAN TWEEDE KAMER"""@nl ;
+    compl:articleRef "Art. 17"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art18_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 18 — weren producten en diensten van leveranciers"@nl ,
+                "Cbb art. 18 — supplier exclusion of products and services"@en ;
+    rdfs:comment """1. Indien dat naar het oordeel van Onze Minister die het aangaat noodzakelijk is om risico’s voor 
+de beveiliging van netwerk- en informatiesystemen die de nationale veiligheid raken te beheersen
+of om incidenten die de nationale veiligheid raken te voorkomen, legt hij in overeenstemming met 
+Onze Minister een essentiële entiteit of een belangrijke entiteit de verplichting op om in de daarbij 
+aangewezen onderdelen van haar netwerk- en informatiesystemen uitsluitend gebruik te maken 
+van producten of diensten van anderen dan de daarbij door Onze Minister die het aangaat 
+genoemde partij die:
+a. een staat, entiteit of persoon is waarvan bekend is of waarvoor gronden zijn te vermoeden dat 
+deze de intentie heeft om de beveiliging van de netwerk- en informatiesystemen van de essentiële 
+entiteit of belangrijke entiteit aan te tasten of om incidenten bij de essentiële entiteit of belangrijke 
+entiteit te veroorzaken; of 
+b. nauwe banden heeft met of onder invloed staat van een staat, entiteit of persoon als bedoeld in 
+onderdeel a, of een entiteit of persoon is ten aanzien van wie er gronden zijn om dergelijke 
+banden of invloed te vermoeden.
+2. Indien de verplichting, bedoeld in het eerste lid, betrekking heeft op reeds in gebruik zijnde 
+producten en diensten ten behoeve van de daarbij aangewezen onderdelen, stelt Onze Minister die 
+het aangaat in het belang van de continuïteit van de dienstverlening een termijn vast voor het 
+vervangen respectievelijk beëindigen van de betreffende producten en diensten.
+3. Het eerste lid is niet van toepassing ten aanzien van essentiële entiteiten en belangrijke 
+entiteiten die aanbieders van openbare elektronische communicatienetwerken of aanbieders van 
+openbare elektronische communicatiediensten zijn."""@nl ,
+                  """Cross-reference: art. 18 instelt de bevoegdheid van Onze Minister om in een ministerieel besluit producten of diensten van specifieke leveranciers te verbieden in aangewezen netwerk- en informatiesystemen. De TBox-klasse compl:SupplierExclusionOrder vertegenwoordigt het juridische instrument-type; concrete ministeriële besluiten worden in Spoor B (organisatie-specifieke invulling) als compl:SupplierExclusionOrder-individuals opgenomen. In v4.4.0 zijn geen ABox-instances van die klasse aangelegd."""@nl ;
+    compl:articleRef "Art. 18"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+compl:Cbb_Art19_Verplichting
+    rdf:type compl:LegalObligation , owl:NamedIndividual ;
+    rdfs:label "Cbb art. 19 — evaluatie"@nl ,
+                "Cbb art. 19 — evaluation"@en ;
+    rdfs:comment """De essentiële entiteit of belangrijke entiteit evalueert periodiek de doeltreffendheid van de 
+maatregelen die zij heeft genomen op grond van artikel 21, eerste lid, van de wet en de effecten 
+ervan in de praktijk, en legt het resultaat daarvan schriftelijk vast. De entiteit past naar aanleiding 
+van de uitkomst van die evaluaties de maatregelen waar nodig aan.
+Artikel 20 (nadere regels)
+Bij regeling van Onze Minister die het aangaat, na overleg met Onze Minister, kunnen nadere 
+regels worden gesteld over de maatregelen, bedoeld in artikel 21, eerste lid, van de wet, waarbij 
+onderscheid kan worden gemaakt tussen sectoren, subsectoren, soorten entiteiten en entiteiten."""@nl ;
+    compl:articleRef "Art. 19"^^xsd:string ;
+    compl:sourcedFromFramework fw:Cbb .
+
+# Einde Stap 4 — v4.4.0 Fase 2

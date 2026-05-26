@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRC Kennismodel Explorer — Rijksoverheidsorganisatie</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+  <script src="grc-data.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #1a1a2e;
+      --panel:    #16213e;
+      --panel2:   #1e2d50;
+      --accent:   #0f3460;
+      --accent2:  #1a4080;
+      --highlight:#e94560;
+      --text:     #e2e2e2;
+      --muted:    #8899aa;
+      --border:   #2d3561;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Topbar ── */
+    #topbar {
+      background: var(--accent);
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      min-height: 46px;
+    }
+    #topbar h1 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      margin-right: 4px;
+    }
+    .sep { width: 1px; height: 22px; background: var(--border); }
+
+    .view-btn {
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .view-btn:hover   { background: var(--accent2); }
+    .view-btn.active  { background: var(--highlight); border-color: var(--highlight); color: #fff; font-weight: 600; }
+
+    .topbar-right { margin-left: auto; display: flex; gap: 6px; }
+    .icon-btn {
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 5px 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .icon-btn:hover { background: var(--accent2); }
+
+    /* ── Main area ── */
+    #main { display: flex; flex: 1; overflow: hidden; }
+
+    /* ── Filter panel ── */
+    #filterPanel {
+      width: 260px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 12px 10px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .psec h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    #searchInput {
+      width: 100%;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 9px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    #searchInput::placeholder { color: var(--muted); }
+    #searchInput:focus { outline: none; border-color: #4361ee; }
+
+    .fitem {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .fitem input[type="checkbox"] { cursor: pointer; accent-color: #4361ee; flex-shrink: 0; }
+    .cdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .flabel { flex: 1; }
+    .fcnt { color: var(--muted); font-size: 10px; }
+
+    #minConnSlider { width: 100%; accent-color: #4361ee; }
+    #minConnLabel  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    .reset-btn {
+      width: 100%;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .reset-btn:hover { background: var(--accent2); }
+
+    .srow { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px; }
+    .sval { color: #4d8ef0; font-weight: 600; }
+
+    /* ── Canvas area ── */
+    #canvasArea {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    #cy { flex: 1; background: var(--bg); }
+
+    #loadingOverlay {
+      position: absolute; inset: 0;
+      background: rgba(26,26,46,0.88);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; flex-direction: column; gap: 10px;
+      font-size: 13px; color: var(--muted);
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: #4361ee;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Stats bar ── */
+    #statsBar {
+      background: var(--accent);
+      border-top: 1px solid var(--border);
+      padding: 5px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    #statsText { color: var(--muted); }
+    #legendBar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .leg-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); }
+    .leg-dot  { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── Detail panel ── */
+    #detailPanel {
+      width: 0;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      overflow: hidden;
+      transition: width 0.22s ease;
+      flex-shrink: 0;
+    }
+    #detailPanel.open { width: 310px; }
+    #detailContent {
+      width: 310px;
+      padding: 14px;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    #detailContent h2 {
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 3px; word-break: break-word; padding-right: 20px;
+    }
+    .den { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+
+    .dbadge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 600;
+      margin-right: 4px; margin-bottom: 8px;
+    }
+
+    .dsec { margin-top: 12px; }
+    .dsec h4 {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--muted); margin-bottom: 5px;
+    }
+    .drow { font-size: 11px; margin-bottom: 3px; word-break: break-word; }
+    .dkey { color: var(--muted); }
+    .duri { font-size: 10px; color: #4d8ef0; word-break: break-all; }
+
+    .rgrp { margin-bottom: 9px; }
+    .rgrp h5 { font-size: 10px; color: var(--muted); margin-bottom: 4px; text-transform: capitalize; }
+    .rlink {
+      display: inline-block;
+      background: var(--panel2); color: var(--text);
+      padding: 2px 7px; border-radius: 3px;
+      font-size: 10px; margin: 2px;
+      cursor: pointer; border: 1px solid var(--border);
+    }
+    .rlink:hover { background: var(--accent2); border-color: #4361ee; }
+
+    #closeDetail {
+      float: right; background: transparent;
+      border: none; color: var(--muted);
+      cursor: pointer; font-size: 17px; line-height: 1;
+    }
+    #closeDetail:hover { color: var(--text); }
+
+    .zoom-btn {
+      background: var(--panel2); color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 10px; border-radius: 4px;
+      cursor: pointer; font-size: 11px;
+      width: 100%; margin-top: 10px;
+    }
+    .zoom-btn:hover { background: #4361ee; border-color: #4361ee; }
+
+    /* ── Tooltip ── */
+    #tooltip {
+      position: fixed;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 4px; font-size: 11px;
+      pointer-events: none; z-index: 300;
+      display: none; max-width: 240px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--panel); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div id="topbar">
+  <h1>GRC Kennismodel Explorer</h1>
+  <div class="sep"></div>
+  <button class="view-btn active" data-preset="framework" onclick="applyPreset(this)">Framework-overzicht</button>
+  <button class="view-btn" data-preset="full"        onclick="applyPreset(this)">Volledig model</button>
+  <button class="view-btn" data-preset="wetcontrol"  onclick="applyPreset(this)">Wet ↔ Control</button>
+  <button class="view-btn" data-preset="governance"  onclick="applyPreset(this)">Governance-keten</button>
+  <button class="view-btn" data-preset="roles"       onclick="applyPreset(this)">Rollen &amp; RACI</button>
+  <div class="topbar-right">
+    <button class="icon-btn" onclick="exportPNG()">⬇ PNG</button>
+  </div>
+</div>
+
+<!-- Main -->
+<div id="main">
+
+  <!-- Filter panel -->
+  <div id="filterPanel">
+    <div class="psec">
+      <h3>Zoeken</h3>
+      <input type="text" id="searchInput" placeholder="Zoek op naam of ID…" oninput="onSearch(this.value)">
+    </div>
+
+    <div class="psec">
+      <h3>Normenkader-lagen</h3>
+      <div id="laagFilters"></div>
+    </div>
+
+    <div class="psec">
+      <h3>Relatie-categorieën</h3>
+      <div id="catFilters"></div>
+    </div>
+
+    <div class="psec">
+      <h3>Minimaal connecties</h3>
+      <input type="range" id="minConnSlider" min="0" max="30" value="0"
+             oninput="onMinConn(this.value)">
+      <div id="minConnLabel">Toon alle nodes</div>
+    </div>
+
+    <div class="psec">
+      <button class="reset-btn" onclick="resetFilters()">↺ Filters resetten</button>
+    </div>
+
+    <div class="psec">
+      <h3>Statistieken</h3>
+      <div class="srow"><span>Zichtbare nodes</span><span class="sval" id="statNodes">—</span></div>
+      <div class="srow"><span>Zichtbare edges</span><span class="sval" id="statEdges">—</span></div>
+      <div class="srow"><span>Totale triples</span><span class="sval" id="statTriples">—</span></div>
+      <div class="srow"><span>SKOS-mappings</span><span class="sval" id="statSkos">—</span></div>
+      <div class="srow"><span>Gegenereerd</span><span class="sval" id="statDate">—</span></div>
+    </div>
+  </div>
+
+  <!-- Canvas -->
+  <div id="canvasArea">
+    <div id="cy"></div>
+    <div id="loadingOverlay">
+      <div class="spinner"></div>
+      <span id="loadingMsg">Graf initialiseren…</span>
+    </div>
+    <div id="statsBar">
+      <span id="statsText">—</span>
+      <span style="margin-left:auto">
+        <span id="legendBar"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Detail panel -->
+  <div id="detailPanel">
+    <div id="detailContent">
+      <button id="closeDetail" onclick="closeDetail()">×</button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// DATA + CONFIG
+// ═══════════════════════════════════════════════════════════════════
+
+if (!window.GRC_DATA) {
+  document.getElementById('loadingMsg').textContent =
+    'Fout: grc-data.js niet gevonden. Zorg dat dit bestand naast grc-explorer.html staat.';
+  throw new Error('GRC_DATA not loaded');
+}
+const DATA = window.GRC_DATA;
+
+const LAAG = {
+  0: { name: 'COSO/Enterprise',    color: '#ff6b6b', shape: 'hexagon'   },
+  1: { name: 'IT-governance',      color: '#ffa07a', shape: 'diamond'   },
+  2: { name: 'Wet/regelgeving',    color: '#ffd700', shape: 'rectangle' },
+  3: { name: 'Operationeel (BIO)', color: '#00b4d8', shape: 'ellipse'   },
+  4: { name: 'Normen (ISO/NIST)',  color: '#06d6a0', shape: 'ellipse'   },
+  5: { name: 'Audit (ENSIA)',      color: '#c77dff', shape: 'triangle'  },
+  9: { name: 'ISMS/Bedrijf',       color: '#adb5bd', shape: 'ellipse'   },
+};
+
+const CAT = {
+  governance:  { name: 'Governance',    color: '#4361ee', line: 'dashed', arrow: 'triangle',  width: 2,   srcArrow: 'none'     },
+  coverage:    { name: 'Coverage',      color: '#ffd700', line: 'solid',  arrow: 'triangle',  width: 1.8, srcArrow: 'none'     },
+  skos:        { name: 'SKOS-mappings', color: '#06d6a0', line: 'dotted', arrow: 'none',      width: 1,   srcArrow: 'none'     },
+  equivalence: { name: 'Equivalentie',  color: '#ffffff', line: 'solid',  arrow: 'triangle',  width: 3,   srcArrow: 'triangle' },
+  roles:       { name: 'Rollen (RACI)', color: '#ffa07a', line: 'solid',  arrow: 'triangle',  width: 1.5, srcArrow: 'none'     },
+  other:       { name: 'Overig',        color: '#5a6680', line: 'dashed', arrow: 'triangle',  width: 1,   srcArrow: 'none'     },
+};
+
+// Precompute degrees (total connections per node)
+const degrees = {};
+DATA.edges.forEach(e => {
+  degrees[e.source] = (degrees[e.source] || 0) + 1;
+  degrees[e.target] = (degrees[e.target] || 0) + 1;
+});
+
+// Node lookup map
+const nodeMap = {};
+DATA.nodes.forEach(n => { nodeMap[n.id] = n; });
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+
+let cy = null;
+let selectedNodeId = null;
+let debounceTimer = null;
+
+const state = {
+  preset:     'framework',
+  search:     '',
+  laag:       new Set([0,1,2,3,4,5,9]),
+  categories: new Set(Object.keys(CAT)),
+  minConn:    0,
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// ELEMENTS BUILDER
+// ═══════════════════════════════════════════════════════════════════
+
+function nodeSize(id) {
+  return Math.max(22, Math.min(62, 22 + (degrees[id] || 0) * 0.7));
+}
+
+function buildElements() {
+  let ns = DATA.nodes;
+
+  // Preset node scope
+  switch (state.preset) {
+    case 'framework':
+      ns = ns.filter(n => n.namespace === 'fw');
+      break;
+    case 'wetcontrol':
+      ns = ns.filter(n => [2, 3, 4].includes(n.laag));
+      break;
+    case 'governance':
+      ns = ns.filter(n => n.laag <= 5);
+      break;
+    case 'roles':
+      ns = ns.filter(n => n.namespace === 'roles' || n.laag === 1);
+      break;
+    // 'full': alle nodes
+  }
+
+  // Laag filter
+  ns = ns.filter(n => state.laag.has(n.laag));
+
+  // Search filter
+  if (state.search) {
+    const q = state.search.toLowerCase();
+    ns = ns.filter(n =>
+      n.label.toLowerCase().includes(q) ||
+      n.label_en.toLowerCase().includes(q) ||
+      n.id.toLowerCase().includes(q)
+    );
+  }
+
+  // Min connections filter
+  if (state.minConn > 0) {
+    ns = ns.filter(n => (degrees[n.id] || 0) >= state.minConn);
+  }
+
+  const visible = new Set(ns.map(n => n.id));
+
+  // Edges
+  let es = DATA.edges.filter(e =>
+    visible.has(e.source) &&
+    visible.has(e.target) &&
+    state.categories.has(e.category)
+  );
+
+  // Preset edge scope
+  switch (state.preset) {
+    case 'wetcontrol':
+      es = es.filter(e => ['coverage', 'skos', 'other'].includes(e.category));
+      break;
+    case 'governance':
+      es = es.filter(e => ['governance', 'coverage', 'equivalence', 'skos', 'other'].includes(e.category));
+      break;
+    case 'roles':
+      es = es.filter(e => e.category === 'roles');
+      break;
+  }
+
+  return {
+    nodes: ns.map(n => ({
+      data: {
+        id: n.id, label: n.label, label_en: n.label_en,
+        type: n.type, laag: n.laag, laag_naam: n.laag_naam,
+        namespace: n.namespace, uri: n.uri,
+        size: nodeSize(n.id),
+      }
+    })),
+    edges: es.map((e, i) => ({
+      data: {
+        id: 'e' + i,
+        source: e.source, target: e.target,
+        relation: e.relation, category: e.category,
+      }
+    })),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CYTOSCAPE STYLES
+// ═══════════════════════════════════════════════════════════════════
+
+function makeStyles(hideEdgeLabels) {
+  const nodeStyles = Object.entries(LAAG).map(([laag, cfg]) => ({
+    selector: `node[laag = ${laag}]`,
+    style: { 'background-color': cfg.color, 'shape': cfg.shape },
+  }));
+
+  const edgeStyles = Object.entries(CAT).map(([cat, cfg]) => ({
+    selector: `edge[category = "${cat}"]`,
+    style: {
+      'line-color':          cfg.color,
+      'target-arrow-color':  cfg.color,
+      'source-arrow-color':  cfg.color,
+      'line-style':          cfg.line,
+      'target-arrow-shape':  cfg.arrow,
+      'source-arrow-shape':  cfg.srcArrow,
+      'width':               cfg.width,
+    },
+  }));
+
+  return [
+    {
+      selector: 'node',
+      style: {
+        'width':             'data(size)',
+        'height':            'data(size)',
+        'label':             'data(label)',
+        'color':             '#dde4f0',
+        'font-size':         9,
+        'text-valign':       'bottom',
+        'text-halign':       'center',
+        'text-margin-y':     3,
+        'text-wrap':         'ellipsis',
+        'text-max-width':    90,
+        'border-width':      1.5,
+        'border-color':      'rgba(255,255,255,0.12)',
+        'text-outline-width': 2,
+        'text-outline-color': '#1a1a2e',
+      },
+    },
+    {
+      selector: 'node:selected',
+      style: { 'border-width': 3, 'border-color': '#ffffff', 'font-size': 11 },
+    },
+    {
+      selector: '.highlighted',
+      style: { 'border-width': 2.5, 'border-color': '#e94560', 'opacity': 1 },
+    },
+    {
+      selector: '.faded',
+      style: { 'opacity': 0.12 },
+    },
+    {
+      selector: 'edge',
+      style: {
+        'curve-style':       'bezier',
+        'label':             hideEdgeLabels ? '' : 'data(relation)',
+        'font-size':         7,
+        'color':             'rgba(190,200,220,0.65)',
+        'text-outline-width': 1.5,
+        'text-outline-color': '#1a1a2e',
+        'text-rotation':     'autorotate',
+        'arrow-scale':       0.7,
+        'opacity':           0.65,
+      },
+    },
+    {
+      selector: 'edge:selected',
+      style: { 'opacity': 1, 'width': 3 },
+    },
+    ...nodeStyles,
+    ...edgeStyles,
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// LAYOUT
+// ═══════════════════════════════════════════════════════════════════
+
+function getLayout(nodeCount) {
+  const concentric = (levelWidth) => ({
+    name: 'concentric',
+    concentric: n => { const m={0:8,1:7,2:6,3:5,4:4,5:3,9:1}; return m[n.data('laag')]??1; },
+    levelWidth: () => levelWidth,
+    minNodeSpacing: nodeCount < 100 ? 25 : nodeCount < 300 ? 10 : 4,
+    padding: 30,
+    animate: false,
+    clockwise: true,
+  });
+
+  if (nodeCount <= 80)  return concentric(3);
+  if (nodeCount <= 250) return concentric(8);
+  return concentric(18);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT / RENDER
+// ═══════════════════════════════════════════════════════════════════
+
+function initCy() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  document.getElementById('loadingMsg').textContent = 'Graf opbouwen…';
+
+  // Defer to let the DOM update (show spinner)
+  setTimeout(() => {
+    const elems = buildElements();
+    const nCount = elems.nodes.length;
+    const hideLabels = nCount > 300;
+
+    if (cy) { cy.destroy(); cy = null; }
+
+    cy = cytoscape({
+      container: document.getElementById('cy'),
+      elements: elems,
+      style: makeStyles(hideLabels),
+      layout: getLayout(nCount),
+      minZoom: 0.04,
+      maxZoom: 12,
+      wheelSensitivity: 0.25,
+    });
+
+    attachEvents();
+    updateStats();
+
+    document.getElementById('loadingOverlay').style.display = 'none';
+  }, 60);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CYTOSCAPE EVENTS
+// ═══════════════════════════════════════════════════════════════════
+
+function attachEvents() {
+  const tooltip = document.getElementById('tooltip');
+  let lastTap = 0;
+
+  cy.on('tap', 'node', function(e) {
+    const now = Date.now();
+    const node = e.target;
+
+    // Double-tap detection (zoom)
+    if (now - lastTap < 320) {
+      cy.fit(node.closedNeighborhood(), 80);
+      lastTap = 0;
+      return;
+    }
+    lastTap = now;
+
+    // Highlight neighborhood
+    cy.elements().addClass('faded').removeClass('highlighted');
+    node.closedNeighborhood().removeClass('faded').addClass('highlighted');
+
+    selectedNodeId = node.id();
+    showDetail(node.data());
+  });
+
+  cy.on('tap', function(e) {
+    if (e.target === cy) {
+      cy.elements().removeClass('faded').removeClass('highlighted');
+      selectedNodeId = null;
+    }
+  });
+
+  cy.on('mouseover', 'node', function(e) {
+    const d = e.target.data();
+    const lcfg = LAAG[d.laag] || LAAG[9];
+    tooltip.innerHTML =
+      `<strong>${d.label}</strong><br>` +
+      `<span style="color:${lcfg.color}">${d.laag_naam}</span>` +
+      ` · <span style="color:#8899aa">${d.type}</span><br>` +
+      `<span style="color:#6b7fa8;font-size:10px">${degrees[d.id]||0} connecties</span>`;
+    tooltip.style.display = 'block';
+  });
+
+  cy.on('mousemove', 'node', function(e) {
+    tooltip.style.left = (e.originalEvent.clientX + 14) + 'px';
+    tooltip.style.top  = (e.originalEvent.clientY - 6)  + 'px';
+  });
+
+  cy.on('mouseout', 'node', function() {
+    tooltip.style.display = 'none';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DETAIL PANEL
+// ═══════════════════════════════════════════════════════════════════
+
+function showDetail(data) {
+  document.getElementById('detailPanel').classList.add('open');
+
+  const cfg = LAAG[data.laag] ?? LAAG[9];
+
+  // Collect edges from full dataset (not just visible)
+  const outEdges = DATA.edges.filter(e => e.source === data.id);
+  const inEdges  = DATA.edges.filter(e => e.target === data.id);
+
+  function groupByCat(edges, dir) {
+    const groups = {};
+    edges.forEach(e => {
+      const cat = e.category;
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push({ edge: e, peerId: dir === 'out' ? e.target : e.source });
+    });
+    return groups;
+  }
+
+  function renderGroups(groups, dir) {
+    return Object.entries(groups).map(([cat, items]) => {
+      const ccfg = CAT[cat] || { name: cat, color: '#aaa' };
+      const arrow = dir === 'out' ? '→' : '←';
+      const links = items.map(({ edge, peerId }) => {
+        const peer = nodeMap[peerId];
+        const lbl  = peer ? peer.label : peerId;
+        return `<span class="rlink" onclick="selectNode('${peerId.replace(/'/g,"\\'")}')"`+
+               ` title="${edge.relation}">${lbl}</span>`;
+      }).join('');
+      return `<div class="rgrp">
+        <h5 style="color:${ccfg.color}">${ccfg.name} ${arrow}</h5>
+        ${links}
+      </div>`;
+    }).join('');
+  }
+
+  const outGroups = groupByCat(outEdges, 'out');
+  const inGroups  = groupByCat(inEdges,  'in');
+  const relHtml   = renderGroups(outGroups, 'out') + renderGroups(inGroups, 'in');
+
+  document.getElementById('detailBody').innerHTML = `
+    <h2>${data.label}</h2>
+    ${data.label_en && data.label_en !== data.label
+      ? `<div class="den">${data.label_en}</div>` : ''}
+    <span class="dbadge" style="background:${cfg.color}22;color:${cfg.color};border:1px solid ${cfg.color}44">
+      L${data.laag}: ${data.laag_naam}
+    </span>
+    <span class="dbadge" style="background:#2d356188;color:#e2e2e2;border:1px solid #2d3561">
+      ${data.type}
+    </span>
+
+    <div class="dsec">
+      <h4>Details</h4>
+      <div class="drow"><span class="dkey">Namespace: </span>${data.namespace}</div>
+      <div class="drow"><span class="dkey">Connecties: </span>${degrees[data.id]||0}
+        (${outEdges.length} uit, ${inEdges.length} in)</div>
+      <div class="drow duri" title="${data.uri}">${data.uri}</div>
+    </div>
+
+    <div class="dsec">
+      <h4>Relaties (${outEdges.length + inEdges.length} totaal)</h4>
+      ${relHtml || '<div style="color:#8899aa;font-size:11px">Geen relaties</div>'}
+    </div>
+
+    <button class="zoom-btn" onclick="zoomToNode('${data.id.replace(/'/g,"\\'")}')">
+      ⊕ Zoom naar node en directe buren
+    </button>
+  `;
+}
+
+function selectNode(nodeId) {
+  const cyNode = cy ? cy.$id(nodeId) : null;
+  if (cyNode && cyNode.length) {
+    cy.elements().addClass('faded').removeClass('highlighted');
+    cyNode.closedNeighborhood().removeClass('faded').addClass('highlighted');
+    showDetail(cyNode.data());
+  } else {
+    // Node not in current view — show from raw data
+    const nd = nodeMap[nodeId];
+    if (nd) showDetail(nd);
+  }
+}
+
+function zoomToNode(nodeId) {
+  const node = cy ? cy.$id(nodeId) : null;
+  if (node && node.length) cy.fit(node.closedNeighborhood(), 80);
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  if (cy) cy.elements().removeClass('faded').removeClass('highlighted');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// FILTER CONTROLS
+// ═══════════════════════════════════════════════════════════════════
+
+function buildFilterUI() {
+  // Laag filters
+  const laagDiv = document.getElementById('laagFilters');
+  const laagCounts = {};
+  DATA.nodes.forEach(n => laagCounts[n.laag] = (laagCounts[n.laag]||0)+1);
+
+  Object.entries(LAAG).forEach(([l, cfg]) => {
+    const cnt = laagCounts[+l] || 0;
+    laagDiv.innerHTML +=
+      `<label class="fitem">
+        <input type="checkbox" checked data-laag="${l}" onchange="onLaag(${l},this.checked)">
+        <span class="cdot" style="background:${cfg.color}"></span>
+        <span class="flabel">L${l}: ${cfg.name}</span>
+        <span class="fcnt">${cnt}</span>
+      </label>`;
+  });
+
+  // Category filters
+  const catDiv = document.getElementById('catFilters');
+  const catCounts = {};
+  DATA.edges.forEach(e => catCounts[e.category] = (catCounts[e.category]||0)+1);
+
+  Object.entries(CAT).forEach(([cat, cfg]) => {
+    const cnt = catCounts[cat] || 0;
+    catDiv.innerHTML +=
+      `<label class="fitem">
+        <input type="checkbox" checked data-cat="${cat}" onchange="onCat('${cat}',this.checked)">
+        <span class="cdot" style="background:${cfg.color}"></span>
+        <span class="flabel">${cfg.name}</span>
+        <span class="fcnt">${cnt}</span>
+      </label>`;
+  });
+
+  // Legend
+  const legBar = document.getElementById('legendBar');
+  Object.entries(LAAG).forEach(([l, cfg]) => {
+    legBar.innerHTML +=
+      `<span class="leg-item">
+        <span class="leg-dot" style="background:${cfg.color}"></span>
+        ${cfg.name}
+      </span>`;
+  });
+
+  // Static meta stats
+  document.getElementById('statTriples').textContent = DATA.meta.triples.toLocaleString('nl-NL');
+  document.getElementById('statSkos').textContent    = DATA.meta.skos_mappings.toLocaleString('nl-NL');
+  document.getElementById('statDate').textContent    = DATA.meta.generated;
+}
+
+function onSearch(val) {
+  state.search = val.trim();
+  scheduleUpdate();
+}
+
+function onLaag(laag, checked) {
+  if (checked) state.laag.add(+laag);
+  else         state.laag.delete(+laag);
+  scheduleUpdate();
+}
+
+function onCat(cat, checked) {
+  if (checked) state.categories.add(cat);
+  else         state.categories.delete(cat);
+  scheduleUpdate();
+}
+
+function onMinConn(val) {
+  state.minConn = +val;
+  document.getElementById('minConnLabel').textContent =
+    +val === 0 ? 'Toon alle nodes' : `Minimaal ${val} connectie${+val>1?'s':''}`;
+  scheduleUpdate();
+}
+
+function scheduleUpdate() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => initCy(), 350);
+}
+
+function applyPreset(btn) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.preset = btn.dataset.preset;
+  initCy();
+}
+
+function resetFilters() {
+  state.search     = '';
+  state.laag       = new Set([0,1,2,3,4,5,9]);
+  state.categories = new Set(Object.keys(CAT));
+  state.minConn    = 0;
+
+  document.getElementById('searchInput').value   = '';
+  document.getElementById('minConnSlider').value = 0;
+  document.getElementById('minConnLabel').textContent = 'Toon alle nodes';
+  document.querySelectorAll('#laagFilters input').forEach(i => i.checked = true);
+  document.querySelectorAll('#catFilters input').forEach(i => i.checked = true);
+
+  initCy();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STATS BAR
+// ═══════════════════════════════════════════════════════════════════
+
+function updateStats() {
+  if (!cy) return;
+  const n = cy.nodes().length;
+  const e = cy.edges().length;
+  document.getElementById('statNodes').textContent = n.toLocaleString('nl-NL');
+  document.getElementById('statEdges').textContent = e.toLocaleString('nl-NL');
+  document.getElementById('statsText').textContent =
+    `${n} nodes · ${e} edges zichtbaar` +
+    (n > 300 ? '  (edge-labels verborgen bij >300 nodes)' : '');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════════════
+
+function exportPNG() {
+  if (!cy) return;
+  const png = cy.png({ scale: 2.5, full: true, bg: '#1a1a2e' });
+  const a = document.createElement('a');
+  a.href = png;
+  a.download = 'grc-kennismodel-' + state.preset + '.png';
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════════════
+
+buildFilterUI();
+initCy();
+</script>
+</body>
+</html>

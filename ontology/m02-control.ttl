@@ -1,0 +1,2178 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M2: Control
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m02-control>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M2 — Control"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+ctrl:Control
+    rdf:type owl:Class ;
+    rdfs:label "Control"@en , "Beheersmaatregel"@nl ;
+    rdfs:comment
+        "An information security control. Each control in this namespace is identical across ISO 27001:2022 Annex A (the requirement), ISO 27002:2022 (implementation guidance) and BIO 2.0 (mandatory baseline). The ctrl: namespace models the control itself; ISO 27002 provides additional implementation guidance; BIO 2.0 adds government-specific measures via bio:OverheidsMaatregel."@en ,
+        "Een beheersmaatregel voor informatiebeveiliging. Elke control in deze namespace is identiek in ISO 27001:2022 Bijlage A (de eis), ISO 27002:2022 (de implementatierichtlijn) en BIO 2.0 (het verplichte kader). De ctrl:-namespace modelleert de control zelf; ISO 27002 biedt aanvullende implementatierichtlijnen; BIO 2.0 voegt overheidsspecifieke maatregelen toe via bio:OverheidsMaatregel."@nl .
+
+ctrl:ControlFamily
+    rdf:type owl:Class ;
+    rdfs:label "Control Family"@en , "Beheersmaatregelfamilie"@nl ;
+    rdfs:comment
+        "A thematic grouping of related controls within a framework (e.g. NIST 800-53 control families)."@en ,
+        "Een thematische groepering van gerelateerde beheersmaatregelen binnen een kaderwerk."@nl .
+
+ctrl:ControlObjective
+    rdf:type owl:Class ;
+    rdfs:label "Control Objective"@en , "Beheersmaatregeldoelstelling"@nl ;
+    rdfs:comment
+        "The intended outcome or purpose a control is designed to achieve."@en ,
+        "Het beoogde resultaat of doel dat een beheersmaatregel is ontworpen te bereiken."@nl .
+
+ctrl:ControlDomain
+    rdf:type owl:Class ;
+    rdfs:label "Control Domain"@en , "Beheersmaatregeldomein"@nl ;
+    rdfs:comment
+        "A thematic domain or category within which controls are grouped (e.g. Access Control, Incident Management). Framework-neutral: applies to ISO 27002, NIST 800-53, COBIT and other control frameworks."@en ,
+        "Een thematisch domein of categorie waarbinnen beheersmaatregelen zijn gegroepeerd (bijv. Toegangsbeveiliging, Incidentbeheer). Framework-neutraal: van toepassing op ISO 27002, NIST 800-53, COBIT en andere maatregelkaders."@nl .
+
+ctrl:ISO27002Control
+    rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:Control ;
+    rdfs:label "ISO/IEC 27002:2022 Control"@en , "ISO/IEC 27002:2022 Beheersmaatregel"@nl ;
+    rdfs:comment
+        "A control defined in ISO/IEC 27002:2022, organised in four themes: Organisational, People, Physical, Technological."@en ,
+        "Een beheersmaatregel gedefinieerd in ISO/IEC 27002:2022, georganiseerd in vier thema's: Organisatorisch, Mensgericht, Fysiek, Technologisch."@nl .
+
+ctrl:NIST80053Control
+    rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:Control ;
+    rdfs:label "NIST SP 800-53 Rev.5 Control"@en , "NIST SP 800-53 Rev.5 Beheersmaatregel"@nl ;
+    rdfs:comment
+        "A security or privacy control defined in NIST SP 800-53 Revision 5."@en ,
+        "Een beveiligings- of privacymaatregel gedefinieerd in NIST SP 800-53 Revisie 5."@nl .
+
+ctrl:ControlTheme
+    rdf:type owl:Class ;
+    rdfs:label "Control Theme"@en , "Beheersmaatregelthema"@nl ;
+    rdfs:comment
+        "The ISO/IEC 27002:2022 thematic category of a control: Organisational, People, Physical or Technological."@en ,
+        "De thematische categorie van een beheersmaatregel conform ISO/IEC 27002:2022: Organisatorisch, Mensgericht, Fysiek of Technologisch."@nl .
+
+ctrl:ControlType
+    rdf:type owl:Class ;
+    rdfs:label "Control Type"@en , "Type beheersmaatregel"@nl ;
+    rdfs:comment
+        "The timing of control effect: Preventive, Detective, or Corrective."@en ,
+        "Het tijdstip van werking van de beheersmaatregel: Preventief, Detectief of Corrigerend."@nl .
+
+ctrl:SecurityProperty
+    rdf:type owl:Class ;
+    rdfs:label "Security Property"@en , "Informatiebeveiligingseigenschap"@nl ;
+    rdfs:comment
+        "CIA triad properties: Confidentiality, Integrity, Availability."@en ,
+        "CIA-driehoek eigenschappen: Vertrouwelijkheid, Integriteit, Beschikbaarheid."@nl .
+
+ctrl:CybersecurityConcept
+    rdf:type owl:Class ;
+    rdfs:label "Cybersecurity Concept"@en , "Cybersecurityconcept"@nl ;
+    rdfs:comment
+        "NIST CSF 2.0-aligned concept: Govern, Identify, Protect, Detect, Respond, Recover. Per CSF 2.0 (NIST CSWP 29, 26 februari 2024) is Govern toegevoegd t.o.v. v1.x."@en ,
+        "NIST CSF 2.0-gebaseerd concept: Sturen, Identificeren, Beschermen, Detecteren, Reageren, Herstellen. Per CSF 2.0 (NIST CSWP 29, 26 februari 2024) is Sturen toegevoegd t.o.v. v1.x."@nl .
+
+ctrl:OperationalCapability
+    rdf:type owl:Class ;
+    rdfs:label "Operational Capability"@en , "Operationele capaciteit"@nl ;
+    rdfs:comment
+        "ISO/IEC 27002:2022 attribute: the operational capability that a control supports (e.g. Governance, Asset Management, Identity and Access Management). 16 values defined."@en ,
+        "ISO/IEC 27002:2022-attribuut: de operationele capaciteit die een beheersmaatregel ondersteunt (bijv. Governance, Bedrijfsmiddelenbeheer, Identiteits- en toegangsbeheer). 16 waarden gedefinieerd."@nl .
+
+ctrl:SecurityDomain
+    rdf:type owl:Class ;
+    rdfs:label "Security Domain"@en , "Beveiligingsdomein"@nl ;
+    rdfs:comment
+        "ISO/IEC 27002:2022 attribute: the security domain a control belongs to. Four values: Governance & Ecosystem, Protection, Defence, Resilience."@en ,
+        "ISO/IEC 27002:2022-attribuut: het beveiligingsdomein waartoe een beheersmaatregel behoort. Vier waarden: Governance & Ecosysteem, Bescherming, Verdediging, Veerkracht."@nl .
+
+# --- Disjointness ---
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( ctrl:ISO27002Control ctrl:NIST80053Control ) .
+
+# =============================================================================
+# SECTIE 2 – OBJECT PROPERTIES
+# =============================================================================
+
+ctrl:belongsToFramework
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range fw:GRCFramework ;
+    rdfs:label "belongs to framework"@en , "behoort tot kaderwerk"@nl ;
+    rdfs:comment "Links a control to the framework in which it is defined."@en ,
+                 "Koppelt een beheersmaatregel aan het kaderwerk waarin deze is gedefinieerd."@nl .
+
+ctrl:hasControlFamily
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:ControlFamily ;
+    rdfs:label "has control family"@en , "heeft beheersmaatregelfamilie"@nl .
+
+ctrl:hasControlObjective
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:ControlObjective ;
+    rdfs:label "has control objective"@en , "heeft beheersmaatregeldoelstelling"@nl .
+
+ctrl:hasTheme
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:ISO27002Control ;
+    rdfs:range ctrl:ControlTheme ;
+    rdfs:label "has theme"@en , "heeft thema"@nl ;
+    rdfs:comment "The ISO 27002:2022 thematic category."@en ,
+                 "De thematische categorie conform ISO 27002:2022."@nl .
+
+ctrl:hasControlType
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:ControlType ;
+    rdfs:label "has control type"@en , "heeft type beheersmaatregel"@nl .
+
+ctrl:hasSecurityProperty
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:SecurityProperty ;
+    rdfs:label "has security property"@en , "heeft informatiebeveiligingseigenschap"@nl .
+
+ctrl:hasCybersecurityConcept
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:CybersecurityConcept ;
+    rdfs:label "has cybersecurity concept"@en , "heeft cybersecurityconcept"@nl .
+
+ctrl:hasOperationalCapability
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:OperationalCapability ;
+    rdfs:label "has operational capability"@en , "heeft operationele capaciteit"@nl ;
+    rdfs:comment
+        "Links a control to the operational capability it supports. ISO/IEC 27002:2022 attribute. Multi-valued."@en ,
+        "Koppelt een beheersmaatregel aan de operationele capaciteit die deze ondersteunt. ISO/IEC 27002:2022-attribuut. Meerwaardig."@nl .
+
+ctrl:hasSecurityDomain
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:SecurityDomain ;
+    rdfs:label "has security domain"@en , "heeft beveiligingsdomein"@nl ;
+    rdfs:comment
+        "Links a control to the security domain it belongs to. ISO/IEC 27002:2022 attribute. Multi-valued."@en ,
+        "Koppelt een beheersmaatregel aan het beveiligingsdomein waartoe deze behoort. ISO/IEC 27002:2022-attribuut. Meerwaardig."@nl .
+
+ctrl:relatedTo
+    rdf:type owl:ObjectProperty ;
+    rdf:type owl:SymmetricProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "related to"@en , "gerelateerd aan"@nl .
+
+ctrl:satisfies
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range owl:Thing ;
+    rdfs:label "satisfies"@en , "voldoet aan"@nl ;
+    rdfs:comment "Links a control to a regulatory obligation or requirement it helps satisfy."@en ,
+                 "Koppelt een beheersmaatregel aan een wettelijke verplichting of eis die deze helpt te vervullen."@nl .
+
+ctrl:crossMapsTo
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "cross-maps to"@en , "cross-mapped aan"@nl ;
+    rdfs:comment "Cross-framework mapping between equivalent or closely related controls."@en ,
+                 "Cross-framework koppeling tussen equivalente of nauw verwante beheersmaatregelen."@nl .
+
+ctrl:definedInFramework
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range fw:GRCFramework ;
+    rdfs:label "defined in framework"@en , "gedefinieerd in kaderwerk"@nl ;
+    rdfs:comment "Links a control to the framework in which it is defined or mandated."@en ,
+                 "Koppelt een beheersmaatregel aan het kaderwerk waarin deze is gedefinieerd of verplicht gesteld."@nl .
+
+ctrl:hasControlDomain
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range ctrl:ControlDomain ;
+    rdfs:label "has control domain"@en , "heeft beheersmaatregeldomein"@nl ;
+    rdfs:comment "Links a control to the thematic domain it belongs to (e.g. Access Control, Incident Response)."@en ,
+                 "Koppelt een beheersmaatregel aan het thematisch domein waartoe deze behoort."@nl .
+
+# =============================================================================
+# SECTIE 3 – DATA PROPERTIES
+# =============================================================================
+
+ctrl:hasControlID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range xsd:string ;
+    rdfs:label "has control ID"@en , "heeft beheersmaatregel-ID"@nl .
+
+ctrl:hasControlTitle
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has control title"@en , "heeft beheersmaatregeltitel"@nl .
+
+ctrl:hasControlText
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range xsd:string ;
+    rdfs:label "has control text"@en , "heeft beheersmaatregeltekst"@nl .
+
+ctrl:isApplicableInBIO
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is applicable in BIO 2.0"@en , "van toepassing in BIO 2.0"@nl .
+
+# =============================================================================
+# SECTIE 4 – ABOX: CONTROL TYPE / THEME / PROPERTY INDIVIDUALS
+# =============================================================================
+
+# Control Types
+ctrl:Preventief   rdf:type ctrl:ControlType ; rdfs:label "Preventive"@en , "Preventief"@nl .
+ctrl:Detectief    rdf:type ctrl:ControlType ; rdfs:label "Detective"@en , "Detectief"@nl .
+ctrl:Corrigerend  rdf:type ctrl:ControlType ; rdfs:label "Corrective"@en , "Corrigerend"@nl .
+
+# Control Themes (ISO 27002:2022)
+ctrl:Organisatorisch rdf:type ctrl:ControlTheme ; rdfs:label "Organisational"@en , "Organisatorisch"@nl .
+ctrl:Mensgericht     rdf:type ctrl:ControlTheme ; rdfs:label "People"@en , "Mensgericht"@nl .
+ctrl:Fysiek          rdf:type ctrl:ControlTheme ; rdfs:label "Physical"@en , "Fysiek"@nl .
+ctrl:Technologisch   rdf:type ctrl:ControlTheme ; rdfs:label "Technological"@en , "Technologisch"@nl .
+
+# Security Properties
+ctrl:Vertrouwelijkheid rdf:type ctrl:SecurityProperty ; rdfs:label "Confidentiality"@en , "Vertrouwelijkheid"@nl .
+ctrl:Integriteit       rdf:type ctrl:SecurityProperty ; rdfs:label "Integrity"@en , "Integriteit"@nl .
+ctrl:Beschikbaarheid   rdf:type ctrl:SecurityProperty ; rdfs:label "Availability"@en , "Beschikbaarheid"@nl .
+
+# Cybersecurity Concepts
+ctrl:Identificeren rdf:type ctrl:CybersecurityConcept ; rdfs:label "Identify"@en , "Identificeren"@nl .
+ctrl:Beschermen    rdf:type ctrl:CybersecurityConcept ; rdfs:label "Protect"@en , "Beschermen"@nl .
+ctrl:Detecteren    rdf:type ctrl:CybersecurityConcept ; rdfs:label "Detect"@en , "Detecteren"@nl .
+ctrl:Reageren      rdf:type ctrl:CybersecurityConcept ; rdfs:label "Respond"@en , "Reageren"@nl .
+ctrl:Herstellen    rdf:type ctrl:CybersecurityConcept ; rdfs:label "Recover"@en , "Herstellen"@nl .
+
+# BBN Levels (bron: Handreiking BIO2-opmaat v2.5, NIET BIO 2.0 — gecorrigeerd 2026-03-19, BUG-06)
+# ctrl:BBN3 VERWIJDERD — BBN3 bestaat niet in de Handreiking BIO2-opmaat (BUG-06 fix, 2026-03-19)
+
+# Operational Capabilities (ISO/IEC 27002:2022 — 16 waarden, stap 5 toevoeging 2026-03-19)
+ctrl:OC_Governance                        rdf:type ctrl:OperationalCapability ; rdfs:label "Governance"@en , "Governance"@nl .
+ctrl:OC_Bedrijfsmiddelenbeheer            rdf:type ctrl:OperationalCapability ; rdfs:label "Asset Management"@en , "Beheer van bedrijfsmiddelen"@nl .
+ctrl:OC_Informatiebescherming             rdf:type ctrl:OperationalCapability ; rdfs:label "Information Protection"@en , "Informatiebescherming"@nl .
+ctrl:OC_Personeelsbeveiliging             rdf:type ctrl:OperationalCapability ; rdfs:label "Human Resource Security"@en , "Personeelsbeveiliging"@nl .
+ctrl:OC_FysiekeBeveiliging                rdf:type ctrl:OperationalCapability ; rdfs:label "Physical Security"@en , "Fysieke beveiliging"@nl .
+ctrl:OC_SysteemNetwerkbeveiliging         rdf:type ctrl:OperationalCapability ; rdfs:label "System and Network Security"@en , "Systeem- en netwerkbeveiliging"@nl .
+ctrl:OC_Toepassingsbeveiliging            rdf:type ctrl:OperationalCapability ; rdfs:label "Application Security"@en , "Toepassingsbeveiliging"@nl .
+ctrl:OC_VeiligeConfiguratie               rdf:type ctrl:OperationalCapability ; rdfs:label "Secure Configuration"@en , "Veilige configuratie"@nl .
+ctrl:OC_IdentiteitToegangsbeheer          rdf:type ctrl:OperationalCapability ; rdfs:label "Identity and Access Management"@en , "Identiteits- en toegangsbeheer"@nl .
+ctrl:OC_BedreigingKwetsbaarhedenbeheer    rdf:type ctrl:OperationalCapability ; rdfs:label "Threat and Vulnerability Management"@en , "Beheer van bedreigingen en kwetsbaarheden"@nl .
+ctrl:OC_Continuiteit                      rdf:type ctrl:OperationalCapability ; rdfs:label "Continuity"@en , "Continuïteit"@nl .
+ctrl:OC_Leveranciersrelaties              rdf:type ctrl:OperationalCapability ; rdfs:label "Supplier Relationships Security"@en , "Beveiliging in leveranciersrelaties"@nl .
+ctrl:OC_JuridischCompliance               rdf:type ctrl:OperationalCapability ; rdfs:label "Legal and Compliance"@en , "Juridisch en compliance"@nl .
+ctrl:OC_BeveiligingsgebeurtenissenBeheer  rdf:type ctrl:OperationalCapability ; rdfs:label "Information Security Event Management"@en , "Beheer van informatiebeveiligingsgebeurtenissen"@nl .
+ctrl:OC_BorgingInformatiebeveiliging      rdf:type ctrl:OperationalCapability ; rdfs:label "Information Security Assurance"@en , "Borging van informatiebeveiliging"@nl .
+ctrl:OC_BeveiligingLeveranciersrelaties   rdf:type ctrl:OperationalCapability ; rdfs:label "Supplier Relationship Management"@en , "Leveranciersrelaties"@nl .
+
+# Security Domains (ISO/IEC 27002:2022 — 4 waarden)
+ctrl:SD_GovernanceEcosysteem  rdf:type ctrl:SecurityDomain ; rdfs:label "Governance and Ecosystem"@en , "Governance en Ecosysteem"@nl .
+ctrl:SD_Bescherming           rdf:type ctrl:SecurityDomain ; rdfs:label "Protection"@en , "Bescherming"@nl .
+ctrl:SD_Verdediging           rdf:type ctrl:SecurityDomain ; rdfs:label "Defence"@en , "Verdediging"@nl .
+ctrl:SD_Veerkracht            rdf:type ctrl:SecurityDomain ; rdfs:label "Resilience"@en , "Veerkracht"@nl .
+
+# =============================================================================
+# SECTIE 5 – ABOX: ISO/IEC 27002:2022 CONTROLS (93 stuks)
+# =============================================================================
+
+ctrl:ISO27002_5_01
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beleidsregels voor informatiebeveiliging"@nl , "Policies for information security"@en ;
+    ctrl:hasControlID "5.01" ;
+    ctrl:hasControlTitle "Beleidsregels voor informatiebeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_02
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Rollen en verantwoordelijkheden bij informatiebeveiliging"@nl , "Information security roles and responsibilities"@en ;
+    ctrl:hasControlID "5.02" ;
+    ctrl:hasControlTitle "Rollen en verantwoordelijkheden bij informatiebeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_03
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Functiescheiding"@nl , "Segregation of duties"@en ;
+    ctrl:hasControlID "5.03" ;
+    ctrl:hasControlTitle "Functiescheiding"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_04
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Managementverantwoordelijkheden"@nl , "Management responsibilities"@en ;
+    ctrl:hasControlID "5.04" ;
+    ctrl:hasControlTitle "Managementverantwoordelijkheden"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_05
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Contact met overheidsinstanties"@nl , "Contact with authorities"@en ;
+    ctrl:hasControlID "5.05" ;
+    ctrl:hasControlTitle "Contact met overheidsinstanties"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_06
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Contact met speciale belangengroepen"@nl , "Contact with special interest groups"@en ;
+    ctrl:hasControlID "5.06" ;
+    ctrl:hasControlTitle "Contact met speciale belangengroepen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_07
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Informatie en analyses over dreigingen"@nl , "Threat intelligence"@en ;
+    ctrl:hasControlID "5.07" ;
+    ctrl:hasControlTitle "Informatie en analyses over dreigingen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_08
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Informatiebeveiliging in projectmanagement"@nl , "Information security in project management"@en ;
+    ctrl:hasControlID "5.08" ;
+    ctrl:hasControlTitle "Informatiebeveiliging in projectmanagement"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_09
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Inventarisatie van informatie en andere gerelateerde bedrijfsmiddelen"@nl , "Inventory of information and other associated assets"@en ;
+    ctrl:hasControlID "5.09" ;
+    ctrl:hasControlTitle "Inventarisatie van informatie en andere gerelateerde bedrijfsmiddelen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_10
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Aanvaard gebruik van informatie en andere gerelateerde bedrijfsmiddelen"@nl , "Acceptable use of information and other associated assets"@en ;
+    ctrl:hasControlID "5.10" ;
+    ctrl:hasControlTitle "Aanvaard gebruik van informatie en andere gerelateerde bedrijfsmiddelen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_11
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Retourneren van bedrijfsmiddelen"@nl , "Return of assets"@en ;
+    ctrl:hasControlID "5.11" ;
+    ctrl:hasControlTitle "Retourneren van bedrijfsmiddelen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_12
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Classificeren van informatie"@nl , "Classification of information"@en ;
+    ctrl:hasControlID "5.12" ;
+    ctrl:hasControlTitle "Classificeren van informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_13
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Labelen van informatie"@nl , "Labelling of information"@en ;
+    ctrl:hasControlID "5.13" ;
+    ctrl:hasControlTitle "Labelen van informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_14
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Overdragen van informatie"@nl , "Information transfer"@en ;
+    ctrl:hasControlID "5.14" ;
+    ctrl:hasControlTitle "Overdragen van informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_15
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Toegangsbeveiliging"@nl , "Access control"@en ;
+    ctrl:hasControlID "5.15" ;
+    ctrl:hasControlTitle "Toegangsbeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_16
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Identiteitsbeheer"@nl , "Identity management"@en ;
+    ctrl:hasControlID "5.16" ;
+    ctrl:hasControlTitle "Identiteitsbeheer"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_17
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Authenticatie-informatie"@nl , "Authentication information"@en ;
+    ctrl:hasControlID "5.17" ;
+    ctrl:hasControlTitle "Authenticatie-informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_18
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Toegangsrechten"@nl , "Access rights"@en ;
+    ctrl:hasControlID "5.18" ;
+    ctrl:hasControlTitle "Toegangsrechten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_19
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Informatiebeveiliging in leveranciersrelaties"@nl , "Information security in supplier relationships"@en ;
+    ctrl:hasControlID "5.19" ;
+    ctrl:hasControlTitle "Informatiebeveiliging in leveranciersrelaties"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_20
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Adresseren van informatiebeveiliging in leveranciersovereenkomsten"@nl , "Addressing information security within supplier agreements"@en ;
+    ctrl:hasControlID "5.20" ;
+    ctrl:hasControlTitle "Adresseren van informatiebeveiliging in leveranciersovereenkomsten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_21
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beheren van informatiebeveiliging in de ICT-toeleveringsketen"@nl , "Managing information security in the ICT supply chain"@en ;
+    ctrl:hasControlID "5.21" ;
+    ctrl:hasControlTitle "Beheren van informatiebeveiliging in de ICT-toeleveringsketen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_22
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Monitoren, beoordelen en het beheren van wijzigingen van leveranciersdiensten"@nl , "Monitoring, review and change management of supplier services"@en ;
+    ctrl:hasControlID "5.22" ;
+    ctrl:hasControlTitle "Monitoren, beoordelen en het beheren van wijzigingen van leveranciersdiensten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_23
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Informatiebeveiliging voor het gebruik van clouddiensten"@nl , "Information security for use of cloud services"@en ;
+    ctrl:hasControlID "5.23" ;
+    ctrl:hasControlTitle "Informatiebeveiliging voor het gebruik van clouddiensten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_24
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Plannen en voorbereiden van het beheer van informatiebeveiligingsincidenten"@nl , "Information security incident management planning and preparation"@en ;
+    ctrl:hasControlID "5.24" ;
+    ctrl:hasControlTitle "Plannen en voorbereiden van het beheer van informatiebeveiligingsincidenten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_25
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beoordelen van en besluiten over informatiebeveiligingsgebeurtenissen"@nl , "Assessment and decision on information security events"@en ;
+    ctrl:hasControlID "5.25" ;
+    ctrl:hasControlTitle "Beoordelen van en besluiten over informatiebeveiligingsgebeurtenissen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_26
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Reageren op informatiebeveiligingsincidenten"@nl , "Response to information security incidents"@en ;
+    ctrl:hasControlID "5.26" ;
+    ctrl:hasControlTitle "Reageren op informatiebeveiligingsincidenten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_27
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Leren van informatiebeveiligingsincidenten"@nl , "Learning from information security incidents"@en ;
+    ctrl:hasControlID "5.27" ;
+    ctrl:hasControlTitle "Leren van informatiebeveiligingsincidenten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_28
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Verzamelen van bewijsmateriaal"@nl , "Collection of evidence"@en ;
+    ctrl:hasControlID "5.28" ;
+    ctrl:hasControlTitle "Verzamelen van bewijsmateriaal"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_29
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Informatiebeveiliging tijdens een verstoring"@nl , "Information security during disruption"@en ;
+    ctrl:hasControlID "5.29" ;
+    ctrl:hasControlTitle "Informatiebeveiliging tijdens een verstoring"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_30
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "ICT-gereedheid voor bedrijfscontinuïteit"@nl , "ICT readiness for business continuity"@en ;
+    ctrl:hasControlID "5.30" ;
+    ctrl:hasControlTitle "ICT-gereedheid voor bedrijfscontinuïteit"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_31
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Wettelijke, statutaire, regelgevende en contractuele eisen"@nl , "Legal, statutory, regulatory and contractual requirements"@en ;
+    ctrl:hasControlID "5.31" ;
+    ctrl:hasControlTitle "Wettelijke, statutaire, regelgevende en contractuele eisen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_32
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Intellectuele-eigendomsrechten"@nl , "Intellectual property rights"@en ;
+    ctrl:hasControlID "5.32" ;
+    ctrl:hasControlTitle "Intellectuele-eigendomsrechten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_33
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beschermen van registraties"@nl , "Protection of records"@en ;
+    ctrl:hasControlID "5.33" ;
+    ctrl:hasControlTitle "Beschermen van registraties"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_34
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Privacy en bescherming van persoonsgegevens"@nl , "Privacy and protection of PII"@en ;
+    ctrl:hasControlID "5.34" ;
+    ctrl:hasControlTitle "Privacy en bescherming van persoonsgegevens"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_35
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Onafhankelijke beoordeling van informatiebeveiliging"@nl , "Independent review of information security"@en ;
+    ctrl:hasControlID "5.35" ;
+    ctrl:hasControlTitle "Onafhankelijke beoordeling van informatiebeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_36
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Naleving van beleid, regels en normen voor informatiebeveiliging"@nl , "Compliance with policies, rules and standards for information security"@en ;
+    ctrl:hasControlID "5.36" ;
+    ctrl:hasControlTitle "Naleving van beleid, regels en normen voor informatiebeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_5_37
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Gedocumenteerde bedieningsprocedures"@nl , "Documented operating procedures"@en ;
+    ctrl:hasControlID "5.37" ;
+    ctrl:hasControlTitle "Gedocumenteerde bedieningsprocedures"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Organisatorisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_01
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Screening"@nl , "Screening"@en ;
+    ctrl:hasControlID "6.01" ;
+    ctrl:hasControlTitle "Screening"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_02
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Arbeidsovereenkomst"@nl , "Terms and conditions of employment"@en ;
+    ctrl:hasControlID "6.02" ;
+    ctrl:hasControlTitle "Arbeidsovereenkomst"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_03
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Bewustwording van, opleiding en training in informatiebeveiliging"@nl , "Information security awareness, education and training"@en ;
+    ctrl:hasControlID "6.03" ;
+    ctrl:hasControlTitle "Bewustwording van, opleiding en training in informatiebeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_04
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Disciplinaire procedure"@nl , "Disciplinary process"@en ;
+    ctrl:hasControlID "6.04" ;
+    ctrl:hasControlTitle "Disciplinaire procedure"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_05
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Verantwoordelijkheden na beëindiging of wijziging van het dienstverband"@nl , "Responsibilities after termination or change of employment"@en ;
+    ctrl:hasControlID "6.05" ;
+    ctrl:hasControlTitle "Verantwoordelijkheden na beëindiging of wijziging van het dienstverband"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_06
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Vertrouwelijkheids- of geheimhoudingsovereenkomsten"@nl , "Confidentiality or non-disclosure agreements"@en ;
+    ctrl:hasControlID "6.06" ;
+    ctrl:hasControlTitle "Vertrouwelijkheids- of geheimhoudingsovereenkomsten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_07
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Werken op afstand"@nl , "Remote working"@en ;
+    ctrl:hasControlID "6.07" ;
+    ctrl:hasControlTitle "Werken op afstand"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_6_08
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Melden van informatiebeveiligingsgebeurtenissen"@nl , "Information security event reporting"@en ;
+    ctrl:hasControlID "6.08" ;
+    ctrl:hasControlTitle "Melden van informatiebeveiligingsgebeurtenissen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Mensgericht ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_01
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Fysieke beveiligingszones"@nl , "Physical security perimeters"@en ;
+    ctrl:hasControlID "7.01" ;
+    ctrl:hasControlTitle "Fysieke beveiligingszones"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_02
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Fysieke toegangsbeveiliging"@nl , "Physical entry"@en ;
+    ctrl:hasControlID "7.02" ;
+    ctrl:hasControlTitle "Fysieke toegangsbeveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_03
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiligen van kantoren, ruimten en faciliteiten"@nl , "Securing offices, rooms and facilities"@en ;
+    ctrl:hasControlID "7.03" ;
+    ctrl:hasControlTitle "Beveiligen van kantoren, ruimten en faciliteiten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_04
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Monitoren van de fysieke beveiliging"@nl , "Physical security monitoring"@en ;
+    ctrl:hasControlID "7.04" ;
+    ctrl:hasControlTitle "Monitoren van de fysieke beveiliging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_05
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beschermen tegen fysieke en omgevingsdreigingen"@nl , "Protecting against physical and environmental threats"@en ;
+    ctrl:hasControlID "7.05" ;
+    ctrl:hasControlTitle "Beschermen tegen fysieke en omgevingsdreigingen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_06
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Werken in beveiligde zones"@nl , "Working in secure areas"@en ;
+    ctrl:hasControlID "7.06" ;
+    ctrl:hasControlTitle "Werken in beveiligde zones"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_07
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "'Clear desk' en 'clear screen'"@nl , "Clear desk and clear screen"@en ;
+    ctrl:hasControlID "7.07" ;
+    ctrl:hasControlTitle "'Clear desk' en 'clear screen'"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_08
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Plaatsen en beschermen van apparatuur"@nl , "Equipment siting and protection"@en ;
+    ctrl:hasControlID "7.08" ;
+    ctrl:hasControlTitle "Plaatsen en beschermen van apparatuur"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_09
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiligen van bedrijfsmiddelen buiten het terrein"@nl , "Security of assets off-premises"@en ;
+    ctrl:hasControlID "7.09" ;
+    ctrl:hasControlTitle "Beveiligen van bedrijfsmiddelen buiten het terrein"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_10
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Opslagmedia"@nl , "Storage media"@en ;
+    ctrl:hasControlID "7.10" ;
+    ctrl:hasControlTitle "Opslagmedia"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_11
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Nutsvoorzieningen"@nl , "Supporting utilities"@en ;
+    ctrl:hasControlID "7.11" ;
+    ctrl:hasControlTitle "Nutsvoorzieningen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_12
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiligen van bekabeling"@nl , "Cabling security"@en ;
+    ctrl:hasControlID "7.12" ;
+    ctrl:hasControlTitle "Beveiligen van bekabeling"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_13
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Onderhoud van apparatuur"@nl , "Equipment maintenance"@en ;
+    ctrl:hasControlID "7.13" ;
+    ctrl:hasControlTitle "Onderhoud van apparatuur"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_7_14
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Veilig verwijderen of hergebruiken van apparatuur"@nl , "Secure disposal or re-use of equipment"@en ;
+    ctrl:hasControlID "7.14" ;
+    ctrl:hasControlTitle "Veilig verwijderen of hergebruiken van apparatuur"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Fysiek ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_01
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "'User endpoint devices'"@nl , "User endpoint devices"@en ;
+    ctrl:hasControlID "8.01" ;
+    ctrl:hasControlTitle "'User endpoint devices'"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_02
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Speciale toegangsrechten"@nl , "Privileged access rights"@en ;
+    ctrl:hasControlID "8.02" ;
+    ctrl:hasControlTitle "Speciale toegangsrechten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_03
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beperking toegang tot informatie"@nl , "Information access restriction"@en ;
+    ctrl:hasControlID "8.03" ;
+    ctrl:hasControlTitle "Beperking toegang tot informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_04
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Toegangsbeveiliging op broncode"@nl , "Access to source code"@en ;
+    ctrl:hasControlID "8.04" ;
+    ctrl:hasControlTitle "Toegangsbeveiliging op broncode"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_05
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiligde authenticatie"@nl , "Secure authentication"@en ;
+    ctrl:hasControlID "8.05" ;
+    ctrl:hasControlTitle "Beveiligde authenticatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_06
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Capaciteitsbeheer"@nl , "Capacity management"@en ;
+    ctrl:hasControlID "8.06" ;
+    ctrl:hasControlTitle "Capaciteitsbeheer"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_07
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Bescherming tegen malware"@nl , "Protection against malware"@en ;
+    ctrl:hasControlID "8.07" ;
+    ctrl:hasControlTitle "Bescherming tegen malware"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_08
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beheer van technische kwetsbaarheden"@nl , "Management of technical vulnerabilities"@en ;
+    ctrl:hasControlID "8.08" ;
+    ctrl:hasControlTitle "Beheer van technische kwetsbaarheden"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_09
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Configuratiebeheer"@nl , "Configuration management"@en ;
+    ctrl:hasControlID "8.09" ;
+    ctrl:hasControlTitle "Configuratiebeheer"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_10
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Wissen van informatie"@nl , "Information deletion"@en ;
+    ctrl:hasControlID "8.10" ;
+    ctrl:hasControlTitle "Wissen van informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_11
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Maskeren van gegevens"@nl , "Data masking"@en ;
+    ctrl:hasControlID "8.11" ;
+    ctrl:hasControlTitle "Maskeren van gegevens"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_12
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Voorkomen van gegevenslekken (data leakage prevention)"@nl , "Data leakage prevention"@en ;
+    ctrl:hasControlID "8.12" ;
+    ctrl:hasControlTitle "Voorkomen van gegevenslekken (data leakage prevention)"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_13
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Back-up van informatie"@nl , "Information backup"@en ;
+    ctrl:hasControlID "8.13" ;
+    ctrl:hasControlTitle "Back-up van informatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_14
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Redundantie van informatieverwerkende faciliteiten"@nl , "Redundancy of information processing facilities"@en ;
+    ctrl:hasControlID "8.14" ;
+    ctrl:hasControlTitle "Redundantie van informatieverwerkende faciliteiten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_15
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Logging"@nl , "Logging"@en ;
+    ctrl:hasControlID "8.15" ;
+    ctrl:hasControlTitle "Logging"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_16
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Monitoren van activiteiten"@nl , "Monitoring activities"@en ;
+    ctrl:hasControlID "8.16" ;
+    ctrl:hasControlTitle "Monitoren van activiteiten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasControlType ctrl:Corrigerend ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_17
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Kloksynchronisatie"@nl , "Clock synchronization"@en ;
+    ctrl:hasControlID "8.17" ;
+    ctrl:hasControlTitle "Kloksynchronisatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_18
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Gebruik van speciale systeemhulpmiddelen"@nl , "Use of privileged utility programs"@en ;
+    ctrl:hasControlID "8.18" ;
+    ctrl:hasControlTitle "Gebruik van speciale systeemhulpmiddelen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_19
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Installeren van software op operationele systemen"@nl , "Installation of software on operational systems"@en ;
+    ctrl:hasControlID "8.19" ;
+    ctrl:hasControlTitle "Installeren van software op operationele systemen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_20
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiliging netwerkcomponenten"@nl , "Networks security"@en ;
+    ctrl:hasControlID "8.20" ;
+    ctrl:hasControlTitle "Beveiliging netwerkcomponenten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_21
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiliging van netwerkdiensten"@nl , "Security of network services"@en ;
+    ctrl:hasControlID "8.21" ;
+    ctrl:hasControlTitle "Beveiliging van netwerkdiensten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_22
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Netwerksegmentatie"@nl , "Segregation of networks"@en ;
+    ctrl:hasControlID "8.22" ;
+    ctrl:hasControlTitle "Netwerksegmentatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_23
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Toepassen van webfilters"@nl , "Web filtering"@en ;
+    ctrl:hasControlID "8.23" ;
+    ctrl:hasControlTitle "Toepassen van webfilters"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_24
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Gebruik van cryptografie"@nl , "Use of cryptography"@en ;
+    ctrl:hasControlID "8.24" ;
+    ctrl:hasControlTitle "Gebruik van cryptografie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_25
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Beveiligen tijdens de ontwikkelcyclus"@nl , "Secure development life cycle"@en ;
+    ctrl:hasControlID "8.25" ;
+    ctrl:hasControlTitle "Beveiligen tijdens de ontwikkelcyclus"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_26
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Toepassingsbeveiligingseisen"@nl , "Application security requirements"@en ;
+    ctrl:hasControlID "8.26" ;
+    ctrl:hasControlTitle "Toepassingsbeveiligingseisen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_27
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Veilige systeemarchitectuur en technische uitgangspunten"@nl , "Secure system architecture and engineering principles"@en ;
+    ctrl:hasControlID "8.27" ;
+    ctrl:hasControlTitle "Veilige systeemarchitectuur en technische uitgangspunten"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_28
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Veilig coderen"@nl , "Secure coding"@en ;
+    ctrl:hasControlID "8.28" ;
+    ctrl:hasControlTitle "Veilig coderen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_29
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Testen van de beveiliging tijdens ontwikkeling en acceptatie"@nl , "Security testing in development and acceptance"@en ;
+    ctrl:hasControlID "8.29" ;
+    ctrl:hasControlTitle "Testen van de beveiliging tijdens ontwikkeling en acceptatie"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_30
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Uitbestede systeemontwikkeling"@nl , "Outsourced development"@en ;
+    ctrl:hasControlID "8.30" ;
+    ctrl:hasControlTitle "Uitbestede systeemontwikkeling"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasControlType ctrl:Detectief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_31
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Scheiden van ontwikkel-, test- en productieomgevingen"@nl , "Separation of development, test and production environments"@en ;
+    ctrl:hasControlID "8.31" ;
+    ctrl:hasControlTitle "Scheiden van ontwikkel-, test- en productieomgevingen"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_32
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Wijzigingsbeheer"@nl , "Change management"@en ;
+    ctrl:hasControlID "8.32" ;
+    ctrl:hasControlTitle "Wijzigingsbeheer"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_33
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Testgegevens"@nl , "Test information"@en ;
+    ctrl:hasControlID "8.33" ;
+    ctrl:hasControlTitle "Testgegevens"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+ctrl:ISO27002_8_34
+    rdf:type ctrl:ISO27002Control ;
+    rdfs:label "Bescherming van informatiesystemen tijdens audits"@nl , "Protection of information systems during audit testing"@en ;
+    ctrl:hasControlID "8.34" ;
+    ctrl:hasControlTitle "Bescherming van informatiesystemen tijdens audits"@nl ;
+    ctrl:belongsToFramework fw:ISO_IEC_27002_2022 ;
+    ctrl:hasTheme ctrl:Technologisch ;
+    ctrl:isApplicableInBIO "true"^^xsd:boolean ;
+    ctrl:hasControlType ctrl:Preventief ;
+    ctrl:hasSecurityProperty ctrl:Vertrouwelijkheid ;
+    ctrl:hasSecurityProperty ctrl:Integriteit ;
+    ctrl:hasSecurityProperty ctrl:Beschikbaarheid .
+
+# =============================================================================
+# SECTIE 7 – ABOX: NIST SP 800-53 Rev.5 CONTROL FAMILIES
+# =============================================================================
+
+# NIST 800-53 Rev.5 – 20 control families as ControlFamily individuals
+ctrl:NIST_AC rdf:type ctrl:ControlFamily ; rdfs:label "Access Control (AC)"@en ; ctrl:hasControlID "AC" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_AT rdf:type ctrl:ControlFamily ; rdfs:label "Awareness and Training (AT)"@en ; ctrl:hasControlID "AT" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_AU rdf:type ctrl:ControlFamily ; rdfs:label "Audit and Accountability (AU)"@en ; ctrl:hasControlID "AU" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_CA rdf:type ctrl:ControlFamily ; rdfs:label "Assessment, Authorization and Monitoring (CA)"@en ; ctrl:hasControlID "CA" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_CM rdf:type ctrl:ControlFamily ; rdfs:label "Configuration Management (CM)"@en ; ctrl:hasControlID "CM" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_CP rdf:type ctrl:ControlFamily ; rdfs:label "Contingency Planning (CP)"@en ; ctrl:hasControlID "CP" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_IA rdf:type ctrl:ControlFamily ; rdfs:label "Identification and Authentication (IA)"@en ; ctrl:hasControlID "IA" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_IR rdf:type ctrl:ControlFamily ; rdfs:label "Incident Response (IR)"@en ; ctrl:hasControlID "IR" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_MA rdf:type ctrl:ControlFamily ; rdfs:label "Maintenance (MA)"@en ; ctrl:hasControlID "MA" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_MP rdf:type ctrl:ControlFamily ; rdfs:label "Media Protection (MP)"@en ; ctrl:hasControlID "MP" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_PE rdf:type ctrl:ControlFamily ; rdfs:label "Physical and Environmental Protection (PE)"@en ; ctrl:hasControlID "PE" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_PL rdf:type ctrl:ControlFamily ; rdfs:label "Planning (PL)"@en ; ctrl:hasControlID "PL" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_PM rdf:type ctrl:ControlFamily ; rdfs:label "Program Management (PM)"@en ; ctrl:hasControlID "PM" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_PS rdf:type ctrl:ControlFamily ; rdfs:label "Personnel Security (PS)"@en ; ctrl:hasControlID "PS" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_PT rdf:type ctrl:ControlFamily ; rdfs:label "PII Processing and Transparency (PT)"@en ; ctrl:hasControlID "PT" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_RA rdf:type ctrl:ControlFamily ; rdfs:label "Risk Assessment (RA)"@en ; ctrl:hasControlID "RA" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_SA rdf:type ctrl:ControlFamily ; rdfs:label "System and Services Acquisition (SA)"@en ; ctrl:hasControlID "SA" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_SC rdf:type ctrl:ControlFamily ; rdfs:label "System and Communications Protection (SC)"@en ; ctrl:hasControlID "SC" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_SI rdf:type ctrl:ControlFamily ; rdfs:label "System and Information Integrity (SI)"@en ; ctrl:hasControlID "SI" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+ctrl:NIST_SR rdf:type ctrl:ControlFamily ; rdfs:label "Supply Chain Risk Management (SR)"@en ; ctrl:hasControlID "SR" ; ctrl:belongsToFramework fw:NIST_SP_800_53_R5 .
+
+# =============================================================================
+# SECTIE 8 – SKOS CROSS-FRAMEWORK MAPPINGS (ISO 27002 ↔ NIST 800-53 families)
+# =============================================================================
+
+# Selected key mappings — ISO 27002 control → NIST family
+ctrl:ISO27002_5_15 skos:relatedMatch ctrl:NIST_AC .   # Toegangsbeveiliging → Access Control
+ctrl:ISO27002_5_16 skos:relatedMatch ctrl:NIST_IA .   # Identiteitsbeheer → Identification & Authentication
+ctrl:ISO27002_5_17 skos:relatedMatch ctrl:NIST_IA .   # Authenticatie-informatie → IA
+ctrl:ISO27002_5_18 skos:relatedMatch ctrl:NIST_AC .   # Toegangsrechten → AC
+ctrl:ISO27002_5_24 skos:relatedMatch ctrl:NIST_IR .   # Incidentbeheer plan → Incident Response
+ctrl:ISO27002_5_26 skos:relatedMatch ctrl:NIST_IR .   # Reageren op incidenten → IR
+ctrl:ISO27002_5_30 skos:relatedMatch ctrl:NIST_CP .   # ICT-gereedheid BCM → Contingency Planning
+ctrl:ISO27002_8_07 skos:relatedMatch ctrl:NIST_SI .   # Malware → System Integrity
+ctrl:ISO27002_8_08 skos:relatedMatch ctrl:NIST_RA .   # Kwetsbaarheidsbeheer → Risk Assessment
+ctrl:ISO27002_8_09 skos:relatedMatch ctrl:NIST_CM .   # Configuratiebeheer → Config Management
+ctrl:ISO27002_8_13 skos:relatedMatch ctrl:NIST_CP .   # Back-up → Contingency Planning
+ctrl:ISO27002_8_15 skos:relatedMatch ctrl:NIST_AU .   # Logging → Audit & Accountability
+ctrl:ISO27002_8_19 skos:relatedMatch ctrl:NIST_CM .   # Software installatie → Config Management
+ctrl:ISO27002_5_19 skos:relatedMatch ctrl:NIST_SR .   # Leveranciersrelaties → Supply Chain RM
+ctrl:ISO27002_5_21 skos:relatedMatch ctrl:NIST_SR .   # ICT-toeleveringsketen → SR
+ctrl:ISO27002_7_01 skos:relatedMatch ctrl:NIST_PE .   # Fysieke zones → Physical Protection
+ctrl:ISO27002_7_02 skos:relatedMatch ctrl:NIST_PE .   # Fysieke toegang → PE
+ctrl:ISO27002_6_03 skos:relatedMatch ctrl:NIST_AT .   # Bewustwording → Awareness Training
+ctrl:ISO27002_5_01 skos:relatedMatch ctrl:NIST_PL .   # Beleid → Planning
+
+# =============================================================================
+# SECTIE 9 – ISO 27002 ATTRIBUTEN: Cybersecurity-concept, Operationele capaciteit, Beveiligingsdomein
+# Bron: Handreiking BIO2-opmaat v2.5, kolommen O-Q. Toegevoegd stap 5, 2026-03-19
+# =============================================================================
+
+# --- ISO 27002 attributen: Cybersecurity-concept, Operationele capaciteit, Beveiligingsdomein ---
+# --- Bron: Handreiking BIO2-opmaat v2.5, kolommen O-Q. Toegevoegd stap 5, 2026-03-19 ---
+
+ctrl:ISO27002_5_01
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht .
+
+ctrl:ISO27002_5_02
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht .
+
+ctrl:ISO27002_5_03
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_04
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_05
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Herstellen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_06
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Herstellen ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_07
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_BedreigingKwetsbaarhedenbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_08
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_09
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_10
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_11
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_12
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_13
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_14
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_15
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_16
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_17
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_18
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_19
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingLeveranciersrelaties ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_20
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingLeveranciersrelaties ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_21
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingLeveranciersrelaties ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_22
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingLeveranciersrelaties ;
+    ctrl:hasOperationalCapability ctrl:OC_BorgingInformatiebeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_23
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingLeveranciersrelaties ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_24
+    ctrl:hasCybersecurityConcept ctrl:Herstellen ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Governance ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_25
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_26
+    ctrl:hasCybersecurityConcept ctrl:Herstellen ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_27
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_28
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_29
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_Continuiteit ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht .
+
+ctrl:ISO27002_5_30
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_Continuiteit ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht .
+
+ctrl:ISO27002_5_31
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_JuridischCompliance ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_32
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_JuridischCompliance ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_33
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_JuridischCompliance ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_5_34
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_JuridischCompliance ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_5_35
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BorgingInformatiebeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_36
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BorgingInformatiebeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_JuridischCompliance ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_5_37
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Herstellen ;
+    ctrl:hasOperationalCapability ctrl:OC_BedreigingKwetsbaarhedenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Continuiteit ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_VeiligeConfiguratie ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_6_01
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Personeelsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_6_02
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Personeelsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_6_03
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Personeelsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_6_04
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_Personeelsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_6_05
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Personeelsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_6_06
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_Leveranciersrelaties ;
+    ctrl:hasOperationalCapability ctrl:OC_Personeelsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_6_07
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_6_08
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_7_01
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_02
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_03
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_04
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_7_05
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_06
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_07
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_08
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_09
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_10
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_11
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_12
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_7_13
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht .
+
+ctrl:ISO27002_7_14
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_FysiekeBeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_01
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_02
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_03
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_04
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_VeiligeConfiguratie ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_05
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_IdentiteitToegangsbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_06
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_Continuiteit ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_8_07
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_08
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BedreigingKwetsbaarhedenbeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_09
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_VeiligeConfiguratie ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_10
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_JuridischCompliance ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_11
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_12
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_13
+    ctrl:hasCybersecurityConcept ctrl:Herstellen ;
+    ctrl:hasOperationalCapability ctrl:OC_Continuiteit ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_14
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Bedrijfsmiddelenbeheer ;
+    ctrl:hasOperationalCapability ctrl:OC_Continuiteit ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Veerkracht .
+
+ctrl:ISO27002_8_15
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_16
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasCybersecurityConcept ctrl:Reageren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_17
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingsgebeurtenissenBeheer ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_18
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_VeiligeConfiguratie ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_19
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_VeiligeConfiguratie ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_20
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_21
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_22
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_23
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_24
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_VeiligeConfiguratie ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_25
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_26
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Verdediging .
+
+ctrl:ISO27002_8_27
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_28
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_29
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BorgingInformatiebeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_30
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasCybersecurityConcept ctrl:Detecteren ;
+    ctrl:hasCybersecurityConcept ctrl:Identificeren ;
+    ctrl:hasOperationalCapability ctrl:OC_BeveiligingLeveranciersrelaties ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+ctrl:ISO27002_8_31
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_32
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasOperationalCapability ctrl:OC_Toepassingsbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_33
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming .
+
+ctrl:ISO27002_8_34
+    ctrl:hasCybersecurityConcept ctrl:Beschermen ;
+    ctrl:hasOperationalCapability ctrl:OC_Informatiebescherming ;
+    ctrl:hasOperationalCapability ctrl:OC_SysteemNetwerkbeveiliging ;
+    ctrl:hasSecurityDomain ctrl:SD_Bescherming ;
+    ctrl:hasSecurityDomain ctrl:SD_GovernanceEcosysteem .
+
+# =============================================================================
+# EINDE MODULE M2

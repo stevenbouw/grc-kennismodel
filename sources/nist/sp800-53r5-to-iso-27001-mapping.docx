@@ -1,0 +1,1692 @@
+# **NIST SP 800-53, Revision 5 Control Mappings to ISO/IEC 27001**
+
+The mapping tables in this appendix provide organizations with a
+*general* indication of security control coverage with respect to
+ISO/IEC 27001, *Information technology--Security techniques--Information
+security management systems--Requirements.*[^1] ISO/IEC 27001 may be
+applied to all types of organizations and specifies requirements for
+establishing, implementing, operating, monitoring, reviewing,
+maintaining, and improving a documented information security management
+system (ISMS) within the context of business risks. NIST Special
+Publication 800-39 includes guidance on managing risk at the
+organizational level, mission/business process level, and information
+system level, is consistent with ISO/IEC 27001, and provides additional
+implementation detail for the federal government and its contractors.
+
+The mapping of SP 800-53 Revision 5 controls to ISO/IEC 27001:2013
+requirements and controls reflects whether the implementation of a
+security control from Special Publication 800-53 satisfies the intent of
+the mapped security requirement or control from ISO/IEC 27001 and
+conversely, whether the implementation of a security requirement or
+security control from ISO/IEC 27001 satisfies the intent of the mapped
+control from Special Publication 800-53. To successfully meet the
+mapping criteria, the implementation of the mapped controls should
+result in an equivalent information security posture. However,
+organizations should not assume security requirement and control
+equivalency based solely on the mapping tables herein since there is
+always some degree of subjectivity in the mapping analysis because the
+mappings are not always one-to-one and may not be completely equivalent.
+Organization-specific implementations may also play a role in control
+equivalency. The following examples illustrate some of the mapping
+issues:
+
+-   **Example 1:** Special Publication 800-53 contingency planning and
+    ISO/IEC 27001 business continuity management were deemed to have
+    similar, but not the same, functionality.
+
+-   **Example 2:** Similar topics addressed in the two security control
+    sets may have a different context, perspective, or scope. Special
+    Publication 800-53 addresses information flow control broadly in
+    terms of approved authorizations for controlling access between
+    source and destination objects, whereas ISO/IEC 27001 addresses
+    information flow more narrowly as it applies to interconnected
+    network domains.
+
+-   **Example 3:** Security control A.6.1.1, Information Security Roles
+    and Responsibilities, in ISO/IEC 27001 states that "all information
+    security responsibilities shall be defined and allocated" while
+    security control PM-10, Security Authorization Process, in Special
+    Publication 800-53 that is mapped to A.6.1.1, has three distinct
+    parts. Part b. of PM-10 requires designation of "individuals to
+    fulfill specific roles and responsibilities..." If A.6.1.1 is mapped
+    to PM-10 without any additional information, organizations might
+    assume that if A.6.1.1 is implemented (i.e., all responsibilities
+    are defined and allocated), then the intent of PM-10 is also fully
+    satisfied. However, this may not be the case since the parts a.
+    and c. of PM-10 may not have been addressed. To resolve and clarify
+    the security control mappings, when a security requirement or
+    control in the right column of Tables 1 and 2 does not fully satisfy
+    the intent of the security requirement or control in the left column
+    of the tables, the control or controls (i.e., the entire set of
+    controls listed) in the right column is designated with an asterisk
+    (\*).
+
+-   **Example 4:** Privacy controls were integrated into the SP 800-53,
+    Revision 5, control set to address privacy requirements for the
+    processing of personally identifiable information (PII) and thus are
+    included in the mapping table; however, ISO/IEC 27001 does not
+    specifically address privacy beyond the inherent benefits provided
+    by maintaining the security of PII. Users of this mapping table may
+    assume that the ISO/IEC 27001 controls do not satisfy privacy
+    requirements with respect to PII processing.
+
+In a few cases, an ISO/IEC 27001 security requirement or control could
+only be directly mapped to a Special Publication 800-53 control
+*enhancement*. In such cases, the relevant enhancement is specified in
+Table 2 indicating that the corresponding ISO/IEC 27001 requirement or
+control satisfies only the intent of the specified enhancement and does
+not address the associated base control from Special Publication 800-53
+or any other enhancements under that base control. Where no enhancement
+is specified, the ISO/IEC 27001 requirement or control is relevant only
+to the Special Publication 800-53 base control.
+
+And finally, the security controls from ISO/IEC 27002 were not
+considered in the mapping analysis since the 27002 standard is
+informative rather than normative.
+
+**\
+**
+
+Table 1 provides a mapping from the security controls in NIST Special
+Publication 800-53 to the security controls in ISO/IEC 27001. Please
+review the introductory text above before employing the mappings in
+Table 1.
+
+TABLE 1: MAPPING NIST SP 800-53 TO ISO/IEC 27001
+
++-----+-----------------------------+-----------------------------------+
+| **N |                             | **ISO/IEC 27001 CONTROLS**        |
+| IST |                             |                                   |
+| SP  |                             | *Note: An asterisk (\*) indicates |
+| 800 |                             | that the ISO/IEC control **does   |
+| -53 |                             | not fully satisfy** the intent of |
+| C   |                             | the NIST control.*                |
+| ONT |                             |                                   |
+| ROL |                             |                                   |
+| S** |                             |                                   |
++=====+=============================+===================================+
+| A   | Access Control Policy and   | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| C-1 | Procedures                  | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.9.1.1, A.12.1.1, A.18.1.1,      |
+|     |                             | A.18.2.2                          |
++-----+-----------------------------+-----------------------------------+
+| A   | Account Management          | A.9.2.1, A.9.2.2, A.9.2.3,        |
+| C-2 |                             | A.9.2.5, A.9.2.6                  |
++-----+-----------------------------+-----------------------------------+
+| A   | Access Enforcement          | A.6.2.2, A.9.1.2, A.9.4.1,        |
+| C-3 |                             | A.9.4.4, A.9.4.5, A.13.1.1,       |
+|     |                             | A.14.1.2, A.14.1.3, A.18.1.3      |
++-----+-----------------------------+-----------------------------------+
+| A   | Information Flow            | A.13.1.3, A.13.2.1, A.14.1.2,     |
+| C-4 | Enforcement                 | A.14.1.3                          |
++-----+-----------------------------+-----------------------------------+
+| A   | Separation of Duties        | A.6.1.2                           |
+| C-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Least Privilege             | A.9.1.2, A.9.2.3, A.9.4.4,        |
+| C-6 |                             | A.9.4.5                           |
++-----+-----------------------------+-----------------------------------+
+| A   | Unsuccessful Logon Attempts | A.9.4.2                           |
+| C-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | System Use Notification     | A.9.4.2                           |
+| C-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Previous Logon Notification | A.9.4.2                           |
+| C-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Concurrent Session Control  | None                              |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Device Lock                 | A.11.2.8, A.11.2.9                |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Session Termination         | None                              |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | **Withdrawn**               | \-\--                             |
+| -13 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Permitted Actions without   | None                              |
+| -14 | Identification or           |                                   |
+|     | Authentication              |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | **Withdrawn**               | \-\--                             |
+| -15 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Security and Privacy        | None                              |
+| -16 | Attributes                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Remote Access               | A.6.2.1, A.6.2.2, A.13.1.1,       |
+| -17 |                             | A.13.2.1, A.14.1.2                |
++-----+-----------------------------+-----------------------------------+
+| AC  | Wireless Access             | A.6.2.1, A.13.1.1, A.13.2.1       |
+| -18 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Access Control for Mobile   | A.6.2.1, A.11.1.5, A.11.2.6,      |
+| -19 | Devices                     | A.13.2.1                          |
++-----+-----------------------------+-----------------------------------+
+| AC  | Use of External Systems     | A.11.2.6, A.13.1.1, A.13.2.1      |
+| -20 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Information Sharing         | None                              |
+| -21 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Publicly Accessible Content | None                              |
+| -22 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Data Mining Protection      | None                              |
+| -23 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Access Control Decisions    | A.9.4.1\*                         |
+| -24 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AC  | Reference Monitor           | None                              |
+| -25 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Awareness and Training      | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| T-1 | Policy and Procedures       | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| A   | Literacy Training and       | 7.3, A.7.2.2, A.12.2.1            |
+| T-2 | Awareness                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Role-Based Training         | A.7.2.2\*                         |
+| T-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Training Records            | None                              |
+| T-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | **Withdrawn**               | \-\--                             |
+| T-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Training Feedback           | None                              |
+| T-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Audit and Accountability    | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| U-1 | Policy and Procedures       | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| A   | Event Logging               | None                              |
+| U-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Content of Audit Records    | A.12.4.1\*                        |
+| U-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Audit Log Storage Capacity  | A.12.1.3                          |
+| U-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Response to Audit Logging   | None                              |
+| U-5 | Process Failures            |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Audit Record Review,        | A.12.4.1, A.16.1.2, A.16.1.4      |
+| U-6 | Analysis, and Reporting     |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Audit Record Reduction and  | None                              |
+| U-7 | Report Generation           |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Time Stamps                 | A.12.4.4                          |
+| U-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| A   | Protection of Audit         | A.12.4.2, A.12.4.3, A.18.1.3      |
+| U-9 | Information                 |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | Non-repudiation             | None                              |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | Audit Record Retention      | A.12.4.1, A.16.1.7                |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | Audit Record Generation     | A.12.4.1, A.12.4.3                |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | Monitoring for Information  | None                              |
+| -13 | Disclosure                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | Session Audit               | A.12.4.1\*                        |
+| -14 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | **Withdrawn**               | \-\--                             |
+| -15 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| AU  | Cross-Organizational Audit  | None                              |
+| -16 | Logging                     |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Assessment and              | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| A-1 | Authorization Policies and  | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     | Procedures                  | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| C   | Control Assessments         | A.14.2.8, A.18.2.2, A.18.2.3      |
+| A-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Information Exchange        | A.13.1.2, A.13.2.1, A.13.2.2      |
+| A-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | **Withdrawn**               | \-\--                             |
+| A-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Plan of Action and          | 8.3, 9.2, 10.1\*                  |
+| A-5 | Milestones                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Authorization               | 9.3\*                             |
+| A-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Continuous Monitoring       | 9.1, 9.2, A.18.2.2, A.18.2.3\*    |
+| A-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Penetration Testing         | None                              |
+| A-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Internal System Connections | None                              |
+| A-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Configuration Management    | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| M-1 | Policy and Procedures       | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| C   | Baseline Configuration      | None                              |
+| M-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Configuration Change        | 8.1, A.12.1.2, A.14.2.2,          |
+| M-3 | Control                     | A.14.2.3, A.14.2.4                |
++-----+-----------------------------+-----------------------------------+
+| C   | Impact Analyses             | A.14.2.3                          |
+| M-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Access Restrictions for     | A.9.2.3, A.9.4.5, A.12.1.2,       |
+| M-5 | Change                      | A.12.1.4, A.12.5.1                |
++-----+-----------------------------+-----------------------------------+
+| C   | Configuration Settings      | None                              |
+| M-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Least Functionality         | A.12.5.1\*                        |
+| M-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | System Component Inventory  | A.8.1.1, A.8.1.2                  |
+| M-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Configuration Management    | A.6.1.1\*                         |
+| M-9 | Plan                        |                                   |
++-----+-----------------------------+-----------------------------------+
+| CM  | Software Usage Restrictions | A.18.1.2                          |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| CM  | User-Installed Software     | A.12.5.1, A.12.6.2                |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| CM  | Information Location        | None                              |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| CM  | Data Action Mapping         | None                              |
+| -13 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| CM  | Signed Components           | None                              |
+| -14 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Contingency Planning Policy | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| P-1 | and Procedures              | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| C   | Contingency Plan            | 7.5.1, 7.5.2, 7.5.3, A.6.1.1,     |
+| P-2 |                             | A.17.1.1, A.17.2.1                |
++-----+-----------------------------+-----------------------------------+
+| C   | Contingency Training        | A.7.2.2\*                         |
+| P-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Contingency Plan Testing    | A.17.1.3                          |
+| P-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | **Withdrawn**               | \-\--                             |
+| P-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Alternate Storage Site      | A.11.1.4, A.17.1.2, A.17.2.1      |
+| P-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Alternate Processing Site   | A.11.1.4, A.17.1.2, A.17.2.1      |
+| P-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | Telecommunications Services | A.11.2.2, A.17.1.2                |
+| P-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| C   | System Backup               | A.12.3.1, A.17.1.2, A.18.1.3      |
+| P-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| CP  | System Recovery and         | A.17.1.2                          |
+| -10 | Reconstitution              |                                   |
++-----+-----------------------------+-----------------------------------+
+| CP  | Alternate Communications    | A.17.1.2\*                        |
+| -11 | Protocols                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| CP  | Safe Mode                   | None                              |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| CP  | Alternative Security        | A.17.1.2\*                        |
+| -13 | Mechanisms                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Identification and          | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| A-1 | Authentication Policy and   | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     | Procedures                  | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| I   | Identification and          | A.9.2.1                           |
+| A-2 | Authentication              |                                   |
+|     | (Organizational Users)      |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Device Identification and   | None                              |
+| A-3 | Authentication              |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Identifier Management       | A.9.2.1                           |
+| A-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Authenticator Management    | A.9.2.1, A.9.2.4, A.9.3.1,        |
+| A-5 |                             | A.9.4.3                           |
++-----+-----------------------------+-----------------------------------+
+| I   | Authentication Feedback     | A.9.4.2                           |
+| A-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Cryptographic Module        | A.18.1.5                          |
+| A-7 | Authentication              |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Identification and          | A.9.2.1                           |
+| A-8 | Authentication              |                                   |
+|     | (Non-Organizational Users)  |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Service Identification and  | None                              |
+| A-9 | Authentication              |                                   |
++-----+-----------------------------+-----------------------------------+
+| IA  | Adaptive Identification and | None                              |
+| -10 | Authentication              |                                   |
++-----+-----------------------------+-----------------------------------+
+| IA  | Re-authentication           | None                              |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| IA  | Identity Proofing           | None                              |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Response Policy    | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| R-1 | and Procedures              | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1 A.18.1.1, A.18.2.2       |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Response Training  | A.7.2.2\*                         |
+| R-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Response Testing   | None                              |
+| R-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Handling           | A.16.1.4, A.16.1.5, A.16.1.6      |
+| R-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Monitoring         | None                              |
+| R-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Reporting          | A.6.1.3, A.16.1.2                 |
+| R-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Response           | None                              |
+| R-7 | Assistance                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Incident Response Plan      | 7.5.1, 7.5.2, 7.5.3, A.16.1.1     |
+| R-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| I   | Information Spillage        | None                              |
+| R-9 | Response                    |                                   |
++-----+-----------------------------+-----------------------------------+
+| IR  | **Withdrawn**               | \-\--                             |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | System Maintenance Policy   | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| A-1 | and Procedures              | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| M   | Controlled Maintenance      | A.11.2.4\*, A.11.2.5\*            |
+| A-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Maintenance Tools           | None                              |
+| A-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Nonlocal Maintenance        | None                              |
+| A-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Maintenance Personnel       | None                              |
+| A-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Timely Maintenance          | A.11.2.4                          |
+| A-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Field Maintenance           | None                              |
+| A-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Protection Policy and | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| P-1 | Procedures                  | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Access                | A.8.2.3, A.8.3.1, A.11.2.9        |
+| P-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Marking               | A.8.2.2                           |
+| P-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Storage               | A.8.2.3, A.8.3.1, A.11.2.9        |
+| P-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Transport             | A.8.2.3, A.8.3.1, A.8.3.3,        |
+| P-5 |                             | A.11.2.5, A.11.2.6                |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Sanitization          | A.8.2.3, A.8.3.1, A.8.3.2,        |
+| P-6 |                             | A.11.2.7                          |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Use                   | A.8.2.3, A.8.3.1                  |
+| P-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| M   | Media Downgrading           | None                              |
+| P-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Physical and Environmental  | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| E-1 | Protection Policy and       | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     | Procedures                  | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| P   | Physical Access             | A.11.1.2\*                        |
+| E-2 | Authorizations              |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Physical Access Control     | A.11.1.1, A.11.1.2, A.11.1.3      |
+| E-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Access Control for          | A.11.1.2, A.11.2.3                |
+| E-4 | Transmission Medium         |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Access Control for Output   | A.11.1.2, A.11.1.3                |
+| E-5 | Devices                     |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Monitoring Physical Access  | None                              |
+| E-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | **Withdrawn**               | \-\--                             |
+| E-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Visitor Access Records      | None                              |
+| E-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Power Equipment and Cabling | A.11.1.4, A.11.2.1, A.11.2.2,     |
+| E-9 |                             | A.11.2.3                          |
++-----+-----------------------------+-----------------------------------+
+| PE  | Emergency Shutoff           | A.11.2.2\*                        |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Emergency Power             | A.11.2.2                          |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Emergency Lighting          | A.11.2.2\*                        |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Fire Protection             | A.11.1.4, A.11.2.1                |
+| -13 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Environmental Controls      | A.11.1.4, A.11.2.1, A.11.2.2      |
+| -14 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Water Damage Protection     | A.11.1.4, A.11.2.1, A.11.2.2      |
+| -15 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Delivery and Removal        | A.8.2.3, A.11.1.6, A.11.2.5       |
+| -16 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Alternate Work Site         | A.6.2.2, A.11.2.6, A.13.2.1       |
+| -17 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Location of System          | A.8.2.3, A.11.1.4, A.11.2.1       |
+| -18 | Components                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Information Leakage         | A.11.1.4, A.11.2.1                |
+| -19 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Asset Monitoring and        | A.8.2.3\*                         |
+| -20 | Tracking                    |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Electromagnetic Pulse       | None                              |
+| -21 | Protection                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Component Marking           | A.8.2.2                           |
+| -22 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PE  | Facility Location           | A.11.1.4, A.11.2.1                |
+| -23 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Planning Policy and         | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| L-1 | Procedures                  | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| P   | System Security and Privacy | 7.5.1, 7.5.2, 7.5.3, 10.1,        |
+| L-2 | Plans                       | A.14.1.1                          |
++-----+-----------------------------+-----------------------------------+
+| P   | **Withdrawn**               | \-\--                             |
+| L-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Rules of Behavior           | A.7.1.2, A.7.2.1, A.8.1.3         |
+| L-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | **Withdrawn**               | \-\--                             |
+| L-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | **Withdrawn**               | \-\--                             |
+| L-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Concept of Operations       | 8.1, A.14.1.1                     |
+| L-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Security and Privacy        | A.14.1.1\*                        |
+| L-8 | Architectures               |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Central Management          | None                              |
+| L-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PL  | Baseline Selection          | None                              |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PL  | Baseline Tailoring          | None                              |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Information Security        | 4.1, 4.2, 4.3, 4.4, 5.2, 5.3,     |
+| M-1 | Program Plan                | 6.1.1, 6.2, 7.4, 7.5.1, 7.5.2,    |
+|     |                             | 7.5.3, 8.1, 9.3, 10.2, A.5.1.1,   |
+|     |                             | A.5.1.2, A.6.1.1, A.18.1.1,       |
+|     |                             | A.18.2.2                          |
++-----+-----------------------------+-----------------------------------+
+| P   | Information Security        | 5.1, 5.3, A.6.1.1                 |
+| M-2 | Program Leadership Role     |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Information Security and    | 5.1, 6.2, 7.1                     |
+| M-3 | Privacy Resources           |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Plan of Action and          | 6.1.1, 6.2, 7.5.1, 7.5.2, 7.5.3,  |
+| M-4 | Milestones Process          | 8.3, 9.2, 9.3, 10.1               |
++-----+-----------------------------+-----------------------------------+
+| P   | System Inventory            | None                              |
+| M-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Measures of Performance     | 5.3, 6.1.1, 6.2, 9.1,             |
+| M-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Enterprise Architecture     | None                              |
+| M-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Critical Infrastructure     | None                              |
+| M-8 | Plan                        |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Risk Management Strategy    | 4.3, 4.4, 6.1.1, 6.1.2, 6.2,      |
+| M-9 |                             | 7.5.1, 7.5.2, 7.5.3, 9.3, 10.2    |
++-----+-----------------------------+-----------------------------------+
+| PM  | Authorization Process       | 9.3, A.6.1.1\*                    |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Mission and Business        | 4.1                               |
+| -11 | Process Definition          |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Insider Threat Program      | None                              |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Security and Privacy        | 7.2, A.7.2.2\*                    |
+| -13 | Workforce                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Testing, Training, and      | 6.2\*                             |
+| -14 | Monitoring                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Security and Privacy Groups | 7.4, A.6.1.4                      |
+| -15 | and Associations            |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Threat Awareness Program    | None                              |
+| -16 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Protecting Controlled       | None                              |
+| -17 | Unclassified Information on |                                   |
+|     | External Systems            |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Privacy Program Plan        | None                              |
+| -18 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Privacy Program Leadership  | None                              |
+| -19 | Role                        |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Dissemination of Privacy    | None                              |
+| -20 | Program Information         |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Accounting of Disclosures   | None                              |
+| -21 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Personally Identifiable     | None                              |
+| -22 | Information Quality         |                                   |
+|     | Management                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Data Governance Body        | None                              |
+| -23 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Data Integrity Board        | None                              |
+| -24 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Minimization of Personally  | None                              |
+| -25 | Identifiable Information    |                                   |
+|     | Used in Testing, Training,  |                                   |
+|     | and Research                |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Complaint Management        | None                              |
+| -26 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Privacy Reporting           | None                              |
+| -27 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Risk Framing                | 4.3, 6.1.2, 6.2, 7.4, 7.5.1,      |
+| -28 |                             | 7.5.2, 7.5.3                      |
++-----+-----------------------------+-----------------------------------+
+| PM  | Risk Management Program     | 5.1, 5.3, 9.2, A.6.1.1            |
+| -29 | Leadership Roles            |                                   |
++-----+-----------------------------+-----------------------------------+
+| PM  | Supply Chain Risk           | 4.4, 6.2, 7.5.1, 7.5.2, 7.5.3,    |
+| -30 | Management Strategy         | 10.2\*                            |
++-----+-----------------------------+-----------------------------------+
+| PM  | Continuous Monitoring       | 4.4, 6.2, 7.4, 7.5.1, 7.5.2,      |
+| -31 | Strategy                    | 7.5.3, 9.1, 10.1, 10.2            |
++-----+-----------------------------+-----------------------------------+
+| PM  | Purposing                   | None                              |
+| -32 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personnel Security Policy   | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| S-1 | and Procedures              | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| P   | Position Risk Designation   | None                              |
+| S-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personnel Screening         | A.7.1.1                           |
+| S-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personnel Termination       | A.7.3.1, A.8.1.4                  |
+| S-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personnel Transfer          | A.7.3.1, A.8.1.4                  |
+| S-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Access Agreements           | A.7.1.2, A.7.2.1, A.13.2.4        |
+| S-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | External Personnel Security | A.6.1.1, A.7.2.1\*                |
+| S-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personnel Sanctions         | 7.3, A.7.2.3                      |
+| S-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Position Descriptions       | A.6.1.1                           |
+| S-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personally Identifiable     | None                              |
+| T-1 | Information Processing and  |                                   |
+|     | Transparency Policy and     |                                   |
+|     | Procedures                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Authority to Process        | None                              |
+| T-2 | Personally Identifiable     |                                   |
+|     | Information                 |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Personally Identifiable     | None                              |
+| T-3 | Information Processing      |                                   |
+|     | Purposes                    |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Consent                     | None                              |
+| T-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Privacy Notice              | None                              |
+| T-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | System of Records Notice    | None                              |
+| T-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Specific Categories of      | None                              |
+| T-7 | Personally Identifiable     |                                   |
+|     | Information                 |                                   |
++-----+-----------------------------+-----------------------------------+
+| P   | Computer Matching           | None                              |
+| T-8 | Requirements                |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Risk Assessment Policy and  | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| A-1 | Procedures                  | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     |                             | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| R   | Security Categorization     | A.8.2.1                           |
+| A-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Risk Assessment             | 6.1.2, 8.2, A.12.6.1\*            |
+| A-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | **Withdrawn**               | \-\--                             |
+| A-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Vulnerability Monitoring    | A.12.6.1\*                        |
+| A-5 | and Scanning                |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Technical Surveillance      | None                              |
+| A-6 | Countermeasures Survey      |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Risk Response               | 6.1.3, 8.3, 10.1                  |
+| A-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Privacy Impact Assessments  | None                              |
+| A-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| R   | Criticality Analysis        | A.15.2.2\*                        |
+| A-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| RA  | Threat Hunting              | None                              |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | System and Services         | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| A-1 | Acquisition Policy and      | 8.1, A.5.1.1, A.5.1.2, A.6.1.1,   |
+|     | Procedures                  | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| S   | Allocation of Resources     | None                              |
+| A-2 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | System Development Life     | A.6.1.1, A.6.1.5, A.14.1.1,       |
+| A-3 | Cycle                       | A.14.2.1, A.14.2.6                |
++-----+-----------------------------+-----------------------------------+
+| S   | Acquisition Process         | 8.1, A.14.1.1, A.14.2.7,          |
+| A-4 |                             | A.14.2.9, A.15.1.2                |
++-----+-----------------------------+-----------------------------------+
+| S   | System Documentation        | 7.5.1, 7.5.2, 7.5.3, A.12.1.1\*   |
+| A-5 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | **Withdrawn**               | \-\--                             |
+| A-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | **Withdrawn**               | \-\--                             |
+| A-7 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Security Engineering        | A.14.2.5                          |
+| A-8 | Principles                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | External System Services    | A.6.1.1, A.6.1.5, A.7.2.1,        |
+| A-9 |                             | A.13.1.2, A.13.2.2, A.15.2.1,     |
+|     |                             | A.15.2.2                          |
++-----+-----------------------------+-----------------------------------+
+| SA  | Developer Configuration     | A.12.1.2, A.14.2.2, A.14.2.4,     |
+| -10 | Management                  | A.14.2.7                          |
++-----+-----------------------------+-----------------------------------+
+| SA  | Developer Testing and       | A.14.2.7, A.14.2.8                |
+| -11 | Evaluation                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | **Withdrawn**               | \-\--                             |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | **Withdrawn**               | \-\--                             |
+| -13 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | **Withdrawn**               | \-\--                             |
+| -14 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Development Process,        | A.6.1.5, A.14.2.1                 |
+| -15 | Standards, and Tools        |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Developer-Provided Training | None                              |
+| -16 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Developer Security and      | A.14.2.1, A.14.2.5                |
+| -17 | Privacy Architecture and    |                                   |
+|     | Design                      |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | **Withdrawn**               | \-\--                             |
+| -18 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | **Withdrawn**               | \-\--                             |
+| -19 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Customized Development of   | None                              |
+| -20 | Critical Components         |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Developer Screening         | A.7.1.1                           |
+| -21 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Unsupported System          | None                              |
+| -22 | Components                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SA  | Specialization              | None                              |
+| -23 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | System and Communications   | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| C-1 | Protection Policy and       | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     | Procedures                  | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| S   | Separation of System and    | None                              |
+| C-2 | User Functionality          |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Security Function Isolation | None                              |
+| C-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Information In Shared       | None                              |
+| C-4 | System Resources            |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Denial-of                   | None                              |
+| C-5 | Service-Protection          |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Resource Availability       | None                              |
+| C-6 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Boundary Protection         | A.13.1.1, A.13.1.3, A.13.2.1,     |
+| C-7 |                             | A.14.1.3                          |
++-----+-----------------------------+-----------------------------------+
+| S   | Transmission                | A.8.2.3, A.13.1.1, A.13.2.1,      |
+| C-8 | Confidentiality and         | A.13.2.3, A.14.1.2, A.14.1.3      |
+|     | Integrity                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | **Withdrawn**               | \-\--                             |
+| C-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Network Disconnect          | A.13.1.1                          |
+| -10 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Trusted Path                | None                              |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Cryptographic Key           | A.10.1.2                          |
+| -12 | Establishment and           |                                   |
+|     | Management                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Cryptographic Protection    | A.10.1.1, A.14.1.2, A.14.1.3,     |
+| -13 |                             | A.18.1.5                          |
++-----+-----------------------------+-----------------------------------+
+| SC  | **Withdrawn**               | \-\--                             |
+| -14 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Collaborative Computing     | A.13.2.1\*                        |
+| -15 | Devices and Applications    |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Transmission of Security    | None                              |
+| -16 | and Privacy Attributes      |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Public Key Infrastructure   | A.10.1.2                          |
+| -17 | Certificates                |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Mobile Code                 | None                              |
+| -18 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | **Withdrawn**               | None                              |
+| -19 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Secure Name/Address         | None                              |
+| -20 | Resolution Service          |                                   |
+|     | (Authoritative Source)      |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Secure Name/Address         | None                              |
+| -21 | Resolution Service          |                                   |
+|     | (Recursive or Caching       |                                   |
+|     | Resolver)                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Architecture and            | None                              |
+| -22 | Provisioning for            |                                   |
+|     | Name/Address Resolution     |                                   |
+|     | Service                     |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Session Authenticity        | None                              |
+| -23 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Fail in Known State         | None                              |
+| -24 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Thin Nodes                  | None                              |
+| -25 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Decoys                      | None                              |
+| -26 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Platform-Independent        | None                              |
+| -27 | Applications                |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Protection of Information   | A.8.2.3\*                         |
+| -28 | at Rest                     |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Heterogeneity               | None                              |
+| -29 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Concealment and             | None                              |
+| -30 | Misdirection                |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Covert Channel Analysis     | None                              |
+| -31 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | System Partitioning         | None                              |
+| -32 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | **Withdrawn**               | \-\--                             |
+| -33 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Non-Modifiable Executable   | None                              |
+| -34 | Programs                    |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | External Malicious Code     | None                              |
+| -35 | Identification              |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Distributed Processing and  | None                              |
+| -36 | Storage                     |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Out-of-Band Channels        | None                              |
+| -37 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Operations Security         | A.12.x                            |
+| -38 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Process Isolation           | None                              |
+| -39 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Wireless Link Protection    | None                              |
+| -40 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Port and I/O Device Access  | None                              |
+| -41 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Sensor Capability and Data  | A.11.1.5\*                        |
+| -42 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Usage Restrictions          | None                              |
+| -43 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Detonation Chambers         | None                              |
+| -44 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | System Time Synchronization | None                              |
+| -45 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Cross Domain Policy         | None                              |
+| -46 | Enforcement                 |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Alternate Communications    | None                              |
+| -47 | Paths                       |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Sensor Relocation           | None                              |
+| -48 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Hardware-Enforced           | None                              |
+| -49 | Separation and Policy       |                                   |
+|     | Enforcement                 |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Software-Enforced           | None                              |
+| -50 | Separation and Policy       |                                   |
+|     | Enforcement                 |                                   |
++-----+-----------------------------+-----------------------------------+
+| SC  | Hardware-Based Protection   | None                              |
+| -51 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | System and Information      | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| I-1 | Integrity Policy and        | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     | Procedures                  | A.12.1.1, A.18.1.1, A.18.2.2      |
++-----+-----------------------------+-----------------------------------+
+| S   | Flaw Remediation            | A.12.6.1, A.14.2.2, A.14.2.3,     |
+| I-2 |                             | A.16.1.3                          |
++-----+-----------------------------+-----------------------------------+
+| S   | Malicious Code Protection   | A.12.2.1                          |
+| I-3 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | System Monitoring           | None                              |
+| I-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Security Alerts,            | A.6.1.4\*                         |
+| I-5 | Advisories, and Directives  |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Security and Privacy        | None                              |
+| I-6 | Function Verification       |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Software, Firmware, and     | None                              |
+| I-7 | Information Integrity       |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Spam Protection             | None                              |
+| I-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | **Withdrawn**               | \-\--                             |
+| I-9 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Information Input           | None                              |
+| -10 | Validation                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Error Handling              | None                              |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Information Management and  | None                              |
+| -12 | Retention                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Predictable Failure         | None                              |
+| -13 | Prevention                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Non-Persistence             | None                              |
+| -14 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Information Output          | None                              |
+| -15 | Filtering                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Memory Protection           | None                              |
+| -16 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Fail-Safe Procedures        | None                              |
+| -17 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Personally Identifiable     | None                              |
+| -18 | Information Quality         |                                   |
+|     | Operations                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | De-identification           | None                              |
+| -19 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Tainting                    | None                              |
+| -20 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Information Refresh         | None                              |
+| -21 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Information Diversity       | None                              |
+| -22 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SI  | Information Fragmentation   | None                              |
+| -23 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Supply Chain Risk           | 5.2, 5.3, 7.5.1, 7.5.2, 7.5.3,    |
+| R-1 | Management Policy and       | A.5.1.1, A.5.1.2, A.6.1.1,        |
+|     | Procedures                  | A.12.1.1, A.15.1.1, A.18.1.1,     |
+|     |                             | A.18.2.2                          |
++-----+-----------------------------+-----------------------------------+
+| S   | Supply Chain Risk           | A.14.2.7\*                        |
+| R-2 | Management Plan             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Supply Chain Controls and   | A.15.1.2, A.15.1.3\*              |
+| R-3 | Processes                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Provenance                  | A.14.2.7\*                        |
+| R-4 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Acquisition Strategies,     | A.15.1.3                          |
+| R-5 | Tools, and Methods          |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Supplier Assessments and    | A.15.2.1                          |
+| R-6 | Reviews                     |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Supply Chain Operations     | A.15.2.2\*                        |
+| R-7 | Security                    |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Notification Agreements     | None                              |
+| R-8 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| S   | Tamper Resistance and       | None                              |
+| R-9 | Detection                   |                                   |
++-----+-----------------------------+-----------------------------------+
+| SR  | Inspection of Systems or    | None                              |
+| -10 | Components                  |                                   |
++-----+-----------------------------+-----------------------------------+
+| SR  | Component Authenticity      | None                              |
+| -11 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+| SR  | Component Disposal          | None                              |
+| -12 |                             |                                   |
++-----+-----------------------------+-----------------------------------+
+
+Table 2 provides a mapping from the security requirements and controls
+in ISO/IEC 27001 to the security controls in Special Publication
+800-53.[^2] Please review the introductory text provided above before
+employing the mappings in Table 2.
+
+TABLE 2: MAPPING ISO/IEC 27001 TO NIST SP 800-53
+
++-----------------------------------+-----------------------------------+
+| **ISO/IEC 27001 REQUIREMENTS AND  | **NIST SP 800-53 CONTROLS**       |
+| CONTROLS**                        |                                   |
+|                                   | *Note: An asterisk (\*) indicates |
+|                                   | that the ISO/IEC control does not |
+|                                   | fully satisfy the intent of the   |
+|                                   | NIST control.*                    |
++===================================+===================================+
+| **ISO/IEC 27001 Requirements**    |                                   |
++-----------------------------------+-----------------------------------+
+| **4. Context of the               |                                   |
+| Organization**                    |                                   |
++-----------------------------------+-----------------------------------+
+| 4.1 Understanding the             | PM-1, PM-11                       |
+| organization and its context      |                                   |
++-----------------------------------+-----------------------------------+
+| 4.2 Understanding the needs and   | PM-1                              |
+| expectations of interested        |                                   |
+| parties                           |                                   |
++-----------------------------------+-----------------------------------+
+| 4.3 Determining the scope of the  | PM-1, PM-9, PM-28                 |
+| information security management   |                                   |
+| system                            |                                   |
++-----------------------------------+-----------------------------------+
+| 4.4 Information security          | PM-1, PM-9, PM-30, PM-31          |
+| management system                 |                                   |
++-----------------------------------+-----------------------------------+
+| **5. Leadership**                 |                                   |
++-----------------------------------+-----------------------------------+
+| 5.1 Leadership and commitment     | PM-2, PM-3, PM-29                 |
++-----------------------------------+-----------------------------------+
+| 5.2 Policy                        | All XX-1 controls                 |
++-----------------------------------+-----------------------------------+
+| 5.3 Organizational roles,         | All XX-1 controls, PM-2, PM-6,    |
+| responsibilities, and authorities | PM-29                             |
++-----------------------------------+-----------------------------------+
+| **6. Planning**                   |                                   |
++-----------------------------------+-----------------------------------+
+| **6.1 Actions to address risks    |                                   |
+| and opportunities**               |                                   |
++-----------------------------------+-----------------------------------+
+| 6.1.1 General                     | PM-1, PM-4, PM-6, PM-9            |
++-----------------------------------+-----------------------------------+
+| 6.1.2 Information security risk   | PM-9, PM-28, RA-3                 |
+| assessment                        |                                   |
++-----------------------------------+-----------------------------------+
+| 6.1.3 Information security risk   | RA-7                              |
+| treatment                         |                                   |
++-----------------------------------+-----------------------------------+
+| 6.2 Information security          | PM-1, PM-3, PM-4, PM-6, PM-9,     |
+| objectives and planning           | PM-14, PM-28, PM-30, PM-31        |
++-----------------------------------+-----------------------------------+
+| **7. Support**                    |                                   |
++-----------------------------------+-----------------------------------+
+| 7.1 Resources                     | PM-3                              |
++-----------------------------------+-----------------------------------+
+| 7.2 Competence                    | PM-13                             |
++-----------------------------------+-----------------------------------+
+| 7.3 Awareness                     | AT-2, PS-8                        |
++-----------------------------------+-----------------------------------+
+| 7.4 Communication                 | PM-1, PM-15, PM-28, PM-31         |
++-----------------------------------+-----------------------------------+
+| **7.5 Documented information**    |                                   |
++-----------------------------------+-----------------------------------+
+| 7.5.1 General                     | All XX-1 controls, CP-2, IR-8,    |
+|                                   | PL-2, PM-4, PM-9, PM-28, PM-30,   |
+|                                   | PM-31, SA-5                       |
++-----------------------------------+-----------------------------------+
+| 7.5.2 Creating and updating       | All XX-1 controls, CP-2, IR-8,    |
+|                                   | PL-2, PM-4, PM-9, PM-28, PM-30,   |
+|                                   | PM-31, SA-5                       |
++-----------------------------------+-----------------------------------+
+| 7.5.3 Control of documented       | All XX-1 controls, CP-2, IR-8,    |
+| information                       | PL-2, PM-4, PM-9, PM-28, PM-30,   |
+|                                   | PM-31, SA-5                       |
++-----------------------------------+-----------------------------------+
+| **8. Operation**                  |                                   |
++-----------------------------------+-----------------------------------+
+| 8.1 Operation planning and        | CM-3, PL-7, PM-1, SA-1, SA-4      |
+| control                           |                                   |
++-----------------------------------+-----------------------------------+
+| 8.2 Information security risk     | RA-3                              |
+| assessment                        |                                   |
++-----------------------------------+-----------------------------------+
+| 8.3 Information security risk     | CA-5, PM-4, RA-7                  |
+| treatment                         |                                   |
++-----------------------------------+-----------------------------------+
+| **9. Performance evaluation**     |                                   |
++-----------------------------------+-----------------------------------+
+| 9.1 Monitoring, measurement,      | CA-1, CA-7, PM-6, PM-31           |
+| analysis, and evaluation          |                                   |
++-----------------------------------+-----------------------------------+
+| 9.2 Internal audit                | CA-1, CA-2, CA-5, CA-7, PM-4      |
++-----------------------------------+-----------------------------------+
+| 9.3 Management review             | CA-6, PM-1, PM-4, PM-9, PM-10,    |
+|                                   | PM-29                             |
++-----------------------------------+-----------------------------------+
+| **10. Improvement**               |                                   |
++-----------------------------------+-----------------------------------+
+| 10.1 Nonconformity and corrective | CA-5, PL-2, PM-4, PM-31, RA-7     |
+| action                            |                                   |
++-----------------------------------+-----------------------------------+
+| 10.2 Continual improvement        | PM-1, PM-9, PM-30, PM-31          |
++-----------------------------------+-----------------------------------+
+| **ISO/IEC 27001 Controls**        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.5 Information Security        |                                   |
+| Policies**                        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.5.1 Management direction for  |                                   |
+| information security**            |                                   |
++-----------------------------------+-----------------------------------+
+| A.5.1.1 Policies for information  | All XX-1 controls                 |
+| security                          |                                   |
++-----------------------------------+-----------------------------------+
+| A.5.1.2 Review of the policies    | All XX-1 controls                 |
+| for information security          |                                   |
++-----------------------------------+-----------------------------------+
+| **A.6 Organization of information |                                   |
+| security**                        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.6.1 Internal organization**   |                                   |
++-----------------------------------+-----------------------------------+
+| A.6.1.1 Information security      | All XX-1 controls, CM-9, CP-2,    |
+| roles and responsibilities        | PS-7, PS-9, SA-3, SA-9, PM-2,     |
+|                                   | PM-10                             |
++-----------------------------------+-----------------------------------+
+| A.6.1.2 Segregation of duties     | AC-5                              |
++-----------------------------------+-----------------------------------+
+| A.6.1.3 Contact with authorities  | IR-6                              |
++-----------------------------------+-----------------------------------+
+| A.6.1.4 Contact with special      | SI-5, PM-15                       |
+| interest groups                   |                                   |
++-----------------------------------+-----------------------------------+
+| A.6.1.5 Information security in   | SA-3, SA-9, SA-15                 |
+| project management                |                                   |
++-----------------------------------+-----------------------------------+
+| **A.6.2 Mobile devices and        |                                   |
+| teleworking**                     |                                   |
++-----------------------------------+-----------------------------------+
+| A.6.2.1 Mobile device policy      | AC-17, AC-18, AC-19               |
++-----------------------------------+-----------------------------------+
+| A.6.2.2 Teleworking               | AC-3, AC-17, PE-17                |
++-----------------------------------+-----------------------------------+
+| **A.7 Human Resources Security**  |                                   |
++-----------------------------------+-----------------------------------+
+| **A.7.1 Prior to Employment**     |                                   |
++-----------------------------------+-----------------------------------+
+| A.7.1.1 Screening                 | PS-3, SA-21                       |
++-----------------------------------+-----------------------------------+
+| A.7.1.2 Terms and conditions of   | PL-4, PS-6                        |
+| employment                        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.7.2 During employment**       |                                   |
++-----------------------------------+-----------------------------------+
+| A.7.2.1 Management                | PL-4, PS-6, PS-7, SA-9            |
+| responsibilities                  |                                   |
++-----------------------------------+-----------------------------------+
+| A.7.2.2 Information security      | AT-2, AT-3, CP-3, IR-2, PM-13     |
+| awareness, education, and         |                                   |
+| training                          |                                   |
++-----------------------------------+-----------------------------------+
+| A.7.2.3 Disciplinary process      | PS-8                              |
++-----------------------------------+-----------------------------------+
+| **A.7.3 Termination and change of |                                   |
+| employment**                      |                                   |
++-----------------------------------+-----------------------------------+
+| A.7.3.1 Termination or change of  | PS-4, PS-5                        |
+| employment responsibilities       |                                   |
++-----------------------------------+-----------------------------------+
+| **A.8 Asset Management**          |                                   |
++-----------------------------------+-----------------------------------+
+| **A.8.1 Responsibility for        |                                   |
+| assets**                          |                                   |
++-----------------------------------+-----------------------------------+
+| A.8.1.1 Inventory of assets       | CM-8                              |
++-----------------------------------+-----------------------------------+
+| A.8.1.2 Ownership of assets       | CM-8                              |
++-----------------------------------+-----------------------------------+
+| A.8.1.3 Acceptable use of assets  | PL-4                              |
++-----------------------------------+-----------------------------------+
+| A.8.1.4 Return of assets          | PS-4, PS-5                        |
++-----------------------------------+-----------------------------------+
+| **A.8.2 Information               |                                   |
+| Classification**                  |                                   |
++-----------------------------------+-----------------------------------+
+| A.8.2.1 Classification of         | RA-2                              |
+| information                       |                                   |
++-----------------------------------+-----------------------------------+
+| A.8.2.2 Labelling of Information  | MP-3, PE-22                       |
++-----------------------------------+-----------------------------------+
+| A.8.2.3 Handling of Assets        | MP-2, MP-4, MP-5, MP-6, MP-7,     |
+|                                   | PE-16, PE-18, PE- 20, SC-8, SC-28 |
++-----------------------------------+-----------------------------------+
+| **A.8.3 Media Handling**          |                                   |
++-----------------------------------+-----------------------------------+
+| A.8.3.1 Management of removable   | MP-2, MP-4, MP-5, MP-6, MP-7      |
+| media                             |                                   |
++-----------------------------------+-----------------------------------+
+| A.8.3.2 Disposal of media         | MP-6                              |
++-----------------------------------+-----------------------------------+
+| A.8.3.3 Physical media transfer   | MP-5                              |
++-----------------------------------+-----------------------------------+
+| **A.9 Access Control**            |                                   |
++-----------------------------------+-----------------------------------+
+| **A.9.1 Business requirement of   |                                   |
+| access control**                  |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.1.1 Access control policy     | AC-1                              |
++-----------------------------------+-----------------------------------+
+| A.9.1.2 Access to networks and    | AC-3, AC-6                        |
+| network services                  |                                   |
++-----------------------------------+-----------------------------------+
+| **A.9.2 User access management**  |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.2.1 User registration and     | AC-2, IA-2, IA-4, IA-5, IA-8      |
+| de-registration                   |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.2.2 User access provisioning  | AC-2                              |
++-----------------------------------+-----------------------------------+
+| A.9.2.3 Management of privileged  | AC-2, AC-3, AC-6, CM-5            |
+| access rights                     |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.2.4 Management of secret      | IA-5                              |
+| authentication information of     |                                   |
+| users                             |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.2.5 Review of user access     | AC-2                              |
+| rights                            |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.2.6 Removal or adjustment of  | AC-2                              |
+| access rights                     |                                   |
++-----------------------------------+-----------------------------------+
+| **A.9.3 User responsibilities**   |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.3.1 Use of secret             | IA-5                              |
+| authentication information        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.9.4 System and application    |                                   |
+| access control**                  |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.4.1 Information access        | AC-3, AC-24                       |
+| restriction                       |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.4.2 Secure logon procedures   | AC-7, AC-8, AC-9, IA-6            |
++-----------------------------------+-----------------------------------+
+| A.9.4.3 Password management       | IA-5                              |
+| system                            |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.4.4 Use of privileged utility | AC-3, AC-6                        |
+| programs                          |                                   |
++-----------------------------------+-----------------------------------+
+| A.9.4.5 Access control to program | AC-3, AC-6, CM-5                  |
+| source code                       |                                   |
++-----------------------------------+-----------------------------------+
+| **A.10 Cryptography**             |                                   |
++-----------------------------------+-----------------------------------+
+| **A.10.1 Cryptographic controls** |                                   |
++-----------------------------------+-----------------------------------+
+| A.10.1.1 Policy on the use of     | SC-13                             |
+| cryptographic controls            |                                   |
++-----------------------------------+-----------------------------------+
+| A.10.1.2 Key Management           | SC-12, SC-17                      |
++-----------------------------------+-----------------------------------+
+| **A.11 Physical and environmental |                                   |
+| security**                        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.11.1 Secure areas**           |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.1.1 Physical security        | PE-3\*                            |
+| perimeter                         |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.1.2 Physical entry controls  | PE-2, PE-3, PE-4, PE-5            |
++-----------------------------------+-----------------------------------+
+| A.11.1.3 Securing offices, rooms  | PE-3, PE-5                        |
+| and facilities                    |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.1.4 Protecting against       | CP-6, CP-7, PE-9, PE-13, PE-14,   |
+| external and environmental        | PE-15, PE-18, PE-19, PE-23        |
+| threats                           |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.1.5 Working in secure areas  | AC-19(4), SC-42\*                 |
++-----------------------------------+-----------------------------------+
+| A.11.1.6 Delivery and loading     | PE-16                             |
+| areas                             |                                   |
++-----------------------------------+-----------------------------------+
+| **A.11.2 Equipment**              |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.2.1 Equipment siting and     | PE-9, PE-13, PE-14, PE-15, PE-18, |
+| protection                        | PE-19, PE-23                      |
++-----------------------------------+-----------------------------------+
+| A.11.2.2 Supporting utilities     | CP-8, PE-9, PE-10, PE-11, PE-12,  |
+|                                   | PE-14, PE-15                      |
++-----------------------------------+-----------------------------------+
+| A.11.2.3 Cabling security         | PE-4, PE-9                        |
++-----------------------------------+-----------------------------------+
+| A.11.2.4 Equipment maintenance    | MA-2, MA-6                        |
++-----------------------------------+-----------------------------------+
+| A.11.2.5 Removal of assets        | MA-2, MP-5, PE-16                 |
++-----------------------------------+-----------------------------------+
+| A.11.2.6 Security of equipment    | AC-19, AC-20, MP-5, PE-17         |
+| and assets off-premises           |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.2.7 Secure disposal or reuse | MP-6                              |
+| of equipment                      |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.2.8 Unattended user          | AC-11                             |
+| equipment                         |                                   |
++-----------------------------------+-----------------------------------+
+| A.11.2.9 Clear desk and clear     | AC-11, MP-2, MP-4                 |
+| screen policy                     |                                   |
++-----------------------------------+-----------------------------------+
+| **A.12 Operations security**      |                                   |
++-----------------------------------+-----------------------------------+
+| **A.12.1 Operational procedures   |                                   |
+| and responsibilities**            |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.1.1 Documented operating     | All XX-1 controls, SA-5           |
+| procedures                        |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.1.2 Change management        | CM-3, CM-5, SA-10                 |
++-----------------------------------+-----------------------------------+
+| A.12.1.3 Capacity management      | AU-4, CP-2(2), SC-5(2)            |
++-----------------------------------+-----------------------------------+
+| A.12.1.4 Separation of            | CM-4(1), CM-5\*                   |
+| development, testing, and         |                                   |
+| operational environments          |                                   |
++-----------------------------------+-----------------------------------+
+| **A.12.2 Protection from          |                                   |
+| malware**                         |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.2.1 Controls against malware | AT-2, SI-3                        |
++-----------------------------------+-----------------------------------+
+| **A.12.3 Backup**                 |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.3.1 Information backup       | CP-9                              |
++-----------------------------------+-----------------------------------+
+| **A.12.4 Logging and monitoring** |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.4.1 Event logging            | AU-3, AU-6, AU-11, AU-12, AU-14   |
++-----------------------------------+-----------------------------------+
+| A.12.4.2 Protection of log        | AU-9                              |
+| information                       |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.4.3 Administrator and        | AU-9, AU-12                       |
+| operator logs                     |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.4.4 Clock synchronization    | AU-8                              |
++-----------------------------------+-----------------------------------+
+| **A.12.5 Control of operational   |                                   |
+| software**                        |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.5.1 Installation of software | CM-5, CM-7(4), CM-7(5), CM-11     |
+| on operational systems            |                                   |
++-----------------------------------+-----------------------------------+
+| **A.12.6 Technical vulnerability  |                                   |
+| management**                      |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.6.1 Management of technical  | RA-3, RA-5, SI-2, SI-5            |
+| vulnerabilities                   |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.6.2 Restrictions on software | CM-11                             |
+| installation                      |                                   |
++-----------------------------------+-----------------------------------+
+| **A.12.7 Information systems      |                                   |
+| audit considerations**            |                                   |
++-----------------------------------+-----------------------------------+
+| A.12.7.1 Information systems      | AU-5\*                            |
+| audit controls                    |                                   |
++-----------------------------------+-----------------------------------+
+| **A.13 Communications security**  |                                   |
++-----------------------------------+-----------------------------------+
+| **A.13.1 Network security         |                                   |
+| management**                      |                                   |
++-----------------------------------+-----------------------------------+
+| A.13.1.1 Network controls         | AC-3, AC-17, AC-18, AC-20, SC-7,  |
+|                                   | SC-8, SC-10                       |
++-----------------------------------+-----------------------------------+
+| A.13.1.2 Security of network      | CA-3, SA-9                        |
+| services                          |                                   |
++-----------------------------------+-----------------------------------+
+| A.13.1.3 Segregation in networks  | AC-4, SC-7                        |
++-----------------------------------+-----------------------------------+
+| **A.13.2 Information transfer**   |                                   |
++-----------------------------------+-----------------------------------+
+| A.13.2.1 Information transfer     | AC-4, AC-17, AC-18, AC-19, AC-20, |
+| policies and procedures           | CA-3, PE-17, SC-7, SC-8, SC-15    |
++-----------------------------------+-----------------------------------+
+| A.13.2.2 Agreements on            | CA-3, PS-6, SA-9                  |
+| information transfer              |                                   |
++-----------------------------------+-----------------------------------+
+| A.13.2.3 Electronic messaging     | SC-8                              |
++-----------------------------------+-----------------------------------+
+| A.13.2.4 Confidentiality or       | PS-6                              |
+| nondisclosure agreements          |                                   |
++-----------------------------------+-----------------------------------+
+| **A.14 System acquisition,        |                                   |
+| development and maintenance**     |                                   |
++-----------------------------------+-----------------------------------+
+| **A.14.1 Security requirements of |                                   |
+| information systems**             |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.1.1 Information security     | PL-2, PL-7, PL-8, SA-3, SA-4      |
+| requirements analysis and         |                                   |
+| specification                     |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.1.2 Securing application     | AC-3, AC-4, AC-17, SC-8, SC-13    |
+| services on public networks       |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.1.3 Protecting application   | AC-3, AC-4, SC-7, SC-8, SC-13     |
+| services transactions             |                                   |
++-----------------------------------+-----------------------------------+
+| **A.14.2 Security in development  |                                   |
+| and support processes**           |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.1 Secure development       | SA-3, SA-15, SA-17                |
+| policy                            |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.2 System change control    | CM-3, SA-10, SI-2                 |
+| procedures                        |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.3 Technical review of      | CM-3, CM-4, SI-2                  |
+| applications after operating      |                                   |
+| platform changes                  |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.4 Restrictions on changes  | CM-3, SA-10                       |
+| to software packages              |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.5 Secure system            | SA-8                              |
+| engineering principles            |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.6 Secure development       | SA-3\*                            |
+| environment                       |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.2.7 Outsourced development   | SA-4, SA-10, SA-11, SA-15, SR-2,  |
+|                                   | SR-4                              |
++-----------------------------------+-----------------------------------+
+| A.14.2.8 System security testing  | CA-2, SA-11                       |
++-----------------------------------+-----------------------------------+
+| A.14.2.9 System acceptance        | SA-4, SR-5(2)                     |
+| testing                           |                                   |
++-----------------------------------+-----------------------------------+
+| **A.14.3 Test data**              |                                   |
++-----------------------------------+-----------------------------------+
+| A.14.3.1 Protection of test data  | SA-15(9)\*                        |
++-----------------------------------+-----------------------------------+
+| **A.15 Supplier Relationships**   |                                   |
++-----------------------------------+-----------------------------------+
+| **A.15.1 Information security in  |                                   |
+| supplier relationships**          |                                   |
++-----------------------------------+-----------------------------------+
+| A.15.1.1 Information security     | SR-1                              |
+| policy for supplier relationships |                                   |
++-----------------------------------+-----------------------------------+
+| A.15.1.2 Address security within  | SA-4, SR-3                        |
+| supplier agreements               |                                   |
++-----------------------------------+-----------------------------------+
+| A.15.1.3 Information and          | SR-3, SR-5                        |
+| communication technology supply   |                                   |
+| chain                             |                                   |
++-----------------------------------+-----------------------------------+
+| **A.15.2 Supplier service         |                                   |
+| delivery management**             |                                   |
++-----------------------------------+-----------------------------------+
+| A.15.2.1 Monitoring and review of | SA-9, SR-6                        |
+| supplier services                 |                                   |
++-----------------------------------+-----------------------------------+
+| A.15.2.2 Managing changes to      | RA-9, SA-9, SR-7                  |
+| supplier services                 |                                   |
++-----------------------------------+-----------------------------------+
+| **A.16 Information security       |                                   |
+| incident management**             |                                   |
++-----------------------------------+-----------------------------------+
+| **A.16.1 Managing of information  |                                   |
+| security incidents and            |                                   |
+| improvements**                    |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.1 Responsibilities and     | IR-8                              |
+| procedures                        |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.2 Reporting information    | AU-6, IR-6                        |
+| security events                   |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.3 Reporting information    | SI-2                              |
+| security weaknesses               |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.4 Assessment of and        | AU-6, IR-4                        |
+| decision on information security  |                                   |
+| events                            |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.5 Response to information  | IR-4                              |
+| security incidents                |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.6 Learning from            | IR-4                              |
+| information security incidents    |                                   |
++-----------------------------------+-----------------------------------+
+| A.16.1.7 Collection of evidence   | AU-4, AU-9, AU-10(3), AU-11\*     |
++-----------------------------------+-----------------------------------+
+| **A.17 Information security       |                                   |
+| aspects of business continuity    |                                   |
+| management**                      |                                   |
++-----------------------------------+-----------------------------------+
+| **A.17.1 Information security     |                                   |
+| continuity**                      |                                   |
++-----------------------------------+-----------------------------------+
+| A.17.1.1 Planning information     | CP-2                              |
+| security continuity               |                                   |
++-----------------------------------+-----------------------------------+
+| A.17.1.2 Implementing information | CP-6, CP-7, CP-8, CP-9, CP-10,    |
+| security continuity               | CP-11, CP-13                      |
++-----------------------------------+-----------------------------------+
+| A.17.1.3 Verify, review, and      | CP-4                              |
+| evaluate information security     |                                   |
+| continuity                        |                                   |
++-----------------------------------+-----------------------------------+
+| **A.17.2 Redundancies**           |                                   |
++-----------------------------------+-----------------------------------+
+| A.17.2.1 Availability of          | CP-2,CP-6, CP-7                   |
+| information processing facilities |                                   |
++-----------------------------------+-----------------------------------+
+| **A.18 Compliance**               |                                   |
++-----------------------------------+-----------------------------------+
+| **A.18.1 Compliance with legal    |                                   |
+| and contractual requirements**    |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.1.1 Identification of        | All XX-1 controls                 |
+| applicable legislation and        |                                   |
+| contractual requirements          |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.1.2 Intellectual property    | CM-10                             |
+| rights                            |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.1.3 Protection of records    | AC-3, AC-23, AU-9, AU-10, CP-9,   |
+|                                   | SC-8, SC-8(1), SC-13, SC-28,      |
+|                                   | SC-28(1)                          |
++-----------------------------------+-----------------------------------+
+| A.18.1.4 Privacy and protection   | Appendix J Privacy controls       |
+| of personal information           |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.1.5 Regulation of            | IA-7, SC-12, SC-13, SC-17         |
+| cryptographic controls            |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.2 **Information security     |                                   |
+| reviews**                         |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.2.1 Independent review of    | CA-2(1), SA-11(3)                 |
+| information security              |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.2.2 Compliance with security | All XX-1 controls, CA-2           |
+| policies and standards            |                                   |
++-----------------------------------+-----------------------------------+
+| A.18.2.3 Technical compliance     | CA-2                              |
+| review                            |                                   |
++-----------------------------------+-----------------------------------+
+
+[^1]: ISO/IEC 27001 was published in October 2013 by the International
+    Organization for Standardization (ISO) and the International
+    Electrotechnical Commission (IEC).
+
+[^2]: The use of the term *XX-1 controls* in mapping Table 2 refers to
+    the set of security controls represented by the first control in
+    each 800-53 control family, where *XX* is a placeholder for the
+    two-letter family identifier.

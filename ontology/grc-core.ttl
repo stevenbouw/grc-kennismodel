@@ -1,0 +1,436 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix asset:   <https://grc.example.org/asset/> .
+@prefix csf:     <https://grc.example.org/csf/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Core Module
+# Versie: 4.0.0-alpha
+# Datum: 2026-03-19
+# Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Kennismodel Rijksoverheidsorganisatie"@nl ,
+               "GRC Knowledge Model Dutch Government Organisation"@en ;
+    rdfs:comment "Formele OWL 2 DL ontologie voor het GRC-domein van een Nederlandse rijksoverheidsorganisatie. Framework-neutraal model (D9): alle normen, wetten en kaders zijn gelijkwaardig gemodelleerd. Modules M1-M13 (+ M14-M17 gepland)."@nl ;
+    dcterms:title "GRC Kennismodel Rijksoverheidsorganisatie"@nl ,
+                  "GRC Knowledge Model Dutch Government Organisation"@en ;
+    dcterms:creator "GRC-Team Rijksoverheidsorganisatie" ;
+    dcterms:created "2026-03-09"^^xsd:date ;
+    dcterms:modified "2026-05-21"^^xsd:date ;
+    dcterms:description "OWL 2 DL ontologie — framework-neutraal kennismodel. Alle normen en kaders gelijkwaardig gemodelleerd. BIO 2.0 als toepassingsperspectief (view-keuze, geen architectuurkeuze)."@nl ;
+    dcterms:language "nl" , "en" ;
+    dcterms:subject "GRC", "Informatiebeveiliging", "Risicobeheer", "Compliance", "Rijksoverheid" ;
+    dcterms:rights "© 2026 Rijksoverheidsorganisatie — intern gebruik" ;
+    owl:versionInfo "4.6.0" ;
+    owl:versionIRI <https://grc.example.org/ontology/v4.6.0/> ;
+    prov:wasAttributedTo [ a prov:Agent ; rdfs:label "GRC-Team"@nl ] ;
+    prov:generatedAtTime "2026-05-21T00:00:00Z"^^xsd:dateTime ;
+    rdfs:comment
+        "WERKREGEL D6 (meeliftregel, vastgesteld Actie G, 2026-04-10) — Tweetaligheid: bij elke wijziging in een moduulbestand worden alle Nederlandse-only rdfs:comment en rdfs:label in datzelfde bestand in dezelfde commit bijgewerkt naar tweetalig (@nl + @en). Nieuwe klassen, properties en individuals zijn altijd direct tweetalig. Deze regel verdeelt de vertaal-schuld natuurlijk over toekomstige wijzigingen in plaats van deze als aparte cleanup-sprint uit te voeren."@nl ,
+        "WORKING RULE D6 (piggyback rule, established Action G, 2026-04-10) — Bilingualism: on each edit to a module file, all Dutch-only rdfs:comment and rdfs:label in that same file are updated to bilingual (@nl + @en) in the same commit. New classes, properties and individuals are always bilingual from the outset. This rule distributes the translation debt naturally over future edits rather than as a separate cleanup sprint."@en ,
+        "LAAG 5 SCOPE-NOOT (Actie E, 2026-04-10) — Cross-framework SKOS-mappings: de feitelijke count is 331 (vertrekpunt Laag 5-kwaliteitsanalyse, geen volumedoelstelling). De NIST 800-53 → ISO 27001 bulk-import uit sp800-53r5-to-iso-27001-mapping.docx is expliciet Laag 5+ werk, niet in Laag 5 zelf, om de kwaliteitsanalyse niet te verdrinken in NIST-bulk. SKOS asymmetrie (broadMatch ↔ narrowMatch, exactMatch/relatedMatch symmetrie) wordt in Laag 5 gedetecteerd en systematisch gefixt."@nl ,
+        "LAYER 5 SCOPE NOTE (Action E, 2026-04-10) — Cross-framework SKOS mappings: the actual count is 331 (starting point for Layer 5 quality analysis, not a volume target). The NIST 800-53 → ISO 27001 bulk import from sp800-53r5-to-iso-27001-mapping.docx is explicitly Layer 5+ work, not in Layer 5 itself, to avoid drowning the quality analysis in NIST bulk. SKOS asymmetry (broadMatch ↔ narrowMatch, exactMatch/relatedMatch symmetry) will be detected and systematically fixed in Layer 5."@en ,
+        "REASONING-VEREISTE (v4.2.0, 2026-04-13) — De BIO-asset-mappings (M18) worden afgeleid via owl:sameAs-inferentie vanuit grc-bridges.ttl (D5). Deze inferentie werkt UITSLUITEND onder een reasoner die OWL RL of sterker ondersteunt: HermiT (OWL DL, gebruikt in Protégé), owlrl.OWLRL_Semantics (rdflib/pySHACL), of GraphDB OWL-Horst. Pure RDFS-inferentie maakt 128 BIO-mappings onzichtbaar — kritieke fout."@nl ,
+        "REASONING REQUIREMENT (v4.2.0, 2026-04-13) — The BIO asset mappings (M18) are derived via owl:sameAs inference from grc-bridges.ttl (D5). This inference works ONLY under a reasoner that supports OWL RL or stronger: HermiT (OWL DL, used in Protégé), owlrl.OWLRL_Semantics (rdflib/pySHACL), or GraphDB OWL-Horst. Pure RDFS inference makes 128 BIO mappings invisible — critical fault."@en ;
+
+    # =========================================================================
+    # VERSIEHISTORIE
+    # =========================================================================
+    # v4.0.0 (26 maart 2026): Initiële formele release na refactor v3 → v4.
+    #   19 modulaire bestanden, HermiT 0 inconsistenties.
+    # v4.1.0-alpha (10 april 2026): Werkpakket opschoning. Acties A, D, C, H2,
+    #   B, F, G, E. BBN-consolidatie via ext:hasHandreikingBBN. ISO27002
+    #   naming-canonicalisatie (29 renames). CBW-alias opgeruimd. fw:toetst
+    #   verplaatst m15→m01. grc-core-mapping verwijderd. M15 scope-comment.
+    #   D6 meeliftregel vastgelegd. Laag 5 scope-noot vastgelegd.
+    # v4.2.0 (13 april 2026): M18 Asset-module geïntegreerd. Nieuwe namespace
+    #   asset:. Drie nieuwe modules (m18-assets, m18-mappings-iso27002,
+    #   m18-mappings-bio2-overheidsmaatregelen + stub bio2-controls). M01/M04/M06
+    #   patches voor BVA Te Beschermen Belangen en wederzijdse seeAlso-relaties.
+    # v4.2.1 (13 april 2026): M18 geconsolideerd naar één bestand m18-assets.ttl.
+    #   M18-shapes geïntegreerd in grc-shacl.ttl met expliciete validatiemodus-
+    #   labels (SECTIE A pre-inferentie, SECTIE B post-inferentie).
+    #   Geen semantische wijzigingen — uitsluitend bestandsorganisatie.
+    # v4.2.2 (13 april 2026): SoA-opschoning (Route A) na G9-diagnostiek.
+    #   isms:SOA_v1 + 15 isms:SOA_* entries verwijderd uit m06-isms.ttl
+    #   (onbedoelde duplicatie met isms:SoA_2026 + 93 isms:SoAEntry_*).
+    #   Canoniseringsspiegel toegevoegd: isms:ISMS_HoofdOrganisatie isms:hasSoA
+    #   wijst nu naar isms:SoA_2026. Eén triple toegevoegd, alle overige delta's
+    #   zijn verwijderingen. Geen TBox-wijzigingen, geen nieuwe properties of
+    #   klassen. Patch-bump (bugfix-classificatie).
+    # v4.3.0 (13 april 2026): Gap-sprint na risk-koppeling nulmeting v4.2.1.
+    #   G1 — Asset-convergentie via owl:sameAs (D11 formeel vastgelegd).
+    #     5 bruggen in grc-bridges.ttl: asset:Asset↔risk:Asset,
+    #     asset:InformationAsset↔risk:InformationAsset↔isms:InformationAsset
+    #     (drievoudig, ster-patroon), asset:HumanAsset↔risk:HumanAsset,
+    #     asset:PhysicalAsset↔risk:PhysicalAsset. Niet gelegd: risk:SystemAsset
+    #     (semantisch breder dan asset:InformationSystem), risk:ServiceAsset
+    #     (geen M18-match), isms:PrimaryAsset/SupportingAsset (overlap).
+    #   G2 — isms:forRisk ObjectProperty toegevoegd (domain isms:SoAEntry,
+    #     range risk:Risk). Optioneel (0..*). ISO 27001:2022 §6.1.3.c/d/e.
+    #   G4 — risk:ReportingRisk klasse toegevoegd (subClassOf risk:Risk,
+    #     skos:broadMatch ext:COSO_ERM_Performance). G4 optie B (masterchat-
+    #     besluit): opgenomen in bestaande owl:AllDisjointClasses-set (4→5 leden)
+    #     conform patroon v4.0.0 dat categorische Risk-subtypes disjoint verklaart.
+    #   G5 — skos:altLabel "Consequence"@en toegevoegd op risk:Impact voor
+    #     ISO 27005:2024 terminologie.
+    #   D11 formeel vastgelegd als nieuwe ontwerpbeslissing (asset-convergentie
+    #     via owl:sameAs, analoog aan D5 maar voor asset-klassenhiërarchieën).
+    # v4.3.1 (20 april 2026): Patch-bump na contextdiepte-diagnostiek v4.3.0.
+    #   H18 — 7 ext:HSClause_*-individuals gedeclareerd in m09 (dangling refs
+    #     opgelost). Nieuwe klasse ext:HSClause (subClassOf ext:FrameworkComponent)
+    #     en TBox-declaratie voor ext:alignsWithHSClause (domain ISMSRequirement,
+    #     range HSClause). Scope-completion: ObjectProperty-count 139→140.
+    #   Bevinding F — isms:containsEntry owl:inverseOf isms:forSoA toegevoegd
+    #     in m06. Onder OWL RL 93 inferred containsEntry-asserties.
+    #   Besluit A (H9 Route X) — 93 × rdfs:label@nl/@en op ctrl:ISO27002_N_NN
+    #     in m02. Bron NL: bestaande ctrl:hasControlTitle@nl; bron EN: officiële
+    #     ISO/IEC 27002:2022 (NEN-EN-variant, identieke EN-titels).
+    #   Besluit B₂ (H10/B route (a), vervangen) — 93 oude "SoA: ..."@nl-labels
+    #     op isms:SoAEntry_* vervangen door tweetalige "SoA-entry: <NL>"@nl /
+    #     "SoA entry: <EN>"@en. Eén afkappingsbug (SoAEntry_5_02) impliciet
+    #     gerepareerd.
+    #   Besluit C (H22) — rdfs:domain toegevoegd op drie DatatypeProperties:
+    #     ext:clauseNumber + ext:articleNumber → compl:ComplianceRequirement;
+    #     ext:controlFamilyCode → ext:ControlFamily. Empirisch bepaald (100%
+    #     dekking per voorstel), per-property masterchat-GO.
+    #   D6-meelift m09 — module-header EN-label toegevoegd.
+    #   Geen wijzigingen aan: D1–D11, D5/D11 sameAs-configuratie, SHACL-shapes.
+    # v4.3.2 (20 april 2026): Patch-bump klein cluster tussen v4.3.1 en Fase 2.
+    #   Item 1 — Smart quotes (U+2018/U+2019) vervangen door ASCII (U+0027)
+    #     op ctrl:ISO27002_7_07 + _8_01 (m02) en spiegels isms:SoAEntry_7_07
+    #     + _8_01 (m06). Afronding via D5-brug: bio:ISO27002_7_07 + _8_01 in
+    #     m08 ook gecorrigeerd (rdfs:label + rdfs:comment) om OWL RL-duplicaten
+    #     te voorkomen. Totaal 10 triples gewijzigd, netto 0 delta.
+    #   Item 2 — ext:NIS2Requirement-klasse toegevoegd (subClassOf
+    #     compl:ComplianceRequirement) in grc-core.ttl. 21 NIS2-subjects
+    #     geretypeerd: 6 in m10-nis2-ext.ttl + 15 in m05-compliance.ttl.
+    #     Patroon-completion naast ext:DORARequirement, ext:ISMSRequirement,
+    #     ext:BCMRequirement. Klassen-count 185→186.
+    #   Item 3 — §10.2-meetcorrectie: SPARQL-verificatie 0 hits op "556" in
+    #     model-annotaties; projectinstructie v1.5 bevat canonieke waarde 973
+    #     (asset:appliesToAssetType inferred). Administratief, geen model-
+    #     wijziging.
+    # v4.3.3 (22 april 2026): NIS2-hygiëne sprint + D12-formalisering.
+    #   Item 1 — D12 (zie onder) vastgelegd: drie-laags-compliance-architectuur.
+    #   Item 2 — 15 compl:REQ_NIS2_*-subjects in m05 van rdfs:label@nl/@en
+    #     voorzien (was: 0 labels, alleen compl:requirementText). +30 triples.
+    #   Item 3 — Predicate-consolidatie α: ext:articleNumber hardverwijderd uit
+    #     grc-core.ttl (5 TBox-triples) + 20 data-uses gemigreerd naar
+    #     compl:articleRef — 6 in m10 (NIS2_Art18/19/20/22/23/24) + 14 in m12
+    #     (DORA_Art5..14,16..19). Masterchat-scope-uitbreiding: oorspronkelijke
+    #     instructie verwachtte 0 extra uses buiten m10; inventarisatie toonde
+    #     14 DORA-uses → Optie A (D9 framework-neutraliteit: NIS2 + DORA beide
+    #     op compl:articleRef). Formaat "art. N" (kleine letter, conform NIS2
+    #     Art21_a..j-conventie). DatatypeProperty-count 85→84.
+    #   Item 4 — 6 plain compl:NIS2_Art{18,19,20,22,23,24}-subjects in m10 van
+    #     compl:requirementText@en voorzien (was: alleen @nl). +6 triples.
+    #   Item 5 — 15 compl:REQ_NIS2_*-subjects expliciete rdf:type owl:NamedIndividual
+    #     gedeclareerd (was: geïnferreerd onder OWL RL). Symmetrie met RO (10)
+    #     en plain NIS2Req (6) die het al expliciet hadden. +15 triples.
+    #   Geparkeerde bevindingen v4.3.3: item "11 NL-apostrof-hits in m08 lopende
+    #     tekst" administratief gesloten — U+2019 is correcte Nederlandse
+    #     typografie in @nl-annotaties; geen model-wijziging vereist.
+    #   Geen wijzigingen aan: D1–D11, D5/D11 sameAs-configuratie, SHACL-shapes,
+    #     klassen-count (186), owl:sameAs-count (98), SKOS-mappings (346).
+    #
+    # =========================================================================
+    # D12 — DRIE-LAAGS-COMPLIANCE-ARCHITECTUUR (v4.3.3, 22 april 2026)
+    # =========================================================================
+    # Compliance-concepten worden op drie niveaus gemodelleerd:
+    #
+    #   1. Wettelijke laag     — compl:RegulatoryObligation (concrete juridische
+    #                             verplichtingen, typisch met dubbele
+    #                             derivedFrom naar EU-directive + NL-wet).
+    #                             Voorbeeld: compl:NIS2_Art21_a..j (10 subjects
+    #                             in m10; derivedFrom NIS2_Directive + CBW).
+    #
+    #   2. Obligation-laag     — compl:LegalObligation (juridische groepering
+    #                             onder artikel-niveau, via derivedFrom-keten
+    #                             naar laag 1). Voorbeeld: compl:OBL_NIS2_Art20,
+    #                             _Art21, _Art23 (3 subjects in m05; let op:
+    #                             gapped — niet voor art. 18/19/22/24).
+    #
+    #   3. Requirement-laag    — framework-specifieke subklasse van
+    #                             compl:ComplianceRequirement (bv.
+    #                             ext:NIS2Requirement, ext:DORARequirement) —
+    #                             operationele vertaling met hasStatus,
+    #                             satisfiedBy, belongsToDomain, requirementText.
+    #                             Voorbeeld: compl:REQ_NIS2_Art21_a..j (10
+    #                             subjects in m05).
+    #
+    #   Artikel-niveau-laag (plain, naast de drie lagen) — framework-specifieke
+    #                             subklasse zonder downstream OBL/REQ
+    #                             decompositie (wanneer niet zinvol).
+    #                             Voorbeeld: compl:NIS2_Art{18,19,20,22,23,24}
+    #                             (6 subjects in m10).
+    #
+    # Typerings-correlatie (bevestigd masterchat, 22 april 2026):
+    #   dubbele derivedFrom (EU + NL)  ⇒  compl:RegulatoryObligation
+    #   enkelvoudige derivedFrom (EU only) ⇒ plain Requirement-subklasse
+    #
+    # Status post-v4.3.3: OBL-laag is bewust gapped (geen masterchat-decompositie-
+    # beslissing voor art. 18/19/22/24); agendapunt voor toekomstig scope-gesprek.
+    # Ook agendapunt: semantische spanning tussen D12-parallelle-takken en
+    # compl:articleRef.domain = compl:Obligation — alle ext:NIS2Requirement en
+    # ext:DORARequirement-subjects met articleRef krijgen onder OWL RL
+    # rdf:type compl:Obligation geïnferreerd. Geen inconsistentie (geen
+    # disjointness tussen Obligation en ComplianceRequirement), wel gesignaleerd
+    # voor post-v4.3.3 architectuur-gesprek.
+    # =========================================================================
+
+    # Module imports
+    owl:imports <https://grc.example.org/ontology/m01-framework> ,
+                <https://grc.example.org/ontology/m02-control> ,
+                <https://grc.example.org/ontology/m03-risk> ,
+                <https://grc.example.org/ontology/m04-roles> ,
+                <https://grc.example.org/ontology/m05-compliance> ,
+                <https://grc.example.org/ontology/m06-isms> ,
+                <https://grc.example.org/ontology/m07-business> ,
+                <https://grc.example.org/ontology/m08-bio20> ,
+                <https://grc.example.org/ontology/m09-iso27001-ext> ,
+                <https://grc.example.org/ontology/m10-nis2-ext> ,
+                <https://grc.example.org/ontology/m11-nist-800-53> ,
+                <https://grc.example.org/ontology/m12-dora> ,
+                <https://grc.example.org/ontology/m13-iso22301> ,
+                <https://grc.example.org/ontology/m14-avg-gdpr> ,
+                <https://grc.example.org/ontology/m15-ensia> ,
+                <https://grc.example.org/ontology/m16-virbi-ext> ,
+                <https://grc.example.org/ontology/m17-coso-cobit> ,
+                <https://grc.example.org/ontology/grc-bridges> ,
+                <https://grc.example.org/ontology/m18-assets> .
+
+# =============================================================================
+# EINDE grc-core.ttl
+# =============================================================================
+
+# --- Gedeelde TBox-klassen voor M9-M13 (ext: namespace) ---
+ext:ISMSRequirement rdf:type owl:Class ;
+    rdfs:subClassOf compl:ComplianceRequirement ;
+    rdfs:label "ISMS-eis"@nl ; rdfs:label "ISMS Requirement"@en .
+
+ext:ControlFamily rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:ControlDomain ;
+    rdfs:label "Controlefamilie"@nl ; rdfs:label "Control Family"@en .
+
+ext:NISTControl rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:Control ;
+    rdfs:label "NIST Beheersmaatregel"@nl ; rdfs:label "NIST Control"@en .
+
+ext:DORARequirement rdf:type owl:Class ;
+    rdfs:subClassOf compl:ComplianceRequirement ;
+    rdfs:label "DORA-vereiste"@nl ; rdfs:label "DORA Requirement"@en .
+
+ext:BCMRequirement rdf:type owl:Class ;
+    rdfs:subClassOf compl:ComplianceRequirement ;
+    rdfs:label "BCM-eis"@nl ; rdfs:label "BCM Requirement"@en .
+
+ext:NIS2Requirement rdf:type owl:Class ;
+    rdfs:subClassOf compl:ComplianceRequirement ;
+    rdfs:label "NIS2-vereiste"@nl ; rdfs:label "NIS2 requirement"@en ;
+    rdfs:comment "Verplichtingsartikel uit NIS2 (EU 2022/2555) als specifieke subklasse van compl:ComplianceRequirement. Analoog aan ext:DORARequirement, ext:ISMSRequirement, ext:BCMRequirement."@nl ,
+                 "Mandatory article from NIS2 (EU 2022/2555) as specific subclass of compl:ComplianceRequirement. Analogous to ext:DORARequirement, ext:ISMSRequirement, ext:BCMRequirement."@en ,
+                 "D12 requirement-laag (v4.3.3): operationele vertaling van een wettelijke NIS2-verplichting, met compl:hasStatus, compl:satisfiedBy, compl:belongsToDomain en compl:requirementText. Subjects met enkelvoudige compl:derivedFrom (NIS2_Directive only) blijven op deze klasse; subjects die via CBW ook nationaal afdwingbaar zijn (art. 21, lid 2) staan op compl:RegulatoryObligation (D12 wettelijke laag)."@nl ,
+                 "D12 requirement layer (v4.3.3): operational translation of a statutory NIS2 obligation, carrying compl:hasStatus, compl:satisfiedBy, compl:belongsToDomain and compl:requirementText. Subjects with single compl:derivedFrom (NIS2_Directive only) remain on this class; subjects also nationally enforceable via CBW (art. 21(2)) sit on compl:RegulatoryObligation (D12 legal layer)."@en .
+
+ext:clauseNumber rdf:type owl:DatatypeProperty ;
+    rdfs:domain compl:ComplianceRequirement ;
+    rdfs:range xsd:string ;
+    rdfs:label "clausenummer"@nl , "clause number"@en .
+
+ext:controlFamilyCode rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:ControlFamily ;
+    rdfs:range xsd:string ;
+    rdfs:label "controlefamilie code"@nl , "control family code"@en .
+
+ext:mappedToISO27002 rdf:type owl:ObjectProperty ;
+    rdfs:domain ext:NISTControl ; rdfs:range ctrl:Control ;
+    rdfs:label "gekoppeld aan ISO 27002"@nl , "mapped to ISO 27002"@en .
+
+ext:implementedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain ext:ISMSRequirement ; rdfs:range ctrl:Control ;
+    rdfs:label "geimplementeerd door"@nl , "implemented by"@en .
+
+ext:hasHandreikingBBN rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range xsd:integer ;
+    rdfs:label "heeft Handreiking-BBN"@nl ,
+               "has Handreiking BBN"@en ;
+    rdfs:comment "Basisbeveiligingsniveau (BBN) zoals toegekend door de Handreiking BIO2-opmaat v2.5 (transitiedocument). Van toepassing op baselinecontroles breed: zowel bio:BIOControl (ISO 27002-gebaseerd) als bio:OverheidsMaatregel (overheidsspecifiek). BBN is NIET gedefinieerd in BIO 2.0 zelf, maar uitsluitend in de Handreiking. Geldige waarden: 1 (basis) en 2 (verhoogd). BBN 3 bestaat niet in deze bron."@nl ,
+                 "Baseline protection level (BBN) as assigned by the Handreiking BIO2-opmaat v2.5 (transition document). Applies broadly to baseline controls: both bio:BIOControl (ISO 27002-based) and bio:OverheidsMaatregel (government-specific). BBN is NOT defined in BIO 2.0 itself, only in the Handreiking. Valid values: 1 (baseline) and 2 (elevated). BBN 3 does not exist in this source."@en ;
+    dcterms:source "Handreiking BIO2-opmaat v2.5" .
+
+# =============================================================================
+# v4.4.0 Fase 2 — TBox-uitbreidingen (Stap 2.4, 2.5, 2.5-aanvulling)
+# Datum: 2026-05-13
+# =============================================================================
+
+# --- Stap 2.4 — Bron-attribuering (CC-BY 4.0 e.v., eerste toepassing Route 5) ---
+
+ext:SourceAttribution rdf:type owl:Class ;
+    rdfs:label "bron-attribuering"@nl , "source attribution"@en ;
+    rdfs:comment "Een bron-attribuering-record dat de licentie, herkomst en versie van extern bronmateriaal vastlegt. Wordt aan een gebruikend individual gekoppeld via ext:sourceAttribution om CC-BY-attribuering en vergelijkbare verplichtingen structureel uit te drukken. Eerste verplichte toepassing v4.4.0: ENISA Technical Implementation Guidance (CC-BY 4.0) via Route 5."@nl ,
+                 "A source attribution record capturing the licence, origin and version of external source material. Linked to a using individual via ext:sourceAttribution to express CC-BY attribution and similar obligations structurally. First mandatory use in v4.4.0: ENISA Technical Implementation Guidance (CC-BY 4.0) via Route 5."@en .
+
+ext:sourceAttribution rdf:type owl:ObjectProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range ext:SourceAttribution ;
+    rdfs:label "bron-attribuering"@nl , "source attribution"@en ;
+    rdfs:comment "Koppelt een individual aan een bron-attribuering-record. Dom is bewust owl:Thing om koppeling vanaf willekeurige model-individuals (controls, overheidsmaatregelen, frameworks) toe te laten."@nl ,
+                 "Links an individual to a source attribution record. Domain is owl:Thing intentionally to allow attribution from arbitrary model individuals (controls, government measures, frameworks)."@en .
+
+ext:hasLicense rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:SourceAttribution ;
+    rdfs:range xsd:string ;
+    rdfs:label "licentie"@nl , "license"@en ;
+    rdfs:comment "Korte aanduiding van de licentie (bv. \"CC-BY 4.0\", \"publiek domein\", \"EU-recht\")."@nl ,
+                 "Short license identifier (e.g. \"CC-BY 4.0\", \"public domain\", \"EU law\")."@en .
+
+ext:hasLicenseURL rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:SourceAttribution ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "licentie-URL"@nl , "license URL"@en ;
+    rdfs:comment "URL naar de officiële licentietekst."@nl ,
+                 "URL to the official license text."@en .
+
+ext:hasAttributionText rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:SourceAttribution ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "attribuering-tekst"@nl , "attribution text"@en ;
+    rdfs:comment "Tweetalige citeer-zin voor publicatie/dashboard-uitvoer. Voldoet aan attributievereiste van de bronlicentie."@nl ,
+                 "Bilingual citation text for publication/dashboard output. Satisfies the source license attribution requirement."@en .
+
+ext:hasSourcePublicationDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:SourceAttribution ;
+    rdfs:range xsd:date ;
+    rdfs:label "publicatiedatum bron"@nl , "source publication date"@en ;
+    rdfs:comment "Datum waarop het externe bronmateriaal officieel is gepubliceerd."@nl ,
+                 "Date on which the external source material was officially published."@en .
+
+ext:hasSourceVersion rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:SourceAttribution ;
+    rdfs:range xsd:string ;
+    rdfs:label "versie bron"@nl , "source version"@en ;
+    rdfs:comment "Versie-identificatie van het externe bronmateriaal (bv. \"1.0\", \"v2.5\")."@nl ,
+                 "Version identifier of the external source material (e.g. \"1.0\", \"v2.5\")."@en .
+
+# --- Stap 2.5 (addendum 1 + 2) — Cbw/Cbb-artikel-refs op control-niveau ---
+# Addendum 2: domain versoepeld van bio:BIOControl naar ctrl:Control zodat ook
+# ctrl:CBWControl-subjects deze properties kunnen dragen (sheet 3 kolom D K4-uses).
+
+ext:hasCbwArticle rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range xsd:string ;
+    rdfs:label "Cbw-artikel"@nl , "CBW article"@en ;
+    rdfs:comment "Verwijzing naar het Cbw-artikel dat de juridische basis vormt voor deze control. Bron: CBW/NIS2 Control Framework (ADR & NOREA, CC-BY 4.0) — sheet 'Mapping BIO2' kolom F voor bio:BIOControl-subjects; sheet 'Cbw (NIS2) Control Framework' kolom D voor ctrl:CBWControl-subjects. Ref-notatie wordt letterlijk overgenomen uit het bronmateriaal; één control kan meerdere Cbw-artikel-refs hebben."@nl ,
+                 "Reference to the CBW article providing the legal basis for this control. Source: CBW/NIS2 Control Framework (ADR & NOREA, CC-BY 4.0) — sheet 'Mapping BIO2' column F for bio:BIOControl subjects; sheet 'Cbw (NIS2) Control Framework' column D for ctrl:CBWControl subjects. Reference notation is taken verbatim from the source material; one control may carry multiple CBW article references."@en .
+
+ext:hasCbbArticle rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range xsd:string ;
+    rdfs:label "Cbb-artikel"@nl , "Cbb article"@en ;
+    rdfs:comment "Verwijzing naar het Cbb-artikel dat de operationele invulling vormt voor deze control. Bron: CBW/NIS2 Control Framework (ADR & NOREA, CC-BY 4.0) — sheet 'Mapping BIO2' kolom G voor bio:BIOControl-subjects; sheet 'Cbw (NIS2) Control Framework' kolom D voor ctrl:CBWControl-subjects. Ref-notatie wordt letterlijk overgenomen uit het bronmateriaal; één control kan meerdere Cbb-artikel-refs hebben."@nl ,
+                 "Reference to the Cbb article providing the operational elaboration for this control. Source: CBW/NIS2 Control Framework (ADR & NOREA, CC-BY 4.0) — sheet 'Mapping BIO2' column G for bio:BIOControl subjects; sheet 'Cbw (NIS2) Control Framework' column D for ctrl:CBWControl subjects. Reference notation is taken verbatim from the source material; one control may carry multiple Cbb article references."@en .
+
+# --- Stap 2 (addendum 2) — Operationele kern-statement op control-niveau ---
+
+ext:hasControlStatement rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "control-statement"@nl , "control statement"@en ;
+    rdfs:comment "De operationele kern-statement van een control: een beknopte beschrijving van de te treffen maatregel of het te behalen resultaat. Onderscheid t.o.v. rdfs:comment: rdfs:comment kan toelichtende context bevatten; ext:hasControlStatement is de normatieve kern-eis. Eerste toepassing v4.4.0: 26 ctrl:CBWControl-individuals (sheet 3 kolom F Beheersmaatregel-tekst). Generic domain ctrl:Control maakt herbruikbaar voor toekomstige NIST CSF, NIST 800-53, ISO 27002-controls."@nl ,
+                 "The operational core statement of a control: a concise description of the measure to be taken or outcome to be achieved. Distinguished from rdfs:comment: rdfs:comment may contain explanatory context; ext:hasControlStatement is the normative core requirement. First use in v4.4.0: 26 ctrl:CBWControl individuals (sheet 3 column F Beheersmaatregel text). Generic domain ctrl:Control makes it reusable for future NIST CSF, NIST 800-53, ISO 27002 controls."@en .
+
+# --- Stap 2.5-aanvulling (na addendum 2) — UV-interpretatie (sheet 3 kolom H) ---
+
+ext:hasUVInterpretation rdf:type owl:DatatypeProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "UV-interpretatie"@nl , "UV interpretation"@en ;
+    rdfs:comment "ADR/NOREA's interpretatieve uitwerking van Uitvoeringsverordening (EU) 2024/2690 op control-niveau, met eigen nummering-conventie (1.1.2, 1.2.3, etc.). Bronmateriaal: CBW/NIS2 Control Framework (ADR & NOREA, versie 1.0, 30 september 2025), sheet 'Cbw (NIS2) Control Framework', kolom H. NIET de letterlijke UV-tekst en NIET de ENISA Technical Implementation Guidance — beide zijn separate bronnen."@nl ,
+                 "ADR/NOREA's interpretative elaboration of Commission Implementing Regulation (EU) 2024/2690 at control level, with its own numbering convention (1.1.2, 1.2.3, etc.). Source: CBW/NIS2 Control Framework (ADR & NOREA, version 1.0, 30 September 2025), sheet 'Cbw (NIS2) Control Framework', column H. NOT the verbatim UV text and NOT the ENISA Technical Implementation Guidance — both are separate sources."@en .
+
+
+# =============================================================================
+# v4.5.0 Fase 3 — TBox-uitbreidingen voor NIST CSF 2.0 (Stap 2)
+# Datum: 2026-05-19
+# =============================================================================
+# D3-revisie: 11e namespace csf: toegevoegd (declaratie in prefix-blok).
+# Vier nieuwe klassen onder ext:FrameworkComponent (consistent met M17 COSO/COBIT-precedent).
+# Vier nieuwe properties: 3 OP voor CSF-hierarchie + 1 DP voor identifier-behoud.
+
+# --- Klassen ---
+
+csf:Function rdf:type owl:Class ;
+    rdfs:subClassOf ext:FrameworkComponent ;
+    rdfs:label "CSF-Function"@nl , "CSF Function"@en ;
+    rdfs:comment "Een Function uit NIST Cybersecurity Framework 2.0. Functions vormen het hoogste niveau van de CSF-Core: GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER. Per CSF 2.0 is GOVERN nieuw t.o.v. v1.x."@nl ,
+                 "A Function from NIST Cybersecurity Framework 2.0. Functions form the highest level of the CSF Core: GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER. Per CSF 2.0 GOVERN is new compared to v1.x."@en .
+
+csf:Category rdf:type owl:Class ;
+    rdfs:subClassOf ext:FrameworkComponent ;
+    rdfs:label "CSF-Category"@nl , "CSF Category"@en ;
+    rdfs:comment "Een Category uit NIST Cybersecurity Framework 2.0. Categories zijn onderverdelingen van Functions die gerelateerde cybersecurity-uitkomsten groeperen. CSF 2.0 telt 22 Categories verdeeld over 6 Functions."@nl ,
+                 "A Category from NIST Cybersecurity Framework 2.0. Categories are subdivisions of Functions that group related cybersecurity outcomes. CSF 2.0 has 22 Categories distributed across 6 Functions."@en .
+
+csf:Subcategory rdf:type owl:Class ;
+    rdfs:subClassOf ext:FrameworkComponent ;
+    rdfs:label "CSF-Subcategory"@nl , "CSF Subcategory"@en ;
+    rdfs:comment "Een Subcategory uit NIST Cybersecurity Framework 2.0. Subcategories beschrijven specifieke technische en management-uitkomsten die een Category verwezenlijken. CSF 2.0 telt 106 Subcategories met format XX.YY-NN (bv. GV.OC-01)."@nl ,
+                 "A Subcategory from NIST Cybersecurity Framework 2.0. Subcategories describe specific technical and management outcomes that realise a Category. CSF 2.0 has 106 Subcategories with format XX.YY-NN (e.g. GV.OC-01)."@en .
+
+csf:ImplementationExample rdf:type owl:Class ;
+    rdfs:subClassOf ext:FrameworkComponent ;
+    rdfs:label "CSF Implementation Example"@nl , "CSF Implementation Example"@en ;
+    rdfs:comment "Een Implementation Example uit NIST Cybersecurity Framework 2.0. Implementation Examples zijn actie-georienteerde voorbeelden voor het verwezenlijken van een Subcategory-uitkomst. Niet uitputtend; geen verplichte baseline-acties."@nl ,
+                 "An Implementation Example from NIST Cybersecurity Framework 2.0. Implementation Examples are action-oriented examples for achieving a Subcategory outcome. Not exhaustive; not a required baseline of actions."@en .
+
+# --- ObjectProperties ---
+
+csf:partOfFunction rdf:type owl:ObjectProperty ;
+    rdfs:domain csf:Category ;
+    rdfs:range csf:Function ;
+    rdfs:label "deel van CSF-Function"@nl , "part of CSF Function"@en ;
+    rdfs:comment "Koppelt een Category aan de Function waar zij onder valt."@nl ,
+                 "Links a Category to the Function it belongs to."@en .
+
+csf:partOfCategory rdf:type owl:ObjectProperty ;
+    rdfs:domain csf:Subcategory ;
+    rdfs:range csf:Category ;
+    rdfs:label "deel van CSF-Category"@nl , "part of CSF Category"@en ;
+    rdfs:comment "Koppelt een Subcategory aan de Category waar zij onder valt."@nl ,
+                 "Links a Subcategory to the Category it belongs to."@en .
+
+csf:exemplifies rdf:type owl:ObjectProperty ;
+    rdfs:domain csf:ImplementationExample ;
+    rdfs:range csf:Subcategory ;
+    rdfs:label "voorbeeld voor"@nl , "exemplifies"@en ;
+    rdfs:comment "Koppelt een Implementation Example aan de Subcategory die het illustreert."@nl ,
+                 "Links an Implementation Example to the Subcategory it illustrates."@en .
+
+# --- DatatypeProperty ---
+
+csf:csfIdentifier rdf:type owl:DatatypeProperty ;
+    rdfs:domain ext:FrameworkComponent ;
+    rdfs:range xsd:string ;
+    rdfs:label "CSF-identifier"@nl , "CSF identifier"@en ;
+    rdfs:comment "De originele NIST CSF 2.0 identifier (bv. GV, GV.OC, GV.OC-01, GV.OC-01.Ex1). Behoudt punt+dash-conventie uit bron; aparte property naast IRI-conversie."@nl ,
+                 "The original NIST CSF 2.0 identifier (e.g. GV, GV.OC, GV.OC-01, GV.OC-01.Ex1). Retains period+dash convention from source; separate property alongside IRI conversion."@en .

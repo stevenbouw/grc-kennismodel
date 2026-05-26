@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GRC Dashboard v2.0 — Rijksoverheidsorganisatie</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0a0e14;--bg1:#111720;--bg2:#161d28;--bg3:#1c2535;--bg4:#24303f;
+  --border:#2a3a4e;--border2:#354d65;
+  --blue:#0f62fe;--blue-lt:#4589ff;--blue-dim:#0043ce;
+  --cyan:#1192e8;--cyan-lt:#33b1ff;--teal:#007d79;
+  --green:#198038;--green-lt:#24a148;--green-br:#42be65;
+  --yellow:#b28600;--yellow-lt:#f1c21b;
+  --orange:#ba4e00;--orange-lt:#ff832b;
+  --red:#a2191f;--red-lt:#da1e28;--red-br:#fa4d56;
+  --purple:#6929c4;--purple-lt:#a56eff;
+  --text:#f2f4f8;--text2:#c1c7cd;--text3:#878d96;--text4:#4d5358;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--serif:'IBM Plex Serif',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* Header */
+.hdr{background:var(--bg1);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;padding:0 24px;gap:14px;position:sticky;top:0;z-index:200}
+.hdr-logo{width:30px;height:30px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.hdr-org{font-family:var(--serif);font-size:15px;font-weight:600}
+.hdr-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.hdr-right{margin-left:auto;display:flex;gap:20px;align-items:center}
+.hdr-kv-val{font-family:var(--mono);font-size:11px;color:var(--cyan-lt);text-align:right}
+.hdr-kv-lbl{font-size:9px;color:var(--text4);text-align:right}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green-br);margin-right:4px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Nav */
+.nav{background:var(--bg1);border-bottom:1px solid var(--border);padding:0 24px;display:flex;overflow-x:auto;position:sticky;top:52px;z-index:190}
+.ntab{padding:11px 18px;cursor:pointer;border-bottom:2px solid transparent;font-size:13px;font-weight:500;color:var(--text3);white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:7px}
+.ntab:hover{color:var(--text);background:var(--bg2)}
+.ntab.active{color:var(--cyan-lt);border-bottom-color:var(--cyan-lt)}
+.nbadge{background:var(--red-lt);color:#fff;border-radius:8px;padding:0 5px;font-size:9px;font-family:var(--mono);font-weight:700}
+
+/* Main */
+.main{padding:18px 24px;max-width:1580px;margin:0 auto}
+.tab{display:none}.tab.active{display:block}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:16px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:16px}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px}
+.chd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cttl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
+.cact{font-size:11px;color:var(--cyan-lt);cursor:pointer;padding:2px 8px;border:1px solid var(--border2);border-radius:3px}
+.cact:hover{background:var(--bg3)}
+
+/* Stats */
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;position:relative;overflow:hidden}
+.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ac,var(--blue))}
+.sv{font-family:var(--mono);font-size:26px;font-weight:600;line-height:1}
+.sl{font-size:11px;color:var(--text3);margin-top:4px}
+.ss{font-family:var(--mono);font-size:10px;color:var(--text4);margin-top:4px}
+.strd{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:10px}
+.up{color:var(--green-br)}.dn{color:var(--red-br)}.neu{color:var(--text3)}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:var(--bg3);padding:6px 9px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);border-bottom:1px solid var(--border)}
+.tbl td{padding:6px 9px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.tscroll{overflow-y:auto;max-height:360px}
+.txscroll{overflow-x:auto}
+
+/* Badges */
+.b{display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;font-family:var(--mono);white-space:nowrap}
+.bg{background:rgba(66,190,101,.12);color:var(--green-br);border:1px solid rgba(66,190,101,.25)}
+.by{background:rgba(241,194,27,.10);color:var(--yellow-lt);border:1px solid rgba(241,194,27,.22)}
+.bo{background:rgba(255,131,43,.10);color:var(--orange-lt);border:1px solid rgba(255,131,43,.22)}
+.br{background:rgba(250,77,86,.12);color:var(--red-br);border:1px solid rgba(250,77,86,.25)}
+.bb{background:rgba(69,137,255,.12);color:var(--blue-lt);border:1px solid rgba(69,137,255,.25)}
+.bc{background:rgba(51,177,255,.10);color:var(--cyan-lt);border:1px solid rgba(51,177,255,.22)}
+.bp{background:rgba(165,110,255,.10);color:var(--purple-lt);border:1px solid rgba(165,110,255,.22)}
+.bz{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+
+/* Progress */
+.pw{background:var(--bg3);border-radius:3px;height:5px;overflow:hidden}
+.pb{height:5px;border-radius:3px;transition:width .4s}
+
+/* Editable */
+.ed{cursor:pointer;border-bottom:1px dashed var(--border2);transition:.15s;display:inline-block;min-width:60px}
+.ed:hover{border-bottom-color:var(--cyan-lt);color:var(--cyan-lt)}
+.ed:empty::before{content:'—';color:var(--text4)}
+[contenteditable]:focus{outline:1px solid var(--cyan-lt);border-radius:2px;padding:0 3px;background:var(--bg3)}
+
+/* Alert */
+.alert{border-radius:5px;padding:9px 13px;font-size:11px;margin-bottom:13px;display:flex;gap:9px;line-height:1.5}
+.aw{background:rgba(241,194,27,.08);border:1px solid rgba(241,194,27,.25);color:var(--yellow-lt)}
+.ae{background:rgba(250,77,86,.08);border:1px solid rgba(250,77,86,.25);color:var(--red-br)}
+.ai{background:rgba(51,177,255,.07);border:1px solid rgba(51,177,255,.22);color:var(--cyan-lt)}
+
+/* Inner nav */
+.inav{display:flex;gap:1px;margin-bottom:14px;border-bottom:1px solid var(--border)}
+.itab{padding:8px 14px;cursor:pointer;font-size:12px;color:var(--text3);border-bottom:2px solid transparent;transition:.15s;margin-bottom:-1px;white-space:nowrap}
+.itab:hover{color:var(--text)}
+.itab.active{color:var(--cyan-lt);border-bottom-color:var(--cyan-lt)}
+.ipanel{display:none}.ipanel.active{display:block}
+
+/* Heatmap */
+.hm{display:grid;grid-template-columns:38px repeat(5,1fr);gap:3px;font-size:10px;margin-top:6px}
+.hmcell{aspect-ratio:1.4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;font-family:var(--mono);font-size:11px;font-weight:600;transition:.15s}
+.hmcell:hover{filter:brightness(1.3);border-color:rgba(255,255,255,.2)!important}
+.hmcell.selected{border-color:#fff!important}
+.hmlbl{color:var(--text4);font-size:9px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
+.hmaxl{color:var(--text4);font-size:9px;text-align:center}
+
+/* RACI */
+.rr{background:rgba(250,77,86,.15);color:var(--red-br);border:1px solid rgba(250,77,86,.3);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.ra{background:rgba(241,194,27,.15);color:var(--yellow-lt);border:1px solid rgba(241,194,27,.3);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.rc{background:rgba(51,177,255,.12);color:var(--cyan-lt);border:1px solid rgba(51,177,255,.25);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.ri{background:rgba(66,190,101,.12);color:var(--green-br);border:1px solid rgba(66,190,101,.25);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+
+/* Ontology lens */
+.owl{background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:12px;margin-top:10px;font-size:11px}
+.owlttl{font-family:var(--mono);font-size:10px;color:var(--purple-lt);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
+.owlrow{display:flex;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.owlk{color:var(--text3);min-width:115px;flex-shrink:0}
+.owlv{color:var(--cyan-lt);font-family:var(--mono)}
+.sparql{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:9px;margin-top:9px;font-family:var(--mono);font-size:10px;color:var(--green-br);white-space:pre;overflow-x:auto;position:relative;line-height:1.6}
+.cpbtn{position:absolute;top:5px;right:5px;background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:2px 7px;font-size:9px;cursor:pointer;transition:.15s}
+.cpbtn:hover{color:var(--cyan-lt);border-color:var(--cyan-lt)}
+
+/* FW cards */
+.fwgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.fwcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:9px 11px;cursor:pointer;transition:.15s}
+.fwcard:hover,.fwcard.sel{background:var(--bg4);border-color:var(--cyan-lt)}
+.fwcard.sel .fwname{color:var(--cyan-lt)}
+.fwname{font-size:11px;font-weight:600;margin-bottom:2px}
+.fwmeta{font-size:10px;color:var(--text3)}
+.fwdot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;flex-shrink:0}
+
+/* PDCA */
+.pdca{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.pq{border-radius:6px;padding:12px;border-left:3px solid}
+.pp{background:rgba(31,98,254,.07);border-color:var(--blue-lt)}
+.pd{background:rgba(25,128,56,.07);border-color:var(--green-br)}
+.pc{background:rgba(178,134,0,.07);border-color:var(--yellow-lt)}
+.pa{background:rgba(186,78,0,.07);border-color:var(--orange-lt)}
+.plbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.pitem{display:flex;gap:5px;font-size:11px;color:var(--text2);line-height:1.7}
+.pitem::before{content:'▸';font-size:8px;color:var(--text4);margin-top:3px;flex-shrink:0}
+
+/* Timeline */
+.tl{padding-left:18px;position:relative}
+.tl::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--border2)}
+.tlitem{position:relative;margin-bottom:11px}
+.tldot{position:absolute;left:-16px;top:5px;width:9px;height:9px;border-radius:50%;border:2px solid var(--bg2)}
+.tlbox{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px 11px}
+.tldate{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.tltitle{font-size:12px;font-weight:500;margin:2px 0 1px}
+.tldesc{font-size:10px;color:var(--text3)}
+
+/* Misc */
+.chip{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:1px 6px;font-family:var(--mono);font-size:9px;color:var(--text3)}
+.expbtn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--border2);border-radius:3px;font-size:11px;color:var(--text2);cursor:pointer;background:var(--bg3)}
+.expbtn:hover{border-color:var(--cyan-lt);color:var(--cyan-lt)}
+canvas{max-height:250px}
+.mb14{margin-bottom:14px}
+.divider{height:1px;background:var(--border);margin:14px 0}
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--bg4);border:1px solid var(--border2);padding:3px 8px;border-radius:3px;font-size:10px;white-space:nowrap;z-index:300;pointer-events:none}
+.section-hd{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-logo">🛡️</div>
+  <div>
+    <div class="hdr-org">GRC Dashboard — Rijksoverheidsorganisatie</div>
+    <div class="hdr-sub">Governance · Risk · Compliance · ISMS</div>
+  </div>
+  <div class="hdr-right">
+    <div><div class="hdr-kv-val"><span class="dot"></span>17.287 triples</div><div class="hdr-kv-lbl">GraphDB 11.3 · OWL2-RL</div></div>
+    <div><div class="hdr-kv-val">M1–M13</div><div class="hdr-kv-lbl">Ontologie-modules</div></div>
+    <div><div class="hdr-kv-val" id="hdr-date">—</div><div class="hdr-kv-lbl">Datum · <span id="store-ind" style="color:var(--text4)">●</span> Opgeslagen</div></div>
+  </div>
+</div>
+
+<!-- MAIN NAV -->
+<div class="nav">
+  <div class="ntab active" onclick="goTab(event,'overzicht')">◈ Overzicht</div>
+  <div class="ntab" onclick="goTab(event,'governance')">⬡ Governance</div>
+  <div class="ntab" onclick="goTab(event,'risk')">◬ Risk <span class="nbadge" id="risk-badge">4</span></div>
+  <div class="ntab" onclick="goTab(event,'compliance')">◫ Compliance</div>
+  <div class="ntab" onclick="goTab(event,'isms')">◉ ISMS</div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════ TAB: OVERZICHT ═══════════ -->
+<div id="tab-overzicht" class="tab active">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--cyan-lt)"><div class="strd up">+15%</div><div class="sv">616</div><div class="sl">Totaal controls</div><div class="ss">BIO 148 · NIST 104 · ISO 93</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="strd up">73%</div><div class="sv">73%</div><div class="sl">Compliance score</div><div class="ss">SoA: 11/15 geïmplementeerd</div></div>
+    <div class="stat" style="--ac:var(--red-br)"><div class="strd dn">1 HOOG</div><div class="sv">4</div><div class="sl">Openstaande risico's</div><div class="ss">R_001 score 20 — kritiek</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="strd neu">2026-03-31</div><div class="sv">22d</div><div class="sl">Volgende deadline</div><div class="ss">Jaarlijkse risicobeoordeling</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="chd"><span class="cttl">Paneel A — Internationale Normen</span><span class="chip">Selecteer voor details</span></div>
+      <div class="fwgrid" id="fw-intl">
+        <div class="fwcard" onclick="selFW(this,'iso27001')"><span class="fwdot" style="background:var(--purple-lt)"></span><div class="fwname">ISO/IEC 27001:2022</div><div class="fwmeta">ISMS-norm · 41 clausules</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso27002')"><span class="fwdot" style="background:var(--blue-lt)"></span><div class="fwname">ISO/IEC 27002:2022</div><div class="fwmeta">Controls · 93 controls</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso27005')"><span class="fwdot" style="background:var(--cyan-lt)"></span><div class="fwname">ISO/IEC 27005:2024</div><div class="fwmeta">IB-risicobeheer · NEN</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso31000')"><span class="fwdot" style="background:var(--teal)"></span><div class="fwname">ISO 31000:2018</div><div class="fwmeta">Risicobeheer · NEN</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso22301')"><span class="fwdot" style="background:var(--green-br)"></span><div class="fwname">ISO 22301:2019</div><div class="fwmeta">BCM · 17 clausules</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso22313')"><span class="fwdot" style="background:var(--green-lt)"></span><div class="fwname">ISO 22313:2020</div><div class="fwmeta">BCM-implementatie</div></div>
+        <div class="fwcard" onclick="selFW(this,'nist80053')"><span class="fwdot" style="background:var(--blue)"></span><div class="fwname">NIST SP 800-53 R5</div><div class="fwmeta">20 families · 104 controls</div></div>
+        <div class="fwcard" onclick="selFW(this,'nist80039')"><span class="fwdot" style="background:var(--blue-dim)"></span><div class="fwname">NIST SP 800-39</div><div class="fwmeta">Organisatie risicobeheer</div></div>
+        <div class="fwcard" onclick="selFW(this,'cobit')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">COBIT 2019</div><div class="fwmeta">IT Governance · ISACA</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">Paneel B — Wet- en Regelgeving</span><span class="chip">Selecteer voor details</span></div>
+      <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">Nationale Rijksregelgeving</div>
+      <div class="fwgrid" style="margin-bottom:10px">
+        <div class="fwcard" onclick="selFW(this,'vir2007')"><span class="fwdot" style="background:var(--yellow-lt)"></span><div class="fwname">VIR 2007</div><div class="fwmeta">Rijksdienst IB · BZK</div></div>
+        <div class="fwcard" onclick="selFW(this,'virbi2025')"><span class="fwdot" style="background:var(--yellow-lt)"></span><div class="fwname">VIRBI 2025</div><div class="fwmeta">Bijzondere informatie</div></div>
+        <div class="fwcard" onclick="selFW(this,'bva2021')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">Besluit BVA 2021</div><div class="fwmeta">BVA/BVC-stelsel</div></div>
+        <div class="fwcard" onclick="selFW(this,'cio2026')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">Besluit CIO 2026</div><div class="fwmeta">CIO-stelsel Rijksdienst</div></div>
+        <div class="fwcard" onclick="selFW(this,'bio20')"><span class="fwdot" style="background:var(--red-br)"></span><div class="fwname">BIO 2.0 v1.3</div><div class="fwmeta">Baseline IB Overheid</div></div>
+        <div class="fwcard" onclick="selFW(this,'cbw')"><span class="fwdot" style="background:var(--red-lt)"></span><div class="fwname">Cyber Beveiligingswet</div><div class="fwmeta">NIS2-implementatie NL</div></div>
+      </div>
+      <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">EU-regelgeving</div>
+      <div class="fwgrid">
+        <div class="fwcard" onclick="selFW(this,'nis2')"><span class="fwdot" style="background:var(--blue-lt)"></span><div class="fwname">NIS2 2022/2555</div><div class="fwmeta">Netwerk- en IB</div></div>
+        <div class="fwcard" onclick="selFW(this,'dora')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">DORA 2022/2554</div><div class="fwmeta">Digitale weerbaarheid</div></div>
+        <div class="fwcard" onclick="selFW(this,'oj2024')"><span class="fwdot" style="background:var(--cyan-lt)"></span><div class="fwname">EU OJ 2024/269</div><div class="fwmeta">Uitvoeringsverordening</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="fw-infocard" class="card mb14" style="display:none">
+    <div class="chd"><span class="cttl" id="fwic-title">Framework details</span><span class="cact" onclick="this.closest('#fw-infocard').style.display='none'">✕ Sluiten</span></div>
+    <div class="g4 mb14" id="fwic-meta"></div>
+    <div id="fwic-owl" class="owl"></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="chd"><span class="cttl">Controls per framework</span></div><canvas id="c-fw-dist"></canvas></div>
+    <div class="card"><div class="chd"><span class="cttl">Compliance-status overzicht</span></div><canvas id="c-comp-ov"></canvas></div>
+  </div>
+</div>
+<!-- ═══════════ TAB: GOVERNANCE ═══════════ -->
+<div id="tab-governance" class="tab">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv">12</div><div class="sl">Beleidsdocumenten actueel</div><div class="ss">2 verlopen · 1 te beoordelen</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="sv">78%</div><div class="sl">Rollen bezet</div><div class="ss">14/18 rollen ingevuld</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv">2026-10</div><div class="sl">Directiebeoordeling</div><div class="ss">ISO 27001 cl.9.3 — gepland</div></div>
+    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv">2 / 4</div><div class="sl">PDCA-fasen volwassen</div><div class="ss">Plan ✅ Do ✅ Check ⚠️ Act ⚠️</div></div>
+  </div>
+  <div class="inav">
+    <div class="itab active" onclick="iTab(event,'gov-rollen')">Rollen &amp; RACI</div>
+    <div class="itab" onclick="iTab(event,'gov-struct')">Organisatiestructuur</div>
+    <div class="itab" onclick="iTab(event,'gov-docs')">Documenthiërarchie</div>
+    <div class="itab" onclick="iTab(event,'gov-fw')">Governance per framework</div>
+  </div>
+
+  <!-- Rollen & RACI -->
+  <div id="gov-rollen" class="ipanel active">
+    <div class="alert ai">ℹ️ <div><b>Grondslag:</b> Besluit BVA-stelsel 2021 art.6 (BVC) · Besluit CIO-stelsel 2026 (CIO/CISO) · VIR 2007 art.3–5 (BVA). <b>Let op:</b> BVC = BVA-stelsel | CISO = CIO-stelsel — dit zijn aparte stelsels met eigen grondslagen.</div></div>
+    <div class="g2 mb14">
+      <div class="card">
+        <div class="chd"><span class="cttl">GRC-rollen register</span><span class="cact" onclick="expCSV(ROLLEN_CSV,'rollen.csv')">↓ CSV</span></div>
+        <div class="tscroll"><table class="tbl"><thead><tr><th>Rol-ID</th><th>Functie</th><th>Stelsel</th><th>NL-wet</th><th>Grondslag</th><th>Bezet door</th><th>Datum</th></tr></thead><tbody id="rollen-tb"></tbody></table></div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">Rol-detail — BVC (Beveiligingscoördinator)</span></div>
+        <div class="owl" style="margin-top:0">
+          <div class="owlttl">🦉 Ontologie-lens M4 — roles:BVC</div>
+          <div class="owlrow"><span class="owlk">OWL-klasse</span><span class="owlv">roles:BVC</span></div>
+          <div class="owlrow"><span class="owlk">rdfs:subClassOf</span><span class="owlv">roles:SecurityOfficer</span></div>
+          <div class="owlrow"><span class="owlk">Grondslag</span><span class="owlv">Besluit BVA-stelsel 2021, art.6</span></div>
+          <div class="owlrow"><span class="owlk">Stelsel</span><span class="owlv" style="color:var(--yellow-lt)">BVA-stelsel ≠ CIO-stelsel</span></div>
+          <div class="owlrow"><span class="owlk">Rapportage</span><span class="owlv">→ BVA (functioneel) · Dienstonderdeel (hiërarchisch)</span></div>
+          <div class="owlrow"><span class="owlk">Taken</span><span class="owlv">IB-coördinatie dienstonderdeel</span></div>
+          <div class="owlrow"><span class="owlk">isResponsibleFor</span><span class="owlv">IB-beleid dienstonderdeel</span></div>
+          <div class="owlrow"><span class="owlk">isConsultedFor</span><span class="owlv">Risicobeoordelingen, incidenten</span></div>
+          <div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>PREFIX roles: &lt;https://grc.organisatie.nl/ontology/roles#&gt;
+SELECT ?bvc ?naam ?grondslag WHERE {
+  ?bvc a roles:BVC ;
+       roles:hasPersonName ?naam ;
+       roles:legalBasis ?grondslag .
+} ORDER BY ?naam</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">RACI-matrix — GRC-activiteiten × rollen</span><span class="chip">R=Responsible · A=Accountable · C=Consulted · I=Informed</span></div>
+      <div class="txscroll"><table class="tbl" id="raci-tbl"><thead><tr><th style="min-width:200px">Activiteit</th><th>SG/DG</th><th>CIO</th><th>CISO</th><th>BVA</th><th>BVC</th><th>FG</th><th>ISSO</th><th>Audit</th></tr></thead><tbody id="raci-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- Org structuur -->
+  <div id="gov-struct" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Governancemodel — 4 niveaus</span></div>
+        <div id="gov-model"></div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">COBIT 2019 EDM-koppeling</span></div>
+        <table class="tbl"><thead><tr><th>Objectief</th><th>Niveau</th><th>ISO 27001</th><th>Rol</th></tr></thead><tbody>
+          <tr><td><span class="chip">EDM01</span> Governance-kader</td><td><span class="b bc">Strategisch</span></td><td>cl.5.1</td><td>SG/DG</td></tr>
+          <tr><td><span class="chip">EDM02</span> Waardebeheer</td><td><span class="b bc">Strategisch</span></td><td>cl.6.2</td><td>CIO</td></tr>
+          <tr><td><span class="chip">EDM03</span> Risicobeheer</td><td><span class="b bb">Tactisch</span></td><td>cl.6.1</td><td>CISO/BVA</td></tr>
+          <tr><td><span class="chip">EDM04</span> Resourcebeheer</td><td><span class="b bb">Tactisch</span></td><td>cl.7.1</td><td>CIO</td></tr>
+          <tr><td><span class="chip">EDM05</span> Stakeholdertransparantie</td><td><span class="b bb">Tactisch</span></td><td>cl.9.3</td><td>SG/DG</td></tr>
+          <tr><td><span class="chip">APO12</span> Risicobeheer IT</td><td><span class="b by">Operationeel</span></td><td>cl.8.2</td><td>CISO/BVC</td></tr>
+          <tr><td><span class="chip">APO13</span> IB-beheer</td><td><span class="b by">Operationeel</span></td><td>cl.8.1</td><td>BVA/ISSO</td></tr>
+          <tr><td><span class="chip">DSS05</span> Beveiligingsdiensten</td><td><span class="b bo">Uitvoering</span></td><td>cl.8.3</td><td>BVC/ISSO</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documenthiërarchie -->
+  <div id="gov-docs" class="ipanel">
+    <div id="docs-alert"></div>
+    <div class="card">
+      <div class="chd"><span class="cttl">ISMS-documenthiërarchie</span><span class="cact" onclick="addDoc()">+ Nieuw document</span></div>
+      <div class="tscroll"><table class="tbl"><thead><tr><th>ID</th><th>Niveau</th><th>Titel</th><th>Versie</th><th>Goedgekeurd</th><th>Review</th><th>Eigenaar</th><th>Status</th></tr></thead><tbody id="docs-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- Governance per framework -->
+  <div id="gov-fw" class="ipanel">
+    <div class="card">
+      <div class="chd"><span class="cttl">Governance-controls per framework</span></div>
+      <table class="tbl"><thead><tr><th>Framework</th><th>Controls / artikelen</th><th>Kernverplichting</th><th>Verantw. rol</th></tr></thead><tbody>
+        <tr><td><span class="b bp">BIO 2.0</span></td><td>5.01–5.04</td><td>IB-beleid, rollen, management, functiescheiding</td><td>SG/DG + BVA</td></tr>
+        <tr><td><span class="b bb">ISO 27001</span></td><td>cl.5 (5.1–5.3)</td><td>Leiderschap, beleid, rollen &amp; bevoegdheden</td><td>Topmanagement</td></tr>
+        <tr><td><span class="b bc">NIS2</span></td><td>Art.20</td><td>Bestuursorgaan keurt beveiligingsmaatregelen goed</td><td>SG/DG</td></tr>
+        <tr><td><span class="b bo">DORA</span></td><td>Art.5</td><td>ICT-governancekader</td><td>CIO/CISO</td></tr>
+        <tr><td><span class="b bg">COBIT 2019</span></td><td>EDM01–EDM05</td><td>Governance-kader t/m stakeholdertransparantie</td><td>SG/DG + CIO</td></tr>
+        <tr><td><span class="b by">NIST 800-39</span></td><td>§2 (Tier 1)</td><td>Organisatieniveau risicobeheer</td><td>CIO/CISO/BVA</td></tr>
+        <tr><td><span class="b bz">VIR 2007</span></td><td>Art.3–5</td><td>Verantwoordelijkheid SG, BVA-stelsel</td><td>SG + BVA</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB: RISK ═══════════ -->
+<div id="tab-risk" class="tab">
+  <div class="inav">
+    <div class="itab active" onclick="iTab(event,'risk-ctx')">Risicocontext</div>
+    <div class="itab" onclick="iTab(event,'risk-reg')">Risicoregister</div>
+    <div class="itab" onclick="iTab(event,'risk-hm')">Heatmap</div>
+    <div class="itab" onclick="iTab(event,'risk-owl')">Ontologie-lens</div>
+  </div>
+
+  <!-- Context -->
+  <div id="risk-ctx" class="ipanel active">
+    <div class="alert ai">ℹ️ <div><b>TBB = Te Beschermen Belangen</b> (Vertrouwelijkheid · Integriteit · Beschikbaarheid) — dit is het BIO 2.0 classificatieprincipe. BBN-niveaus (BBN1/2/3) zijn historische verwijzingen uit BIO 1.x en worden in BIO 2.0 <em>niet</em> gebruikt als basisclassificatie.</div></div>
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Risicobereidheid per dimensie</span><span class="chip">Bewerkbaar</span></div>
+        <table class="tbl"><thead><tr><th>Dimensie</th><th>TBB</th><th>Bereidheid</th><th>Drempelwaarde</th></tr></thead><tbody>
+          <tr><td>Financieel</td><td><span class="b bc">V+B</span></td><td><span class="b by">Laag</span></td><td><span class="ed" contenteditable>€ 50.000</span></td></tr>
+          <tr><td>Operationeel</td><td><span class="b bc">I+B</span></td><td><span class="b by">Laag</span></td><td><span class="ed" contenteditable>RTO &lt; 4u</span></td></tr>
+          <tr><td>Reputationeel</td><td><span class="b bc">V+I</span></td><td><span class="b br">Zeer laag</span></td><td><span class="ed" contenteditable>0 openbaar incidenten</span></td></tr>
+          <tr><td>Juridisch/Compliance</td><td><span class="b bc">V</span></td><td><span class="b br">Nul</span></td><td><span class="ed" contenteditable>0 overtredingen</span></td></tr>
+          <tr><td>Veiligheid personeel</td><td><span class="b bc">V+I+B</span></td><td><span class="b br">Nul</span></td><td><span class="ed" contenteditable>0 veiligheidsincidenten</span></td></tr>
+        </tbody></table>
+        <div style="margin-top:10px;font-size:10px;color:var(--text3)">V=Vertrouwelijkheid · I=Integriteit · B=Beschikbaarheid (ISO 27005:2024 §8.3)</div>
+      </div>
+      <div class="card"><div class="chd"><span class="cttl">Risicobereidheid radar</span></div><canvas id="c-radar"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">Impactcategorieën × TBB × Framework</span></div>
+      <table class="tbl"><thead><tr><th>Categorie</th><th>TBB</th><th>Voorbeelddreigingen</th><th>ISO 27005:2024</th><th>NIS2 Art.21</th><th>NIST 800-30</th></tr></thead><tbody>
+        <tr><td>Financieel verlies</td><td><span class="b bc">B+V</span></td><td>Fraude, systeemuitval, boetes</td><td>§8.3</td><td>Art.21(c)</td><td>§3.2</td></tr>
+        <tr><td>Operationele verstoring</td><td><span class="b bc">B+I</span></td><td>Ransomware, DDoS, stroomuitval</td><td>§8.4</td><td>Art.21(b)(c)</td><td>§3.2</td></tr>
+        <tr><td>Reputatieschade</td><td><span class="b bc">V</span></td><td>Datalek, ongeautoriseerde publicatie</td><td>§8.3</td><td>Art.21(a)</td><td>§3.2</td></tr>
+        <tr><td>Juridisch/compliance</td><td><span class="b bc">V+I</span></td><td>AVG-overtreding, NIS2-boete</td><td>§8.3</td><td>Art.20/21</td><td>§3.2</td></tr>
+        <tr><td>Veiligheid personeel</td><td><span class="b bc">V+I+B</span></td><td>Toegang geclassificeerde info</td><td>§8.4</td><td>Art.21(i)</td><td>§3.3</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- Register -->
+  <div id="risk-reg" class="ipanel">
+    <div class="card">
+      <div class="chd"><span class="cttl">Risicoregister</span>
+        <div style="display:flex;gap:7px"><span class="cact" onclick="addRisk()">+ Toevoegen</span><span class="expbtn" onclick="expCSV(riskToCSV(),'risico-register.csv')">↓ CSV</span></div>
+      </div>
+      <div class="txscroll"><table class="tbl" id="risk-tbl">
+        <thead><tr><th>ID</th><th>Omschrijving</th><th>TBB</th><th>Dreiging</th><th>Asset</th><th>K</th><th>I</th><th>Bruto</th><th>Behandeling</th><th>Netto</th><th>Control</th><th>Eigenaar</th><th>Status</th><th>Review</th></tr></thead>
+        <tbody id="risk-tb"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- Heatmap -->
+  <div id="risk-hm" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">5×5 Risico-heatmap</span><span class="chip">Klik cel voor risico's</span></div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Kans: 1=Zeer laag → 5=Zeer hoog &nbsp;|&nbsp; Impact: 1=Minimaal → 5=Kritiek</div>
+        <div id="heatmap-wrap"></div>
+        <div style="display:flex;gap:10px;margin-top:10px;font-size:10px">
+          <span style="color:var(--green-br)">■ Laag (1–4)</span>
+          <span style="color:var(--yellow-lt)">■ Gemiddeld (5–9)</span>
+          <span style="color:var(--orange-lt)">■ Hoog (10–14)</span>
+          <span style="color:var(--red-br)">■ Kritiek (15–25)</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl" id="hm-detail-ttl">Geselecteerde cel</span></div>
+        <div id="hm-detail"><div style="color:var(--text4);font-size:11px;padding:16px 0">Klik op een cel in de heatmap</div></div>
+        <div class="divider"></div>
+        <div class="chd" style="margin-bottom:8px"><span class="cttl">Verdeling behandelingen</span></div>
+        <canvas id="c-treat"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ontologie Risico -->
+  <div id="risk-owl" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Risk-module M3 — Klasse-hiërarchie</span></div>
+        <div class="owl" style="margin-top:0">
+          <div class="owlttl">🦉 M3 — risk: namespace</div>
+          <div class="owlrow"><span class="owlk">Kernklassen</span><span class="owlv">risk:Risk · risk:Threat · risk:Vulnerability · risk:Asset</span></div>
+          <div class="owlrow"><span class="owlk">Kans/Impact</span><span class="owlv">risk:Likelihood · risk:Impact (1–5 per TBB)</span></div>
+          <div class="owlrow"><span class="owlk">Behandeling</span><span class="owlv">risk:RiskTreatment (Mitigeer/Accept/Vermijd/Overdraag)</span></div>
+          <div class="owlrow"><span class="owlk">Object props</span><span class="owlv">threatens · exploits · affects · mitigatedBy · ownedBy</span></div>
+          <div class="owlrow"><span class="owlk">TBB-koppeling</span><span class="owlv">risk:affectsTBB (V / I / B)</span></div>
+          <div class="owlrow"><span class="owlk">Bronnen</span><span class="owlv">ISO 27005:2024 · ISO 31000:2018 · NIST SP 800-30 R1</span></div>
+          <div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>PREFIX risk: &lt;https://grc.organisatie.nl/ontology/risk#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?r ?titel ?score ?behandeling WHERE {
+  ?r a risk:InformationSecurityRisk ;
+     risk:hasRiskTitle ?titel ;
+     risk:hasInherentRiskScore ?score ;
+     risk:hasRiskTreatment ?behandeling .
+  FILTER(LANG(?titel)="nl")
+} ORDER BY DESC(?score)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">Framework-koppelingen risicobeheer</span></div>
+        <table class="tbl"><thead><tr><th>Framework</th><th>Risico-eisen</th><th>OWL-koppeling</th></tr></thead><tbody>
+          <tr><td><span class="b bb">ISO 27005:2024</span></td><td>§8 Risicobeoordelingsproces</td><td><span style="font-family:var(--mono);font-size:10px">compl:derivedFrom fw:ISO_27005_2024</span></td></tr>
+          <tr><td><span class="b bc">ISO 31000:2018</span></td><td>§6 Risicobeheersproces</td><td><span style="font-family:var(--mono);font-size:10px">compl:derivedFrom fw:ISO_31000_2018</span></td></tr>
+          <tr><td><span class="b by">NIST 800-30 R1</span></td><td>§3 Risicobeoordelingsproces</td><td><span style="font-family:var(--mono);font-size:10px">compl:derivedFrom fw:NIST_SP_800_30</span></td></tr>
+          <tr><td><span class="b br">NIS2 Art.21(a)</span></td><td>Risicobeheer cyberbeveiliging</td><td><span style="font-family:var(--mono);font-size:10px">compl:satisfiedBy ctrl:ISO27002_5_07</span></td></tr>
+          <tr><td><span class="b bp">BIO 2.0 5.07</span></td><td>Dreigingsanalyse (TBB-basis)</td><td><span style="font-family:var(--mono);font-size:10px">bio:correspondsToISO ctrl:ISO27002_5_07</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══════════ TAB: COMPLIANCE ═══════════ -->
+<div id="tab-compliance" class="tab">
+  <div class="inav">
+    <div class="itab active" onclick="iTab(event,'comp-ov')">Overzicht</div>
+    <div class="itab" onclick="iTab(event,'comp-soa')">SoA</div>
+    <div class="itab" onclick="iTab(event,'comp-ctrl')">Beheersmaatregelen</div>
+    <div class="itab" onclick="iTab(event,'comp-audit')">Audit &amp; Bevindingen</div>
+    <div class="itab" onclick="iTab(event,'comp-kal')">Compliancekalender</div>
+  </div>
+
+  <!-- Compliance overzicht -->
+  <div id="comp-ov" class="ipanel active">
+    <div class="g4">
+      <div class="stat" style="--ac:var(--purple-lt)"><div class="sv">41</div><div class="sl">ISO 27001 clausules</div><div class="ss">M9 · cl.4–10 volledig</div></div>
+      <div class="stat" style="--ac:var(--blue-lt)"><div class="sv">93</div><div class="sl">ISO 27002 controls</div><div class="ss">M2 · 15 in SoA</div></div>
+      <div class="stat" style="--ac:var(--red-br)"><div class="sv">148</div><div class="sl">BIO overheidsmaatregelen</div><div class="ss">M8 · 93 controls basis</div></div>
+      <div class="stat" style="--ac:var(--orange-lt)"><div class="sv">17</div><div class="sl">NIS2 vereisten</div><div class="ss">M5+M10 · Art.18–24</div></div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Status per framework</span></div>
+        <table class="tbl"><thead><tr><th>Framework</th><th>Verplichtingen</th><th>Volledig</th><th>Gedeeltelijk</th><th>Niet gestart</th><th>Deadline</th></tr></thead><tbody>
+          <tr><td><span class="b bb">ISO 27001</span></td><td>41</td><td><span class="b bg">13</span></td><td><span class="b by">22</span></td><td><span class="b br">6</span></td><td>2026-12</td></tr>
+          <tr><td><span class="b bp">BIO 2.0</span></td><td>93</td><td><span class="b bg">61</span></td><td><span class="b by">24</span></td><td><span class="b br">8</span></td><td>2026-06</td></tr>
+          <tr><td><span class="b bc">NIS2</span></td><td>17</td><td><span class="b bg">9</span></td><td><span class="b by">6</span></td><td><span class="b br">2</span></td><td>2026-04</td></tr>
+          <tr><td><span class="b bo">DORA</span></td><td>14</td><td><span class="b bg">5</span></td><td><span class="b by">7</span></td><td><span class="b br">2</span></td><td>Continu</td></tr>
+          <tr><td><span class="b bg">ISO 22301</span></td><td>17</td><td><span class="b bg">8</span></td><td><span class="b by">7</span></td><td><span class="b br">2</span></td><td>2026-09</td></tr>
+        </tbody></table>
+      </div>
+      <div class="card"><div class="chd"><span class="cttl">Implementatiestatus totaal</span></div><canvas id="c-comp-impl"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SoA -->
+  <div id="comp-soa" class="ipanel">
+    <div class="alert aw">⚠️ <b>5.24 Incidentbeheer</b> — nog niet gestart. NIS2 Art.23 vereist 72-uurs meldplicht. Directe actie vereist (eigenaar: BVC/CISO).</div>
+    <div class="card">
+      <div class="chd"><span class="cttl">Statement of Applicability — ISO/IEC 27002:2022</span>
+        <div style="display:flex;gap:7px"><span class="expbtn" onclick="expCSV(soaToCSV(),'soa.csv')">↓ CSV</span><span class="cact" onclick="addSoA()">+ Entry</span></div>
+      </div>
+      <div class="tscroll" style="max-height:480px">
+        <table class="tbl" id="soa-tbl">
+          <thead><tr><th>Control</th><th>Titel</th><th>Domein</th><th>Toepasselijk</th><th>Status</th><th>NIS2</th><th>DORA</th><th>BIO</th><th>Motivering</th><th>Eigenaar</th></tr></thead>
+          <tbody id="soa-tb"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls register -->
+  <div id="comp-ctrl" class="ipanel">
+    <div class="g4 mb14">
+      <div><label style="font-size:10px;color:var(--text3)">Framework</label>
+        <select id="fw-flt" onchange="filterCtrls()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:3px;padding:5px 8px;width:100%;margin-top:4px;font-size:12px">
+          <option value="">Alle</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option>
+        </select>
+      </div>
+      <div><label style="font-size:10px;color:var(--text3)">Status</label>
+        <select id="st-flt" onchange="filterCtrls()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:3px;padding:5px 8px;width:100%;margin-top:4px;font-size:12px">
+          <option value="">Alle</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:flex-end"><span class="expbtn" style="width:100%;justify-content:center" onclick="expCSV(ctrlToCSV(),'controls.csv')">↓ Controls CSV</span></div>
+      <div style="display:flex;align-items:flex-end"><span id="ctrl-cnt" class="chip">Laden...</span></div>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">Beheersmaatregelen-register</span></div>
+      <div class="tscroll" style="max-height:440px">
+        <table class="tbl"><thead><tr><th>ID</th><th>Framework</th><th>Omschrijving</th><th>Toepasselijk</th><th>Status</th><th>Eigenaar</th><th>Risico</th><th>Notitie</th></tr></thead>
+          <tbody id="ctrl-tb"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audit -->
+  <div id="comp-audit" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Auditregister</span></div>
+        <table class="tbl"><thead><tr><th>ID</th><th>Type</th><th>Datum</th><th>Scope</th><th>Status</th></tr></thead><tbody>
+          <tr><td><span class="chip">AUD-2025-01</span></td><td>Intern</td><td>2025-10-15</td><td>ISMS volledig</td><td><span class="b bg">Afgesloten</span></td></tr>
+          <tr><td><span class="chip">AUD-2026-01</span></td><td>Intern</td><td>2026-09-30</td><td>ISO 27001 cl.9.2</td><td><span class="b by">Gepland</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">Auditbevindingen</span><span class="cact" onclick="addFinding()">+ Bevinding</span></div>
+        <table class="tbl"><thead><tr><th>ID</th><th>Type</th><th>Omschrijving</th><th>Control</th><th>Eigenaar</th><th>Deadline</th><th>Status</th></tr></thead>
+          <tbody id="findings-tb"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kalender -->
+  <div id="comp-kal" class="ipanel">
+    <div class="card">
+      <div class="chd"><span class="cttl">Compliancekalender 2026–2028</span>
+        <div style="display:flex;gap:7px">
+          <span class="expbtn" onclick="expIcal()">↓ iCal</span>
+          <span class="cact" onclick="addKal()">+ Activiteit</span>
+        </div>
+      </div>
+      <div class="tl" id="kal-tl"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB: ISMS ═══════════ -->
+<div id="tab-isms" class="tab">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv">Vastgesteld</div><div class="sl">ISMS-scope</div><div class="ss">Volledige organisatie · cl.4.3</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="sv">Do</div><div class="sl">Huidige PDCA-fase</div><div class="ss">Operationele beheersing actief</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv">2026-09</div><div class="sl">Volgende interne audit</div><div class="ss">ISO 27001 cl.9.2</div></div>
+    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv">15/93</div><div class="sl">SoA controls actief</div><div class="ss">Annex A controls opgenomen</div></div>
+  </div>
+  <div class="pdca">
+    <div class="pq pp">
+      <div class="plbl" style="color:var(--blue-lt)">📋 Plan — Clausules 4–6</div>
+      <div class="pitem">cl.4.1–4.4 Context en scope bepalen</div>
+      <div class="pitem">cl.5.1–5.3 Leiderschap en beleid</div>
+      <div class="pitem">cl.6.1.1 Risico's en kansen (TBB-basis)</div>
+      <div class="pitem">cl.6.1.2 Risicobeoordeling (ISO 27005)</div>
+      <div class="pitem">cl.6.1.3 Risicobehandeling + SoA</div>
+      <div class="pitem">cl.6.2 IB-doelstellingen</div>
+      <div class="pitem">cl.6.3 Planning van wijzigingen</div>
+    </div>
+    <div class="pq pd">
+      <div class="plbl" style="color:var(--green-br)">⚙️ Do — Clausules 7–8</div>
+      <div class="pitem">cl.7.1–7.2 Middelen en competentie</div>
+      <div class="pitem">cl.7.3 Bewustzijn (NIS2 Art.21h)</div>
+      <div class="pitem">cl.7.4–7.5.3 Comm. en documentbeheer</div>
+      <div class="pitem">cl.8.1 Operationele beheersing</div>
+      <div class="pitem">cl.8.2 Risicobeoordeling (uitvoering)</div>
+      <div class="pitem">cl.8.3 Risicobehandeling (uitvoering)</div>
+      <div class="pitem">Activa-register en classificatie</div>
+    </div>
+    <div class="pq pc">
+      <div class="plbl" style="color:var(--yellow-lt)">🔍 Check — Clausule 9</div>
+      <div class="pitem">cl.9.1 KRI's en KPI's monitoren</div>
+      <div class="pitem">cl.9.2.1–9.2.2 Auditprogramma</div>
+      <div class="pitem">cl.9.3.1–9.3.3 Directiebeoordeling</div>
+      <div class="pitem">BIO 5.35–5.36 Onafh. beoordeling</div>
+      <div class="pitem">NIS2 Art.21(g) Evaluatie</div>
+    </div>
+    <div class="pq pa">
+      <div class="plbl" style="color:var(--orange-lt)">🔄 Act — Clausule 10</div>
+      <div class="pitem">cl.10.1 Voortdurende verbetering</div>
+      <div class="pitem">cl.10.2 NC-register (ISO 27002 5.27)</div>
+      <div class="pitem">Corrigerende maatregelen bewaken</div>
+      <div class="pitem">Lessons learned vastleggen</div>
+      <div class="pitem">PDCA-cyclus heraanvangen</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="chd"><span class="cttl">ISMS-scope en context</span><span class="chip">cl.4.3 · Bewerkbaar</span></div>
+      <table class="tbl"><thead><tr><th>Aspect</th><th>Omschrijving</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Organisatorische grens</td><td><span class="ed" contenteditable>Volledige ministerie/dienst</span></td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Geografische grens</td><td><span class="ed" contenteditable>Alle locaties Nederland</span></td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Technologische grens</td><td><span class="ed" contenteditable>Alle ICT-systemen en -diensten</span></td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Uitsluitingen</td><td><span class="ed" contenteditable>Geen uitsluitingen van toepassing</span></td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Externe partijen</td><td><span class="ed" contenteditable>Leveranciers conform SLA/DPA</span></td><td><span class="b by">⚠</span></td></tr>
+        <tr><td>Toepasselijke wetgeving</td><td>BIO 2.0 · NIS2/CBW · AVG · VIR 2007</td><td><span class="b bg">✓</span></td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">KRI's en KPI's</span></div>
+      <canvas id="c-kri" style="max-height:160px"></canvas>
+      <table class="tbl" style="margin-top:12px"><thead><tr><th>Indicator</th><th>Doel</th><th>Actueel</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Openstaande hoog-risico's</td><td>0</td><td>1</td><td><span class="b br">Overschreden</span></td></tr>
+        <tr><td>SoA volledig geïmpl.</td><td>80%</td><td>20%</td><td><span class="b br">Onder norm</span></td></tr>
+        <tr><td>Auditbevindingen open</td><td>&lt;3</td><td>2</td><td><span class="b bg">In norm</span></td></tr>
+        <tr><td>IB-trainingen voltooid</td><td>90%</td><td>67%</td><td><span class="b by">In uitvoering</span></td></tr>
+        <tr><td>Patches actueel</td><td>95%</td><td>88%</td><td><span class="b by">In uitvoering</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="chd"><span class="cttl">NC-register en corrigerende maatregelen</span><span class="chip">cl.10.2</span></div>
+    <table class="tbl"><thead><tr><th>NC-ID</th><th>Bevinding</th><th>Clausule</th><th>Ernst</th><th>Corr. maatregel</th><th>Eigenaar</th><th>Deadline</th><th>Voortgang</th></tr></thead>
+      <tbody id="nc-tb"></tbody></table>
+  </div>
+</div>
+
+</div><!-- /main -->
+<script>
+// ═══ DATA ═══
+const ROLLEN = [
+  {id:'SG/DG',  naam:'Secretaris-Generaal / DG',         stelsel:'Bestuur',       wet:true,  grondslag:'AMvB organisatiedecreet'},
+  {id:'CIO',    naam:'Chief Information Officer',         stelsel:'CIO-stelsel',   wet:true,  grondslag:'Besluit CIO-stelsel 2026, art.3'},
+  {id:'CISO',   naam:'Chief Information Security Officer',stelsel:'CIO-stelsel',   wet:true,  grondslag:'Besluit CIO-stelsel 2026, art.4'},
+  {id:'CDO',    naam:'Chief Data Officer',                stelsel:'CIO-stelsel',   wet:false, grondslag:'Besluit CIO-stelsel 2026, art.5'},
+  {id:'BVA',    naam:'Beveiligingsautoriteit',            stelsel:'BVA-stelsel',   wet:true,  grondslag:'Besluit BVA-stelsel 2021, art.3'},
+  {id:'BVC',    naam:'Beveiligingscoördinator',           stelsel:'BVA-stelsel',   wet:true,  grondslag:'Besluit BVA-stelsel 2021, art.6'},
+  {id:'FG',     naam:'Functionaris Gegevensbescherming',  stelsel:'Privacy',       wet:true,  grondslag:'AVG art.37'},
+  {id:'ISSO',   naam:'Informatiebeveiligingsfunctionaris',stelsel:'Operationeel',  wet:false, grondslag:'BIO 2.0 5.02'},
+  {id:'Audit',  naam:'Auditdienst Rijk',                  stelsel:'Audit',         wet:true,  grondslag:'Comptabiliteitswet art.66'},
+  {id:'CM-ICT', naam:'Contractmanager ICT',               stelsel:'Operationeel',  wet:false, grondslag:'BIO 5.19–5.22'},
+];
+const ROLLEN_CSV = 'ID,Functie,Stelsel,NL-wet,Grondslag\n'+ROLLEN.map(r=>`${r.id},"${r.naam}",${r.stelsel},${r.wet?'Ja':'Nee'},"${r.grondslag}"`).join('\n');
+
+const RACI_DATA = [
+  {act:'IB-beleid vaststellen',          r:['A','C','R','C','I','I','I','I']},
+  {act:'Risicobeoordeling uitvoeren',    r:['A','C','R','R','R','I','C','I']},
+  {act:'SoA opstellen',                  r:['A','C','R','I','C','I','C','I']},
+  {act:'Interne audit uitvoeren',        r:['A','I','C','I','I','I','I','R']},
+  {act:'Incidentrespons leiden',         r:['I','I','A','R','R','I','R','I']},
+  {act:'BVC-coördinatie dienstonderdeel',r:['I','I','C','A','R','I','I','I']},
+  {act:'Leveranciersbeheersing',         r:['I','A','C','I','I','I','R','C']},
+  {act:'Bewustzijnsprogramma',           r:['I','I','A','I','R','I','R','I']},
+  {act:'Directiebeoordeling ISMS',       r:['R','C','R','C','I','I','I','C']},
+  {act:'Privacy Impact Assessment',      r:['I','I','C','I','I','R','C','I']},
+];
+const GOV_LEVELS = [
+  {n:'Strategisch', c:'var(--cyan-lt)', rollen:'SG/DG · Ministerraad', docs:'Strategisch IB-kader · Organisatiebeleid', iso:'cl.5.1', cobit:'EDM01–05'},
+  {n:'Tactisch',    c:'var(--blue-lt)', rollen:'CIO · CISO · BVA · FG', docs:'IB-beleid · Risicobeleid · SoA', iso:'cl.5.2–5.3, 6', cobit:'APO12–13'},
+  {n:'Operationeel',c:'var(--yellow-lt)',rollen:'BVC · ISSO · CDO', docs:'Procedures · Werkinstructies', iso:'cl.8', cobit:'DSS05–06'},
+  {n:'Uitvoering',  c:'var(--green-br)', rollen:'Systeemeigenaren · Gebruikers · Leveranciers', docs:'Registraties · Logs · Incidentrapportages', iso:'cl.8.1', cobit:'MEA01'},
+];
+const DOCS = [
+  {id:'POL-01',niv:'Beleid',   titel:'Informatiebeveiligingsbeleid',       v:'2.1', goedg:'2024-03-01',review:'2026-03-25',eigenaar:'CIO'},
+  {id:'POL-02',niv:'Beleid',   titel:'Risicobeleid ISMS',                   v:'1.3', goedg:'2025-01-15',review:'2027-01-15',eigenaar:'CISO'},
+  {id:'POL-03',niv:'Beleid',   titel:'Classificatiebeleid informatie',       v:'1.0', goedg:'2025-06-01',review:'2027-06-01',eigenaar:'CDO'},
+  {id:'SOP-01',niv:'Procedure',titel:'Incidentrespons-procedure',            v:'3.2', goedg:'2025-09-01',review:'2026-09-01',eigenaar:'BVC'},
+  {id:'SOP-02',niv:'Procedure',titel:'Access management-procedure',          v:'2.0', goedg:'2025-04-01',review:'2026-04-01',eigenaar:'ISSO'},
+  {id:'SOP-03',niv:'Procedure',titel:'BIA-procedure',                        v:'1.1', goedg:'2025-11-01',review:'2026-11-01',eigenaar:'BVA'},
+  {id:'REG-01',niv:'Registratie',titel:'Risicoregister',                    v:'—',   goedg:'Continu',   review:'Continu',   eigenaar:'CISO'},
+  {id:'REG-02',niv:'Registratie',titel:'Statement of Applicability (SoA)', v:'1.4', goedg:'2026-01-01',review:'2026-12-31',eigenaar:'CISO'},
+];
+const RISKS = [
+  {id:'R_001',omschr:'Ongeautoriseerde toegang tot gevoelige systemen',tbb:'V+I',dreiging:'Insider threat / externe aanval',asset:'IAM-systeem',k:4,i:5,bruto:20,beh:'Mitigeren',netto:8,ctrl:'8.05, 5.15',eigenaar:'',status:'Open',review:'2026-06-30'},
+  {id:'R_002',omschr:'Ransomware-aanval op kritieke systemen',tbb:'B+I',dreiging:'Cybercriminelen',asset:'Primaire systemen',k:3,i:4,bruto:12,beh:'Mitigeren',netto:6,ctrl:'8.07, 8.13',eigenaar:'',status:'In behandeling',review:'2026-04-30'},
+  {id:'R_003',omschr:'Datalekken via leveranciers',tbb:'V',dreiging:'Onzorgvuldig leveranciersbeheer',asset:'Persoonsgegevens',k:3,i:4,bruto:12,beh:'Overdragen',netto:6,ctrl:'5.19, 5.20',eigenaar:'',status:'Open',review:'2026-05-31'},
+  {id:'R_004',omschr:'Uitval kritieke ICT-systemen',tbb:'B',dreiging:'Technisch falen / calamiteit',asset:'Primaire systemen',k:3,i:4,bruto:12,beh:'Mitigeren',netto:4,ctrl:'5.29, 8.13',eigenaar:'',status:'In behandeling',review:'2026-04-30'},
+];
+const SOA_DATA = [
+  {ctrl:'5.01',titel:'Beleidsregels voor IB',        dom:'Org.',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(a)',dora:'',     bio:'✓',mot:'Basis ISMS-eis',eigenaar:'CIO'},
+  {ctrl:'5.07',titel:'Dreigingsanalyse',              dom:'Org.',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(a)',dora:'Art.8',bio:'✓',mot:'NIS2/DORA verplicht',eigenaar:'CISO'},
+  {ctrl:'5.09',titel:'Asset inventarisatie',          dom:'Org.',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'',    dora:'Art.8',bio:'✓',mot:'ISMS scope',eigenaar:'ISSO'},
+  {ctrl:'5.15',titel:'Toegangsbeveiliging',           dom:'Org.',  toep:'Opgenomen',status:'Volledig',      nis2:'21(j)',dora:'Art.9',bio:'✓',mot:'Kerncontrol',eigenaar:'ISSO'},
+  {ctrl:'5.16',titel:'Identiteitsbeheer',             dom:'Org.',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(j)',dora:'',    bio:'✓',mot:'Toegangsbeheer',eigenaar:'ISSO'},
+  {ctrl:'5.19',titel:'Leveranciersbeveiliging',       dom:'Org.',  toep:'Opgenomen',status:'In uitvoering', nis2:'21(d)',dora:'Art.5',bio:'✓',mot:'Supply chain',eigenaar:'CM-ICT'},
+  {ctrl:'5.24',titel:'Incidentbeheer plan',           dom:'Org.',  toep:'Opgenomen',status:'Niet gestart',  nis2:'Art.23',dora:'Art.17',bio:'✓',mot:'⚠ Prioriteit NIS2',eigenaar:'BVC'},
+  {ctrl:'5.29',titel:'IB bij verstoringen',           dom:'Org.',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(c)',dora:'Art.11',bio:'✓',mot:'BCM-koppeling',eigenaar:'BVA'},
+  {ctrl:'5.35',titel:'Onafh. beoordeling IB',         dom:'Org.',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(g)',dora:'',    bio:'✓',mot:'Auditplicht',eigenaar:'Audit'},
+  {ctrl:'6.03',titel:'Bewustzijn en training',        dom:'Mens',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(h)',dora:'',    bio:'✓',mot:'NIS2 verplicht',eigenaar:'CISO'},
+  {ctrl:'7.01',titel:'Fysieke beveiligingszones',     dom:'Fysiek',toep:'Opgenomen',status:'Volledig',      nis2:'',    dora:'',    bio:'✓',mot:'Fysieke beveiliging',eigenaar:'BVC'},
+  {ctrl:'8.05',titel:'Beveiligde authenticatie',      dom:'Tech',  toep:'Opgenomen',status:'Gedeeltelijk',  nis2:'21(j)',dora:'Art.9',bio:'✓',mot:'MFA vereist',eigenaar:'ISSO'},
+  {ctrl:'8.07',titel:'Bescherming malware',           dom:'Tech',  toep:'Opgenomen',status:'Volledig',      nis2:'21(e)',dora:'Art.9',bio:'✓',mot:'Baseline BIO',eigenaar:'ISSO'},
+  {ctrl:'8.08',titel:'Kwetsbaarheidsbeheer',          dom:'Tech',  toep:'Opgenomen',status:'In uitvoering', nis2:'21(f)',dora:'Art.9',bio:'✓',mot:'Patch-management',eigenaar:'ISSO'},
+  {ctrl:'8.13',titel:'Back-up van informatie',        dom:'Tech',  toep:'Opgenomen',status:'Volledig',      nis2:'21(c)',dora:'Art.12',bio:'✓',mot:'BCM-verplichting',eigenaar:'ISSO'},
+];
+const CTRL_DATA = [
+  ...SOA_DATA.map(s=>({fw:'ISO',id:s.ctrl,omschr:s.titel,toep:s.toep,status:s.status,eigenaar:s.eigenaar,risico:'',notitie:''})),
+  {fw:'BIO',id:'BIO-5.01',omschr:'Beleidsregels voor IB (BIO)',toep:'Opgenomen',status:'Gedeeltelijk',eigenaar:'CIO',risico:'R_001',notitie:''},
+  {fw:'BIO',id:'BIO-5.07',omschr:'Dreigingsanalyse (BIO)',toep:'Opgenomen',status:'In uitvoering',eigenaar:'CISO',risico:'R_002',notitie:''},
+  {fw:'BIO',id:'BIO-8.07',omschr:'Bescherming malware (BIO)',toep:'Opgenomen',status:'Volledig',eigenaar:'ISSO',risico:'R_002',notitie:''},
+  {fw:'BIO',id:'BIO-8.13',omschr:'Back-up (BIO)',toep:'Opgenomen',status:'Volledig',eigenaar:'ISSO',risico:'R_004',notitie:''},
+  {fw:'NIST',id:'AC-2',omschr:'Account Management',toep:'Opgenomen',status:'Gedeeltelijk',eigenaar:'ISSO',risico:'R_001',notitie:''},
+  {fw:'NIST',id:'IR-4',omschr:'Incident Handling',toep:'Opgenomen',status:'Niet gestart',eigenaar:'BVC',risico:'R_002',notitie:''},
+  {fw:'NIST',id:'SC-7',omschr:'Boundary Protection',toep:'Opgenomen',status:'Volledig',eigenaar:'ISSO',risico:'',notitie:''},
+  {fw:'NIST',id:'SI-3',omschr:'Malicious Code Protection',toep:'Opgenomen',status:'Volledig',eigenaar:'ISSO',risico:'R_002',notitie:''},
+];
+const FINDINGS = [
+  {id:'NC-2025-01',type:'Minor NC',omschr:'SoA niet volledig gedocumenteerd voor cl.5.24',ctrl:'5.24',eigenaar:'',deadline:'2026-04-30',status:'Open'},
+  {id:'NC-2025-02',type:'Observatie',omschr:'Patch-management proces niet formeel vastgelegd',ctrl:'8.08',eigenaar:'',deadline:'2026-06-30',status:'In behandeling'},
+];
+const KALENDER = [
+  {id:'KAL-01',titel:'Jaarlijkse ISMS risicobeoordeling',ref:'ISO 27001 cl.8.2',deadline:'2026-03-31',freq:'Jaarlijks',eigenaar:'CISO'},
+  {id:'KAL-02',titel:'NIS2 Art.23 meldoefening (72u)',ref:'NIS2 Art.23',deadline:'2026-04-30',freq:'Jaarlijks',eigenaar:'BVC'},
+  {id:'KAL-03',titel:'BIO 2.0 gap-analyse update',ref:'BIO 5.01.02',deadline:'2026-06-30',freq:'Halfjaarlijks',eigenaar:'ISSO'},
+  {id:'KAL-04',titel:'Interne ISMS audit',ref:'ISO 27001 cl.9.2.2',deadline:'2026-09-30',freq:'Jaarlijks',eigenaar:'Audit'},
+  {id:'KAL-05',titel:'DORA ICT-risicobeoordeling',ref:'DORA Art.6',deadline:'2026-09-30',freq:'Jaarlijks',eigenaar:'CIO'},
+  {id:'KAL-06',titel:'Directiebeoordeling ISMS',ref:'ISO 27001 cl.9.3',deadline:'2026-10-31',freq:'Jaarlijks',eigenaar:'CIO'},
+  {id:'KAL-07',titel:'BIO 2.0 zelfevaluatie',ref:'BIO 5.36.01',deadline:'2026-11-30',freq:'Jaarlijks',eigenaar:'BVA'},
+  {id:'KAL-08',titel:'SoA update en beoordeling',ref:'ISO 27001 cl.6.1.3',deadline:'2026-12-15',freq:'Jaarlijks',eigenaar:'CISO'},
+  {id:'KAL-09',titel:'Compliancerapportage bestuur',ref:'VIR 2007 art.5',deadline:'2026-12-31',freq:'Jaarlijks',eigenaar:'BVA/CIO'},
+  {id:'KAL-10',titel:'VIRBI art.10 evaluatie',ref:'VIRBI 2025 art.10',deadline:'2028-12-31',freq:'3-jaarlijks',eigenaar:'BVA'},
+];
+const NC_DATA = [
+  {id:'NC-2025-01',bev:'SoA ontbreekt voor incidentbeheer (5.24)',cl:'cl.6.1.3',ernst:'Minor NC',corr:'SoA incidentbeheer opstellen',eigenaar:'',deadline:'2026-04-30',voortgang:0},
+  {id:'NC-2025-02',bev:'Patch-procedure niet formeel vastgelegd',cl:'cl.8.1',ernst:'Observatie',corr:'Procedure opstellen en goedkeuren',eigenaar:'',deadline:'2026-06-30',voortgang:40},
+];
+const FW_META = {
+  iso27001:{naam:'ISO/IEC 27001:2022',versie:'2022',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (v.w.b. certificering)',mod:'M9',kl:'fw:Standard',ctrl:'41 clausules',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?cl ?titel WHERE {\n  ?c a ext:ISMSRequirement ;\n     ext:clauseNumber ?cl ;\n     rdfs:label ?titel .\n  FILTER(LANG(?titel)="nl")\n} ORDER BY ?cl`},
+  iso27002:{naam:'ISO/IEC 27002:2022',versie:'2022',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M2',kl:'fw:Standard',ctrl:'93 controls',sp:`PREFIX ctrl: <https://grc.organisatie.nl/ontology/control#>\nSELECT ?id ?titel ?domein WHERE {\n  ?c a ctrl:Control ;\n     ctrl:hasControlID ?id ;\n     rdfs:label ?titel ;\n     ctrl:hasControlDomain ?domein .\n  FILTER(LANG(?titel)="nl")\n}`},
+  bio20:{naam:'BIO 2.0 v1.3',versie:'v1.3 (5 mrt 2026)',org:'CISO Rijk / BZK',jur:'Nederland – Rijksdienst',bind:'Verplicht voor rijksdienst',mod:'M8',kl:'fw:NLGovernmentBaseline',ctrl:'93 controls + 148 maatregelen',sp:`PREFIX bio: <https://grc.organisatie.nl/ontology/bio#>\nSELECT ?nr ?label ?soort WHERE {\n  ?c a bio:BIOControl ;\n     bio:bioControlNummer ?nr ;\n     rdfs:label ?label ;\n     bio:hasControlType ?soort .\n  FILTER(LANG(?label)="nl")\n} ORDER BY ?nr`},
+  nis2:{naam:'NIS2 Richtlijn 2022/2555',versie:'2022/2555',org:'EU – geïmpl. via CBW',jur:'EU (NL: Cyber Beveiligingswet)',bind:'Verplicht voor essentiële entiteiten',mod:'M5+M10',kl:'fw:EUDirective',ctrl:'17 artikelen (Art.18–24)',sp:`PREFIX compl: <https://grc.organisatie.nl/ontology/compliance#>\nSELECT ?art ?tekst ?maatregel WHERE {\n  ?art a compl:ComplianceRequirement ;\n       compl:requirementText ?tekst ;\n       compl:satisfiedBy ?maatregel .\n  FILTER(CONTAINS(STR(?art),"NIS2"))\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY ?art`},
+  dora:{naam:'DORA 2022/2554',versie:'2022/2554',org:'EU – rechtstreeks werkend',jur:'EU (financiële entiteiten)',bind:'Verplicht voor financiële entiteiten',mod:'M12',kl:'fw:EURegulation',ctrl:'14 artikelen (Art.5–19)',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?art ?tekst WHERE {\n  ?req a ext:DORARequirement ;\n       ext:articleNumber ?art ;\n       compl:requirementText ?tekst .\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY xsd:integer(?art)`},
+  vir2007:{naam:'VIR 2007',versie:'2007',org:'BZK / Rijksdienst',jur:'Nederland – Rijksdienst',bind:'Verplicht voor rijksdienst',mod:'M1',kl:'fw:NLRegulation',ctrl:'Art. 3–9',sp:`# VIR 2007 in ontologie\nPREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:VIR_2007`},
+  virbi2025:{naam:'VIRBI 2025',versie:'2025',org:'BZK / Rijksdienst',jur:'Nederland – Bijzondere informatie',bind:'Verplicht voor rijksdienst',mod:'M1',kl:'fw:NLRegulation',ctrl:'Art. 1–15',sp:`PREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:VIRBI_2025`},
+  bva2021:{naam:'Besluit BVA-stelsel 2021',versie:'2021',org:'BZK / Rijksdienst',jur:'Nederland',bind:'Verplicht voor rijksdienst',mod:'M4',kl:'fw:NLGovernanceDecree',ctrl:'Art. 1–12 (incl. art.6 BVC)',sp:`PREFIX roles: <https://grc.organisatie.nl/ontology/roles#>\nSELECT ?rol ?naam WHERE {\n  ?rol a roles:BVARole ;\n       rdfs:label ?naam .\n}`},
+  cio2026:{naam:'Besluit CIO-stelsel 2026',versie:'2026',org:'BZK / Rijksdienst',jur:'Nederland',bind:'Verplicht voor rijksdienst',mod:'M4',kl:'fw:NLGovernanceDecree',ctrl:'Art. 1–10',sp:`PREFIX roles: <https://grc.organisatie.nl/ontology/roles#>\nSELECT ?rol ?naam WHERE {\n  ?rol a roles:CIORole ;\n       rdfs:label ?naam .\n}`},
+  cbw:{naam:'Cyber Beveiligingswet',versie:'2024',org:'BZK – NIS2-implementatie',jur:'Nederland',bind:'Verplicht – essentiële entiteiten',mod:'M5',kl:'fw:NLLaw',ctrl:'NIS2 Art.18–24 NL-implementatie',sp:`PREFIX compl: <https://grc.organisatie.nl/ontology/compliance#>\nSELECT ?art ?tekst WHERE {\n  ?req compl:derivedFrom fw:CBW ;\n       compl:requirementText ?tekst ;\n       compl:articleRef ?art .\n}`},
+  nist80053:{naam:'NIST SP 800-53 Rev.5',versie:'Rev.5',org:'NIST / USA',jur:'Internationaal (VS-overheid)',bind:'Vrijwillig (best practice)',mod:'M11',kl:'fw:NISTPublication',ctrl:'20 families · 104 controls',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?fam ?ctrl ?label WHERE {\n  ?c a ext:NISTControl ;\n     ext:controlFamilyCode ?fam ;\n     rdfs:label ?label .\n  FILTER(LANG(?label)="nl")\n} ORDER BY ?fam`},
+  nist80039:{naam:'NIST SP 800-39',versie:'2011',org:'NIST / USA',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M1',kl:'fw:NISTPublication',ctrl:'3-tier model',sp:`PREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:NIST_SP_800_39`},
+  cobit:{naam:'COBIT 2019',versie:'2019',org:'ISACA',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M1',kl:'fw:GovernanceFramework',ctrl:'40 management/governance objectives',sp:`PREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:COBIT_2019`},
+  iso27005:{naam:'ISO/IEC 27005:2024',versie:'2024',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M3',kl:'fw:Standard',ctrl:'§8 Risicobeoordelingsproces',sp:`PREFIX risk: <https://grc.organisatie.nl/ontology/risk#>\nSELECT ?r ?titel ?score WHERE {\n  ?r a risk:InformationSecurityRisk ;\n     risk:hasRiskTitle ?titel ;\n     risk:hasInherentRiskScore ?score .\n} ORDER BY DESC(?score)`},
+  iso31000:{naam:'ISO 31000:2018',versie:'2018',org:'ISO → NEN',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M3',kl:'fw:Standard',ctrl:'§6 Risicobeheersproces',sp:`PREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:ISO_31000_2018`},
+  iso22301:{naam:'ISO 22301:2019',versie:'2019',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (BCM-norm)',mod:'M13',kl:'fw:Standard',ctrl:'17 clausules (§4–10)',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?cl ?titel WHERE {\n  ?c a ext:BCMRequirement ;\n     ext:clauseNumber ?cl ;\n     rdfs:label ?titel .\n  FILTER(LANG(?titel)="nl")\n}`},
+  iso22313:{naam:'ISO 22313:2020',versie:'2020',org:'ISO → NEN',jur:'Internationaal',bind:'Vrijwillig (implementatiegids)',mod:'M1',kl:'fw:Standard',ctrl:'Implementatiegids 22301',sp:`PREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:ISO_22313_2020`},
+  oj2024:{naam:'EU OJ 2024/269',versie:'2024/269',org:'Europese Commissie',jur:'EU',bind:'Verplicht – uitvoeringsverordening',mod:'M5',kl:'fw:EUImplementingRegulation',ctrl:'NIS2 uitvoeringsbepalingen',sp:`PREFIX fw: <https://grc.organisatie.nl/ontology/framework#>\nDESCRIBE fw:EU_OJ_2024_269`},
+};
+
+// ═══ NAVIGATION ═══
+function goTab(e, id) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function iTab(e, id) {
+  const tab = e.currentTarget.closest('.tab');
+  tab.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('active'));
+  tab.querySelectorAll('.itab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+
+// ═══ FW INFO CARD ═══
+function selFW(el, id) {
+  document.querySelectorAll('.fwcard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const d = FW_META[id]; if (!d) return;
+  const card = document.getElementById('fw-infocard');
+  card.style.display='block';
+  document.getElementById('fwic-title').textContent = d.naam;
+  const bindClr = d.bind.startsWith('Verplicht') ? 'var(--red-br)' : 'var(--green-br)';
+  document.getElementById('fwic-meta').innerHTML = `
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv" style="font-size:13px">${d.versie}</div><div class="sl">Versie</div></div>
+    <div class="stat" style="--ac:var(--cyan-lt)"><div class="sv" style="font-size:12px">${d.org}</div><div class="sl">Uitgevende instantie</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv" style="font-size:12px">${d.jur}</div><div class="sl">Jurisdictie</div></div>
+    <div class="stat" style="--ac:${bindClr}"><div class="sv" style="font-size:11px">${d.bind}</div><div class="sl">Bindendheid</div></div>`;
+  document.getElementById('fwic-owl').innerHTML = `
+    <div class="owlttl">🦉 Ontologie-lens — Module ${d.mod}</div>
+    <div class="owlrow"><span class="owlk">OWL-klasse</span><span class="owlv">${d.kl}</span></div>
+    <div class="owlrow"><span class="owlk">Module</span><span class="owlv">${d.mod}</span></div>
+    <div class="owlrow"><span class="owlk">Controls / clausules</span><span class="owlv">${d.ctrl}</span></div>
+    <div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>${d.sp}</div>`;
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ═══ RENDER ROLLEN ═══
+function renderRollen() {
+  document.getElementById('rollen-tb').innerHTML = ROLLEN.map(r=>`<tr>
+    <td><span class="chip">${r.id}</span></td>
+    <td>${r.naam}</td>
+    <td><span class="b ${r.stelsel==='CIO-stelsel'?'bb':r.stelsel==='BVA-stelsel'?'bo':r.stelsel==='Privacy'?'bp':'bz'}">${r.stelsel}</span></td>
+    <td>${r.wet?'<span class="b bg">Ja</span>':'<span class="b bz">Nee</span>'}</td>
+    <td style="font-size:10px;color:var(--text3)">${r.grondslag}</td>
+    <td><span class="ed" contenteditable data-key="role:${r.id}:bezet">${r.bezet||''}</span></td>
+    <td><span class="ed" contenteditable data-key="role:${r.id}:datum">${r.datum||''}</span></td>
+  </tr>`).join('');
+}
+function renderRACI() {
+  const rMap={R:'rr',A:'ra',C:'rc',I:'ri','':'bz'};
+  document.getElementById('raci-tb').innerHTML = RACI_DATA.map(row=>`<tr>
+    <td style="font-size:11px">${row.act}</td>
+    ${row.r.map(v=>`<td style="text-align:center"><span class="${rMap[v]||'bz'}">${v||'—'}</span></td>`).join('')}
+  </tr>`).join('');
+}
+function renderGovModel() {
+  const el=document.getElementById('gov-model'); if(!el) return;
+  el.innerHTML = GOV_LEVELS.map((l,i)=>`
+    <div style="margin-bottom:${i<3?'4':'0'}px;padding:10px 12px;border-left:3px solid ${l.c};background:var(--bg3);border-radius:0 5px 5px 0">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <span style="font-family:var(--mono);font-size:9px;color:${l.c};font-weight:700">N${i+1} — ${l.n.toUpperCase()}</span>
+        <span class="chip">${l.iso}</span><span class="chip">${l.cobit}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:3px"><b>Rollen:</b> ${l.rollen}</div>
+      <div style="font-size:10px;color:var(--text3)"><b>Documenten:</b> ${l.docs}</div>
+    </div>${i<3?'<div style="text-align:center;color:var(--border2);font-size:14px;line-height:1.2">↓</div>':''}`).join('');
+}
+function renderDocs() {
+  const now=new Date();
+  let alerts='';
+  document.getElementById('docs-tb').innerHTML = DOCS.map(d=>{
+    const rev=new Date(d.review), days=(rev-now)/86400000, urgent=d.review!=='Continu'&&days<30;
+    if(urgent) alerts=`<div class="alert aw">⚠️ <b>${d.titel}</b> (${d.id}) verloopt <b>${d.review}</b> — minder dan 30 dagen. Actie vereist door ${d.eigenaar}.</div>`;
+    return `<tr${urgent?' style="background:rgba(250,77,86,.04)"':''}>
+      <td><span class="chip">${d.id}</span></td>
+      <td><span class="b ${d.niv==='Beleid'?'bb':d.niv==='Procedure'?'by':'bz'}">${d.niv}</span></td>
+      <td>${d.titel}</td>
+      <td style="font-family:var(--mono)">${d.v}</td>
+      <td style="font-family:var(--mono)">${d.goedg}</td>
+      <td style="font-family:var(--mono);color:${urgent?'var(--red-br)':'inherit'}">${d.review}${urgent?' ⚠️':''}</td>
+      <td><span class="ed" contenteditable>${d.eigenaar}</span></td>
+      <td><span class="b ${urgent?'br':d.review==='Continu'?'bg':days>90?'bg':days>30?'by':'br'}">${urgent?'Verloopt binnenkort':d.review==='Continu'?'Actueel':days>90?'Actueel':days>30?'Binnenkort':'Urgent'}</span></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('docs-alert').innerHTML = alerts;
+}
+
+// ═══ RENDER RISKS ═══
+function renderRisks() {
+  const scoreClr=s=>s>=15?'var(--red-br)':s>=8?'var(--yellow-lt)':'var(--green-br)';
+  const behCls=b=>b==='Mitigeren'?'bb':b==='Overdragen'?'bp':b==='Accepteren'?'bz':'br';
+  document.getElementById('risk-tb').innerHTML = RISKS.map(r=>`<tr>
+    <td><span class="chip">${r.id}</span></td>
+    <td style="max-width:160px;font-size:11px">${r.omschr}</td>
+    <td><span class="b bc">${r.tbb}</span></td>
+    <td style="font-size:10px;max-width:100px">${r.dreiging}</td>
+    <td style="font-size:10px">${r.asset}</td>
+    <td style="font-family:var(--mono);text-align:center;font-weight:600">${r.k}</td>
+    <td style="font-family:var(--mono);text-align:center;font-weight:600">${r.i}</td>
+    <td style="font-family:var(--mono);font-weight:700;color:${scoreClr(r.bruto)};text-align:center">${r.bruto}</td>
+    <td><span class="b ${behCls(r.beh)}">${r.beh}</span></td>
+    <td style="font-family:var(--mono);text-align:center;color:${scoreClr(r.netto)}">${r.netto}</td>
+    <td style="font-family:var(--mono);font-size:10px">${r.ctrl}</td>
+    <td><span class="ed" contenteditable data-key="risk:${r.id}:eigenaar">${r.eigenaar}</span></td>
+    <td><span class="b ${r.status==='Open'?'br':r.status==='In behandeling'?'by':'bg'}">${r.status}</span></td>
+    <td style="font-family:var(--mono);font-size:10px">${r.review}</td>
+  </tr>`).join('');
+  // Update badge
+  const openRisks = RISKS.filter(r=>r.status==='Open').length;
+  const badge = document.getElementById('risk-badge');
+  if(badge) badge.textContent = openRisks;
+}
+
+// ═══ HEATMAP ═══
+function renderHeatmap() {
+  const el=document.getElementById('heatmap-wrap'); if(!el) return;
+  const colFn=s=>s>=15?'rgba(162,25,31,.55)':s>=10?'rgba(186,78,0,.45)':s>=5?'rgba(178,134,0,.35)':'rgba(25,128,56,.3)';
+  const tcFn=s=>s>=15?'var(--red-br)':s>=10?'var(--orange-lt)':s>=5?'var(--yellow-lt)':'var(--green-br)';
+  let h='<div class="hm">';
+  h+='<div class="hmlbl"></div>';
+  [1,2,3,4,5].forEach(i=>h+=`<div class="hmaxl">I=${i}</div>`);
+  [5,4,3,2,1].forEach(k=>{
+    h+=`<div class="hmlbl">K=${k}</div>`;
+    [1,2,3,4,5].forEach(i=>{
+      const s=k*i, rs=RISKS.filter(r=>r.k===k&&r.i===i);
+      const tip=rs.length?rs.map(r=>r.id).join(', '):`Score ${s}`;
+      h+=`<div class="hmcell" style="background:${colFn(s)};color:${tcFn(s)};border:1px solid ${colFn(s)}"
+            onclick="hmClick(${k},${i})" data-tip="${tip}">
+            ${s}${rs.length?`<span style="font-size:8px;margin-top:2px">${rs.map(r=>r.id).join(' ')}</span>`:''}
+          </div>`;
+    });
+  });
+  h+='</div>';
+  el.innerHTML=h;
+}
+function hmClick(k,i) {
+  const rs=RISKS.filter(r=>r.k===k&&r.i===i);
+  const el=document.getElementById('hm-detail');
+  document.getElementById('hm-detail-ttl').textContent=`Cel K=${k} × I=${i} (score ${k*i})`;
+  if(!rs.length){el.innerHTML='<div style="color:var(--text4);font-size:11px;padding:10px 0">Geen risico\'s in deze cel</div>';return;}
+  el.innerHTML=rs.map(r=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px;margin-bottom:7px">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+      <span class="chip">${r.id}</span>
+      <span class="b ${r.status==='Open'?'br':'by'}">${r.status}</span>
+    </div>
+    <div style="font-size:11px;margin-bottom:4px">${r.omschr}</div>
+    <div style="font-size:10px;color:var(--text3)">Behandeling: ${r.beh} · Netto: ${r.netto} · Controls: ${r.ctrl}</div>
+  </div>`).join('');
+}
+
+// ═══ RENDER SoA ═══
+function renderSoA() {
+  const sc=s=>s==='Volledig'?'bg':s==='Gedeeltelijk'?'by':s==='In uitvoering'?'bo':'br';
+  document.getElementById('soa-tb').innerHTML = SOA_DATA.map(r=>`<tr>
+    <td style="font-family:var(--mono);font-weight:600">${r.ctrl}</td>
+    <td style="font-size:11px">${r.titel}</td>
+    <td><span class="b bz">${r.dom}</span></td>
+    <td><span class="b bg">${r.toep}</span></td>
+    <td><span class="b ${sc(r.status)}">${r.status}</span></td>
+    <td style="font-family:var(--mono);font-size:10px">${r.nis2||'—'}</td>
+    <td style="font-family:var(--mono);font-size:10px">${r.dora||'—'}</td>
+    <td style="text-align:center">${r.bio}</td>
+    <td style="font-size:10px;color:var(--text3)">${r.mot}</td>
+    <td><span class="ed" contenteditable data-key="soa:${r.ctrl}:eigenaar">${r.eigenaar}</span></td>
+  </tr>`).join('');
+}
+
+// ═══ RENDER CONTROLS ═══
+function filterCtrls() {
+  const fwF=document.getElementById('fw-flt').value;
+  const stF=document.getElementById('st-flt').value;
+  const data=CTRL_DATA.filter(c=>(!fwF||c.fw===fwF)&&(!stF||c.status===stF));
+  const sc=s=>s==='Volledig'?'bg':s==='Gedeeltelijk'?'by':s==='In uitvoering'?'bo':'br';
+  document.getElementById('ctrl-tb').innerHTML=data.map(c=>`<tr>
+    <td style="font-family:var(--mono)">${c.id}</td>
+    <td><span class="b ${c.fw==='ISO'?'bb':c.fw==='BIO'?'bp':'bc'}">${c.fw}</span></td>
+    <td style="font-size:11px">${c.omschr}</td>
+    <td><span class="b bg">${c.toep}</span></td>
+    <td><span class="b ${sc(c.status)}">${c.status}</span></td>
+    <td><span class="ed" contenteditable>${c.eigenaar}</span></td>
+    <td style="font-family:var(--mono);font-size:10px">${c.risico||'—'}</td>
+    <td><span class="ed" contenteditable>${c.notitie}</span></td>
+  </tr>`).join('');
+  document.getElementById('ctrl-cnt').textContent=`${data.length} controls`;
+}
+
+// ═══ RENDER FINDINGS ═══
+function renderFindings() {
+  const sc=s=>s==='Open'?'br':s==='In behandeling'?'by':'bg';
+  document.getElementById('findings-tb').innerHTML=FINDINGS.map(f=>`<tr>
+    <td><span class="chip">${f.id}</span></td>
+    <td><span class="b ${f.type==='Minor NC'?'bo':'by'}">${f.type}</span></td>
+    <td style="font-size:11px">${f.omschr}</td>
+    <td style="font-family:var(--mono)">${f.ctrl}</td>
+    <td><span class="ed" contenteditable data-key="audit:${f.id}:eigenaar">${f.eigenaar}</span></td>
+    <td style="font-family:var(--mono)">${f.deadline}</td>
+    <td><span class="b ${sc(f.status)}">${f.status}</span></td>
+  </tr>`).join('');
+}
+
+// ═══ RENDER KALENDER ═══
+function renderKalender() {
+  const now=new Date();
+  const el=document.getElementById('kal-tl'); if(!el) return;
+  const dotClr=d=>{
+    const days=(new Date(d)-now)/86400000;
+    return days<30?'var(--red-br)':days<90?'var(--orange-lt)':days<180?'var(--yellow-lt)':'var(--green-br)';
+  };
+  const urgBadge=d=>{
+    const days=(new Date(d)-now)/86400000;
+    if(days<0) return '<span class="b br">Verlopen</span>';
+    if(days<30) return '<span class="b br">🔴 Dringend</span>';
+    if(days<90) return '<span class="b bo">🟠 Spoedig</span>';
+    if(days<180) return '<span class="b by">🟡 Plannen</span>';
+    return '<span class="b bg">🟢 Op schema</span>';
+  };
+  el.innerHTML=KALENDER.map(k=>`
+    <div class="tlitem">
+      <div class="tldot" style="background:${dotClr(k.deadline)};border-color:var(--bg2)"></div>
+      <div class="tlbox">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span class="chip">${k.id}</span>
+          <span class="tldate">${k.deadline}</span>
+          ${urgBadge(k.deadline)}
+          <span style="font-family:var(--mono);font-size:9px;color:var(--text4)">${k.freq}</span>
+        </div>
+        <div class="tltitle">${k.titel}</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:3px">
+          <span class="tldesc">${k.ref}</span>
+          <span style="font-size:10px;color:var(--text3)">Eigenaar: <span class="ed" contenteditable data-key="kal:${k.id}:eigenaar">${k.eigenaar}</span></span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══ RENDER NC ═══
+function renderNC() {
+  document.getElementById('nc-tb').innerHTML=NC_DATA.map(n=>`<tr>
+    <td><span class="chip">${n.id}</span></td>
+    <td style="font-size:11px">${n.bev}</td>
+    <td style="font-family:var(--mono)">${n.cl}</td>
+    <td><span class="b ${n.ernst==='Minor NC'?'bo':'by'}">${n.ernst}</span></td>
+    <td style="font-size:11px">${n.corr}</td>
+    <td><span class="ed" contenteditable>${n.eigenaar}</span></td>
+    <td style="font-family:var(--mono)">${n.deadline}</td>
+    <td><div class="pw" style="width:80px;display:inline-block"><div class="pb" style="width:${n.voortgang}%;background:${n.voortgang>=100?'var(--green-br)':n.voortgang>0?'var(--yellow-lt)':'var(--red-br)'}"></div></div> <span style="font-family:var(--mono);font-size:10px">${n.voortgang}%</span></td>
+  </tr>`).join('');
+}
+
+// ═══ CHARTS ═══
+const CO = {x:{ticks:{color:'#878d96',font:{size:10}},grid:{color:'#2a3a4e'}},y:{ticks:{color:'#878d96',font:{size:10}},grid:{color:'#2a3a4e'}}};
+function mkChart(id,cfg){const c=document.getElementById(id);if(c)new Chart(c,cfg);}
+
+function initCharts() {
+  mkChart('c-fw-dist',{type:'doughnut',data:{
+    labels:['BIO Maatregelen (148)','NIST Controls (104)','ISO 27002 (93)','NIS2 (17)','ISO 22301 (17)','DORA (14)','ISO 27001 (41)'],
+    datasets:[{data:[148,104,93,17,17,14,41],backgroundColor:['#fa4d56','#4589ff','#a56eff','#33b1ff','#42be65','#ff832b','#f1c21b'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'right',labels:{color:'#c1c7cd',font:{size:10},padding:8}}},cutout:'58%'}});
+
+  mkChart('c-comp-ov',{type:'bar',data:{
+    labels:['ISO 27001','BIO 2.0','NIS2','DORA','ISO 22301'],
+    datasets:[
+      {label:'Volledig',  data:[13,61,9,5,8],backgroundColor:'#42be65',borderRadius:3,borderWidth:0},
+      {label:'Gedeeltelijk',data:[22,24,6,7,7],backgroundColor:'#f1c21b',borderRadius:3,borderWidth:0},
+      {label:'Niet gestart',data:[6,8,2,2,2],backgroundColor:'#fa4d56',borderRadius:3,borderWidth:0},
+    ]
+  },options:{plugins:{legend:{labels:{color:'#c1c7cd',font:{size:10}}}},scales:CO,responsive:true}});
+
+  mkChart('c-radar',{type:'radar',data:{
+    labels:['Financieel','Operationeel','Reputationeel','Juridisch','Veiligheid'],
+    datasets:[
+      {label:'Bereidheid',data:[2,2,1,0,0],borderColor:'#33b1ff',backgroundColor:'rgba(51,177,255,.1)',pointBackgroundColor:'#33b1ff'},
+      {label:'Huidige score',data:[3,3,2,1,1],borderColor:'#fa4d56',backgroundColor:'rgba(250,77,86,.08)',pointBackgroundColor:'#fa4d56'},
+    ]
+  },options:{plugins:{legend:{labels:{color:'#c1c7cd',font:{size:10}}}},scales:{r:{ticks:{color:'#878d96',backdropColor:'transparent'},grid:{color:'#2a3a4e'},pointLabels:{color:'#c1c7cd',font:{size:10}}}}}});
+
+  const treatCnt={};RISKS.forEach(r=>treatCnt[r.beh]=(treatCnt[r.beh]||0)+1);
+  mkChart('c-treat',{type:'doughnut',data:{
+    labels:Object.keys(treatCnt),
+    datasets:[{data:Object.values(treatCnt),backgroundColor:['#4589ff','#a56eff','#42be65','#fa4d56'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'bottom',labels:{color:'#c1c7cd',font:{size:10}}}},cutout:'50%'}});
+
+  mkChart('c-comp-impl',{type:'doughnut',data:{
+    labels:['Volledig (3)','Gedeeltelijk (8)','In uitvoering (3)','Niet gestart (1)'],
+    datasets:[{data:[3,8,3,1],backgroundColor:['#42be65','#f1c21b','#ff832b','#fa4d56'],borderWidth:0}]
+  },options:{plugins:{legend:{position:'bottom',labels:{color:'#c1c7cd',font:{size:10}}}},cutout:'55%'}});
+
+  mkChart('c-kri',{type:'bar',data:{
+    labels:['Hoog-risico\'s','SoA impl.%','Audits open','Training%','Patches%'],
+    datasets:[
+      {label:'Actueel',data:[1,20,2,67,88],backgroundColor:'#4589ff',borderRadius:3,borderWidth:0},
+      {label:'Doel',   data:[0,80,3,90,95],backgroundColor:'rgba(66,190,101,.3)',borderRadius:3,borderWidth:0},
+    ]
+  },options:{plugins:{legend:{labels:{color:'#c1c7cd',font:{size:10}}}},scales:CO}});
+}
+
+// ═══ EXPORT ═══
+function expCSV(content, filename) {
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(content);
+  a.download=filename; a.click();
+}
+function riskToCSV(){return 'ID,Omschrijving,TBB,Dreiging,Asset,Kans,Impact,Bruto,Behandeling,Netto,Controls,Status,Review\n'+RISKS.map(r=>`${r.id},"${r.omschr}",${r.tbb},"${r.dreiging}","${r.asset}",${r.k},${r.i},${r.bruto},${r.beh},${r.netto},"${r.ctrl}",${r.status},${r.review}`).join('\n');}
+function soaToCSV(){return 'Control,Titel,Domein,Toepasselijk,Status,NIS2,DORA,BIO,Motivering,Eigenaar\n'+SOA_DATA.map(s=>`${s.ctrl},"${s.titel}",${s.dom},${s.toep},${s.status},${s.nis2},${s.dora},${s.bio},"${s.mot}",${s.eigenaar}`).join('\n');}
+function ctrlToCSV(){return 'ID,Framework,Omschrijving,Toepasselijk,Status,Eigenaar\n'+CTRL_DATA.map(c=>`${c.id},${c.fw},"${c.omschr}",${c.toep},${c.status},${c.eigenaar}`).join('\n');}
+function expIcal(){
+  let ical='BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//GRC Dashboard//NL\n';
+  KALENDER.forEach(k=>{
+    const d=k.deadline.replace(/-/g,'');
+    ical+=`BEGIN:VEVENT\nUID:${k.id}@grc\nDTSTAMP:${new Date().toISOString().replace(/[-:.]/g,'').slice(0,15)}Z\nDTSTART;VALUE=DATE:${d}\nDTEND;VALUE=DATE:${d}\nSUMMARY:${k.titel}\nDESCRIPTION:${k.ref} - ${k.freq} - Eigenaar: ${k.eigenaar}\nEND:VEVENT\n`;
+  });
+  ical+='END:VCALENDAR';
+  const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ical);a.download='grc-kalender.ics';a.click();
+}
+
+// ═══ COPY SPARQL ═══
+function cp(btn) {
+  const code=btn.parentElement.textContent.replace('Kopieer','').trim();
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Gekopieerd';setTimeout(()=>btn.textContent='Kopieer',2000);});
+}
+
+// ═══ ADD STUBS ═══
+function addRisk(){
+  const id='R_'+String(RISKS.length+1).padStart(3,'0');
+  const omschr=prompt('Omschrijving risico ('+id+'):','');
+  if(!omschr)return;
+  const dreiging=prompt('Dreigingsbron:','');
+  const asset=prompt('Getroffen asset:','');
+  const k=parseInt(prompt('Kans (1–5):','3'))||3;
+  const i=parseInt(prompt('Impact (1–5):','3'))||3;
+  const beh=prompt('Behandeling (Mitigeren/Accepteren/Vermijden/Overdragen):','Mitigeren');
+  RISKS.push({id,omschr,tbb:'V+I',dreiging:dreiging||'Onbekend',asset:asset||'Onbekend',k,i,bruto:k*i,beh:beh||'Mitigeren',netto:Math.round(k*i*0.5),ctrl:'',eigenaar:'',status:'Open',review:new Date(Date.now()+15552e6).toISOString().slice(0,10)});
+  renderRisks(); renderHeatmap();
+  GRC_STORE.set('risks_data', JSON.stringify(RISKS));
+  document.getElementById('risk-badge').textContent=RISKS.filter(r=>r.status==='Open').length;
+}
+function addDoc(){
+  const id=prompt('Document-ID (bijv. POL-03):','');
+  if(!id)return;
+  const titel=prompt('Titel:','');
+  const niv=prompt('Niveau (Beleid/Procedure/Registratie):','Procedure');
+  const eigenaar=prompt('Eigenaar (rol):','CISO');
+  const review=prompt('Reviewdatum (JJJJ-MM-DD):',new Date(Date.now()+31536e6).toISOString().slice(0,10));
+  DOCS.push({id,niv:niv||'Procedure',titel:titel||id,v:'1.0',goedg:new Date().toISOString().slice(0,10),review:review||'2027-01-01',eigenaar:eigenaar||'CISO'});
+  renderDocs();
+}
+function addSoA(){
+  const ctrl=prompt('Control-ID (bijv. 5.25):','');
+  if(!ctrl)return;
+  const titel=prompt('Titel:','');
+  const toep=prompt('Toepasselijk (Opgenomen/Uitgesloten):','Opgenomen');
+  const mot=prompt('Motivering:','');
+  SOA_DATA.push({ctrl,titel:titel||ctrl,dom:'Org.',toep:toep||'Opgenomen',status:'Niet gestart',nis2:'',dora:'',bio:'',mot:mot||'—',eigenaar:''});
+  renderSoA();
+}
+function addFinding(){
+  const id='NC-'+new Date().getFullYear()+'-'+String(FINDINGS.length+1).padStart(2,'0');
+  const omschr=prompt('Bevinding ('+id+'):','');
+  if(!omschr)return;
+  const ctrl=prompt('Gekoppeld control-ID:','');
+  const type=prompt('Type (Major NC/Minor NC/Observatie/Positief):','Minor NC');
+  const deadline=prompt('Deadline (JJJJ-MM-DD):',new Date(Date.now()+7776e6).toISOString().slice(0,10));
+  FINDINGS.push({id,type:type||'Minor NC',omschr,ctrl:ctrl||'—',eigenaar:'',deadline,status:'Open'});
+  renderFindings();
+}
+function addKal(){
+  const id='KAL-'+String(KALENDER.length+1).padStart(2,'0');
+  const titel=prompt('Activiteit-titel ('+id+'):','');
+  if(!titel)return;
+  const ref=prompt('Grondslag (bijv. ISO 27001 cl.9.2):','');
+  const deadline=prompt('Deadline (JJJJ-MM-DD):',new Date(Date.now()+15552e6).toISOString().slice(0,10));
+  const eigenaar=prompt('Eigenaar (rol):','CISO');
+  const freq=prompt('Frequentie (Eenmalig/Jaarlijks/Halfjaarlijks):','Jaarlijks');
+  KALENDER.push({id,titel,ref:ref||'—',deadline:deadline||'2026-12-31',freq:freq||'Jaarlijks',eigenaar:eigenaar||'CISO'});
+  renderKalender();
+}
+function expRollen(){expCSV(ROLLEN_CSV,'rollen.csv');}
+
+// ═══ STORAGE (localStorage polyfill + window.storage) ═══
+const GRC_STORE = {
+  set(key, val) {
+    try { localStorage.setItem('grc:'+key, val); } catch(e){}
+    try { if(window.storage) window.storage.set(key, val); } catch(e){}
+    const ind = document.getElementById('store-ind');
+    if(ind){ ind.style.color='var(--green-br)'; setTimeout(()=>ind.style.color='var(--text4)',800); }
+  },
+  get(key) {
+    try { return localStorage.getItem('grc:'+key); } catch(e){ return null; }
+  }
+};
+
+// ═══ INIT ═══
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('hdr-date').textContent = new Date().toLocaleDateString('nl-NL');
+  renderRollen(); renderRACI(); renderGovModel(); renderDocs();
+  renderRisks(); renderHeatmap();
+  renderSoA(); filterCtrls(); renderFindings(); renderKalender(); renderNC();
+  initCharts();
+  // Load saved values for all editable fields with data-key
+  setTimeout(()=>{
+    document.querySelectorAll('[contenteditable][data-key]').forEach(el=>{
+      const v = GRC_STORE.get(el.dataset.key);
+      if (v !== null && v !== '') el.textContent = v;
+    });
+  }, 100);
+  // Save editable fields on blur
+  document.addEventListener('blur',e=>{
+    if(e.target.hasAttribute('contenteditable')){
+      const key=e.target.dataset.key;
+      if(key) GRC_STORE.set(key, e.target.textContent);
+    }
+  },true);
+});
+</script>
+</body>
+</html>

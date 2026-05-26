@@ -1,0 +1,1128 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M10: NIS2 Extended
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m10-nis2-ext>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M10 — NIS2 Extended"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# =============================================================================
+# v4.4.0 Stap 2.1 — CBW-control-klasse (TBox)
+# =============================================================================
+# Eerste TBox-declaratie in m10. Precedent voor module-eigen control-subklasse-
+# declaratie: bio:BIOControl ⊑ ctrl:Control in m08-bio20.ttl (niet in m02).
+# CBW-controls zijn geen wettelijk verplichte beheersmaatregelen, maar een
+# ADR/NOREA-interpretatieve uitwerking op operationeel niveau (CBW/NIS2 Control
+# Framework versie 1.0, 30 september 2025, CC-BY 4.0).
+
+ctrl:CBWControl
+    rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:Control ;
+    rdfs:label "CBW-control"@nl , "CBW control"@en ;
+    rdfs:comment "Control uit het CBW/NIS2 Control Framework (ADR & NOREA, versie 1.0, 30 september 2025). Geen wettelijk verplichte beheersmaatregel, maar een ADR/NOREA-interpretatieve uitwerking van CBW-zorgplichtartikelen op operationeel niveau."@nl ,
+                 "Control from the CBW/NIS2 Control Framework (ADR & NOREA, version 1.0, 30 September 2025). Not a legally mandated security measure but an ADR/NOREA-interpretative elaboration of CBW duty-of-care articles at operational level."@en .
+
+# === M10: NIS2 aanvullende artikelen ===
+
+compl:NIS2_Art18 rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "NIS2 Artikel 18: Melding van significante cyberdreigingen"@nl ;
+    rdfs:label "NIS2 Article 18: Reporting of significant cyber threats"@en ;
+    compl:articleRef "art. 18" ;
+    compl:requirementText "Essentiële en belangrijke entiteiten mogen de CSIRT of bevoegde autoriteit vrijwillig in kennis stellen van significante cyberdreigingen."@nl ;
+    compl:requirementText "Essential and important entities may voluntarily notify the CSIRT or competent authority of significant cyber threats."@en ;
+    compl:derivedFrom fw:NIS2_Directive .
+
+compl:NIS2_Art19 rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "NIS2 Artikel 19: Europese cyberbeveiligingscertificering"@nl ;
+    rdfs:label "NIS2 Article 19: European cybersecurity certification"@en ;
+    compl:articleRef "art. 19" ;
+    compl:requirementText "De Commissie kan vereisen dat entiteiten gecertificeerde ICT-producten diensten of processen gebruiken."@nl ;
+    compl:requirementText "The Commission may require entities to use certified ICT products, services or processes."@en ;
+    compl:derivedFrom fw:NIS2_Directive .
+
+compl:NIS2_Art20 rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "NIS2 Artikel 20: Governance en bestuurlijke verantwoordelijkheid"@nl ;
+    rdfs:label "NIS2 Article 20: Governance"@en ;
+    compl:articleRef "art. 20" ;
+    compl:requirementText "Bestuursorganen van essentiële en belangrijke entiteiten keuren maatregelen voor cyberbeveiligingsrisicobeheer goed en houden toezicht op de uitvoering ervan."@nl ;
+    compl:requirementText "Management bodies of essential and important entities shall approve cybersecurity risk management measures and oversee their implementation."@en ;
+    compl:derivedFrom fw:NIS2_Directive .
+
+compl:NIS2_Art22 rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "NIS2 Artikel 22: Gecoordineerde risicobeoordeling toeleveringsketen"@nl ;
+    rdfs:label "NIS2 Article 22: Coordinated supply chain risk assessment"@en ;
+    compl:articleRef "art. 22" ;
+    compl:requirementText "De samenwerkingsgroep kan gecoordineerde risicobeoordelingen uitvoeren van de beveiliging van kritieke toeleveringsketens."@nl ;
+    compl:requirementText "The Cooperation Group may carry out coordinated security risk assessments of critical supply chains."@en ;
+    compl:derivedFrom fw:NIS2_Directive .
+
+compl:NIS2_Art23 rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "NIS2 Artikel 23: Meldingsverplichtingen"@nl ;
+    rdfs:label "NIS2 Article 23: Reporting obligations"@en ;
+    compl:articleRef "art. 23" ;
+    compl:requirementText "Essentiële en belangrijke entiteiten melden incidenten met een aanzienlijke impact aan de CSIRT of bevoegde autoriteit."@nl ;
+    compl:requirementText "Essential and important entities shall notify incidents with significant impact to the CSIRT or competent authority."@en ;
+    compl:derivedFrom fw:NIS2_Directive .
+
+compl:NIS2_Art24 rdf:type ext:NIS2Requirement , owl:NamedIndividual ;
+    rdfs:label "NIS2 Artikel 24: Verplichtingen certificering essentiële entiteiten"@nl ;
+    rdfs:label "NIS2 Article 24: Certification obligations essential entities"@en ;
+    compl:articleRef "art. 24" ;
+    compl:requirementText "Essentiële entiteiten moeten gecertificeerde ICT-producten diensten of processen gebruiken waar vereist."@nl ;
+    compl:requirementText "Essential entities shall use certified ICT products, services or processes where required."@en ;
+    compl:derivedFrom fw:NIS2_Directive .
+
+
+# --- NIS2 art.21 individuals + SKOS mappings (oorspronkelijk FIX sectie) ---
+# ── NIS2 art.21 artikel-individuals ─────────────────────────────────────
+
+compl:NIS2_Art21_a rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(a) — Risicoanalyse en beveiliging informatiesystemen"@nl ,
+               "NIS2 art.21(2)(a) — Risk analysis and information system security policies"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel a"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_b rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(b) — Incidentbehandeling"@nl ,
+               "NIS2 art.21(2)(b) — Incident handling"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel b"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_c rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(c) — Bedrijfscontinuïteit, back-upbeheer en noodherstel"@nl ,
+               "NIS2 art.21(2)(c) — Business continuity, backup management and disaster recovery"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel c"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_d rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(d) — Beveiliging van de toeleveringsketen"@nl ,
+               "NIS2 art.21(2)(d) — Supply chain security"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel d"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_e rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(e) — Beveiliging verwerving, ontwikkeling en onderhoud systemen"@nl ,
+               "NIS2 art.21(2)(e) — Security in acquisition, development and maintenance"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel e"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_f rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(f) — Beoordeling doeltreffendheid cyberbeveiligingsmaatregelen"@nl ,
+               "NIS2 art.21(2)(f) — Policies and procedures to assess effectiveness of measures"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel f"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_g rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(g) — Cyberhygiënepraktijken en opleiding cyberbeveiliging"@nl ,
+               "NIS2 art.21(2)(g) — Cyber hygiene practices and cybersecurity training"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel g"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_h rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(h) — Cryptografie en encryptie"@nl ,
+               "NIS2 art.21(2)(h) — Policies and procedures regarding cryptography and encryption"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel h"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_i rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(i) — Beveiliging personeel, toegangsbeleid en activabeheer"@nl ,
+               "NIS2 art.21(2)(i) — Human resources security, access control and asset management"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel i"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+compl:NIS2_Art21_j rdf:type compl:RegulatoryObligation , owl:NamedIndividual ;
+    rdfs:label "NIS2 art.21(2)(j) — Multi-factor authenticatie en continue authenticatie"@nl ,
+               "NIS2 art.21(2)(j) — Multi-factor or continuous authentication solutions"@en ;
+    compl:derivedFrom fw:NIS2_Directive ;
+    compl:derivedFrom fw:CBW ;
+    compl:articleRef "art. 21, lid 2, onderdeel j"^^xsd:string ;
+    compl:responsibleRole roles:R_CISO .
+
+# ── SKOS mappings: ctrl:ISO27002_* → compl:NIS2_Art21_* ───────────────
+
+# ctrl:ISO27002_5_01 — Beleidsregels voor informatiebeveiliging
+ctrl:ISO27002_5_01
+    skos:exactMatch compl:NIS2_Art21_a .
+
+# ctrl:ISO27002_5_02 — Rollen en verantwoordelijkheden bij informatiebeveiliging
+ctrl:ISO27002_5_02
+    skos:closeMatch compl:NIS2_Art21_a ;
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_03 — Functiescheiding
+ctrl:ISO27002_5_03
+    skos:relatedMatch compl:NIS2_Art21_a ;
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_04 — Managementverantwoordelijkheden
+ctrl:ISO27002_5_04
+    skos:closeMatch compl:NIS2_Art21_a ;
+    skos:relatedMatch compl:NIS2_Art21_f ;
+    skos:relatedMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_5_05 — Contact met overheidsinstanties
+ctrl:ISO27002_5_05
+    skos:relatedMatch compl:NIS2_Art21_a .
+
+# ctrl:ISO27002_5_06 — Contact met speciale belangengroepen
+ctrl:ISO27002_5_06
+    skos:relatedMatch compl:NIS2_Art21_a .
+
+# ctrl:ISO27002_5_07 — Informatie en analyses over dreigingen
+ctrl:ISO27002_5_07
+    skos:broadMatch compl:NIS2_Art21_a ;
+    skos:relatedMatch compl:NIS2_Art21_b .
+
+# ctrl:ISO27002_5_08 — Informatiebeveiliging in projectmanagement
+ctrl:ISO27002_5_08
+    skos:broadMatch compl:NIS2_Art21_a ;
+    skos:broadMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_5_09 — Inventarisatie van informatie en andere gerelateerde bedrijf
+ctrl:ISO27002_5_09
+    skos:exactMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_10 — Aanvaard gebruik van informatie en andere gerelateerde bedri
+ctrl:ISO27002_5_10
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_11 — Retourneren van bedrijfsmiddelen
+ctrl:ISO27002_5_11
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_12 — Classificeren van informatie
+ctrl:ISO27002_5_12
+    skos:broadMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_13 — Labelen van informatie
+ctrl:ISO27002_5_13
+    skos:broadMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_14 — Overdragen van informatie
+ctrl:ISO27002_5_14
+    skos:closeMatch compl:NIS2_Art21_h .
+
+# ctrl:ISO27002_5_15 — Toegangsbeveiliging
+ctrl:ISO27002_5_15
+    skos:exactMatch compl:NIS2_Art21_i ;
+    skos:closeMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_5_16 — Identiteitsbeheer
+ctrl:ISO27002_5_16
+    skos:exactMatch compl:NIS2_Art21_i ;
+    skos:closeMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_5_17 — Authenticatie-informatie
+ctrl:ISO27002_5_17
+    skos:closeMatch compl:NIS2_Art21_i ;
+    skos:closeMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_5_18 — Toegangsrechten
+ctrl:ISO27002_5_18
+    skos:exactMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_19 — Informatiebeveiliging in leveranciersrelaties
+ctrl:ISO27002_5_19
+    skos:exactMatch compl:NIS2_Art21_d .
+
+# ctrl:ISO27002_5_20 — Adresseren van informatiebeveiliging in leveranciersovereenk
+ctrl:ISO27002_5_20
+    skos:exactMatch compl:NIS2_Art21_d .
+
+# ctrl:ISO27002_5_21 — Beheren van informatiebeveiliging in de ICT-toeleveringskete
+ctrl:ISO27002_5_21
+    skos:exactMatch compl:NIS2_Art21_d .
+
+# ctrl:ISO27002_5_22 — Monitoren, beoordelen en het beheren van wijzigingen van lev
+ctrl:ISO27002_5_22
+    skos:exactMatch compl:NIS2_Art21_d .
+
+# ctrl:ISO27002_5_23 — Informatiebeveiliging voor het gebruik van clouddiensten
+ctrl:ISO27002_5_23
+    skos:closeMatch compl:NIS2_Art21_d .
+
+# ctrl:ISO27002_5_24 — Plannen en voorbereiden van het beheer van informatiebeveili
+ctrl:ISO27002_5_24
+    skos:exactMatch compl:NIS2_Art21_b ;
+    skos:relatedMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_5_25 — Beoordelen van en besluiten over informatiebeveiligingsgebeu
+ctrl:ISO27002_5_25
+    skos:exactMatch compl:NIS2_Art21_b .
+
+# ctrl:ISO27002_5_26 — Reageren op informatiebeveiligingsincidenten
+ctrl:ISO27002_5_26
+    skos:exactMatch compl:NIS2_Art21_b .
+
+# ctrl:ISO27002_5_27 — Leren van informatiebeveiligingsincidenten
+ctrl:ISO27002_5_27
+    skos:exactMatch compl:NIS2_Art21_b .
+
+# ctrl:ISO27002_5_28 — Verzamelen van bewijsmateriaal
+ctrl:ISO27002_5_28
+    skos:closeMatch compl:NIS2_Art21_b .
+
+# ctrl:ISO27002_5_29 — Informatiebeveiliging tijdens een verstoring
+ctrl:ISO27002_5_29
+    skos:exactMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_5_30 — ICT-gereedheid voor bedrijfscontinuïteit
+ctrl:ISO27002_5_30
+    skos:exactMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_5_31 — Wettelijke, statutaire, regelgevende en contractuele eisen
+ctrl:ISO27002_5_31
+    skos:relatedMatch compl:NIS2_Art21_a ;
+    skos:relatedMatch compl:NIS2_Art21_d .
+
+# ctrl:ISO27002_5_32 — Intellectuele-eigendomsrechten
+ctrl:ISO27002_5_32
+    skos:relatedMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_5_33 — Beschermen van registraties
+ctrl:ISO27002_5_33
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_34 — Privacy en bescherming van persoonsgegevens
+ctrl:ISO27002_5_34
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_5_35 — Onafhankelijke beoordeling van informatiebeveiliging
+ctrl:ISO27002_5_35
+    skos:exactMatch compl:NIS2_Art21_f ;
+    skos:closeMatch compl:NIS2_Art21_a .
+
+# ctrl:ISO27002_5_36 — Naleving van beleid, regels en normen voor informatiebeveili
+ctrl:ISO27002_5_36
+    skos:exactMatch compl:NIS2_Art21_f ;
+    skos:closeMatch compl:NIS2_Art21_a .
+
+# ctrl:ISO27002_5_37 — Gedocumenteerde bedieningsprocedures
+ctrl:ISO27002_5_37
+    skos:broadMatch compl:NIS2_Art21_a .
+
+# ctrl:ISO27002_6_01 — Screening
+ctrl:ISO27002_6_01
+    skos:exactMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_6_02 — Arbeidsovereenkomst
+ctrl:ISO27002_6_02
+    skos:exactMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_6_03 — Bewustwording van, opleiding en training in informatiebeveil
+ctrl:ISO27002_6_03
+    skos:exactMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_6_04 — Disciplinaire procedure
+ctrl:ISO27002_6_04
+    skos:relatedMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_6_05 — Verantwoordelijkheden na beëindiging of wijziging van het di
+ctrl:ISO27002_6_05
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_6_06 — Vertrouwelijkheids- of geheimhoudingsovereenkomsten
+ctrl:ISO27002_6_06
+    skos:broadMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_6_07 — Werken op afstand
+ctrl:ISO27002_6_07
+    skos:broadMatch compl:NIS2_Art21_j ;
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_6_08 — Melden van informatiebeveiligingsgebeurtenissen
+ctrl:ISO27002_6_08
+    skos:closeMatch compl:NIS2_Art21_b ;
+    skos:closeMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_7_01 — Fysieke beveiligingszones
+ctrl:ISO27002_7_01
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_02 — Fysieke toegangsbeveiliging
+ctrl:ISO27002_7_02
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_03 — Beveiligen van kantoren, ruimten en faciliteiten
+ctrl:ISO27002_7_03
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_04 — Monitoren van de fysieke beveiliging
+ctrl:ISO27002_7_04
+    skos:broadMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_05 — Beschermen tegen fysieke en omgevingsdreigingen
+ctrl:ISO27002_7_05
+    skos:broadMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_06 — Werken in beveiligde zones
+ctrl:ISO27002_7_06
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_07 — ‘Clear desk’ en ‘clear screen’
+ctrl:ISO27002_7_07
+    skos:closeMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_7_08 — Plaatsen en beschermen van apparatuur
+ctrl:ISO27002_7_08
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_09 — Beveiligen van bedrijfsmiddelen buiten het terrein
+ctrl:ISO27002_7_09
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_10 — Opslagmedia
+ctrl:ISO27002_7_10
+    skos:broadMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_7_11 — Nutsvoorzieningen
+ctrl:ISO27002_7_11
+    skos:closeMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_7_12 — Beveiligen van bekabeling
+ctrl:ISO27002_7_12
+    skos:relatedMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_7_13 — Onderhoud van apparatuur
+ctrl:ISO27002_7_13
+    skos:relatedMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_7_14 — Veilig verwijderen of hergebruiken van apparatuur
+ctrl:ISO27002_7_14
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_8_01 — ‘User endpoint devices’
+ctrl:ISO27002_8_01
+    skos:broadMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_8_02 — Speciale toegangsrechten
+ctrl:ISO27002_8_02
+    skos:closeMatch compl:NIS2_Art21_i ;
+    skos:broadMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_8_03 — Beperking toegang tot informatie
+ctrl:ISO27002_8_03
+    skos:closeMatch compl:NIS2_Art21_i ;
+    skos:relatedMatch compl:NIS2_Art21_h ;
+    skos:relatedMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_8_04 — Toegangsbeveiliging op broncode
+ctrl:ISO27002_8_04
+    skos:closeMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_05 — Beveiligde authenticatie
+ctrl:ISO27002_8_05
+    skos:exactMatch compl:NIS2_Art21_j ;
+    skos:broadMatch compl:NIS2_Art21_h .
+
+# ctrl:ISO27002_8_06 — Capaciteitsbeheer
+ctrl:ISO27002_8_06
+    skos:broadMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_8_07 — Bescherming tegen malware
+ctrl:ISO27002_8_07
+    skos:broadMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_8_08 — Beheer van technische kwetsbaarheden
+ctrl:ISO27002_8_08
+    skos:broadMatch compl:NIS2_Art21_f ;
+    skos:relatedMatch compl:NIS2_Art21_b .
+
+# ctrl:ISO27002_8_09 — Configuratiebeheer
+ctrl:ISO27002_8_09
+    skos:closeMatch compl:NIS2_Art21_e ;
+    skos:broadMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_8_10 — Wissen van informatie
+ctrl:ISO27002_8_10
+    skos:relatedMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_8_11 — Maskeren van gegevens
+ctrl:ISO27002_8_11
+    skos:relatedMatch compl:NIS2_Art21_h .
+
+# ctrl:ISO27002_8_12 — Voorkomen van gegevenslekken (data leakage prevention)
+ctrl:ISO27002_8_12
+    skos:closeMatch compl:NIS2_Art21_i .
+
+# ctrl:ISO27002_8_13 — Back-up van informatie
+ctrl:ISO27002_8_13
+    skos:exactMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_8_14 — Redundantie van informatieverwerkende faciliteiten
+ctrl:ISO27002_8_14
+    skos:closeMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_8_15 — Logging
+ctrl:ISO27002_8_15
+    skos:broadMatch compl:NIS2_Art21_b ;
+    skos:relatedMatch compl:NIS2_Art21_f .
+
+# ctrl:ISO27002_8_16 — Monitoren van activiteiten
+ctrl:ISO27002_8_16
+    skos:broadMatch compl:NIS2_Art21_b ;
+    skos:broadMatch compl:NIS2_Art21_f .
+
+# ctrl:ISO27002_8_17 — Kloksynchronisatie
+ctrl:ISO27002_8_17
+    skos:relatedMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_18 — Gebruik van speciale systeemhulpmiddelen
+ctrl:ISO27002_8_18
+    skos:relatedMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_19 — Installeren van software op operationele systemen
+ctrl:ISO27002_8_19
+    skos:relatedMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_20 — Beveiliging netwerkcomponenten
+ctrl:ISO27002_8_20
+    skos:broadMatch compl:NIS2_Art21_h .
+
+# ctrl:ISO27002_8_21 — Beveiliging van netwerkdiensten
+ctrl:ISO27002_8_21
+    skos:broadMatch compl:NIS2_Art21_h .
+
+# ctrl:ISO27002_8_22 — Netwerksegmentatie
+ctrl:ISO27002_8_22
+    skos:relatedMatch compl:NIS2_Art21_j .
+
+# ctrl:ISO27002_8_23 — Toepassen van webfilters
+ctrl:ISO27002_8_23
+    skos:closeMatch compl:NIS2_Art21_g .
+
+# ctrl:ISO27002_8_24 — Gebruik van cryptografie
+ctrl:ISO27002_8_24
+    skos:exactMatch compl:NIS2_Art21_h .
+
+# ctrl:ISO27002_8_25 — Beveiligen tijdens de ontwikkelcyclus
+ctrl:ISO27002_8_25
+    skos:exactMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_26 — Toepassingsbeveiligingseisen
+ctrl:ISO27002_8_26
+    skos:exactMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_27 — Veilige systeemarchitectuur en technische uitgangspunten
+ctrl:ISO27002_8_27
+    skos:exactMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_28 — Veilig coderen
+ctrl:ISO27002_8_28
+    skos:exactMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_29 — Testen van de beveiliging tijdens ontwikkeling en acceptatie
+ctrl:ISO27002_8_29
+    skos:exactMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_30 — Uitbestede systeemontwikkeling
+ctrl:ISO27002_8_30
+    skos:broadMatch compl:NIS2_Art21_d ;
+    skos:relatedMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_31 — Scheiden van ontwikkel-, test- en productieomgevingen
+ctrl:ISO27002_8_31
+    skos:broadMatch compl:NIS2_Art21_e ;
+    skos:relatedMatch compl:NIS2_Art21_c .
+
+# ctrl:ISO27002_8_32 — Wijzigingsbeheer
+ctrl:ISO27002_8_32
+    skos:closeMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_33 — Testgegevens
+ctrl:ISO27002_8_33
+    skos:closeMatch compl:NIS2_Art21_e .
+
+# ctrl:ISO27002_8_34 — Bescherming van informatiesystemen tijdens audits
+ctrl:ISO27002_8_34
+    skos:closeMatch compl:NIS2_Art21_f .
+
+
+# ════════════════════════════════════════════════════════════════════════
+# STAP 1 — 93 SoAEntry shells (volledige SoA-structuur)
+# Status: lege shells — toepasselijkheidsbesluit en implementatiestatus
+# in te vullen na organisatiespecifiek besluitvormingstraject
+# Grondslag: ISO/IEC 27001:2022 Annex A + ISO 27002:2022
+# ════════════════════════════════════════════════════════════════════════
+
+
+
+# =============================================================================
+# v4.4.0 Stap 3 — CBW-laag-content (addendum 2 scope)
+# Datum: 2026-05-13
+# =============================================================================
+# 26 ctrl:CBWControl-individuals afkomstig uit CBW/NIS2 Control Framework
+# sheet 'Cbw (NIS2) Control Framework' (ADR & NOREA versie 1.0, 30-9-2025,
+# CC-BY 4.0). Plus 1 ext:SourceAttribution-individual als bron-attribuering
+# voor alle CBW-Excel-afgeleide data (deze controls + sheet 9 Cbw/Cbb mappings).
+
+# --- SourceAttribution-individual voor CBW-Excel (addendum 2 §3.5) ---
+
+ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0
+    rdf:type ext:SourceAttribution , owl:NamedIndividual ;
+    rdfs:label "CBW/NIS2 Control Framework — CC-BY 4.0"@nl ,
+                "CBW/NIS2 Control Framework — CC-BY 4.0"@en ;
+    ext:hasLicense "CC-BY 4.0" ;
+    ext:hasLicenseURL "https://creativecommons.org/licenses/by/4.0/"^^xsd:anyURI ;
+    ext:hasAttributionText "CBW/NIS2 Control Framework, ADR & NOREA, versie 1.0, 30 september 2025. Bevat: CBW-controls, ADR/NOREA-interpretatie van Uitvoeringsverordening (EU) 2024/2690, sheet 9 Cbw/Cbb-mappings. Gelicentieerd onder CC-BY 4.0."@nl ,
+                            "CBW/NIS2 Control Framework, ADR & NOREA, version 1.0, 30 September 2025. Contains: CBW controls, ADR/NOREA interpretation of Commission Implementing Regulation (EU) 2024/2690, sheet 9 Cbw/Cbb mappings. Licensed under CC-BY 4.0."@en ;
+    ext:hasSourcePublicationDate "2025-09-30"^^xsd:date ;
+    ext:hasSourceVersion "1.0" .
+
+# --- 26 ctrl:CBWControl-individuals ---
+
+ctrl:CBWControl_1_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 1.1 — Beleid over netwerk en informatiesystemen"@nl ,
+                "CBW control 1.1 — Policy on network and information systems"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """Komt overeen met D.1: beleid in ISMS evaluatie
+De entiteit heeft een beveiligingsbeleid voor haar netwerk- en informatiesystemen, waarin passende en evenredige technische, organisatorische en operationele maatregelen zijn opgenomen (of naar wordt verwezen). Dit beleid wordt actief toegepast, geëvalueerd en gehandhaafd (middels een managementsystematiek). Het bestuur stelt het beleid vast, herziet het periodiek, en borgt dat personeel en andere betrokkenen op de hoogte zijn van het beleid en handelen in overeenstemming daarmee. In dit beleid worden de rollen, verantwoordelijkheden en bevoegdheden in relatie tot de beveiliging van haar netwerk- en informatiesystemen ook vastgesteld."""@nl ;
+    rdfs:comment """De maatregelen omvatten ten minste het volgende:
+a. beleid over risicoanalyse en beveiliging van informatiesystemen;
+b. incidentenbehandeling;
+c. bedrijfscontinuïteit, zoals back-upbeheer en herstelplannen, en crisisbeheer;
+d. de beveiliging van de toeleveringsketen, met inbegrip van beveiligingsgerelateerde aspecten met betrekking tot de relaties tussen de entiteit en haar rechtstreekse leveranciers of dienstverleners.
+e. beveiliging bij het verwerven, ontwikkelen en onderhouden van netwerk- en 
+informatiesystemen, met inbegrip van de respons op en bekendmaking van kwetsbaarheden;
+f. beleid en procedures om de effectiviteit van maatregelen voor het beheersen van cyberbeveiligingsrisico’s te beoordelen;
+g. basispraktijken op het gebied van cyberhygiëne en opleiding op het gebied van cyberbeveiliging;
+h. beleid en procedures inzake het gebruik van cryptografie en, in voorkomend geval, encryptie;
+i. beveiligingsaspecten ten aanzien van personeel, toegangsbeleid en beheer van assets; en
+j. wanneer gepast, het gebruik van multifactor-authenticatie- of continue-authenticatieoplossingen, beveiligde spraak-, video- en tekstcommunicatie en beveiligde noodcommunicatiesystemen binnen de entiteit."""@nl ;
+    ext:hasUVInterpretation """1.1.2. Het beveiligingsbeleid inzake netwerk- en informatiesystemen moet ten minste jaarlijks door de bestuursorganen worden geëvalueerd en, waar passend, worden geactualiseerd en als zich significante incidenten of significante wijzigingen in de activiteiten of risico’s voordoen. Het resultaat van de evaluaties moet worden gedocumenteerd.
+
+1.2.3. Ten minste één persoon brengt rechtstreeks verslag uit aan de bestuursorganen over aangelegenheden inzake de beveiliging van netwerk- en informatiesystemen.
+
+2.2.1 De entiteit evalueert regelmatig de naleving van haar beleid inzake netwerk- en informatiebeveiliging, thematische beleidslijnen, regels en normen. De bestuursorganen worden door middel van regelmatige rapportage over de nalevingsbeoordelingen op de hoogte gebracht van de status van de netwerk- en informatiebeveiliging."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.1" , "art. 21.3" , "art. 24.1" ;
+    ext:hasCbbArticle "art. 6" , "art. 18"  .
+
+ctrl:CBWControl_2_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 2.1 — Beleid over risicomanagement"@nl ,
+                "CBW control 2.1 — Risk management policy"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft een risicomanagementbeleid met betrekking tot de beveiliging van haar netwerk- en informatiesystemen. Dit beleid omvat ten minste een risicomanagementmethodiek en criteria voor risico acceptatie. Voor de toepassing van het beleid zijn processen en procedures opgenomen voor risicoanalyse, risicobeoordeling en risicobehandeling. 
+De entiteit heeft, op basis van de risico analyse, een overzicht van de risico's voor haar netwerk- en informatiesystemen. Aan de hand van dit overzicht worden eisen aan de beveiliging (beveiligingeisen) van de netwerk en informatiesystemen gesteld, en indien de risicoanalyse hiertoe aanleiding geeft maatregelen getroffen."""@nl ;
+    rdfs:comment """Bij het selecteren van de maatregelen houdt de entiteit in ieder geval rekening met:
+- de stand van de techniek
+- de uitvoeringskosten
+- indien van toepassing, de desbetreffende Europese en internationale normen.
+- de evenredigheid van de maatregelen: de mate waarin zij aan risico’s is blootgesteld, de omvang van de entiteit, de kans dat zich incidenten voordoen en de ernst ervan (met inbegrip van de maatschappelijke en economische gevolgen)."""@nl ;
+    ext:hasUVInterpretation """2.1.1 De resultaten van de risicobeoordeling en de restrisico’s worden aanvaard door de bestuursorganen of, indien van toepassing, door personen die verantwoordelijk en bevoegd zijn om risico’s te beheren, mits de relevante entiteiten zorgen voor adequate rapportage aan de bestuursorganen.
+
+2.1.2 Entiteiten zullen het risicotolerantieniveau vaststellen overeenkomstig de risicobereidheid van de entiteit."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.2" ;
+    ext:hasCbbArticle "art. 7"  .
+
+ctrl:CBWControl_3_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 3.1 — Evaluatie"@nl ,
+                "CBW control 3.1 — Evaluation"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit evalueert periodiek de doeltreffendheid van de maatregelen die zij heeft genomen en de effecten ervan in de praktijk, en legt het resultaat daarvan schriftelijk vast. De entiteit past naar aanleiding van de uitkomst van die evaluaties de maatregelen waar nodig aan."""@nl ;
+    ext:hasUVInterpretation """7.1 & 7.2 In het beleid en de procedures wordt rekening gehouden met de resultaten van de risicobeoordeling en met significante incidenten uit het verleden. In het beleid wordt bepaalt:
+a) welke maatregelen voor het beheer van cyberbeveiligingsrisico’s moeten worden gemonitord en gemeten, met
+inbegrip van processen en controles;
+b) de methoden voor het monitoren, meten, analyseren en evalueren, al naargelang het geval, om te zorgen voor
+valide resultaten;
+c) wanneer de monitoring en de meting moeten worden uitgevoerd;
+d) wie verantwoordelijk is voor het monitoren en meten van de doeltreffendheid van de maatregelen voor het
+beheer van cyberbeveiligingsrisico’s;
+e) wanneer de resultaten van de monitoring en meting moeten worden geanalyseerd en geëvalueerd;
+f) wie deze resultaten moet analyseren en evalueren."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbbArticle "art. 19"  .
+
+ctrl:CBWControl_4_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 4.1 — Incidentenbehandeling"@nl ,
+                "CBW control 4.1 — Incident handling"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft een incident managementbeleid dat wordt gecommuniceerd en geïmplementeerd. In dit beleid worden de rollen, verantwoordelijkheden en bevoegdheden ten aanzien van incidentenbehandeling vastgesteld."""@nl ;
+    rdfs:comment """In het beleid zijn de rollen, verantwoordelijkheden en bevoegdheden vastgesteld vast voor:
+a. het tijdig detecteren van incidenten;
+b. het analyseren en beoordelen van incidenten;
+c. het reageren op, beperken van de gevolgen van, wegnemen van de oorzaak van en herstellen van
+incidenten;
+d. het documenteren van incidenten;
+e. het rapporteren van incidenten; en
+f. het leren van incidenten."""@nl ;
+    ext:hasUVInterpretation """3.1.3 De in het beleid vastgestelde taken, verantwoordelijkheden en procedures worden getest en geëvalueerd en, waar passend, geactualiseerd met geplande tussenpozen en na significante incidenten of significante wijzigingen in de activiteiten of risico’s.
+
+3.5.3 De entiteit stelt een communicatieplan vast met de Computer Security Incident Response Teams (CSIRT’s) of, indien van toepassing, de bevoegde autoriteiten, met betrekking tot de melding van incidenten en voor communicatie tussen personeelsleden en relevante externe belanghebbenden."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.2" ;
+    ext:hasCbbArticle "art. 8.1" , "art. 8.2"  .
+
+ctrl:CBWControl_4_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 4.2 — Incidentenbehandeling"@nl ,
+                "CBW control 4.2 — Incident handling"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft processen en procedures om relevante activiteiten, handelingen en gebeurtenissen in haar netwerk- en informatiesystemen te monitoren teneinde incidenten te detecteren, analyseren en classificeren. De entiteit logt de voor de beveiliging van haar netwerk- en informatiesystemen relevante gebeurtenissen in haar netwerk- en informatiesystemen. De logbestanden worden opgeslagen gedurende een vooraf bepaalde periode en beschermt deze tegen ongeautoriseerde wijzigingen."""@nl ;
+    rdfs:comment """Deze processen en procedures zijn vastgesteld en aantoonbaar toegepast, en bevatten ten minste:
+a. het tijdig detecteren van incidenten;
+b. het analyseren en beoordelen van incidenten;
+c. het reageren op, beperken van de gevolgen van, wegnemen van de oorzaak van en herstellen van
+incidenten;
+d. het documenteren van incidenten;
+e. het rapporteren van incidenten; en
+f. het leren van incidenten."""@nl ;
+    ext:hasUVInterpretation """3.2.3 De logbestanden worden regelmatig nagekeken op ongebruikelijke of ongewenste trends. Waar passend bevatten de logbestanden:
+a) relevant uitgaand en inkomend netwerkverkeer;
+b) de aanmaak, wijziging of verwijdering van gebruikers van de netwerk- en informatiesystemen van de relevante
+entiteiten en de uitbreiding van de machtigingen;
+c) toegang tot systemen en toepassingen;
+d) gebeurtenissen in verband met authenticatie;
+e) alle bevoorrechte toegang tot systemen en toepassingen, en activiteiten van beheeraccounts;
+f) toegang tot of wijzigingen van kritieke configuratie- en back-upbestanden;
+g) logbestanden van gebeurtenissen en logbestanden van beveiligingsinstrumenten, zoals antivirus, inbraakdetec­
+tiesystemen of firewalls;
+h) het gebruik van systeembronnen en de prestaties daarvan;
+i) fysieke toegang tot faciliteiten;
+j) toegang tot en gebruik van netwerkuitrusting en -apparatuur;
+k) het activeren, stoppen en pauzeren van de verschillende logboeken;
+l) omgevingsgebeurtenissen."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.2" ;
+    ext:hasCbbArticle "art. 8.3" , "art. 8.4" , "art. 8.5" , "art. 8.6"  .
+
+ctrl:CBWControl_5_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 5.1 — Bedrijfscontinuïteit en crisisbeheer"@nl ,
+                "CBW control 5.1 — Business continuity and crisis management"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft een bedrijfscontinuïteitbeleid met betrekking tot haar netwerk- en informatiesystemen."""@nl ;
+    rdfs:comment """De entiteit stelt in het kader van het toepassen van het beleid processen en procedures vast voor het borgen van haar bedrijfscontinuïteit, waaronder in ieder geval processen en procedures voor het herstellen van haar netwerk- en informatiesystemen en voor het maken en periodiek verifiëren van de betrouwbaarheid van back-ups van software en gegevens. De entiteit past deze processen en procedures aantoonbaar toe en test
+deze periodiek."""@nl ;
+    ext:hasUVInterpretation """4.1.2 Het plan omvat, waar passend, het volgende:
+a) doel, reikwijdte en publiek;
+b) taken en verantwoordelijkheden;
+c) belangrijkste contacten en (interne en externe) communicatiekanalen;
+d) voorwaarden voor activering en deactivering van het plan;
+e) opdracht tot hervatting van de activiteiten;
+f) herstelplannen voor specifieke activiteiten, met inbegrip van hersteldoelstellingen;
+g) de vereiste middelen, met inbegrip van back-ups en redundanties;
+h) herstel en hervatting van activiteiten na afloop van tijdelijke maatregelen.
+
+4.1.3 De entiteit voert een bedrijfsimpactanalyse uit om de mogelijke gevolgen van ernstige verstoringen van haar bedrijfsactiviteiten te beoordelen en stelt op basis van de resultaten van de bedrijfsimpactanalyse, continuïteitsvereisten voor de netwerk- en informatiesystemen vast."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.c" ;
+    ext:hasCbbArticle "art. 9.1" , "art. 9.2"  .
+
+ctrl:CBWControl_5_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 5.2 — Bedrijfscontinuïteit en crisisbeheer"@nl ,
+                "CBW control 5.2 — Business continuity and crisis management"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft een bedrijfscontinuiteitsplan en een herstelplan. De entiteit past ze toe in geval van een incident en test de plannen periodiek."""@nl ;
+    ext:hasUVInterpretation """4.2.2 Back-upplannen omvatten het volgende:
+a) hersteltijden;
+b) garantie dat back-ups volledig en nauwkeurig zijn, met inbegrip van configuratiegegevens en gegevens die zijn
+opgeslagen in cloudcomputingdiensten;
+c) opslag van back-ups (online of offline) op een veilige locatie of locaties die zich niet in hetzelfde netwerk
+bevinden als het systeem, en die op voldoende afstand liggen om geen schade te ondervinden van een
+calamiteit op de hoofdlocatie;
+d) passende fysieke en logische toegangscontroles tot back-ups, in overeenstemming met het classificatieniveau
+van de activa;
+e) herstel van gegevens uit back-ups;
+f) bewaartermijnen op basis van zakelijke en wettelijke vereisten."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.c" ;
+    ext:hasCbbArticle "art. 9.3" , "art. 9.4"  .
+
+ctrl:CBWControl_5_3
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 5.3 — Bedrijfscontinuïteit en crisisbeheer"@nl ,
+                "CBW control 5.3 — Business continuity and crisis management"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft een crisisbeheersingsplan en test en beoefent dit plan periodiek."""@nl ;
+    rdfs:comment """Het plan bevat ten minste:
+- de taken, verantwoordelijkheden en bevoegdheden voor het personeel ten tijde van crisis
+- een beschrijving van de communicatiemiddelen ten tijde van crisis 
+- wanneer passend, een beschrijving van de beschikbare noodvoorzieningen, waaronder het gebruik van beveiligde noodcommunicatiesystemen ten tijde van crisis."""@nl ;
+    ext:hasUVInterpretation """4.3.4. De relevante entiteiten testen, evalueren en, waar passend, actualiseren het crisisbeheersingsplan op gezette tijden of naar aanleiding van significante incidenten of significante wijzigingen in operaties of risico’s.
+
+4.3.2. De relevante entiteiten zorgen ervoor dat het crisisbeheersingsproces ten minste betrekking heeft op de volgende elementen:
+a) taken en verantwoordelijkheden voor het personeel en, waar passend, leveranciers en dienstverleners, met
+vermelding van de taakverdeling in crisissituaties, met inbegrip van specifiek te volgen stappen;
+b) passende communicatiemiddelen tussen de relevante entiteiten en de relevante bevoegde autoriteiten;
+c) toepassing van passende maatregelen om de veiligheid van de netwerk- en informatiesystemen in crisissituaties
+te waarborgen.
+Voor de toepassing van punt b) omvat de informatiestroom tussen de relevante entiteiten en de relevante bevoegde
+autoriteiten zowel verplichte mededelingen, zoals incidentverslagen en bijbehorende tijdschema’s, als niet-verplichte
+mededelingen."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.c" ;
+    ext:hasCbbArticle "art. 9.5"  .
+
+ctrl:CBWControl_6_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 6.1 — Beveiliging van de toeleveringsketen"@nl ,
+                "CBW control 6.1 — Supply chain security"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft beleid over de beveiliging en maatregelen van de toeleveringsketen. De entiteit bepaalt in dat beleid haar omgang met afhankelijkheden van de producten en diensten van haar rechtstreekse leveranciers en dienstverleners die invloed kunnen hebben op de beveiliging van haar netwerk- en informatiesystemen."""@nl ;
+    ext:hasUVInterpretation """5.1.2 De entiteit stelt criteria vast voor het selecteren en contracteren van leveranciers en dienstverleners. Die criteria omvatten: 
+a) de cyberbeveiligingspraktijken van de leveranciers en dienstverleners, met inbegrip van hun beveiligde ontwikkelingsprocedures;
+b) het vermogen van de leveranciers en dienstverleners om te voldoen aan de door de relevante entiteiten vastgestelde cyberbeveiligingsspecificaties;
+c) de algemene kwaliteit en veerkracht van ICT-producten en -diensten en de daarin vervatte maatregelen voor het beheer van cyberbeveiligingsrisico’s, met inbegrip van de risico’s en het classificatieniveau van de ICT-producten
+en -diensten;
+d) het vermogen van de relevante entiteiten om de leveringsbronnen te diversifiëren en de afhankelijkheid van verkopers te beperken, indien van toepassing.
+
+5.1.7 De entiteit evalueert periodiek het beleid. Ten behoeve hiervan zal de entiteit: 
+a) indien van toepassing, regelmatig toezicht houden op de verslagen over de uitvoering van de overeenkomsten inzake dienstverleningsniveau;
+b) incidenten met betrekking tot ICT-producten en -diensten van leveranciers en dienstverleners evalueren;
+c) de noodzaak van ongeplande evaluaties beoordelen en de bevindingen op begrijpelijke wijze documenteren;
+d) de risico’s van veranderingen in verband met ICT-producten en -diensten van leveranciers en dienstverleners analyseren en, waar passend, tijdig risicobeperkende maatregelen nemen."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.d" , "art. 21.4" ;
+    ext:hasCbbArticle "art. 10.1"  .
+
+ctrl:CBWControl_6_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 6.2 — Beveiliging van de toeleveringsketen"@nl ,
+                "CBW control 6.2 — Supply chain security"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit toetst periodiek of rechtstreekse (diensten)leveranciers voldoen aan de beveiligingseisen."""@nl ;
+    ext:hasUVInterpretation """5.1.4 De entiteit zorgt ervoor dat contracten met leveranciers, rekening houdend met het risico, het volgende specificeren: 
+a) cyberbeveiligingsvereisten voor de leveranciers of dienstverleners, met vastgestelde vereisten met betrekking tot de beveiliging bij de verwerving van ICT-diensten of ICT-producten;
+b) vereisten inzake risicobewustzijn, vaardigheden en opleiding en, waar passend, certificaten die van de werknemers van de leveranciers of dienstverleners worden verlangd;
+c) vereisten inzake de verificatie van de achtergrond van de werknemers van leveranciers en dienstverleners;
+d) een verplichting voor leveranciers en dienstverleners om de relevante entiteiten onverwijld in kennis te stellen van incidenten die een risico vormen voor de beveiliging van de netwerk- en informatiesystemen van die
+entiteiten;
+e) het recht op controle of het recht om auditverslagen te ontvangen;
+f) een verplichting voor leveranciers en dienstverleners om kwetsbaarheden aan te pakken die een risico vormen voor de beveiliging van de netwerk- en informatiesystemen van de relevante entiteiten;
+g) vereisten inzake uitbesteding en, indien de relevante entiteiten onderaanneming toestaan, cyberbeveiligings­ vereisten voor onderaannemers in overeenstemming met de in punt a) bedoelde cyberbeveiligingsvereisten;
+h) verplichtingen voor de leveranciers en dienstverleners bij beëindiging van het contract, zoals het verzamelen en verwijderen van de informatie die de leveranciers en dienstverleners bij de uitoefening van hun taken hebben
+verkregen.
+
+5.2 De entiteit houdt een register bij van directe leveranciers en dienstverleners, met inbegrip van a) contactpunten per directe leverancier en dienstverlener; b) een lijst van ICT-producten, -diensten en -processen die door de directe leverancier of dienstverlener aan de relevante entiteiten worden geleverd."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.d" ;
+    ext:hasCbbArticle "art. 10.2"  .
+
+ctrl:CBWControl_7_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 7.1 — Verwerven, ontwikkelen en onderhouden van informatiesystemen"@nl ,
+                "CBW control 7.1 — Acquisition, development and maintenance of information systems"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft, op basis van de beveilingseisen (zie 2.1), beleid voor het mitigeren en beheersen van risico’s die voortvloeien uit het verwerven van software, hardware of diensten die betrekking hebben op haar netwerk- en informatiesystemen."""@nl ;
+    rdfs:comment """De entiteit stelt de procedure en de eisen vast op basis op van de analyses uit het beleid over risicomanagement over de beveiliging van haar netwerk- en informatiesystemen (zie artikel 7). Deze eisen maken waar mogelijk deel uit van de overeenkomsten bij de verwerving van software, hardware en diensten.
+
+In het geval van onderhoud en beheer hebben de procedures ten minste betrekking op het configuratiebeheer en het veranderingsbeheer van de netwerk- en informatiesystemen."""@nl ;
+    ext:hasUVInterpretation """6.1.2 De procedures en processen voor verwerven van ICT-diensten of ICT-producten omvatten: 
+a) beveiligingsvoorschriften die van toepassing zijn op de aan te schaffen ICT-diensten of -producten;
+b) vereisten inzake beveiligingsupdates gedurende de gehele levensduur van de ICT-diensten of ICT-producten, of vervanging na het einde van de ondersteuningsperiode;
+c) informatie over de hardware- en softwarecomponenten die in de ICT-diensten of ICT-producten worden gebruikt;
+d) informatie over de uitgevoerde cyberbeveiligingsfuncties van de ICT-diensten of ICT-producten en de configuratie die nodig is voor de veilige werking ervan;
+e) de garantie dat de ICT-diensten of ICT-producten voldoen aan de beveiligingsvereisten overeenkomstig punt a);
+f) methoden om te valideren dat de geleverde ICT-diensten of ICT-producten aan de vermelde beveiligingseisen voldoen, alsmede documentatie van de resultaten van de validering."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.e" ;
+    ext:hasCbbArticle "art. 11.1"  .
+
+ctrl:CBWControl_7_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 7.2 — Verwerven, ontwikkelen en onderhouden van informatiesystemen"@nl ,
+                "CBW control 7.2 — Acquisition, development and maintenance of information systems"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft (indien van toepassing) processen en procedures voor de veilige ontwikkeling van haar netwerk- en informatiesystemen. Deze processen en procedures hebben betrekking op alle ontwikkelingsfasen van de netwerk- en informatiesystemen van de entiteit."""@nl ;
+    ext:hasUVInterpretation """6.2.2 De regels voor beveiligde ontwikkeling van netwerk- en informatiesystemen (of de uitbesteding daarvan) omvatten:
+a) een analyse uitvoeren van de beveiligingsvoorschriften in de specificatie- en ontwerpfase van elk ontwikkelingsof overnameproject dat door of namens die entiteiten wordt uitgevoerd;
+b) beginselen voor de engineering van veilige systemen en beginselen voor veilige codering toepassen op alle activiteiten voor de ontwikkeling van informatiesystemen, zoals het bevorderen van cyberbeveiliging-by-design of zero trust-architectuur;
+c) beveiligingsvoorschriften vaststellen met betrekking tot ontwikkelingsomgevingen;
+d) beveiligingstestprocessen vaststellen en toepassen in de ontwikkelingscyclus;
+e) gegevens over beveiligingstests op passende wijze selecteren, beschermen en beheren;
+f) testgegevens saneren en anonimiseren overeenkomstig de volgens punt 2.1 uitgevoerde risicobeoordeling"""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.e" ;
+    ext:hasCbbArticle "art. 11.2"  .
+
+ctrl:CBWControl_7_3
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 7.3 — Verwerven, ontwikkelen en onderhouden van informatiesystemen"@nl ,
+                "CBW control 7.3 — Acquisition, development and maintenance of information systems"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft processen en procedures voor het onderhoud en beheer van haar netwerk- en informatiesystemen. Deze processen en procedures hebben ten minste betrekking op het configuratiebeheer en het wijzigingsbeheer van de netwerk- en informatiesystemen van de entiteit."""@nl ;
+    ext:hasUVInterpretation """6.4.1. De relevante entiteiten passen procedures voor veranderingsbeheer toe om wijzigingen van netwerk- en informatie­ systemen te controleren. 
+
+6.5.1. De relevante entiteiten dragen zorg voor het vaststellen, uitvoeren en toepassen van een beleid en procedures voor beveiligingstests. 
+
+6.6.1 De entiteit zorgt ervoor dat a) beveiligingspatches worden toegepast binnen een redelijke termijn nadat zij beschikbaar zijn; b) beveiligingspatches worden getest voordat zij in productiesystemen worden toegepast; c) beveiligingspatches afkomstig zijn van betrouwbare bronnen en op integriteit worden gecontroleerd; d) er aanvullende maatregelen worden genomen en restrisico’s worden aanvaard in gevallen waarin een patch niet beschikbaar is of niet wordt toegepast conform haar beleid.
+
+6.7.1 De entiteit neemt passende maatregelen ten aanzien van de netwerkbeveiliging. Voor een overzicht van passende maatregelen zie artikel 6.7.2. 
+
+6.8.1 De entiteit zorgt voor segmentatie van systemen in netwerken of zones overeenkomstig de resultaten van de risicobeoordeling. Voor een overzicht van netwerk segmentatie maatregelen zie artikel 6.8.2.
+
+6.9.1. De entiteit beschermt de netwerk- en informatiesystemen tegen kwaadaardige en ongeoorloofde
+software (zoals malware). Daartoe implementeert de entiteit met name maatregelen om het gebruik van kwaadaardige en ongeoorloofde software op te sporen of te voorkomen. 
+
+6.10.1. De entiteit verkrijgt informatie over technische kwetsbaarheden in de netwerk- en informatie­
+systemen, evalueert haar blootstelling aan dergelijke kwetsbaarheden en nemen passende maatregelen om de kwetsbaarheden te beheren. Zie verder artikel 6.10.2 voor een overzicht."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.e" ;
+    ext:hasCbbArticle "art. 11.3"  .
+
+ctrl:CBWControl_8_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 8.1 — Cyberhygiëne en opleidingen"@nl ,
+                "CBW control 8.1 — Cyber hygiene and training"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit zorgt ervoor dat haar personeel en andere binnen de entiteit werkzame personen zich bewust zijn van de risico’s met betrekking tot de netwerk- en informatiesystemen van de entiteit en praktijken op het gebied van cyberhygiëne toepassen."""@nl ;
+    ext:hasUVInterpretation """8.1.1 De entiteit zorgt ervoor dat haar werknemers, met inbegrip van leden van bestuursorganen, maar ook directe leveranciers en dienstverleners zich bewust zijn van risico’s, op de hoogte zijn van het belang van cyberbeveiliging en praktijken op het gebied van cyberhygiëne toepassen."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.g" ;
+    ext:hasCbbArticle "art. 12.1"  .
+
+ctrl:CBWControl_8_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 8.2 — Cyberhygiëne en opleidingen"@nl ,
+                "CBW control 8.2 — Cyber hygiene and training"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit wijst het personeel en andere binnen de entiteit werkzame personen aan waarvan de rollen, verantwoordelijkheden en bevoegdheden vaardigheden en deskundigheid vereisen op het gebied van beveiliging van de netwerk- en informatiesystemen en zorgt ervoor dat zij regelmatig opleiding krijgen over de beveiliging van netwerk- en informatiesystemen."""@nl ;
+    ext:hasUVInterpretation """8.1.2 De entiteit biedt haar werknemers, met inbegrip van leden van bestuursorganen, maar ook directe leveranciers en dienstverleners een bewustmakingsprogramma aan dat op regelmatige tijdstippen wordt gepland, zodat de activiteiten worden herhaald en nieuwe werknemers er ook bij worden betrokken, wordt vastgesteld in overeenstemming met het beleid inzake netwerk- en informatiebeveiliging, themaspecifieke beleidsmaatregelen en relevante procedures inzake netwerk- en informatiebeveiliging en informatie bevat over relevante cyberdreigingen, de bestaande maatregelen voor het beheer van cyberbeveili­gingsrisico’s, contactpunten en middelen voor aanvullende informatie en advies over cyberbeveiligingsaange­
+legenheden, alsook praktijken op het gebied van cyberhygiëne voor gebruikers.
+8.1.3 Het bewustmakingsprogramma wordt, waar passend, getest op doeltreffendheid en geactualiseerd waar nodig. 
+8.2.2 De entiteit draagt zorg voor het opstellen en toepassen van een opleidingsprogramma in overeenstemming met het beleid inzake netwerk- en informatiebeveiliging, themaspecifieke beleidsmaatregelen en andere relevante procedures inzake netwerk- en informatiebeveiliging, waarin de opleidingsbehoeften voor bepaalde rollen en functies op basis van criteria zijn vastgelegd. 
+8.2.3: Dit opleidingsprogramma wordt periodiek beoordeelt op doeltreffendheid."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.g" ;
+    ext:hasCbbArticle "art. 12.2"  .
+
+ctrl:CBWControl_9_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 9.1 — Beleid over cryptografie"@nl ,
+                "CBW control 9.1 — Cryptography policy"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft beleid over het gebruik van cryptografie en heeft om dit beleid uit te voeren vastgestelde processen en procedures voor het gebruik van cryptografie."""@nl ;
+    rdfs:comment """In het beleid wordt in ieder geval uitgewerkt:
+a. in welke gevallen cryptografie ingezet wordt;
+b. in voorkomende gevallen welke typen encryptie worden gebruikt en de wijze waarop deze worden toegepast;
+c. wie binnen de entiteit verantwoordelijk zijn voor de implementatie van cryptografie; 
+d. wie binnen de entiteit verantwoordelijk zijn voor het sleutelbeheer."""@nl ;
+    ext:hasUVInterpretation """9.2 In het beleid en de procedures wordt het volgende vastgesteld: a) in overeenstemming met de classificatie van activa van de entiteit, het type, de sterkte en de kwaliteit van de cryptografische maatregelen die nodig zijn om de activa van de relevante entiteiten te beschermen, met inbegrip van inactieve gegevens en gegevens in transit b) de vast te stellen protocollen of families van protocollen, alsmede cryptografische algoritmen, versleutelingssterkte, cryptografische oplossingen en gebruikspraktijken die moeten worden goedgekeurd en die vereist zijn voor gebruik waar passend volgens een cryptoagility-benadering c) de benadering op het gebied van sleutelbeheer (zie aanvullende eisen 1 t/m 12)."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.h" ;
+    ext:hasCbbArticle "art. 13"  .
+
+ctrl:CBWControl_10_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 10.1 — Beveiligingsaspecten t.a.v. personeel"@nl ,
+                "CBW control 10.1 — Personnel security"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit wijst het personeel en andere binnen de entiteit werkzame personen aan die worden belast met rollen, verantwoordelijkheden en bevoegdheden met betrekking tot de beveiliging van haar netwerk- en informatiesystemen en evalueert deze aanwijzing periodiek.
+
+Daarnaast stelt de entiteit betrouwbaarheidseisen op waaraan haar personeel en andere binnen de entiteit werkzame personen moeten voldoen, voor zover deze passend en noodzakelijk zijn voor hun taakuitoefening met betrekking tot de beveiliging van de netwerk- en informatiesystemen van de entiteit."""@nl ;
+    ext:hasUVInterpretation """10.1.1 De entiteit zorgt ervoor dat haar werknemers en directe leveranciers en dienstverleners, waar van toepassing, hun verantwoorde­lijkheden op het gebied van beveiliging begrijpen en aanvaarden. 
+10.2.3 De entiteit evalueert op geplande tijdstippen en ten minste eenmaal per jaar de toewijzing van personeel aan specifieke rollen als bedoeld in punt 10.1.1 evenals haar verbintenis inzake personeel in dat opzicht. 
+10.2.1 De entiteit zorgt voor verificatie van de achtergrond van haar werknemers en, indien van toepassing, van directe leveranciers en dienstverleners indien dit noodzakelijk is voor hun rol, verantwoordelijkheden en bevoegdheden.
+10.2.3 De entiteit evalueert en, waar passend, actualiseert het beleid met geplande tussenpozen en werkt
+het indien nodig bij.
+10.3.1 & 10.3.2 De entiteit zorgt ervoor dat de verantwoordelijkheden en taken op het gebied van netwerk- en informatiebeveiliging die van kracht blijven na beëindiging of wijziging van het dienstverband van haar werknemers, contractueel worden vastgelegd en gehandhaafd. 
+10.4.1. De entiteit zorgt voor het opzetten, communiceren en onderhouden van een tuchtprocedure voor de
+behandeling van inbreuken op het beleid inzake netwerk- en informatiebeveiliging. Bij deze procedure wordt
+rekening gehouden met relevante wettelijke, statutaire, contractuele en zakelijke eisen."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.i" ;
+    ext:hasCbbArticle "art. 14"  .
+
+ctrl:CBWControl_11_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 11.1 — Beveiligingsaspecten t.a.v. toegangsbeleid"@nl ,
+                "CBW control 11.1 — Access control policy"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft logische en fysieke toegangsbeveiligingsbeleid. Het beleid omvat in ieder geval het uitgeven, monitoren, gebruiken, wijzigen en intrekken van identiteiten en autorisaties, en het beheer van identiteiten en autorisaties. 
+
+De entiteit controleert periodiek identiteiten, authenticatiemiddelen en autorisaties op noodzakelijkheid, juistheid en actualiteit en wijzigt deze indien nodig."""@nl ;
+    ext:hasUVInterpretation """11.1.2 Het bedoelde beleid a) omvat de toegang van personen, met inbegrip van personeel, bezoekers en externe entiteiten zoals leveranciers en dienstverleners; b) omvat de toegang van netwerk- en informatiesystemen; c) waarborgt dat alleen toegang wordt verleend aan gebruikers die naar behoren geauthenticeerd zijn.
+11.2.2 De entiteit, conform dit beleid: a) wijst toegangsrechten toe en trekken deze in op basis van de beginselen “need-to-know”, “least privilege” en scheiding van functies; b) zorgt ervoor dat de toegangsrechten bij beëindiging of verandering van baan dienovereenkomstig worden gewijzigd; c) zorgt ervoor dat de toegang tot netwerk- en informatiesystemen door de relevante personen wordt toegestaan; d) zorgt ervoor dat toegangsrechten op passende wijze betrekking hebben op toegang van derden, zoals bezoekers, leveranciers en dienstverleners, met name door de toegangsrechten te beperken in reikwijdte en duur; e) houdt een register bij van de verleende toegangsrechten; f) logt het beheer van toegangsrechten.
+11.3.2 Het beleid omvat voor het beheer van bevoorrechte accounts en systeembeheeraccounts a) sterke identificatie-, authenticatie-, zoals multifactorauthenticatie, en autorisatieprocedures b) specifieke accounts die uitsluitend voor systeembeheer worden gebruikt, zoals installatie, configuratie, beheer of onderhoud; c) individualisatie en beperking van de voorrechten op het gebied van systeembeheer zoveel als mogelijk; d) beperkingen dat systeembeheeraccounts alleen worden gebruikt om te verbinden met de systemen voor systeembeheer. 
+11.4.1 en 11.4.2: De entiteit beperkt en controleert het gebruik van systemen voor systeembeheer. Daartoe zullen a) systemen voor systeembeheer uitsluitend gebruiken voor systeembeheerdoeleinden en niet voor andere activiteiten;
+b) dergelijke systemen logisch scheiden van applicatiesoftware die niet voor systeembeheerdoeleinden wordt
+gebruikt; c) de toegang tot systemen voor systeembeheer beschermen door middel van authenticatie en encryptie.
+11.5 De entiteit beheert de volledige levenscyclus van identiteiten voor netwerk- en informatiesystemen en hun gebruikers. Hiervoor worden unieke identiteiten gecreëerd, gekoppeld aan individuele personen en actief gemonitord en gelogd. Gedeelde identiteiten worden uitsluitend toegestaan indien dit bedrijfsmatig of operationeel noodzakelijk is, onder expliciete goedkeuring en documentatie. Identiteiten worden periodiek geëvalueerd en onmiddellijk gedeactiveerd zodra ze niet langer benodigd zijn.
+11.6 De entiteit past beveiligde authenticatieprocedures en -technologieën toe, afgestemd op toegangsbeperkingen en het toegangscontrolebeleid. De sterkte van authenticatie wordt bepaald op basis van de classificatie van de toegankelijke activa. Authenticatiegegevens worden vertrouwelijk beheerd, inclusief instructies aan medewerkers over zorgvuldig gebruik. Authenticatiegegevens worden bij aanvang, periodiek en bij een vermoeden van compromittering gewijzigd. Gebruikersaccounts worden geblokkeerd na een vastgesteld aantal mislukte pogingen en inactieve sessies worden automatisch beëindigd. Voor bevoorrechte accounts gelden aparte toegangsgegevens. De entiteit maakt zoveel mogelijk gebruik van geavanceerde en unieke authenticatiemethoden en evalueert de authenticatieprocedures en -technologieën periodiek.
+11.7 De entiteit past, afhankelijk van de classificatie van de activa, passende multifactor- of continue authenticatiemechanismen toe voor toegang tot netwerk- en informatiesystemen. De sterkte van de gebruikte authenticatie is in verhouding tot de gevoeligheid van de systemen en informatie waartoe toegang wordt verkregen."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.i" ;
+    ext:hasCbbArticle "art. 15"  .
+
+ctrl:CBWControl_12_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 12.1 — Beveiligingsaspecten t.a.v. beheer van assets"@nl ,
+                "CBW control 12.1 — Asset management security"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft beleid voor het beheer van haar assets die zij voor haar werkzaamheden of voor het verlenen van haar diensten gebruikt en heeft om dit beleid uit te voeren processen en procedures voor het beheer van assets."""@nl ;
+    rdfs:comment """Denk hierbij aan configuratiemanagement. 
+Het beleid omvat in ieder geval:
+a. een systeem om assets op verschillende niveaus te kunnen classificeren, indien van toepassing op basis van de eisen voor vertrouwelijkheid, integriteit en beschikbaarheid;
+b. regels voor het aanvaardbaar gebruik van assets."""@nl ;
+    ext:hasUVInterpretation """6.3.1. & 6.3.2 De relevante entiteiten nemen passende maatregelen om configuraties vast te stellen, te documenteren, uit te voeren, te monitoren en veilig te stellen met inbegrip van beveiligingsconfiguraties van hardware, software, diensten en netwerken.
+12.1 De entiteit hanteert een systematiek om alle activa binnen haar netwerk- en informatiesystemen te classificeren op basis van vertrouwelijkheid, integriteit, authenticiteit en beschikbaarheid. Het classificatieniveau weerspiegelt de gevoeligheid, bedrijfswaarde, risico’s en het kritieke karakter van de activa. Beschikbaarheidsvereisten sluiten aan op de continuïteits- en hersteldoelstellingen. Classificaties worden periodiek herzien en geactualiseerd.
+12.2 De entiteit stelt een beleid op voor de veilige behandeling van activa, inclusief informatie, in lijn met het bredere beleid voor netwerk- en informatiebeveiliging. Dit beleid dekt de volledige levenscyclus van activa – van verwerving tot vernietiging – en bevat richtlijnen voor veilig gebruik, opslag, vervoer en verwijdering. Overdracht van activa gebeurt op een wijze die past bij het type activa. Het beleid wordt gecommuniceerd aan alle betrokkenen en periodiek geëvalueerd en aangepast bij relevante wijzigingen of incidenten.
+12.3 De entiteit hanteert een beleid voor het beheer van verwijderbare opslagmedia, dat van toepassing is op personeel en derden die met dergelijke media omgaan binnen of verbonden met de netwerk- en informatiesystemen. Dit beleid verbiedt technisch het gebruik van verwijderbare media, tenzij hiervoor een geldige reden bestaat. Het bevat maatregelen voor het uitschakelen van self-executables, het scannen op malware, en de bescherming van gegevens in opslag en tijdens transport. Waar passend wordt encryptie toegepast. Het beleid wordt regelmatig geëvalueerd en aangepast bij relevante wijzigingen of incidenten."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.i" ;
+    ext:hasCbbArticle "art. 16.1" , "art. 16.2" , "art. 16.3"  .
+
+ctrl:CBWControl_12_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 12.2 — Beveiligingsaspecten t.a.v. beheer van assets"@nl ,
+                "CBW control 12.2 — Asset management security"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit heeft een volledige en actuele inventaris van haar assests en houdt deze bij."""@nl ;
+    ext:hasUVInterpretation """12.4 De entiteit stelt een volledige, actuele en nauwkeurige inventaris op van alle activa, waaronder netwerk- en informatiesystemen, ondersteunende middelen, verrichtingen en diensten. De inventaris is afgestemd op de behoeften van de entiteit en wordt traceerbaar bijgewerkt bij wijzigingen. De actualiteit en volledigheid van de inventaris worden periodiek geëvalueerd en onderhouden, inclusief documentatie van wijzigingsgeschiedenis.
+12.5 De entiteit past procedures toe die waarborgen dat alle activa onder beheer van medewerkers bij beëindiging van het dienstverband worden teruggegeven, verwijderd of op andere wijze afgehandeld. Deze handelingen worden gedocumenteerd. Indien fysieke teruggave of verwijdering niet mogelijk is, wordt gegarandeerd dat de betreffende activa geen toegang meer hebben tot de netwerk- en informatiesystemen van de entiteit."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 21.3.i" ;
+    ext:hasCbbArticle "art. 16.4"  .
+
+ctrl:CBWControl_13_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 13.1 — Attenderingen, adviezen en informatie"@nl ,
+                "CBW control 13.1 — Notifications, advisories and information"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit verwerkt alle adviezen en informatie over relevante kwetsbaarheden of cyberdreigingen die relevant zijn voor de beveiliging van haar netwerk- en informatiesystemen en beoordeelt op basis daarvan of zij aanpassingen of aanvulling moet toepassen op de maatregelen die van kracht zijn voor het uitvoeren van de zorgplicht ."""@nl ;
+    rdfs:comment """Indien de essentiële entiteit of belangrijke entiteit door relevante partijen, waaronder CSIRT’s, bevoegde autoriteiten, andere betrokken overheidsinstanties of rechtstreekse leveranciers of dienstverleners, gericht wordt geattendeerd op de voor de beveiliging van haar netwerk- en informatiesystemen relevante kwetsbaarheden of cyberdreigingen, of van die partijen gerichte beveiligingsadviezen of dreigingsinformatie ontvangt die relevant zijn voor de beveiliging van haar netwerk- en informatiesystemen, beoordeelt zij of op basis daarvan aanpassingen of aanvullingen nodig zijn van de maatregelen die nodig zijn ter uitvoering van artikel 21 van de wet. De entiteit legt de uitkomsten van die beoordeling schriftelijk vast."""@nl ;
+    ext:hasUVInterpretation """6.10.1. De entiteit verkrijgt informatie over technische kwetsbaarheden in de netwerk- en informatie­
+systemen, evalueert haar blootstelling aan dergelijke kwetsbaarheden en nemen passende maatregelen om de kwetsbaarheden te beheren. Zie verder artikel 6.10.2 voor een overzicht."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbbArticle "art. 17"  .
+
+ctrl:CBWControl_14_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 14.1 — Eisen aan de training, de trainer en het certificaat en doel van de training"@nl ,
+                "CBW control 14.1 — Training, trainer, certificate and purpose requirements"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """Het bestuur van de entiteit is, naar aanleiding van een training, in staat om risico’s voor de beveiliging van netwerk- en informatiesystemen te kunnen identificeren en de gevolgen daarvan voor de diensten die door de entiteit worden verleend te kunnen beoordelen. Daarnaast zorgt de training dat ieder bestuurslid in staat is om risicobeheersmaatregelen op het gebied van cyberbeveiliging en de gevolgen daarvan voor de diensten die door de entiteit worden verleend te kunnen beoordelen."""@nl ;
+    rdfs:comment """De training, behandelt in ieder geval de volgende onderwerpen: 
+a. de soorten risico’s voor netwerk- en informatiesystemen; 
+b. risicomanagementprocessen; 
+c. risicobeoordelingsmethodiek;
+d. risicobeheersingsmaatregelen op het gebied van cyberbeveiliging (zoals ook vastgelegd in beveiligingsbeleid).
+
+Het certificaat van de training, bevat in ieder geval: 
+a. de naam van het lid van het bestuur van de essentiële entiteit of belangrijke entiteit; 
+b. de datum of data waarop de training is gevolgd; 
+c. de behandelde onderwerpen in de training; en 
+d. de naam van de aanbieder van de training. 
+Het certificaat van de training is opgesteld in de Nederlandse taal of de Engelse taal."""@nl ;
+    ext:hasUVInterpretation """Dit onderwerp valt buiten de scope van de Uitvoeringsverordening, hier dient de Cbb gevolgd te worden."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 24.2" ;
+    ext:hasCbbArticle "art. 21" , "art. 22" , "art. 23"  .
+
+ctrl:CBWControl_14_2
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 14.2 — Eisen aan de training, de trainer en het certificaat en doel van de training"@nl ,
+                "CBW control 14.2 — Training, trainer, certificate and purpose requirements"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """Ieder lid van het bestuur van een entiteit voldoet binnen twee jaar aan de trainingseisen. Daarnaast houdt ieder bestuurslid de kennis aantoonbaar actueel."""@nl ;
+    ext:hasUVInterpretation """Dit onderwerp valt buiten de scope van de Uitvoeringsverordening, hier dient de Cbb gevolgd te worden."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 24.3" , "art. 24.4"  .
+
+ctrl:CBWControl_15_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 15.1 — Meldplicht significante incidenten"@nl ,
+                "CBW control 15.1 — Significant incident reporting"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit meldt ieder significant incident aan haar CSIRT en de bevoegde autoriteit."""@nl ;
+    rdfs:comment """Een incident is significant als het:
+a. een ernstige operationele verstoring van de diensten of financiële verliezen voor de betrokken entiteit veroorzaakt of kan veroorzaken; of 
+b. andere entiteiten heeft getroffen of kan treffen door aanzienlijke materiële of immateriële schade te veroorzaken.
+
+Vrijwillige meldplicht: elke entiteit heeft de mogelijke om vrijwillig een melding van een incident, bijna-incident of cyberdreiging te doen bij haar CSIRT of bevoegde autoriteit."""@nl ;
+    ext:hasUVInterpretation """Art. 3.1 Een incident wordt voor de toepassing van artikel 23, lid 3, van Richtlijn (EU) 2022/2555 met betrekking tot de
+relevante entiteiten als significant beschouwd indien aan een of meer van de volgende criteria is voldaan:
+a) het incident heeft voor de relevante entiteit direct financieel verlies veroorzaakt of kan verlies veroorzaken dat hoger is dan 500 000 EUR of meer dan 5 % van de totale jaaromzet van de relevante entiteit in het voorgaande boekjaar, indien dat lager is;
+b) het incident heeft het uitlekken van bedrijfsgeheimen als bedoeld in artikel 2, punt 1, van Richtlijn (EU) 2016/943
+van de relevante entiteit veroorzaakt of kan dit veroorzaken;
+c) het incident heeft de dood van een natuurlijke persoon veroorzaakt of kan dit veroorzaken;
+d) het incident heeft aanzienlijke schade aan de gezondheid van een natuurlijke persoon veroorzaakt of kan dit
+veroorzaken;
+e) er heeft een succesvolle, vermoedelijk kwaadwillige en ongeoorloofde toegang tot netwerk- en informatiesystemen
+plaatsgevonden, die ernstige operationele verstoringen kan veroorzaken;
+f) het incident voldoet aan de criteria van artikel 4;
+g) het incident voldoet aan een of meer van de criteria van de artikelen 5 tot en met 14.
+
+Art 4. Incidenten die afzonderlijk niet als een significant incident in de zin van artikel 3 worden beschouwd, worden gezamenlijk als één significant incident beschouwd indien zij aan alle volgende criteria voldoen:
+a) zij hebben zich ten minste tweemaal binnen zes maanden voorgedaan;
+b) zij hebben dezelfde kennelijk onderliggende oorzaak;
+c) zij voldoen gezamenlijk aan de criteria van artikel 3, lid 1, punt a)."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 25.1" , "art. 25.2" , "art. 26.1" , "art. 33"  .
+
+ctrl:CBWControl_16_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 16.1 — Vroegtijdige waarschuwing"@nl ,
+                "CBW control 16.1 — Early warning"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit meldt de significante incidenten in drie fasen: 1) de eerste (vroegtijdige) melding vindt onverwijld plaats of, indien dat niet mogelijk is, binnen 24 uur nadat zij kennis heeft gekregen van het significante incident. 2) een tussentijdse update over de ontwikkelingen van het incident (binnen 72 uur na het indienen van de eerste melding, ook als de status of de afhandeling van het incident niet is gewijzigd of als de reguliere activiteiten zijn hervat) en 3) het eindverslag met een analyse van de grondoorzaak en vervolgacties (uiterlijk een maand na het indienen van de tussentijdse update). Indien het incident op het moment van dit rapport nog voortduurt wordt dit verslag een tussentijdsverslag. In dit geval volgt het eindverslag binnen een maand nadat het incident is afgehandeld."""@nl ;
+    rdfs:comment """Bij de vroegtijdige melding verstrekt de entiteit de volgende informatie: indicatie of het incident vermoedelijk door een onrechtmatige of kwaadwillige handeling is veroorzaakt, of het incident grensoverschrijdende gevolgen kan hebben, de contactgegevens van de functionaris die verantwoordelijk is voor de melding, het vermoedelijke tijdstip van de aanvang van het significante incident, zo mogelijk, een beschrijving van de aard en op dat moment merkbare gevolgen van het incident, zo mogelijk, een prognose van de hersteltijd, en zo mogelijk de door de entiteit genomen of voorgenomen maatregelen om de gevolgen van het significante incident te beperken of herhaling hiervan te voorkomen.
+
+Bij de tussentijdse update geeft de entiteit een update op de informatie uit de vroegtijdige melding en, indien van toepassing, een initiële beoordeling van het significante
+incident, met inbegrip van de ernst en de gevolgen ervan, de indicatoren voor aantasting
+en alle beschikbare informatie die het CSIRT en de bevoegde autoriteit in staat stelt om eventuele grensoverschrijdende gevolgen van het incident te bepalen.
+
+In het eindverslag is het volgende opgenomen: een gedetailleerde beschrijving van het incident, de ernst en de gevolgen ervan, het soort bedreiging of de grondoorzaak die waarschijnlijk tot het incident heeft geleid, toegepaste en lopende risicobeperkende maatregelen en in voorkomend geval, de grensoverschrijdende gevolgen van het
+incident."""@nl ;
+    ext:hasUVInterpretation """Dit onderwerp valt buiten de scope van de Uitvoeringsverordening, hier dient de Cbb gevolgd te worden."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 26" , "art. 27" , "art. 29" ;
+    ext:hasCbbArticle "art. 25"  .
+
+ctrl:CBWControl_17_1
+    rdf:type ctrl:CBWControl , owl:NamedIndividual ;
+    rdfs:label "CBW-control 17.1 — Nadere regels over meldingen"@nl ,
+                "CBW control 17.1 — Detailed rules on notifications"@en ;
+    ctrl:belongsToFramework fw:CBW ;
+    ext:hasControlStatement """De entiteit brengt, in het geval van een significant incident, de ontvangers van haar diensten zo snel mogelijk op de hoogte wanneer het incident een nadelige invloed kan hebben op de dienstverlening. Daarnaast deelt de entiteit mee welke maatregelen deze ontvangers kunnen nemen in reactie op de dreiging."""@nl ;
+    ext:hasUVInterpretation """Dit onderwerp valt buiten de scope van de Uitvoeringsverordening, hier dient de Cbb gevolgd te worden."""@nl ;
+    ext:sourceAttribution ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0 ;
+    ext:hasCbwArticle "art. 30" ;
+    ext:hasCbbArticle "art. 27" , "art. 29"  .
+
+# Einde Stap 3 — v4.4.0 Fase 2

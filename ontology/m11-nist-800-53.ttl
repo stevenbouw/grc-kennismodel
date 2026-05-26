@@ -1,0 +1,1582 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix csf:     <https://grc.example.org/csf/> .
+
+# =============================================================================
+# GRC Ontologie — Module M11: NIST SP 800-53 Rev5
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m11-nist-800-53>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M11 — NIST SP 800-53 Rev5"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# === M11: NIST SP 800-53 Rev5 ===
+
+ext:NIST_CF_AC rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "AC - Toegangsbeveiliging"@nl ;
+    rdfs:label "AC - Access Control"@en ;
+    ext:controlFamilyCode "AC" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_AC_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AC-1"@en ;
+    ctrl:hasControlID "AC-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AC ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_15 , ctrl:ISO27002_5_18 , ctrl:ISO27002_8_02 , ctrl:ISO27002_8_03 .
+
+ext:NIST_AC_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AC-2"@en ;
+    ctrl:hasControlID "AC-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AC ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_15 , ctrl:ISO27002_5_18 , ctrl:ISO27002_8_02 , ctrl:ISO27002_8_03 .
+
+ext:NIST_AC_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AC-3"@en ;
+    ctrl:hasControlID "AC-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AC ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_15 , ctrl:ISO27002_5_18 , ctrl:ISO27002_8_02 , ctrl:ISO27002_8_03 .
+
+ext:NIST_AC_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AC-5"@en ;
+    ctrl:hasControlID "AC-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AC ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_15 , ctrl:ISO27002_5_18 , ctrl:ISO27002_8_02 , ctrl:ISO27002_8_03 .
+
+ext:NIST_AC_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AC-6"@en ;
+    ctrl:hasControlID "AC-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AC ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_15 , ctrl:ISO27002_5_18 , ctrl:ISO27002_8_02 , ctrl:ISO27002_8_03 .
+
+ext:NIST_AC_17 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AC-17"@en ;
+    ctrl:hasControlID "AC-17" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AC ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_15 , ctrl:ISO27002_5_18 , ctrl:ISO27002_8_02 , ctrl:ISO27002_8_03 .
+
+ext:NIST_CF_AT rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "AT - Bewustzijn en training"@nl ;
+    rdfs:label "AT - Awareness and Training"@en ;
+    ext:controlFamilyCode "AT" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_AT_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AT-1"@en ;
+    ctrl:hasControlID "AT-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AT ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_03 .
+
+ext:NIST_AT_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AT-2"@en ;
+    ctrl:hasControlID "AT-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AT ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_03 .
+
+ext:NIST_AT_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AT-3"@en ;
+    ctrl:hasControlID "AT-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AT ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_03 .
+
+ext:NIST_AT_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AT-4"@en ;
+    ctrl:hasControlID "AT-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AT ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_03 .
+
+ext:NIST_CF_AU rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "AU - Audit en verantwoording"@nl ;
+    rdfs:label "AU - Audit and Accountability"@en ;
+    ext:controlFamilyCode "AU" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_AU_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AU-1"@en ;
+    ctrl:hasControlID "AU-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AU ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 , ctrl:ISO27002_8_17 .
+
+ext:NIST_AU_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AU-2"@en ;
+    ctrl:hasControlID "AU-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AU ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 , ctrl:ISO27002_8_17 .
+
+ext:NIST_AU_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AU-3"@en ;
+    ctrl:hasControlID "AU-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AU ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 , ctrl:ISO27002_8_17 .
+
+ext:NIST_AU_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AU-6"@en ;
+    ctrl:hasControlID "AU-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AU ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 , ctrl:ISO27002_8_17 .
+
+ext:NIST_AU_9 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AU-9"@en ;
+    ctrl:hasControlID "AU-9" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AU ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 , ctrl:ISO27002_8_17 .
+
+ext:NIST_AU_12 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "AU-12"@en ;
+    ctrl:hasControlID "AU-12" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_AU ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 , ctrl:ISO27002_8_17 .
+
+ext:NIST_CF_CA rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "CA - Beoordeling autorisatie bewaking"@nl ;
+    rdfs:label "CA - Assessment Authorization and Monitoring"@en ;
+    ext:controlFamilyCode "CA" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_CA_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CA-1"@en ;
+    ctrl:hasControlID "CA-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 .
+
+ext:NIST_CA_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CA-2"@en ;
+    ctrl:hasControlID "CA-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 .
+
+ext:NIST_CA_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CA-3"@en ;
+    ctrl:hasControlID "CA-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 .
+
+ext:NIST_CA_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CA-7"@en ;
+    ctrl:hasControlID "CA-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 .
+
+ext:NIST_CA_9 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CA-9"@en ;
+    ctrl:hasControlID "CA-9" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 .
+
+ext:NIST_CF_CM rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "CM - Configuratiebeheer"@nl ;
+    rdfs:label "CM - Configuration Management"@en ;
+    ext:controlFamilyCode "CM" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_CM_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CM-1"@en ;
+    ctrl:hasControlID "CM-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CM ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_09 , ctrl:ISO27002_5_09 .
+
+ext:NIST_CM_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CM-2"@en ;
+    ctrl:hasControlID "CM-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CM ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_09 , ctrl:ISO27002_5_09 .
+
+ext:NIST_CM_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CM-3"@en ;
+    ctrl:hasControlID "CM-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CM ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_09 , ctrl:ISO27002_5_09 .
+
+ext:NIST_CM_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CM-6"@en ;
+    ctrl:hasControlID "CM-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CM ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_09 , ctrl:ISO27002_5_09 .
+
+ext:NIST_CM_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CM-7"@en ;
+    ctrl:hasControlID "CM-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CM ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_09 , ctrl:ISO27002_5_09 .
+
+ext:NIST_CM_8 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CM-8"@en ;
+    ctrl:hasControlID "CM-8" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CM ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_09 , ctrl:ISO27002_5_09 .
+
+ext:NIST_CF_CP rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "CP - Contingentyplanning"@nl ;
+    rdfs:label "CP - Contingency Planning"@en ;
+    ext:controlFamilyCode "CP" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_CP_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CP-1"@en ;
+    ctrl:hasControlID "CP-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CP ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 .
+
+ext:NIST_CP_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CP-2"@en ;
+    ctrl:hasControlID "CP-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CP ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 .
+
+ext:NIST_CP_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CP-4"@en ;
+    ctrl:hasControlID "CP-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CP ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 .
+
+ext:NIST_CP_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CP-6"@en ;
+    ctrl:hasControlID "CP-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CP ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 .
+
+ext:NIST_CP_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CP-7"@en ;
+    ctrl:hasControlID "CP-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CP ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 .
+
+ext:NIST_CP_9 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "CP-9"@en ;
+    ctrl:hasControlID "CP-9" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_CP ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 , ctrl:ISO27002_8_13 .
+
+ext:NIST_CF_IA rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "IA - Identificatie en authenticatie"@nl ;
+    rdfs:label "IA - Identification and Authentication"@en ;
+    ext:controlFamilyCode "IA" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_IA_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IA-1"@en ;
+    ctrl:hasControlID "IA-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_16 , ctrl:ISO27002_5_17 , ctrl:ISO27002_8_05 .
+
+ext:NIST_IA_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IA-2"@en ;
+    ctrl:hasControlID "IA-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_16 , ctrl:ISO27002_5_17 , ctrl:ISO27002_8_05 .
+
+ext:NIST_IA_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IA-3"@en ;
+    ctrl:hasControlID "IA-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_16 , ctrl:ISO27002_5_17 , ctrl:ISO27002_8_05 .
+
+ext:NIST_IA_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IA-5"@en ;
+    ctrl:hasControlID "IA-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_16 , ctrl:ISO27002_5_17 , ctrl:ISO27002_8_05 .
+
+ext:NIST_IA_8 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IA-8"@en ;
+    ctrl:hasControlID "IA-8" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_16 , ctrl:ISO27002_5_17 , ctrl:ISO27002_8_05 .
+
+ext:NIST_CF_IR rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "IR - Incidentrespons"@nl ;
+    rdfs:label "IR - Incident Response"@en ;
+    ext:controlFamilyCode "IR" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_IR_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IR-1"@en ;
+    ctrl:hasControlID "IR-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 .
+
+ext:NIST_IR_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IR-2"@en ;
+    ctrl:hasControlID "IR-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 .
+
+ext:NIST_IR_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IR-4"@en ;
+    ctrl:hasControlID "IR-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 .
+
+ext:NIST_IR_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IR-5"@en ;
+    ctrl:hasControlID "IR-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 .
+
+ext:NIST_IR_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IR-6"@en ;
+    ctrl:hasControlID "IR-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 .
+
+ext:NIST_IR_8 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "IR-8"@en ;
+    ctrl:hasControlID "IR-8" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_IR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 , ctrl:ISO27002_5_26 .
+
+ext:NIST_CF_MA rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "MA - Onderhoud"@nl ;
+    rdfs:label "MA - Maintenance"@en ;
+    ext:controlFamilyCode "MA" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_MA_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MA-1"@en ;
+    ctrl:hasControlID "MA-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MA ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_13 .
+
+ext:NIST_MA_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MA-2"@en ;
+    ctrl:hasControlID "MA-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MA ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_13 .
+
+ext:NIST_MA_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MA-3"@en ;
+    ctrl:hasControlID "MA-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MA ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_13 .
+
+ext:NIST_MA_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MA-5"@en ;
+    ctrl:hasControlID "MA-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MA ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_13 .
+
+ext:NIST_CF_MP rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "MP - Mediabescherming"@nl ;
+    rdfs:label "MP - Media Protection"@en ;
+    ext:controlFamilyCode "MP" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_MP_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MP-1"@en ;
+    ctrl:hasControlID "MP-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MP ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_10 , ctrl:ISO27002_7_14 .
+
+ext:NIST_MP_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MP-2"@en ;
+    ctrl:hasControlID "MP-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MP ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_10 , ctrl:ISO27002_7_14 .
+
+ext:NIST_MP_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MP-4"@en ;
+    ctrl:hasControlID "MP-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MP ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_10 , ctrl:ISO27002_7_14 .
+
+ext:NIST_MP_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "MP-6"@en ;
+    ctrl:hasControlID "MP-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_MP ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_10 , ctrl:ISO27002_7_14 .
+
+ext:NIST_CF_PE rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "PE - Fysieke en omgevingsbeveiliging"@nl ;
+    rdfs:label "PE - Physical and Environmental Protection"@en ;
+    ext:controlFamilyCode "PE" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_PE_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PE-1"@en ;
+    ctrl:hasControlID "PE-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PE ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_01 , ctrl:ISO27002_7_02 , ctrl:ISO27002_7_11 .
+
+ext:NIST_PE_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PE-2"@en ;
+    ctrl:hasControlID "PE-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PE ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_01 , ctrl:ISO27002_7_02 , ctrl:ISO27002_7_11 .
+
+ext:NIST_PE_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PE-3"@en ;
+    ctrl:hasControlID "PE-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PE ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_01 , ctrl:ISO27002_7_02 , ctrl:ISO27002_7_11 .
+
+ext:NIST_PE_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PE-6"@en ;
+    ctrl:hasControlID "PE-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PE ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_01 , ctrl:ISO27002_7_02 , ctrl:ISO27002_7_11 .
+
+ext:NIST_PE_9 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PE-9"@en ;
+    ctrl:hasControlID "PE-9" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PE ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_01 , ctrl:ISO27002_7_02 , ctrl:ISO27002_7_11 .
+
+ext:NIST_PE_12 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PE-12"@en ;
+    ctrl:hasControlID "PE-12" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PE ;
+    ext:mappedToISO27002 ctrl:ISO27002_7_01 , ctrl:ISO27002_7_02 , ctrl:ISO27002_7_11 .
+
+ext:NIST_CF_PL rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "PL - Planning"@nl ;
+    rdfs:label "PL - Planning"@en ;
+    ext:controlFamilyCode "PL" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_PL_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PL-1"@en ;
+    ctrl:hasControlID "PL-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PL ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_01 .
+
+ext:NIST_PL_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PL-2"@en ;
+    ctrl:hasControlID "PL-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PL ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_01 .
+
+ext:NIST_PL_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PL-4"@en ;
+    ctrl:hasControlID "PL-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PL ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_01 .
+
+ext:NIST_CF_PM rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "PM - Programmabeheer"@nl ;
+    rdfs:label "PM - Program Management"@en ;
+    ext:controlFamilyCode "PM" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_PM_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PM-1"@en ;
+    ctrl:hasControlID "PM-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PM ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_02 , ctrl:ISO27002_5_04 .
+
+ext:NIST_PM_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PM-2"@en ;
+    ctrl:hasControlID "PM-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PM ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_02 , ctrl:ISO27002_5_04 .
+
+ext:NIST_PM_9 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PM-9"@en ;
+    ctrl:hasControlID "PM-9" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PM ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_02 , ctrl:ISO27002_5_04 .
+
+ext:NIST_PM_10 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PM-10"@en ;
+    ctrl:hasControlID "PM-10" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PM ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_02 , ctrl:ISO27002_5_04 .
+
+ext:NIST_CF_PS rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "PS - Personeelsbeveiliging"@nl ;
+    rdfs:label "PS - Personnel Security"@en ;
+    ext:controlFamilyCode "PS" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_PS_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PS-1"@en ;
+    ctrl:hasControlID "PS-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PS ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_01 , ctrl:ISO27002_6_02 , ctrl:ISO27002_6_05 .
+
+ext:NIST_PS_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PS-2"@en ;
+    ctrl:hasControlID "PS-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PS ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_01 , ctrl:ISO27002_6_02 , ctrl:ISO27002_6_05 .
+
+ext:NIST_PS_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PS-3"@en ;
+    ctrl:hasControlID "PS-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PS ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_01 , ctrl:ISO27002_6_02 , ctrl:ISO27002_6_05 .
+
+ext:NIST_PS_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PS-4"@en ;
+    ctrl:hasControlID "PS-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PS ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_01 , ctrl:ISO27002_6_02 , ctrl:ISO27002_6_05 .
+
+ext:NIST_PS_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PS-6"@en ;
+    ctrl:hasControlID "PS-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PS ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_01 , ctrl:ISO27002_6_02 , ctrl:ISO27002_6_05 .
+
+ext:NIST_PS_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PS-7"@en ;
+    ctrl:hasControlID "PS-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PS ;
+    ext:mappedToISO27002 ctrl:ISO27002_6_01 , ctrl:ISO27002_6_02 , ctrl:ISO27002_6_05 .
+
+ext:NIST_CF_PT rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "PT - PII-verwerking"@nl ;
+    rdfs:label "PT - PII Processing and Transparency"@en ;
+    ext:controlFamilyCode "PT" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_PT_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PT-1"@en ;
+    ctrl:hasControlID "PT-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PT ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_34 .
+
+ext:NIST_PT_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PT-2"@en ;
+    ctrl:hasControlID "PT-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PT ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_34 .
+
+ext:NIST_PT_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PT-3"@en ;
+    ctrl:hasControlID "PT-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PT ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_34 .
+
+ext:NIST_PT_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "PT-5"@en ;
+    ctrl:hasControlID "PT-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_PT ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_34 .
+
+ext:NIST_CF_RA rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "RA - Risicobeoordeling"@nl ;
+    rdfs:label "RA - Risk Assessment"@en ;
+    ext:controlFamilyCode "RA" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_RA_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "RA-1"@en ;
+    ctrl:hasControlID "RA-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_RA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_07 , ctrl:ISO27002_8_08 .
+
+ext:NIST_RA_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "RA-2"@en ;
+    ctrl:hasControlID "RA-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_RA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_07 , ctrl:ISO27002_8_08 .
+
+ext:NIST_RA_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "RA-3"@en ;
+    ctrl:hasControlID "RA-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_RA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_07 , ctrl:ISO27002_8_08 .
+
+ext:NIST_RA_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "RA-5"@en ;
+    ctrl:hasControlID "RA-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_RA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_07 , ctrl:ISO27002_8_08 .
+
+ext:NIST_RA_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "RA-7"@en ;
+    ctrl:hasControlID "RA-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_RA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_07 , ctrl:ISO27002_8_08 .
+
+ext:NIST_CF_SA rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "SA - Systeem- en dienstverwerving"@nl ;
+    rdfs:label "SA - System and Services Acquisition"@en ;
+    ext:controlFamilyCode "SA" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_SA_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SA-1"@en ;
+    ctrl:hasControlID "SA-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_20 , ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 .
+
+ext:NIST_SA_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SA-3"@en ;
+    ctrl:hasControlID "SA-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_20 , ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 .
+
+ext:NIST_SA_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SA-4"@en ;
+    ctrl:hasControlID "SA-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_20 , ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 .
+
+ext:NIST_SA_8 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SA-8"@en ;
+    ctrl:hasControlID "SA-8" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_20 , ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 .
+
+ext:NIST_SA_9 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SA-9"@en ;
+    ctrl:hasControlID "SA-9" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_20 , ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 .
+
+ext:NIST_SA_11 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SA-11"@en ;
+    ctrl:hasControlID "SA-11" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SA ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_20 , ctrl:ISO27002_8_25 , ctrl:ISO27002_8_26 .
+
+ext:NIST_CF_SC rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "SC - Systeem- en communicatiebeveiliging"@nl ;
+    rdfs:label "SC - System and Communications Protection"@en ;
+    ext:controlFamilyCode "SC" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_SC_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-1"@en ;
+    ctrl:hasControlID "SC-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_SC_5 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-5"@en ;
+    ctrl:hasControlID "SC-5" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_SC_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-7"@en ;
+    ctrl:hasControlID "SC-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_SC_8 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-8"@en ;
+    ctrl:hasControlID "SC-8" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_SC_12 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-12"@en ;
+    ctrl:hasControlID "SC-12" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_SC_13 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-13"@en ;
+    ctrl:hasControlID "SC-13" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_SC_28 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SC-28"@en ;
+    ctrl:hasControlID "SC-28" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SC ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_20 , ctrl:ISO27002_8_21 , ctrl:ISO27002_8_22 , ctrl:ISO27002_8_24 .
+
+ext:NIST_CF_SI rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "SI - Systeem- en informatie-integriteit"@nl ;
+    rdfs:label "SI - System and Information Integrity"@en ;
+    ext:controlFamilyCode "SI" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_SI_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SI-1"@en ;
+    ctrl:hasControlID "SI-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SI ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_8_16 .
+
+ext:NIST_SI_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SI-2"@en ;
+    ctrl:hasControlID "SI-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SI ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_8_16 .
+
+ext:NIST_SI_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SI-3"@en ;
+    ctrl:hasControlID "SI-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SI ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_8_16 .
+
+ext:NIST_SI_4 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SI-4"@en ;
+    ctrl:hasControlID "SI-4" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SI ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_8_16 .
+
+ext:NIST_SI_7 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SI-7"@en ;
+    ctrl:hasControlID "SI-7" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SI ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_8_16 .
+
+ext:NIST_SI_10 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SI-10"@en ;
+    ctrl:hasControlID "SI-10" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SI ;
+    ext:mappedToISO27002 ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_8_16 .
+
+ext:NIST_CF_SR rdf:type ext:ControlFamily , owl:NamedIndividual ;
+    rdfs:label "SR - Toeleveringsketenrisicobeheer"@nl ;
+    rdfs:label "SR - Supply Chain Risk Management"@en ;
+    ext:controlFamilyCode "SR" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 .
+
+ext:NIST_SR_1 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SR-1"@en ;
+    ctrl:hasControlID "SR-1" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 , ctrl:ISO27002_5_22 .
+
+ext:NIST_SR_2 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SR-2"@en ;
+    ctrl:hasControlID "SR-2" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 , ctrl:ISO27002_5_22 .
+
+ext:NIST_SR_3 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SR-3"@en ;
+    ctrl:hasControlID "SR-3" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 , ctrl:ISO27002_5_22 .
+
+ext:NIST_SR_6 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SR-6"@en ;
+    ctrl:hasControlID "SR-6" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 , ctrl:ISO27002_5_22 .
+
+ext:NIST_SR_8 rdf:type ext:NISTControl , owl:NamedIndividual ;
+    rdfs:label "SR-8"@en ;
+    ctrl:hasControlID "SR-8" ;
+    ctrl:definedInFramework fw:NIST_SP_800_53_R5 ;
+    ctrl:hasControlDomain ext:NIST_CF_SR ;
+    ext:mappedToISO27002 ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 , ctrl:ISO27002_5_22 .
+
+# =============================================================================
+# v4.5.0 Fase 3 — Stap 6: SKOS-mappings SP 800-53 Rev 5.2.0 → CSF 2.0
+# Datum: 2026-05-19
+# Bron: NIST CSF 2.0 Reference Tool export csf2.xlsx (gegenereerd 2026-05-19)
+#       Bron-attribuering: ext:Attr_NIST_CSF_2_0_Reference_Tool_2026 (Public Domain)
+# Match-type: skos:closeMatch (Aanpassing 2 — uniform; geen relationship-types in bron)
+# Patroon: csf:<CSFComponent> skos:closeMatch ext:NIST_<XX>_<N>
+# =============================================================================
+# Bron-attribuering via blok-comment (consistent met v4.4.0 Stap 5 + v4.5.0 Stap 5).
+# Geen per-triple ext:sourceAttribution-link.
+#
+# Aantal unieke (csf,target)-paren in dit blok: 491
+# Verdeling CSF-niveau: F=0, C=3, S=488
+
+
+# --- 491 skos:closeMatch (gegroepeerd per CSF-subject) ---
+
+csf:DE_AE_02 skos:closeMatch
+        ext:NIST_AU_6 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_IR_4 ,
+        ext:NIST_SI_4 .
+
+csf:DE_AE_03 skos:closeMatch
+        ext:NIST_AU_6 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_5 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_SI_4 .
+
+csf:DE_AE_04 skos:closeMatch
+        ext:NIST_PM_9 .
+
+csf:DE_AE_06 skos:closeMatch
+        ext:NIST_IR_4 .
+
+csf:DE_AE_07 skos:closeMatch
+        ext:NIST_RA_3 .
+
+csf:DE_AE_08 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 .
+
+csf:DE_CM_01 skos:closeMatch
+        ext:NIST_AC_2 ,
+        ext:NIST_AU_12 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_CM_3 ,
+        ext:NIST_SC_5 ,
+        ext:NIST_SC_7 ,
+        ext:NIST_SI_4 .
+
+csf:DE_CM_02 skos:closeMatch
+        ext:NIST_CA_7 ,
+        ext:NIST_PE_3 ,
+        ext:NIST_PE_6 .
+
+csf:DE_CM_03 skos:closeMatch
+        ext:NIST_AC_2 ,
+        ext:NIST_AU_12 ,
+        ext:NIST_CA_7 .
+
+csf:DE_CM_06 skos:closeMatch
+        ext:NIST_CA_7 ,
+        ext:NIST_PS_7 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SI_4 .
+
+csf:DE_CM_09 skos:closeMatch
+        ext:NIST_AU_12 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_CM_3 ,
+        ext:NIST_CM_6 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SI_7 .
+
+csf:GV_OC_02 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_6 ,
+        ext:NIST_SR_8 .
+
+csf:GV_OC_03 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SR_1 .
+
+csf:GV_OC_05 skos:closeMatch
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_9 .
+
+csf:GV_OV_01 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PM_9 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SR_1 ,
+        ext:NIST_SR_6 .
+
+csf:GV_OV_02 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SR_6 .
+
+csf:GV_OV_03 skos:closeMatch
+        ext:NIST_RA_7 ,
+        ext:NIST_SR_6 .
+
+csf:GV_PO_01 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SR_1 .
+
+csf:GV_PO_02 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SR_1 .
+
+csf:GV_RM_01 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SR_2 .
+
+csf:GV_RM_02 skos:closeMatch
+        ext:NIST_PM_9 .
+
+csf:GV_RM_03 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SR_2 .
+
+csf:GV_RM_04 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_SR_2 .
+
+csf:GV_RM_05 skos:closeMatch
+        ext:NIST_PM_9 .
+
+csf:GV_RM_06 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_3 .
+
+csf:GV_RM_07 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_3 .
+
+csf:GV_RR_01 skos:closeMatch
+        ext:NIST_PM_2 .
+
+csf:GV_RR_02 skos:closeMatch
+        ext:NIST_PM_2 .
+
+csf:GV_RR_04 skos:closeMatch
+        ext:NIST_PS_1 ,
+        ext:NIST_PS_7 .
+
+csf:GV_SC_01 skos:closeMatch
+        ext:NIST_SR_2 ,
+        ext:NIST_SR_3 .
+
+csf:GV_SC_02 skos:closeMatch
+        ext:NIST_SR_2 ,
+        ext:NIST_SR_3 .
+
+csf:GV_SC_03 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PM_9 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SR_1 ,
+        ext:NIST_SR_2 ,
+        ext:NIST_SR_3 .
+
+csf:GV_SC_04 skos:closeMatch
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_6 .
+
+csf:GV_SC_05 skos:closeMatch
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_6 .
+
+csf:GV_SC_06 skos:closeMatch
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_6 .
+
+csf:GV_SC_07 skos:closeMatch
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_6 .
+
+csf:GV_SC_08 skos:closeMatch
+        ext:NIST_CP_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_2 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_8 .
+
+csf:GV_SC_09 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_2 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_6 .
+
+csf:GV_SC_10 skos:closeMatch
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_5 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_2 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_6 .
+
+csf:ID_AM_01 skos:closeMatch
+        ext:NIST_CM_8 .
+
+csf:ID_AM_02 skos:closeMatch
+        ext:NIST_CM_8 ,
+        ext:NIST_SA_9 .
+
+csf:ID_AM_03 skos:closeMatch
+        ext:NIST_CA_3 ,
+        ext:NIST_CA_9 ,
+        ext:NIST_PL_2 .
+
+csf:ID_AM_04 skos:closeMatch
+        ext:NIST_SA_9 ,
+        ext:NIST_SR_2 .
+
+csf:ID_AM_05 skos:closeMatch
+        ext:NIST_RA_2 ,
+        ext:NIST_RA_3 .
+
+csf:ID_AM_08 skos:closeMatch
+        ext:NIST_MA_2 ,
+        ext:NIST_PL_2 ,
+        ext:NIST_SA_3 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_8 .
+
+csf:ID_IM_01 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CA_2 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_CP_2 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PL_2 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_5 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SA_11 ,
+        ext:NIST_SA_8 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SI_2 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SR_1 .
+
+csf:ID_IM_02 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CA_2 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_CP_2 ,
+        ext:NIST_CP_4 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PL_2 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_5 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SA_11 ,
+        ext:NIST_SA_8 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SI_2 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SR_1 .
+
+csf:ID_IM_03 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AT_1 ,
+        ext:NIST_AU_1 ,
+        ext:NIST_CA_1 ,
+        ext:NIST_CA_2 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_CM_1 ,
+        ext:NIST_CP_1 ,
+        ext:NIST_CP_2 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IR_1 ,
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_MA_1 ,
+        ext:NIST_MP_1 ,
+        ext:NIST_PE_1 ,
+        ext:NIST_PL_1 ,
+        ext:NIST_PL_2 ,
+        ext:NIST_PM_1 ,
+        ext:NIST_PS_1 ,
+        ext:NIST_PT_1 ,
+        ext:NIST_RA_1 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_5 ,
+        ext:NIST_RA_7 ,
+        ext:NIST_SA_1 ,
+        ext:NIST_SA_11 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SA_8 ,
+        ext:NIST_SC_1 ,
+        ext:NIST_SI_1 ,
+        ext:NIST_SI_2 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SR_1 .
+
+csf:ID_IM_04 skos:closeMatch
+        ext:NIST_CP_2 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_PL_2 ,
+        ext:NIST_SR_2 .
+
+csf:ID_RA_01 skos:closeMatch
+        ext:NIST_CA_2 ,
+        ext:NIST_CA_7 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_5 ,
+        ext:NIST_SI_4 .
+
+csf:ID_RA_03 skos:closeMatch
+        ext:NIST_RA_3 .
+
+csf:ID_RA_04 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_2 ,
+        ext:NIST_RA_3 .
+
+csf:ID_RA_05 skos:closeMatch
+        ext:NIST_RA_2 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_7 .
+
+csf:ID_RA_06 skos:closeMatch
+        ext:NIST_PM_9 ,
+        ext:NIST_RA_7 .
+
+csf:ID_RA_07 skos:closeMatch
+        ext:NIST_CA_7 ,
+        ext:NIST_CM_3 .
+
+csf:ID_RA_08 skos:closeMatch
+        ext:NIST_RA_5 .
+
+csf:ID_RA_09 skos:closeMatch
+        ext:NIST_SA_11 ,
+        ext:NIST_SA_4 ,
+        ext:NIST_SI_7 ,
+        ext:NIST_SR_6 .
+
+csf:ID_RA_10 skos:closeMatch
+        ext:NIST_SR_6 .
+
+csf:PR_AA_01 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AC_2 ,
+        ext:NIST_IA_1 ,
+        ext:NIST_IA_2 ,
+        ext:NIST_IA_3 ,
+        ext:NIST_IA_5 ,
+        ext:NIST_IA_8 .
+
+csf:PR_AA_03 skos:closeMatch
+        ext:NIST_IA_2 ,
+        ext:NIST_IA_3 ,
+        ext:NIST_IA_5 ,
+        ext:NIST_IA_8 .
+
+csf:PR_AA_05 skos:closeMatch
+        ext:NIST_AC_1 ,
+        ext:NIST_AC_17 ,
+        ext:NIST_AC_2 ,
+        ext:NIST_AC_3 ,
+        ext:NIST_AC_5 ,
+        ext:NIST_AC_6 .
+
+csf:PR_AA_06 skos:closeMatch
+        ext:NIST_PE_2 ,
+        ext:NIST_PE_3 ,
+        ext:NIST_PE_6 .
+
+csf:PR_AT_01 skos:closeMatch
+        ext:NIST_AT_2 ,
+        ext:NIST_AT_3 .
+
+csf:PR_AT_02 skos:closeMatch
+        ext:NIST_AT_3 .
+
+csf:PR_DS_01 skos:closeMatch
+        ext:NIST_CA_3 ,
+        ext:NIST_CP_9 ,
+        ext:NIST_SC_12 ,
+        ext:NIST_SC_13 ,
+        ext:NIST_SC_28 ,
+        ext:NIST_SC_7 ,
+        ext:NIST_SI_3 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SI_7 .
+
+csf:PR_DS_02 skos:closeMatch
+        ext:NIST_CA_3 ,
+        ext:NIST_SC_12 ,
+        ext:NIST_SC_13 ,
+        ext:NIST_SC_7 ,
+        ext:NIST_SC_8 ,
+        ext:NIST_SI_3 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SI_7 .
+
+csf:PR_DS_10 skos:closeMatch
+        ext:NIST_AC_2 ,
+        ext:NIST_AC_3 ,
+        ext:NIST_AU_9 ,
+        ext:NIST_CA_3 ,
+        ext:NIST_CP_9 ,
+        ext:NIST_SA_8 ,
+        ext:NIST_SC_13 ,
+        ext:NIST_SC_7 ,
+        ext:NIST_SI_10 ,
+        ext:NIST_SI_3 ,
+        ext:NIST_SI_4 ,
+        ext:NIST_SI_7 .
+
+csf:PR_DS_11 skos:closeMatch
+        ext:NIST_CP_6 ,
+        ext:NIST_CP_9 .
+
+csf:PR_IR_01 skos:closeMatch
+        ext:NIST_AC_3 ,
+        ext:NIST_SC_5 ,
+        ext:NIST_SC_7 .
+
+csf:PR_IR_02 skos:closeMatch
+        ext:NIST_CP_2 ,
+        ext:NIST_PE_12 ,
+        ext:NIST_PE_9 .
+
+csf:PR_IR_03 skos:closeMatch
+        ext:NIST_SA_8 .
+
+csf:PR_IR_04 skos:closeMatch
+        ext:NIST_CP_6 ,
+        ext:NIST_CP_7 ,
+        ext:NIST_PM_9 .
+
+csf:PR_PS_01 skos:closeMatch
+        ext:NIST_CM_1 ,
+        ext:NIST_CM_2 ,
+        ext:NIST_CM_3 ,
+        ext:NIST_CM_6 ,
+        ext:NIST_CM_7 ,
+        ext:NIST_CM_8 .
+
+csf:PR_PS_02 skos:closeMatch
+        ext:NIST_SI_2 ,
+        ext:NIST_SI_7 .
+
+csf:PR_PS_04 skos:closeMatch
+        ext:NIST_AU_12 ,
+        ext:NIST_AU_2 ,
+        ext:NIST_AU_3 ,
+        ext:NIST_AU_6 .
+
+csf:PR_PS_06 skos:closeMatch
+        ext:NIST_SA_11 ,
+        ext:NIST_SA_3 ,
+        ext:NIST_SA_8 .
+
+csf:RC_CO_03 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_6 ,
+        ext:NIST_SR_8 .
+
+csf:RC_CO_04 skos:closeMatch
+        ext:NIST_CP_2 ,
+        ext:NIST_IR_4 .
+
+csf:RC_IncidentRecoveryPlanExecution skos:closeMatch
+        ext:NIST_CP_4 .
+
+csf:RC_RP_01 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 .
+
+csf:RC_RP_02 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 .
+
+csf:RC_RP_03 skos:closeMatch
+        ext:NIST_CP_2 ,
+        ext:NIST_CP_4 ,
+        ext:NIST_CP_9 .
+
+csf:RC_RP_04 skos:closeMatch
+        ext:NIST_IR_1 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_PM_9 .
+
+csf:RC_RP_06 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 .
+
+csf:RS_AN_03 skos:closeMatch
+        ext:NIST_IR_4 .
+
+csf:RS_AN_06 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_6 .
+
+csf:RS_AN_07 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_6 .
+
+csf:RS_AN_08 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_RA_3 ,
+        ext:NIST_RA_7 .
+
+csf:RS_CO_02 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_6 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_8 .
+
+csf:RS_CO_03 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_6 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_8 .
+
+csf:RS_IncidentManagement skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 .
+
+csf:RS_MA_01 skos:closeMatch
+        ext:NIST_IR_6 ,
+        ext:NIST_IR_8 ,
+        ext:NIST_SR_3 ,
+        ext:NIST_SR_8 .
+
+csf:RS_MA_02 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_5 ,
+        ext:NIST_IR_6 .
+
+csf:RS_MA_03 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_5 ,
+        ext:NIST_IR_6 .
+
+csf:RS_MA_04 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_5 ,
+        ext:NIST_IR_6 .
+
+csf:RS_MA_05 skos:closeMatch
+        ext:NIST_IR_4 ,
+        ext:NIST_IR_8 .
+
+csf:RS_MI_01 skos:closeMatch
+        ext:NIST_IR_4 .
+
+csf:RS_MI_02 skos:closeMatch
+        ext:NIST_IR_4 .

@@ -1,0 +1,774 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix asset:   <https://grc.example.org/asset/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M4: Roles & RACI
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m04-roles>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M4 — Roles & RACI"@nl ,
+               "GRC Ontology Module M4 — Roles & RACI"@en ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+roles:Actor
+    rdf:type owl:Class ;
+    rdfs:label "Actor"@en , "Actor"@nl ;
+    rdfs:comment
+        "Any agent (person, organisational unit or external party) that can hold a role within the GRC programme."@en ,
+        "Elke actor (persoon, organisatorische eenheid of externe partij) die een rol kan hebben binnen het GRC-programma."@nl .
+
+roles:Person
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Actor ;
+    rdfs:label "Person"@en , "Persoon"@nl ;
+    rdfs:comment "An individual human actor within or associated with the organisation."@en ,
+                 "Een individuele menselijke actor binnen of geassocieerd met de organisatie."@nl .
+
+roles:OrganisationalUnit
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Actor ;
+    rdfs:label "Organisational Unit"@en , "Organisatorische eenheid"@nl ;
+    rdfs:comment "A department, team, directorate or other formal organisational grouping."@en ,
+                 "Een afdeling, team, directoraat of andere formele organisatorische groepering."@nl .
+
+roles:ExternalParty
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Actor ;
+    rdfs:label "External Party"@en , "Externe partij"@nl ;
+    rdfs:comment "A supplier, contractor, regulatory body or other party outside the organisation."@en ,
+                 "Een leverancier, aannemer, toezichthouder of andere partij buiten de organisatie."@nl .
+
+# Disjointness
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( roles:Person roles:OrganisationalUnit roles:ExternalParty ) .
+
+# -----------------------------------------------------------------------------
+# 1.2 Rol-klassen
+# -----------------------------------------------------------------------------
+
+roles:Role
+    rdf:type owl:Class ;
+    rdfs:label "Role"@en , "Rol"@nl ;
+    rdfs:seeAlso asset:HumanAsset ;
+    rdfs:comment
+        "Roles are held by persons. The architectural typology of persons-as-asset resides in M18 (asset:HumanAsset). M04 models what a role is and which RACI relations apply; M18 models persons as asset type."@en ,
+        "Rollen worden bekleed door personen. De architecturale typologie van personen-als-asset staat in M18 (asset:HumanAsset). M04 modelleert wat een rol is en welke RACI-relaties gelden; M18 modelleert mensen als asset-type."@nl .
+
+roles:GovernanceRole
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Role ;
+    rdfs:label "Governance Role"@en , "Bestuursrol"@nl ;
+    rdfs:comment "Roles with authority to set direction, approve policies and accept residual risk."@en ,
+                 "Rollen met bevoegdheid om richting te geven, beleid goed te keuren en restrisico's te aanvaarden."@nl .
+
+roles:ManagementRole
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Role ;
+    rdfs:label "Management Role"@en , "Managementrol"@nl ;
+    rdfs:comment "Roles responsible for implementing and operating GRC processes."@en ,
+                 "Rollen verantwoordelijk voor het implementeren en uitvoeren van GRC-processen."@nl .
+
+roles:SpecialistRole
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Role ;
+    rdfs:label "Specialist Role"@en , "Specialistrol"@nl ;
+    rdfs:comment "Expert advisory and technical roles (e.g. security architect, privacy officer)."@en ,
+                 "Deskundige adviserende en technische rollen (bijv. beveiligingsarchitect, privacyfunctionaris)."@nl .
+
+roles:OwnerRole
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Role ;
+    rdfs:label "Owner Role"@en , "Eigenaarsrol"@nl ;
+    rdfs:comment "Roles that hold formal ownership and accountability for assets, processes or risks."@en ,
+                 "Rollen die formeel eigenaarschap en verantwoording hebben voor bedrijfsmiddelen, processen of risico's."@nl .
+
+roles:OperationalRole
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Role ;
+    rdfs:label "Operational Role"@en , "Operationele rol"@nl ;
+    rdfs:comment "Roles involved in day-to-day execution of security and compliance tasks."@en ,
+                 "Rollen betrokken bij de dagelijkse uitvoering van beveiligings- en compliancetaken."@nl .
+
+roles:AuditRole
+    rdf:type owl:Class ;
+    rdfs:subClassOf roles:Role ;
+    rdfs:label "Audit / Oversight Role"@en , "Audit- / toezichtrol"@nl ;
+    rdfs:comment "Independent roles providing assurance, audit and oversight."@en ,
+                 "Onafhankelijke rollen die assurance, audit en toezicht bieden."@nl .
+
+# Disjointness between role categories
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( roles:GovernanceRole roles:ManagementRole roles:SpecialistRole roles:OwnerRole roles:OperationalRole roles:AuditRole ) .
+
+# -----------------------------------------------------------------------------
+# 1.3 Verantwoordelijkheid-klassen
+# -----------------------------------------------------------------------------
+
+roles:Responsibility
+    rdf:type owl:Class ;
+    rdfs:label "Responsibility"@en , "Verantwoordelijkheid"@nl ;
+    rdfs:comment "A duty assigned to a role to perform or oversee a specific GRC activity."@en ,
+                 "Een taak toegewezen aan een rol om een specifieke GRC-activiteit uit te voeren of te bewaken."@nl .
+
+roles:Accountability
+    rdf:type owl:Class ;
+    rdfs:label "Accountability"@en , "Eindverantwoordelijkheid"@nl ;
+    rdfs:comment "The ultimate obligation of a role for the outcome of a GRC activity. Only one actor may be accountable (A in RACI)."@en ,
+                 "De ultieme verplichting van een rol voor de uitkomst van een GRC-activiteit. Slechts één actor kan eindverantwoordelijk zijn (A in RACI)."@nl .
+
+roles:GRCActivity
+    rdf:type owl:Class ;
+    rdfs:label "GRC Activity"@en , "GRC-activiteit"@nl ;
+    rdfs:comment "A task, process or decision within the GRC programme to which RACI assignments are made."@en ,
+                 "Een taak, proces of beslissing binnen het GRC-programma waaraan RACI-toewijzingen worden gedaan."@nl .
+
+roles:RACIAssignment
+    rdf:type owl:Class ;
+    rdfs:label "RACI Assignment"@en , "RACI-toewijzing"@nl ;
+    rdfs:comment "A reified assignment linking a Role to a GRCActivity with a specific RACI type (R/A/C/I)."@en ,
+                 "Een gereïficeerde koppeling tussen een Rol en een GRC-activiteit met een specifiek RACI-type (R/A/C/I)."@nl .
+
+roles:RACIType
+    rdf:type owl:Class ;
+    rdfs:label "RACI Type"@en , "RACI-type"@nl ;
+    rdfs:comment "The type of RACI assignment: Responsible, Accountable, Consulted, Informed."@en ,
+                 "Het type RACI-toewijzing: Responsible, Accountable, Consulted, Informed."@nl .
+
+# =============================================================================
+# SECTIE 2 – OBJECT PROPERTIES
+# =============================================================================
+
+# --- Rolkoppelingen ----------------------------------------------------------
+
+roles:hasRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Actor ;
+    rdfs:range roles:Role ;
+    rdfs:label "has role"@en , "heeft rol"@nl ;
+    rdfs:comment "An actor holds a specific role."@en ,
+                 "Een actor bekleedt een specifieke rol."@nl .
+
+roles:reportsTo
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:Role ;
+    rdfs:label "reports to"@en , "rapporteert aan"@nl ;
+    rdfs:comment "Hierarchical reporting relationship between roles."@en ,
+                 "Hiërarchische rapportagerelatie tussen rollen."@nl .
+
+roles:advisesRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:Role ;
+    rdfs:label "advises"@en , "adviseert"@nl ;
+    rdfs:comment "An advisory (functional) relationship between roles."@en ,
+                 "Een adviserende (functionele) relatie tussen rollen."@nl .
+
+roles:delegatesTo
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:Role ;
+    rdfs:label "delegates to"@en , "delegeert aan"@nl .
+
+# --- RACI-semantiek ----------------------------------------------------------
+
+roles:isResponsibleFor
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:GRCActivity ;
+    rdfs:label "is responsible for (R)"@en , "is uitvoerend verantwoordelijk voor (R)"@nl ;
+    rdfs:comment "RACI-R: The role performs the activity. Multiple roles can share R."@en ,
+                 "RACI-R: De rol voert de activiteit uit. Meerdere rollen kunnen R delen."@nl .
+
+roles:isAccountableFor
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:GRCActivity ;
+    rdfs:label "is accountable for (A)"@en , "is eindverantwoordelijk voor (A)"@nl ;
+    rdfs:comment "RACI-A: The role is ultimately answerable. Exactly one role per activity."@en ,
+                 "RACI-A: De rol is uiteindelijk verantwoordelijk. Precies één rol per activiteit."@nl .
+
+roles:isConsultedFor
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:GRCActivity ;
+    rdfs:label "is consulted for (C)"@en , "wordt geconsulteerd voor (C)"@nl ;
+    rdfs:comment "RACI-C: The role provides expert input; two-way communication."@en ,
+                 "RACI-C: De rol levert deskundige input; tweerichtingscommunicatie."@nl .
+
+roles:isInformedAbout
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:GRCActivity ;
+    rdfs:label "is informed about (I)"@en , "wordt geïnformeerd over (I)"@nl ;
+    rdfs:comment "RACI-I: The role receives information after decisions are made; one-way."@en ,
+                 "RACI-I: De rol ontvangt informatie na besluitvorming; één richting."@nl .
+
+# --- Eigenaarskoppelingen ----------------------------------------------------
+
+roles:isAssetOwnerOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range risk:Asset ;
+    rdfs:label "is asset owner of"@en , "is bedrijfsmiddeleigenaar van"@nl .
+
+roles:isRiskOwnerOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range risk:Risk ;
+    rdfs:label "is risk owner of"@en , "is risico-eigenaar van"@nl .
+
+roles:isProcessOwnerOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range roles:GRCActivity ;
+    rdfs:label "is process owner of"@en , "is proceseigenaar van"@nl .
+
+# --- Wettelijke grondslag ----------------------------------------------------
+
+roles:mandatedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range fw:GRCFramework ;
+    rdfs:label "mandated by"@en , "verplicht gesteld door"@nl ;
+    rdfs:comment "The role is formally required by a legal instrument or standard."@en ,
+                 "De rol is formeel vereist door een wettelijk instrument of norm."@nl .
+
+roles:performsControl
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "performs control"@en , "voert beheersmaatregel uit"@nl .
+
+# =============================================================================
+# SECTIE 3 – DATA PROPERTIES
+# =============================================================================
+
+roles:hasRoleID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range xsd:string ;
+    rdfs:label "has role ID"@en , "heeft rol-ID"@nl .
+
+roles:hasRoleTitle
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has role title"@en , "heeft roltitel"@nl .
+
+roles:hasRoleDescription
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has role description"@en , "heeft rolbeschrijving"@nl .
+
+roles:isMandatoryUnderDutchLaw
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain roles:Role ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is mandatory under Dutch law"@en , "verplicht op basis van Nederlandse wetgeving"@nl .
+
+roles:hasActivityID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain roles:GRCActivity ;
+    rdfs:range xsd:string ;
+    rdfs:label "has activity ID"@en , "heeft activiteits-ID"@nl .
+
+roles:hasActivityTitle
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain roles:GRCActivity ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has activity title"@en , "heeft activiteitstitel"@nl .
+
+# =============================================================================
+# SECTIE 4 – ABOX: RACI-TYPE INDIVIDUEN
+# =============================================================================
+
+roles:R_Responsible rdf:type roles:RACIType ;
+    rdfs:label "Responsible (R)"@en , "Uitvoerend verantwoordelijk (R)"@nl ;
+    rdfs:comment "Does the work. Can be shared."@en , "Voert het werk uit. Kan worden gedeeld."@nl .
+
+roles:A_Accountable rdf:type roles:RACIType ;
+    rdfs:label "Accountable (A)"@en , "Eindverantwoordelijk (A)"@nl ;
+    rdfs:comment "Ultimately answerable. Exactly one per activity."@en ,
+                 "Uiteindelijk verantwoordelijk. Precies één per activiteit."@nl .
+
+roles:C_Consulted rdf:type roles:RACIType ;
+    rdfs:label "Consulted (C)"@en , "Geconsulteerd (C)"@nl ;
+    rdfs:comment "Two-way communication, provides expertise."@en ,
+                 "Tweerichtingscommunicatie, levert expertise."@nl .
+
+roles:I_Informed rdf:type roles:RACIType ;
+    rdfs:label "Informed (I)"@en , "Geïnformeerd (I)"@nl ;
+    rdfs:comment "One-way communication, kept up to date."@en ,
+                 "Eénrichtingscommunicatie, wordt op de hoogte gehouden."@nl .
+
+# =============================================================================
+# SECTIE 5 – ABOX: ROLLEN (Named Individuals)
+# =============================================================================
+
+# ---- BESTUURSLAAG (Governance) ----------------------------------------------
+
+roles:R_Bestuur
+    rdf:type roles:GovernanceRole ;
+    roles:hasRoleID "GOV-01" ;
+    roles:hasRoleTitle "Bestuur / Directie"@nl ;
+    roles:hasRoleTitle "Board / Executive Management"@en ;
+    roles:hasRoleDescription "Hoogste bestuursorgaan; eindverantwoordelijk voor informatiebeveiliging conform NIS2 Art.20 en BIO 2.0."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:NIS2_Directive , fw:CBW , fw:BIO_2_0 .
+
+roles:R_SecretarisDirecteur
+    rdf:type roles:GovernanceRole ;
+    roles:hasRoleID "GOV-02" ;
+    roles:hasRoleTitle "Secretaris-Generaal / Algemeen Directeur"@nl ;
+    roles:hasRoleTitle "Secretary-General / Director-General"@en ;
+    roles:hasRoleDescription "Hoogste ambtelijke functionaris; draagt eindverantwoordelijkheid voor informatiebeveiliging binnen de organisatie conform BIO 2.0 overheidsmaatregelen."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:BIO_2_0 , fw:VIR_2007 ;
+    roles:reportsTo roles:R_Bestuur .
+
+# ---- CIO-STELSEL ------------------------------------------------------------
+
+roles:R_CIO
+    rdf:type roles:ManagementRole ;
+    roles:hasRoleID "CIO-01" ;
+    roles:hasRoleTitle "Chief Information Officer (CIO)"@en ;
+    roles:hasRoleTitle "Chief Information Officer (CIO)"@nl ;
+    roles:hasRoleDescription "Verantwoordelijk voor het ICT-beleid en de informatiehuishouding van de organisatie. Formele rol conform Besluit CIO-stelsel Rijksdienst."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:BesluitCIOStelsel ;
+    roles:reportsTo roles:R_SecretarisDirecteur .
+
+roles:R_CISO
+    rdf:type roles:SpecialistRole ;
+    roles:hasRoleID "CIO-02" ;
+    roles:hasRoleTitle "Chief Information Security Officer (CISO)"@en ;
+    roles:hasRoleTitle "Chief Information Security Officer (CISO)"@nl ;
+    roles:hasRoleDescription "Verantwoordelijk voor het informatiebeveiligingsbeleid, ISMS, risicobeheerprogramma en compliance. Adviseert CIO en bestuur. ISO 27001:2022 §5.3."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:ISO_IEC_27001_2022 ;
+    roles:reportsTo roles:R_CIO ;
+    roles:advisesRole roles:R_SecretarisDirecteur .
+
+# ---- BVA-STELSEL ------------------------------------------------------------
+
+roles:R_BVA
+    rdf:type roles:SpecialistRole ;
+    roles:hasRoleID "BVA-01" ;
+    roles:hasRoleTitle "Beveiligingsambtenaar (BVA)"@nl ;
+    roles:hasRoleTitle "Security Officer (BVA)"@en ;
+    roles:hasRoleDescription "Wettelijk verplichte beveiligingsfunctionaris conform Besluit BVA-stelsel Rijksdienst. Verantwoordelijk voor de beveiliging van gerubriceerde informatie (VIRBI 2025) en de coördinatie van informatiebeveiliging."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:BesluitBVAStelsel , fw:VIRBI_2025 ;
+    roles:reportsTo roles:R_SecretarisDirecteur ;
+    roles:advisesRole roles:R_CIO .
+
+roles:R_ABVA
+    rdf:type roles:SpecialistRole ;
+    roles:hasRoleID "BVA-02" ;
+    roles:hasRoleTitle "Adjunct-Beveiligingsambtenaar (ABVA)"@nl ;
+    roles:hasRoleTitle "Deputy Security Officer (ABVA)"@en ;
+    roles:hasRoleDescription "Ondersteunt de BVA; kan BVA-taken uitvoeren bij afwezigheid."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:BesluitBVAStelsel ;
+    roles:reportsTo roles:R_BVA .
+
+# ---- BVC — BEVEILIGINGSCOÖRDINATOR ------------------------------------------
+# Grondslag: Besluit BVA-stelsel Rijksdienst 2021, art. 6
+# Onderscheid: BVC (BVA-stelsel, dienstonderdeel-niveau) ≠ CISO (CIO-stelsel)
+
+roles:BVC rdf:type owl:Class ;
+    rdfs:subClassOf roles:SpecialistRole ;
+    rdfs:label "Beveiligingscoördinator (BVC)"@nl ,
+               "Security Coordinator (BVC)"@en ;
+    rdfs:comment """De Beveiligingscoördinator (BVC) is de aangewezen functionaris voor informatiebeveiliging op het niveau van een dienstonderdeel. Grondslag: Besluit BVA-stelsel Rijksdienst 2021, art. 6. Functionele rapportagelijn naar de BVA; hiërarchische rapportagelijn naar dienstonderdeel. BVC is een andere rol dan de CISO (CIO-stelsel, organisatieniveau)."""@nl ,
+                 """The Security Coordinator (BVC) is the designated officer for information security at the level of a service unit. Legal basis: Besluit BVA-stelsel Rijksdienst 2021, art. 6. Functional reporting line to the BVA; hierarchical reporting line to the service unit. BVC is a different role from the CISO (CIO-stelsel, organisation level)."""@en ;
+    skos:note "BVC = BVA-stelsel (dienstonderdeel) | CISO = CIO-stelsel (organisatie)"@nl ;
+    roles:mandatedBy fw:BesluitBVAStelsel .
+
+roles:R_BVC rdf:type roles:BVC , owl:NamedIndividual ;
+    rdfs:label "Beveiligingscoördinator (BVC)"@nl ,
+               "Security Coordinator (BVC)"@en ;
+    roles:hasRoleID "BVC-01" ;
+    roles:hasRoleTitle "Beveiligingscoördinator (BVC)"@nl ,
+                       "Security Coordinator (BVC)"@en ;
+    roles:hasRoleDescription "Coördineert en bewaakt de informatiebeveiliging binnen een dienstonderdeel. Rapporteert functioneel aan de BVA. Aanspreekpunt voor IB-zaken op dienst-niveau. Grondslag: Besluit BVA-stelsel Rijksdienst 2021, art. 6."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:BesluitBVAStelsel ;
+    roles:reportsTo roles:R_BVA ;
+    roles:isResponsibleFor "IB-beleid en maatregelen dienstonderdeel"@nl ;
+    roles:isConsultedFor "Risicobeoordelingen, incidentrespons, leveranciersbeoordeling"@nl ;
+    roles:isInformedAbout "Strategisch IB-beleid, ISMS-scope, NIS2-meldingen"@nl .
+
+# BVC disjoint van ManagementRole (BVC is geen lijnmanagementfunctie)
+roles:BVC owl:disjointWith roles:ManagementRole .
+
+# ---- PRIVACY ----------------------------------------------------------------
+
+roles:R_FG
+    rdf:type roles:SpecialistRole ;
+    roles:hasRoleID "PRIV-01" ;
+    roles:hasRoleTitle "Functionaris Gegevensbescherming (FG)"@nl ;
+    roles:hasRoleTitle "Data Protection Officer (DPO)"@en ;
+    roles:hasRoleDescription "Wettelijk verplichte rol conform AVG Art. 37-39. Toezicht op verwerking persoonsgegevens; onafhankelijk."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:BIO_2_0 ;
+    roles:advisesRole roles:R_Bestuur , roles:R_SecretarisDirecteur .
+
+# ---- PROCESEIGENAAR / LIJNMANAGEMENT ----------------------------------------
+
+roles:R_Proceseigenaar
+    rdf:type roles:OwnerRole ;
+    roles:hasRoleID "OWN-01" ;
+    roles:hasRoleTitle "Proceseigenaar"@nl ;
+    roles:hasRoleTitle "Process Owner"@en ;
+    roles:hasRoleDescription "Eindverantwoordelijk voor een bedrijfsproces inclusief de informatiebeveiliging van dat proces. Formele rol in BIO 2.0 overheidsmaatregelen als verantwoordelijke voor implementatie."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:BIO_2_0 , fw:ISO_IEC_27001_2022 ;
+    roles:reportsTo roles:R_SecretarisDirecteur .
+
+roles:R_DienstenleverancierIntern
+    rdf:type roles:OwnerRole ;
+    roles:hasRoleID "OWN-02" ;
+    roles:hasRoleTitle "Dienstenleverancier (intern)"@nl ;
+    roles:hasRoleTitle "Internal Service Provider"@en ;
+    roles:hasRoleDescription "Interne leverancier van ICT-diensten; verantwoordelijk voor implementatie van technische overheidsmaatregelen conform BIO 2.0."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:BIO_2_0 ;
+    roles:reportsTo roles:R_CIO .
+
+roles:R_Systeemeigenaar
+    rdf:type roles:OwnerRole ;
+    roles:hasRoleID "OWN-03" ;
+    roles:hasRoleTitle "Systeemeigenaar"@nl ;
+    roles:hasRoleTitle "System Owner"@en ;
+    roles:hasRoleDescription "Eigenaar van een specifiek informatiesysteem; verantwoordelijk voor beveiligingsmaatregelen, classificatie en toegangsbeheer van het systeem."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:BIO_2_0 , fw:ISO_IEC_27001_2022 ;
+    roles:reportsTo roles:R_Proceseigenaar .
+
+roles:R_Lijnmanager
+    rdf:type roles:ManagementRole ;
+    roles:hasRoleID "MGT-01" ;
+    roles:hasRoleTitle "Lijnmanager"@nl ;
+    roles:hasRoleTitle "Line Manager"@en ;
+    roles:hasRoleDescription "Operationeel manager; verantwoordelijk voor naleving informatiebeveiliging door medewerkers in zijn/haar team. ISO 27002:2022 §5.4."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:ISO_IEC_27002_2022 ;
+    roles:reportsTo roles:R_SecretarisDirecteur .
+
+# ---- ICT / TECHNISCH --------------------------------------------------------
+
+roles:R_ITBeheerder
+    rdf:type roles:OperationalRole ;
+    roles:hasRoleID "OPS-01" ;
+    roles:hasRoleTitle "IT-beheerder / Systeembeheerder"@nl ;
+    roles:hasRoleTitle "IT / System Administrator"@en ;
+    roles:hasRoleDescription "Technisch beheer van systemen en infrastructuur; uitvoering van technische beveiligingsmaatregelen."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:reportsTo roles:R_DienstenleverancierIntern .
+
+roles:R_SecurityAnalist
+    rdf:type roles:OperationalRole ;
+    roles:hasRoleID "OPS-02" ;
+    roles:hasRoleTitle "Security Analist / SOC Analist"@nl ;
+    roles:hasRoleTitle "Security Analyst / SOC Analyst"@en ;
+    roles:hasRoleDescription "Monitoring, detectie en eerste respons op beveiligingsincidenten."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:reportsTo roles:R_CISO .
+
+roles:R_BeveiligingsArchitect
+    rdf:type roles:SpecialistRole ;
+    roles:hasRoleID "SPEC-01" ;
+    roles:hasRoleTitle "Beveiligingsarchitect"@nl ;
+    roles:hasRoleTitle "Security Architect"@en ;
+    roles:hasRoleDescription "Ontwerp van beveiligingsarchitectuur en technische beveiligingsprincipes. ISO 27002:2022 §8.27."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:reportsTo roles:R_CISO .
+
+roles:R_ISSO
+    rdf:type roles:SpecialistRole ;
+    roles:hasRoleID "SPEC-02" ;
+    roles:hasRoleTitle "Information Systems Security Officer (ISSO)"@nl ;
+    roles:hasRoleTitle "Information Systems Security Officer (ISSO)"@en ;
+    roles:hasRoleDescription "Verantwoordelijk voor de operationele informatiebeveiliging van één of meer informatiesystemen. Rapporteert aan de CISO. Voert de SoA-beoordeling uit op systeemniveau."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:reportsTo roles:R_CISO .
+
+# ---- AUDIT / TOEZICHT -------------------------------------------------------
+
+roles:R_InternAuditor
+    rdf:type roles:AuditRole ;
+    roles:hasRoleID "AUD-01" ;
+    roles:hasRoleTitle "Intern Auditor"@nl ;
+    roles:hasRoleTitle "Internal Auditor"@en ;
+    roles:hasRoleDescription "Uitvoering van interne audits op het ISMS conform ISO 27001:2022 §9.2. Functioneel onafhankelijk van de geauditeerde processen."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:ISO_IEC_27001_2022 .
+
+roles:R_ExternAuditor
+    rdf:type roles:AuditRole ;
+    roles:hasRoleID "AUD-02" ;
+    roles:hasRoleTitle "Extern Auditor / Certificerende instelling"@nl ;
+    roles:hasRoleTitle "External Auditor / Certification Body"@en ;
+    roles:hasRoleDescription "Externe certificeringsaudit ISO 27001; of externe review BIO 2.0 compliance."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:ISO_IEC_27001_2022 .
+
+roles:R_NIS2Toezichthouder
+    rdf:type roles:AuditRole ;
+    roles:hasRoleID "AUD-03" ;
+    roles:hasRoleTitle "NIS2/CBW Toezichthouder"@nl ;
+    roles:hasRoleTitle "NIS2/CBW Supervisory Authority"@en ;
+    roles:hasRoleDescription "Bevoegde autoriteit ex NIS2 Art. 32/33 en Cyberbeveiligingswet; bevoegd tot toezicht, audit en handhaving."@nl ;
+    roles:isMandatoryUnderDutchLaw "true"^^xsd:boolean ;
+    roles:mandatedBy fw:NIS2_Directive , fw:CBW .
+
+# ---- MEDEWERKERS (generiek) -------------------------------------------------
+
+roles:R_Medewerker
+    rdf:type roles:OperationalRole ;
+    roles:hasRoleID "OPS-03" ;
+    roles:hasRoleTitle "Medewerker"@nl ;
+    roles:hasRoleTitle "Employee / Staff Member"@en ;
+    roles:hasRoleDescription "Elke medewerker met toegang tot informatiebedrijfsmiddelen; draagt eigen verantwoordelijkheid conform ISO 27002:2022 §6.3 en BIO 2.0."@nl ;
+    roles:isMandatoryUnderDutchLaw "false"^^xsd:boolean ;
+    roles:mandatedBy fw:ISO_IEC_27002_2022 , fw:BIO_2_0 .
+
+# =============================================================================
+# SECTIE 6 – ABOX: GRC-ACTIVITEITEN (Risicobeheercyclus & ISMS)
+# =============================================================================
+
+roles:ACT_RisicobeleidVaststellen
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-01" ;
+    roles:hasActivityTitle "Risicobeleid en risicocriteria vaststellen"@nl ;
+    roles:hasActivityTitle "Establish risk policy and risk criteria"@en .
+
+roles:ACT_RisicoBeoordelingUitvoeren
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-02" ;
+    roles:hasActivityTitle "Risicobeoordeling uitvoeren (identify, analyse, evaluate)"@nl ;
+    roles:hasActivityTitle "Conduct risk assessment (identify, analyse, evaluate)"@en .
+
+roles:ACT_RisicoBehandelplanOpstellen
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-03" ;
+    roles:hasActivityTitle "Risicobehandelplan opstellen en implementeren"@nl ;
+    roles:hasActivityTitle "Develop and implement risk treatment plan"@en .
+
+roles:ACT_RestRisicoAanvaarden
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-04" ;
+    roles:hasActivityTitle "Restrisico formeel aanvaarden"@nl ;
+    roles:hasActivityTitle "Formally accept residual risk"@en .
+
+roles:ACT_BeveiligingsbeleidVaststellen
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-05" ;
+    roles:hasActivityTitle "Informatiebeveiligingsbeleid vaststellen"@nl ;
+    roles:hasActivityTitle "Establish information security policy"@en .
+
+roles:ACT_SoAOpstellen
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-06" ;
+    roles:hasActivityTitle "Verklaring van Toepasselijkheid (VvT/SoA) opstellen"@nl ;
+    roles:hasActivityTitle "Develop Statement of Applicability (SoA)"@en .
+
+roles:ACT_ISMSInternAudit
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-07" ;
+    roles:hasActivityTitle "ISMS interne audit uitvoeren"@nl ;
+    roles:hasActivityTitle "Conduct ISMS internal audit"@en .
+
+roles:ACT_DirectieBeoordelingISMS
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-08" ;
+    roles:hasActivityTitle "Directiebeoordeling ISMS (management review)"@nl ;
+    roles:hasActivityTitle "ISMS management review"@en .
+
+roles:ACT_IncidentMelden
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-09" ;
+    roles:hasActivityTitle "Informatiebeveiligingsincident melden"@nl ;
+    roles:hasActivityTitle "Report information security incident"@en .
+
+roles:ACT_IncidentAfhandelen
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-10" ;
+    roles:hasActivityTitle "Informatiebeveiligingsincident afhandelen en escaleren"@nl ;
+    roles:hasActivityTitle "Handle and escalate information security incident"@en .
+
+roles:ACT_NIS2MeldingPlicht
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-11" ;
+    roles:hasActivityTitle "Significante cyberincidenten melden aan toezichthouder (NIS2 Art.23)"@nl ;
+    roles:hasActivityTitle "Report significant cyber incidents to supervisory authority (NIS2 Art.23)"@en .
+
+roles:ACT_BeheersmaatregelImplementatie
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-12" ;
+    roles:hasActivityTitle "Beheersmaatregelen implementeren en monitoren"@nl ;
+    roles:hasActivityTitle "Implement and monitor controls"@en .
+
+roles:ACT_LeveranciersBeheer
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-13" ;
+    roles:hasActivityTitle "Leveranciersbeveiliging beheren"@nl ;
+    roles:hasActivityTitle "Manage supplier security"@en .
+
+roles:ACT_ComplianceMonitoring
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-14" ;
+    roles:hasActivityTitle "Compliance monitoring en rapportage"@nl ;
+    roles:hasActivityTitle "Compliance monitoring and reporting"@en .
+
+roles:ACT_BewustwordingTraining
+    rdf:type roles:GRCActivity ;
+    roles:hasActivityID "ACT-15" ;
+    roles:hasActivityTitle "Beveiligingsbewustwording en training uitvoeren"@nl ;
+    roles:hasActivityTitle "Conduct security awareness and training"@en .
+
+# =============================================================================
+# SECTIE 7 – ABOX: RACI-TOEWIJZINGEN
+# =============================================================================
+
+# ACT-01: Risicobeleid en risicocriteria vaststellen
+roles:R_SecretarisDirecteur roles:isAccountableFor roles:ACT_RisicobeleidVaststellen .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_RisicobeleidVaststellen .
+roles:R_BVA                roles:isConsultedFor    roles:ACT_RisicobeleidVaststellen .
+roles:R_CIO                roles:isConsultedFor    roles:ACT_RisicobeleidVaststellen .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_RisicobeleidVaststellen .
+
+# ACT-02: Risicobeoordeling uitvoeren
+roles:R_CISO               roles:isAccountableFor roles:ACT_RisicoBeoordelingUitvoeren .
+roles:R_SecurityAnalist    roles:isResponsibleFor  roles:ACT_RisicoBeoordelingUitvoeren .
+roles:R_Proceseigenaar     roles:isResponsibleFor  roles:ACT_RisicoBeoordelingUitvoeren .
+roles:R_BVA                roles:isConsultedFor    roles:ACT_RisicoBeoordelingUitvoeren .
+roles:R_FG                 roles:isConsultedFor    roles:ACT_RisicoBeoordelingUitvoeren .
+roles:R_CIO                roles:isInformedAbout   roles:ACT_RisicoBeoordelingUitvoeren .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_RisicoBeoordelingUitvoeren .
+
+# ACT-03: Risicobehandelplan opstellen
+roles:R_CISO               roles:isAccountableFor roles:ACT_RisicoBehandelplanOpstellen .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_RisicoBehandelplanOpstellen .
+roles:R_Proceseigenaar     roles:isResponsibleFor  roles:ACT_RisicoBehandelplanOpstellen .
+roles:R_DienstenleverancierIntern roles:isConsultedFor roles:ACT_RisicoBehandelplanOpstellen .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_RisicoBehandelplanOpstellen .
+
+# ACT-04: Restrisico formeel aanvaarden
+roles:R_SecretarisDirecteur roles:isAccountableFor roles:ACT_RestRisicoAanvaarden .
+roles:R_Proceseigenaar     roles:isResponsibleFor  roles:ACT_RestRisicoAanvaarden .
+roles:R_CISO               roles:isConsultedFor    roles:ACT_RestRisicoAanvaarden .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_RestRisicoAanvaarden .
+
+# ACT-05: Informatiebeveiligingsbeleid vaststellen
+roles:R_SecretarisDirecteur roles:isAccountableFor roles:ACT_BeveiligingsbeleidVaststellen .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_BeveiligingsbeleidVaststellen .
+roles:R_BVA                roles:isConsultedFor    roles:ACT_BeveiligingsbeleidVaststellen .
+roles:R_FG                 roles:isConsultedFor    roles:ACT_BeveiligingsbeleidVaststellen .
+roles:R_Lijnmanager        roles:isInformedAbout   roles:ACT_BeveiligingsbeleidVaststellen .
+roles:R_Medewerker         roles:isInformedAbout   roles:ACT_BeveiligingsbeleidVaststellen .
+
+# ACT-06: Verklaring van Toepasselijkheid (SoA) opstellen
+roles:R_CISO               roles:isAccountableFor roles:ACT_SoAOpstellen .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_SoAOpstellen .
+roles:R_Proceseigenaar     roles:isConsultedFor    roles:ACT_SoAOpstellen .
+roles:R_DienstenleverancierIntern roles:isConsultedFor roles:ACT_SoAOpstellen .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_SoAOpstellen .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_SoAOpstellen .
+
+# ACT-07: ISMS interne audit
+roles:R_InternAuditor      roles:isAccountableFor roles:ACT_ISMSInternAudit .
+roles:R_InternAuditor      roles:isResponsibleFor  roles:ACT_ISMSInternAudit .
+roles:R_CISO               roles:isConsultedFor    roles:ACT_ISMSInternAudit .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_ISMSInternAudit .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_ISMSInternAudit .
+
+# ACT-08: Directiebeoordeling ISMS
+roles:R_SecretarisDirecteur roles:isAccountableFor roles:ACT_DirectieBeoordelingISMS .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_DirectieBeoordelingISMS .
+roles:R_BVA                roles:isResponsibleFor  roles:ACT_DirectieBeoordelingISMS .
+roles:R_CIO                roles:isConsultedFor    roles:ACT_DirectieBeoordelingISMS .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_DirectieBeoordelingISMS .
+
+# ACT-09: Incident melden
+roles:R_Medewerker         roles:isResponsibleFor  roles:ACT_IncidentMelden .
+roles:R_Lijnmanager        roles:isAccountableFor roles:ACT_IncidentMelden .
+roles:R_SecurityAnalist    roles:isInformedAbout   roles:ACT_IncidentMelden .
+roles:R_CISO               roles:isInformedAbout   roles:ACT_IncidentMelden .
+
+# ACT-10: Incident afhandelen
+roles:R_CISO               roles:isAccountableFor roles:ACT_IncidentAfhandelen .
+roles:R_SecurityAnalist    roles:isResponsibleFor  roles:ACT_IncidentAfhandelen .
+roles:R_ITBeheerder        roles:isResponsibleFor  roles:ACT_IncidentAfhandelen .
+roles:R_BVA                roles:isConsultedFor    roles:ACT_IncidentAfhandelen .
+roles:R_FG                 roles:isConsultedFor    roles:ACT_IncidentAfhandelen .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_IncidentAfhandelen .
+
+# ACT-11: NIS2 meldplicht toezichthouder
+roles:R_SecretarisDirecteur roles:isAccountableFor roles:ACT_NIS2MeldingPlicht .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_NIS2MeldingPlicht .
+roles:R_BVA                roles:isResponsibleFor  roles:ACT_NIS2MeldingPlicht .
+roles:R_FG                 roles:isConsultedFor    roles:ACT_NIS2MeldingPlicht .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_NIS2MeldingPlicht .
+
+# ACT-12: Beheersmaatregelen implementeren
+roles:R_DienstenleverancierIntern roles:isAccountableFor roles:ACT_BeheersmaatregelImplementatie .
+roles:R_ITBeheerder        roles:isResponsibleFor  roles:ACT_BeheersmaatregelImplementatie .
+roles:R_CISO               roles:isConsultedFor    roles:ACT_BeheersmaatregelImplementatie .
+roles:R_BeveiligingsArchitect roles:isConsultedFor roles:ACT_BeheersmaatregelImplementatie .
+roles:R_Proceseigenaar     roles:isInformedAbout   roles:ACT_BeheersmaatregelImplementatie .
+
+# ACT-13: Leveranciersbeveiliging
+roles:R_Proceseigenaar     roles:isAccountableFor roles:ACT_LeveranciersBeheer .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_LeveranciersBeheer .
+roles:R_DienstenleverancierIntern roles:isResponsibleFor roles:ACT_LeveranciersBeheer .
+roles:R_FG                 roles:isConsultedFor    roles:ACT_LeveranciersBeheer .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_LeveranciersBeheer .
+
+# ACT-14: Compliance monitoring
+roles:R_CISO               roles:isAccountableFor roles:ACT_ComplianceMonitoring .
+roles:R_CISO               roles:isResponsibleFor  roles:ACT_ComplianceMonitoring .
+roles:R_BVA                roles:isResponsibleFor  roles:ACT_ComplianceMonitoring .
+roles:R_InternAuditor      roles:isConsultedFor    roles:ACT_ComplianceMonitoring .
+roles:R_SecretarisDirecteur roles:isInformedAbout  roles:ACT_ComplianceMonitoring .
+roles:R_Bestuur            roles:isInformedAbout   roles:ACT_ComplianceMonitoring .
+
+# ACT-15: Bewustwording en training
+roles:R_CISO               roles:isAccountableFor roles:ACT_BewustwordingTraining .
+roles:R_Lijnmanager        roles:isResponsibleFor  roles:ACT_BewustwordingTraining .
+roles:R_BVA                roles:isConsultedFor    roles:ACT_BewustwordingTraining .
+roles:R_Medewerker         roles:isInformedAbout   roles:ACT_BewustwordingTraining .
+
+# =============================================================================
+# SECTIE 8 – SKOS ALIGNMENTS (Rollen ↔ Frameworks)
+# =============================================================================
+
+roles:R_CISO       skos:closeMatch fw:ISO_IEC_27001_2022 .   # §5.3 role
+roles:R_BVA        skos:exactMatch fw:BesluitBVAStelsel .
+roles:R_CIO        skos:exactMatch fw:BesluitCIOStelsel .
+roles:R_FG         skos:closeMatch fw:BIO_2_0 .               # AVG Art. 37 via BIO
+roles:R_InternAuditor skos:closeMatch fw:ISO_IEC_27001_2022 . # §9.2
+
+# =============================================================================
+# EINDE MODULE M4

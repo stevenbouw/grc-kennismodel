@@ -1,0 +1,177 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M15: ENSIA
+# Versie: 4.1.0-alpha | Datum: 2026-04-10 | Profiel: OWL 2 DL
+#
+# ENSIA = Eénduidige Normatiek Single Information Audit
+# Auditkader voor informatiebeveiliging bij de overheid.
+# Toetst BIO-compliance en domeinspecifieke aspecten.
+#
+# Bron: NOREA Handreiking ENSIA voor IT-auditors (RE's), versie 1.0,
+#       19 december 2024 (verantwoordingsjaar 2024).
+#
+# NB: De Handreiking is primair gericht op gemeenten. Voor de Rijksoverheid-
+# organisatie wordt ENSIA als vergelijkbaar verantwoordingsproces gemodelleerd
+# (vergelijkbare principes en processtappen, Rijksoverheid-specifieke invulling).
+# De modellering hier is generiek toepasbaar.
+#
+# SCOPE (Actie F, 2026-04-10):
+# - IN SCOPE (Spoor A, structureel):
+#     * Procesfasen (zelfevaluatie, collegiale toets, IT-audit, collegeverklaring)
+#     * Rollen en rolkoppelingen (ENSIA-coördinator, CISO, IT-auditor, bestuurder)
+#     * Cross-framework SKOS-matrix BIO 2.0 ↔ ENSIA op control-niveau
+#     * Koppeling naar M6 ISMS (cl. 9.1 monitoring, 9.2 interne audit, 9.3 directiebeoordeling)
+# - UIT SCOPE (Spoor B, instance-data):
+#     * Concrete verantwoordingsrapportages
+#     * Ingevulde collegeverklaringen
+#     * Jaarspecifieke auditbevindingen
+# =============================================================================
+
+<https://grc.example.org/ontology/m15-ensia>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M15 — ENSIA"@nl ,
+               "GRC Ontology Module M15 — ENSIA"@en ;
+    rdfs:comment "ENSIA auditkader: toetst BIO-compliance en domeinspecifieke informatiebeveiliging bij de overheid. De NOREA Handreiking ENSIA is primair gericht op gemeenten; voor de Rijksoverheidsorganisatie wordt ENSIA hier als vergelijkbaar verantwoordingsproces gemodelleerd."@nl ,
+                 "ENSIA audit framework: assesses BIO compliance and domain-specific information security for Dutch government. The NOREA ENSIA Guidance primarily targets municipalities; for the Dutch government organisation, ENSIA is modelled here as an analogous accountability process."@en ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# =============================================================================
+# SECTIE 1 — TBOX: ENSIA-SPECIFIEKE KLASSEN
+# =============================================================================
+
+ext:ENSIAAuditDomain
+    rdf:type owl:Class ;
+    rdfs:label "ENSIA Audit Domain"@en , "ENSIA-verantwoordingsdomein"@nl ;
+    rdfs:comment
+        "A domain-specific area covered by the ENSIA audit framework. Each domain has its own toezichthouder (supervisory authority) and specific norms."@en ,
+        "Een domeinspecifiek aandachtsgebied dat onder het ENSIA-auditkader valt. Elk domein heeft een eigen toezichthouder en specifieke normen."@nl .
+
+ext:hasAuditDomain
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain fw:GRCFramework ;
+    rdfs:range ext:ENSIAAuditDomain ;
+    rdfs:label "has audit domain"@en , "heeft auditdomein"@nl ;
+    rdfs:comment "Links ENSIA to one of its audit domains."@en ,
+                 "Koppelt ENSIA aan een van de verantwoordingsdomeinen."@nl .
+
+# =============================================================================
+# SECTIE 3 — ABOX: ISSUING BODY
+# =============================================================================
+
+fw:NOREA
+    rdf:type fw:IssuingBody ;
+    rdfs:label "NOREA"@en , "NOREA"@nl ;
+    rdfs:comment
+        "NOREA is de beroepsorganisatie van IT-auditors in Nederland. Beheert de ENSIA Handreiking voor IT-auditors (RE's)."@nl ,
+        "NOREA is the professional body of IT auditors in the Netherlands. Maintains the ENSIA guidance for IT auditors."@en ;
+    foaf:name "NOREA" .
+
+fw:VNG
+    rdf:type fw:IssuingBody ;
+    rdfs:label "Association of Netherlands Municipalities (VNG)"@en ,
+               "Vereniging van Nederlandse Gemeenten (VNG)"@nl ;
+    foaf:name "VNG" .
+
+# =============================================================================
+# SECTIE 4 — ABOX: FRAMEWORK INDIVIDUAL
+# =============================================================================
+# v4.6.0 Fase 4 — Stap 5: fw:ENSIA-kerndeclaratie verplaatst naar m01-framework.ttl
+# Alleen domeinspecifieke aanvullingen blijven hier (NB-comment over gemeenten-context).
+# Type, label, kern-comment, hasIdentifier, hasVersionLabel, isMandatoryForDutchGovernment,
+# issuedBy, appliesInJurisdiction, hasDomain, fw:toetst, officialURL → m01.
+
+fw:ENSIA
+    rdfs:comment "NB: De ENSIA Handreiking v1.0 (december 2024) is primair gericht op gemeenten. Voor Rijksoverheid geldt een vergelijkbaar verantwoordingsproces. De ENSIA-toetsing 2024 is nog gebaseerd op BIO 1.04zv; overgang naar BIO 2.0 volgt."@nl .
+
+# =============================================================================
+# SECTIE 5 — ABOX: ENSIA AUDIT DOMAINS
+# =============================================================================
+
+ext:ENSIA_BIO
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Informatiebeveiliging (BIO)"@nl ,
+               "ENSIA: Information Security (BIO)"@en ;
+    rdfs:comment "BIO-compliance als overkoepelend normenkader binnen ENSIA."@nl .
+
+ext:ENSIA_DigiD
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: DigiD"@nl ,
+               "ENSIA: DigiD"@en ;
+    rdfs:comment "ICT-beveiligingsassessment DigiD-aansluitingen. Toezichthouder: Logius (BZK)."@nl .
+
+ext:ENSIA_Suwinet
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Suwinet"@nl ,
+               "ENSIA: Suwinet"@en ;
+    rdfs:comment "Verantwoording over gebruik van Suwinet (Suwi inkijk/inlezen). Toezichthouder: Ministerie van SZW."@nl .
+
+ext:ENSIA_BRP
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Basisregistratie Personen (BRP)"@nl ,
+               "ENSIA: Civil Registry (BRP)"@en ;
+    rdfs:comment "Verantwoording over informatiebeveiliging van de BRP."@nl .
+
+ext:ENSIA_Reisdocumenten
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Reisdocumenten (PUN/PNIK)"@nl ,
+               "ENSIA: Travel Documents (PUN/PNIK)"@en ;
+    rdfs:comment "Verantwoording over informatiebeveiliging van het aanvraag- en uitgifteproces van reisdocumenten."@nl .
+
+ext:ENSIA_BAG
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Basisregistratie Adressen en Gebouwen (BAG)"@nl ,
+               "ENSIA: Addresses and Buildings Registry (BAG)"@en ;
+    rdfs:comment "Verantwoording over informatiebeveiliging van de BAG."@nl .
+
+ext:ENSIA_BGT
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Basisregistratie Grootschalige Topografie (BGT)"@nl ,
+               "ENSIA: Large-Scale Topography Registry (BGT)"@en ;
+    rdfs:comment "Verantwoording over informatiebeveiliging van de BGT."@nl .
+
+ext:ENSIA_BRO
+    rdf:type ext:ENSIAAuditDomain , owl:NamedIndividual ;
+    rdfs:label "ENSIA: Basisregistratie Ondergrond (BRO)"@nl ,
+               "ENSIA: Subsurface Registry (BRO)"@en ;
+    rdfs:comment "Verantwoording over informatiebeveiliging van de BRO."@nl .
+
+# Link domains to ENSIA
+fw:ENSIA
+    ext:hasAuditDomain ext:ENSIA_BIO ;
+    ext:hasAuditDomain ext:ENSIA_DigiD ;
+    ext:hasAuditDomain ext:ENSIA_Suwinet ;
+    ext:hasAuditDomain ext:ENSIA_BRP ;
+    ext:hasAuditDomain ext:ENSIA_Reisdocumenten ;
+    ext:hasAuditDomain ext:ENSIA_BAG ;
+    ext:hasAuditDomain ext:ENSIA_BGT ;
+    ext:hasAuditDomain ext:ENSIA_BRO .
+
+# =============================================================================
+# SECTIE 6 — SKOS FRAMEWORK-LEVEL ALIGNMENT
+# Validatieniveau: analytisch
+# =============================================================================
+
+fw:ENSIA
+    skos:relatedMatch fw:BIO_2_0 ;
+    skos:relatedMatch fw:ISO_IEC_27001_2022 .
+
+# =============================================================================
+# EINDE MODULE M15
+# =============================================================================

@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC Dashboard — Nederlandse Overheidsorganisatie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:        #0d1117;
+    --bg2:       #161b22;
+    --bg3:       #21262d;
+    --border:    #30363d;
+    --blue:      #1f6feb;
+    --blue-dim:  #0d419d;
+    --green:     #2ea043;
+    --green-dim: #1a7f37;
+    --yellow:    #d29922;
+    --orange:    #db6d28;
+    --red:       #da3633;
+    --text:      #e6edf3;
+    --text-dim:  #8b949e;
+    --text-muted:#484f58;
+    --accent:    #58a6ff;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text-dim); }
+  .header-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    border-left: 1px solid var(--border);
+    padding-left: 16px;
+  }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-green { background: rgba(46,160,67,.2); color: #3fb950; border: 1px solid rgba(46,160,67,.3); }
+  .badge-blue  { background: rgba(31,111,235,.2); color: var(--accent); border: 1px solid rgba(31,111,235,.3); }
+  .timestamp { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+  /* ── Nav ── */
+  .nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+  }
+  .nav-item {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .nav-item:hover { color: var(--text); background: rgba(255,255,255,.03); }
+  .nav-item.active { color: var(--text); border-bottom-color: var(--accent); }
+  .nav-count {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  /* ── Layout ── */
+  .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── KPI cards ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .kpi-card.red::before    { background: var(--red); }
+  .kpi-card.yellow::before { background: var(--yellow); }
+  .kpi-card.green::before  { background: var(--green); }
+  .kpi-card.blue::before   { background: var(--blue); }
+  .kpi-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .kpi-value { font-family: var(--font-mono); font-size: 32px; font-weight: 600; line-height: 1; margin-bottom: 6px; }
+  .kpi-value.red    { color: #ff7b72; }
+  .kpi-value.yellow { color: #e3b341; }
+  .kpi-value.green  { color: #3fb950; }
+  .kpi-value.blue   { color: var(--accent); }
+  .kpi-sub { font-size: 11px; color: var(--text-muted); }
+
+  /* ── Grid layouts ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+  /* ── Card ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon { font-size: 14px; }
+  .card-body { padding: 20px; }
+
+  /* ── Risk Heatmap ── */
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap {
+    display: grid;
+    grid-template-columns: 40px repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr) 40px;
+    gap: 4px;
+    width: 100%;
+    min-width: 300px;
+  }
+  .hm-cell {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    position: relative;
+    transition: transform 0.1s;
+    cursor: default;
+  }
+  .hm-cell:hover { transform: scale(1.05); z-index: 10; }
+  .hm-axis { background: transparent; font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+  .hm-low      { background: rgba(46,160,67,.15); color: #3fb950; border: 1px solid rgba(46,160,67,.2); }
+  .hm-medium   { background: rgba(210,153,34,.15); color: #e3b341; border: 1px solid rgba(210,153,34,.2); }
+  .hm-high     { background: rgba(219,109,40,.2);  color: #f0883e; border: 1px solid rgba(219,109,40,.3); }
+  .hm-critical { background: rgba(218,54,51,.25);  color: #ff7b72; border: 1px solid rgba(218,54,51,.4); }
+  .hm-cell.has-risk { cursor: pointer; }
+  .hm-cell.has-risk::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    white-space: nowrap;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.8;
+  }
+
+  /* ── Table ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(48,54,61,.6);
+    vertical-align: top;
+    color: var(--text);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(255,255,255,.02); }
+  .data-table .mono { font-family: var(--font-mono); font-size: 11px; }
+
+  /* ── Status pills ── */
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .pill-green  { background: rgba(46,160,67,.2);  color: #3fb950; border: 1px solid rgba(46,160,67,.3); }
+  .pill-yellow { background: rgba(210,153,34,.2); color: #e3b341; border: 1px solid rgba(210,153,34,.3); }
+  .pill-orange { background: rgba(219,109,40,.2); color: #f0883e; border: 1px solid rgba(219,109,40,.3); }
+  .pill-red    { background: rgba(218,54,51,.2);  color: #ff7b72; border: 1px solid rgba(218,54,51,.3); }
+  .pill-blue   { background: rgba(31,111,235,.2); color: var(--accent); border: 1px solid rgba(31,111,235,.3); }
+  .pill-grey   { background: rgba(139,148,158,.1); color: var(--text-dim); border: 1px solid var(--border); }
+
+  /* ── Progress bar ── */
+  .progress-wrap { background: var(--bg3); border-radius: 2px; height: 6px; overflow: hidden; }
+  .progress-bar { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+  .progress-green  { background: var(--green); }
+  .progress-yellow { background: var(--yellow); }
+  .progress-orange { background: var(--orange); }
+  .progress-red    { background: var(--red); }
+
+  /* ── NIS2 grid ── */
+  .nis2-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .nis2-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px;
+    cursor: default;
+    transition: all 0.15s;
+  }
+  .nis2-item:hover { border-color: var(--accent); background: rgba(31,111,235,.05); }
+  .nis2-item.covered { border-color: rgba(46,160,67,.4); }
+  .nis2-art { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+  .nis2-desc { font-size: 11px; color: var(--text-dim); line-height: 1.4; margin-bottom: 8px; }
+  .nis2-ctrl { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 20px 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -18px; top: 6px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--bg2);
+  }
+  .timeline-item.urgent::before { border-color: var(--red); background: rgba(218,54,51,.3); }
+  .timeline-item.soon::before   { border-color: var(--yellow); background: rgba(210,153,34,.3); }
+  .timeline-item.future::before { border-color: var(--green); background: rgba(46,160,67,.3); }
+  .timeline-date { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-bottom: 3px; }
+  .timeline-title { font-size: 12px; color: var(--text); margin-bottom: 2px; }
+  .timeline-sub { font-size: 11px; color: var(--text-muted); }
+
+  /* ── Chart containers ── */
+  .chart-container { position: relative; }
+
+  /* ── Section title ── */
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    width: 3px; height: 12px;
+    background: var(--accent);
+    border-radius: 1px;
+    display: inline-block;
+  }
+
+  /* ── Score circle ── */
+  .score-circle {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .score-critical { background: rgba(218,54,51,.2); color: #ff7b72; border: 2px solid rgba(218,54,51,.4); }
+  .score-high     { background: rgba(219,109,40,.2); color: #f0883e; border: 2px solid rgba(219,109,40,.4); }
+
+  /* ── Tooltip ── */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip-text {
+    visibility: hidden;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 20;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .tooltip-wrap:hover .tooltip-text { visibility: visible; }
+
+  /* ── Responsive tweaks ── */
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .nis2-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">GRC<span>.</span>ONTOLOGIE</div>
+    <div class="header-meta">Nederlandse Overheidsorganisatie · v0.1 · M1–M7</div>
+  </div>
+  <div class="header-right">
+    <span class="badge badge-green">● LIVE</span>
+    <span class="badge badge-blue">11.099 TRIPLES</span>
+    <span class="timestamp" id="ts"></span>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<div class="nav">
+  <div class="nav-item active" onclick="showTab('risks')">
+    ⬡ Risicoregister <span class="nav-count">4</span>
+  </div>
+  <div class="nav-item" onclick="showTab('nis2')">
+    ⬡ NIS2 Art.21 <span class="nav-count">10/10</span>
+  </div>
+  <div class="nav-item" onclick="showTab('soa')">
+    ⬡ SoA Voortgang <span class="nav-count">15</span>
+  </div>
+  <div class="nav-item" onclick="showTab('calendar')">
+    ⬡ Compliancekalender <span class="nav-count">8</span>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+
+  <!-- ════════════════════════════════════════
+       TAB 1 — RISICOREGISTER
+  ════════════════════════════════════════ -->
+  <div class="section active" id="tab-risks">
+    <div class="kpi-grid">
+      <div class="kpi-card red">
+        <div class="kpi-label">Kritiek risico</div>
+        <div class="kpi-value red">1</div>
+        <div class="kpi-sub">Score ≥ 16 · Ransomware</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Hoog risico</div>
+        <div class="kpi-value yellow">3</div>
+        <div class="kpi-sub">Score 8–15 · Direct aandacht</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Gemiddelde score</div>
+        <div class="kpi-value blue">14</div>
+        <div class="kpi-sub">(20 + 12 + 12 + 12) / 4</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Maatregelen</div>
+        <div class="kpi-value green">4</div>
+        <div class="kpi-sub">ISO 27002 koppelingen</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Heatmap -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="icon">◫</span> Risicomatrix 5×5</div>
+          <span class="pill pill-grey">Kans × Impact</span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex; gap:8px; margin-bottom:12px; font-size:11px; color:var(--text-muted);">
+            <span>↑ Impact</span>
+          </div>
+          <div class="heatmap-wrap">
+            <div class="heatmap" id="heatmap"></div>
+          </div>
+          <div style="display:flex; gap:16px; margin-top:12px; font-size:10px;">
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:rgba(46,160,67,.3);border-radius:2px;display:inline-block"></span> Laag (1–4)</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:rgba(210,153,34,.3);border-radius:2px;display:inline-block"></span> Medium (5–9)</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:rgba(219,109,40,.3);border-radius:2px;display:inline-block"></span> Hoog (10–15)</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:rgba(218,54,51,.4);border-radius:2px;display:inline-block"></span> Kritiek (16–25)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Risk detail table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="icon">☰</span> Risicodetail</div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Risico</th>
+                <th>Score</th>
+                <th>Kans</th>
+                <th>Impact</th>
+                <th>Maatregel</th>
+              </tr>
+            </thead>
+            <tbody id="risk-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mitigatiebar -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">⬡</span> Mitigatie per risico — ISO 27002 koppeling</div>
+      </div>
+      <div class="card-body">
+        <canvas id="mitigatieChart" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       TAB 2 — NIS2
+  ════════════════════════════════════════ -->
+  <div class="section" id="tab-nis2">
+    <div class="kpi-grid">
+      <div class="kpi-card green">
+        <div class="kpi-label">Gedekte artikelen</div>
+        <div class="kpi-value green">10/10</div>
+        <div class="kpi-sub">Art. 21(a) t/m (j) volledig</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">ISO 27002 koppelingen</div>
+        <div class="kpi-value blue">22</div>
+        <div class="kpi-sub">Maatregelen totaal</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Brede artikelen</div>
+        <div class="kpi-value yellow">4</div>
+        <div class="kpi-sub">≥ 3 maatregelen (b,c,d,i)</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Dekkingsgraad</div>
+        <div class="kpi-value green">100%</div>
+        <div class="kpi-sub">Alle subart. gedekt</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">◫</span> NIS2 Art. 21 — Dekkingsoverzicht per subartikel</div>
+        <span class="pill pill-green">✓ 10/10 GEDEKT</span>
+      </div>
+      <div class="card-body">
+        <div class="nis2-grid" id="nis2-grid"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">☰</span> Volledige mapping NIS2 → ISO 27002</div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table" id="nis2-table">
+          <thead>
+            <tr>
+              <th>Artikel</th>
+              <th>Omschrijving</th>
+              <th>ISO 27002 Maatregelen</th>
+              <th>Dekking</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       TAB 3 — SoA
+  ════════════════════════════════════════ -->
+  <div class="section" id="tab-soa">
+    <div class="kpi-grid">
+      <div class="kpi-card green">
+        <div class="kpi-label">Volledig geïmpl.</div>
+        <div class="kpi-value green">3</div>
+        <div class="kpi-sub">5.15 · 8.07 · 8.13</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Gedeeltelijk geïmpl.</div>
+        <div class="kpi-value yellow">8</div>
+        <div class="kpi-sub">Actie vereist</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">In uitvoering</div>
+        <div class="kpi-value" style="color:#f0883e;">3</div>
+        <div class="kpi-sub">5.19 · 8.08 · 8.25</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">Niet gestart</div>
+        <div class="kpi-value red">1</div>
+        <div class="kpi-sub">5.24 Incidentbeheer ⚠️</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="icon">◯</span> Implementatiestatus verdeling</div>
+        </div>
+        <div class="card-body">
+          <canvas id="soaDonut" height="200"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="icon">≡</span> Voortgang per maatregel</div>
+        </div>
+        <div class="card-body">
+          <canvas id="soaBar" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">☰</span> Verklaring van Toepasselijkheid — Alle entries</div>
+        <span class="pill pill-blue">15 maatregelen · Alle toepasselijk</span>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>SoA-entry</th>
+              <th>Status</th>
+              <th>Voortgang</th>
+              <th>Motivatie / Toelichting</th>
+            </tr>
+          </thead>
+          <tbody id="soa-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       TAB 4 — KALENDER
+  ════════════════════════════════════════ -->
+  <div class="section" id="tab-calendar">
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">Totaal acties 2026</div>
+        <div class="kpi-value blue">8</div>
+        <div class="kpi-sub">CE_01 t/m CE_08</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Eerstvolgende deadline</div>
+        <div class="kpi-value yellow">Q2</div>
+        <div class="kpi-sub">1 april 2026</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Jaarlijks terugkerend</div>
+        <div class="kpi-value green">7</div>
+        <div class="kpi-sub">1× kwartaal</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">Prioriteit</div>
+        <div class="kpi-value red">NIS2</div>
+        <div class="kpi-sub">Melding NCSC verplicht</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="icon">◎</span> Tijdlijn 2026</div>
+        </div>
+        <div class="card-body">
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="icon">◫</span> Deadlines per kwartaal</div>
+        </div>
+        <div class="card-body">
+          <canvas id="calChart" height="240"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">☰</span> Alle kalenderentries</div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Activiteit</th><th>Deadline</th><th>Frequentie</th><th>Kwartaal</th></tr>
+          </thead>
+          <tbody id="cal-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ════════════════════════════════════════
+// DATA (rechtstreeks uit SPARQL-exports)
+// ════════════════════════════════════════
+
+const risks = [
+  { id:'R_001', title:'Ransomware via phishing e-mail',              score:20, kans:'Hoog (4)',      impact:'Kritiek (5)',     ctrl:'ISO27002_8_07' },
+  { id:'R_002', title:'Ongeautoriseerde toegang door ex-medewerker', score:12, kans:'Gemiddeld (3)', impact:'Aanzienlijk (4)', ctrl:'ISO27002_5_18' },
+  { id:'R_003', title:'Datalek door leverancier',                    score:12, kans:'Gemiddeld (3)', impact:'Aanzienlijk (4)', ctrl:'ISO27002_5_19' },
+  { id:'R_004', title:'Uitval kritieke ICT-dienst door DDoS',        score:12, kans:'Gemiddeld (3)', impact:'Aanzienlijk (4)', ctrl:'ISO27002_8_14' },
+];
+
+// Art21 gegroepeerd per subartikel
+const nis2 = {
+  a: { desc:'Beleid risicoanalyse & IB-systemen',      ctrls:['5_01'] },
+  b: { desc:'Incidentafhandeling',                     ctrls:['5_24','5_25','5_26'] },
+  c: { desc:'BCM / continuïteit',                      ctrls:['5_29','5_30','8_13'] },
+  d: { desc:'Beveiliging toeleveringsketen',            ctrls:['5_19','5_20','5_21'] },
+  e: { desc:'Netwerk & systeembeveiliging',             ctrls:['8_25','8_26','8_27','8_28'] },
+  f: { desc:'Effectiviteit cyberbeveiligingsmaatregelen', ctrls:['5_35','5_36'] },
+  g: { desc:'Cyberhygiëne & training',                 ctrls:['6_03'] },
+  h: { desc:'Cryptografie & versleuteling',            ctrls:['8_24'] },
+  i: { desc:'Personeelsbeveiliging & toegang',         ctrls:['5_09','5_15','6_01'] },
+  j: { desc:'MFA & beveiligde communicatie',           ctrls:['8_05'] },
+};
+
+const soa = [
+  { id:'SOA_5_01', ctrl:'5.01 Beleidsregels IB',           status:'IS_PartiallyImplemented', motivatie:'Overkoepelend IB-beleid bestaat; onderwerpspecifieke beleidsregels deels aanwezig; actualisatie vereist.' },
+  { id:'SOA_5_02', ctrl:'5.02 Rollen & verantwoordelijkheden', status:'IS_PartiallyImplemented', motivatie:'Rollen formeel beschreven (CIO, CISO, BVA, FG); RACI-matrix in ontwikkeling.' },
+  { id:'SOA_5_09', ctrl:'5.09 Inventarisatie informatie',   status:'IS_PartiallyImplemented', motivatie:'Assetregister gedeeltelijk bijgewerkt; classificatie nog niet voor alle systemen voltooid.' },
+  { id:'SOA_5_15', ctrl:'5.15 Toegangsbeveiliging',        status:'IS_FullyImplemented',      motivatie:'Toegangsbeveiligingsbeleid vastgesteld; role-based access control geïmplementeerd.' },
+  { id:'SOA_5_19', ctrl:'5.19 Informatiebeveiliging leveranciersrelaties', status:'IS_InProgress', motivatie:'Leveranciersbeleid in concept; contractuele beveiligingsclausules voor nieuwe contracten; bestaande contracten nog niet herzien.' },
+  { id:'SOA_5_24', ctrl:'5.24 Incidentbeheer — planning',  status:'IS_NotStarted',            motivatie:'⚠️ Incidentbeheerprocedure ontbreekt. Prioriteit: vereist voor NIS2 Art.23 meldplicht.' },
+  { id:'SOA_5_29', ctrl:'5.29 Informatiebeveiliging in BCM', status:'IS_PartiallyImplemented', motivatie:'BCP bestaat voor kritieke processen; beveiligingscontinuïteit nog niet getest.' },
+  { id:'SOA_5_35', ctrl:'5.35 Onafhankelijke beoordeling IB', status:'IS_PartiallyImplemented', motivatie:'Interne auditfunctie aanwezig; externe peer review gepland voor H2 2026.' },
+  { id:'SOA_6_03', ctrl:'6.03 Bewustzijn, opleiding & training', status:'IS_PartiallyImplemented', motivatie:'Jaarlijkse e-learning aanwezig; cyberhygiëne baseline nog niet volledig gedekt.' },
+  { id:'SOA_8_05', ctrl:'8.05 Beveiligde authenticatie',   status:'IS_PartiallyImplemented', motivatie:'MFA geïmplementeerd voor externe toegang; interne systemen deels nog niet.' },
+  { id:'SOA_8_07', ctrl:'8.07 Bescherming tegen malware',  status:'IS_FullyImplemented',      motivatie:'EDR-oplossing op alle endpoints; centrale beheerconsole aanwezig.' },
+  { id:'SOA_8_08', ctrl:'8.08 Beheer technische kwetsbaarheden', status:'IS_InProgress',      motivatie:'Patchbeheerproces bestaat; SLA voor kritieke patches (CVSS ≥7.0) = 72 uur; geautomatiseerd scannen in opzet.' },
+  { id:'SOA_8_13', ctrl:'8.13 Back-up',                   status:'IS_FullyImplemented',       motivatie:'3-2-1 back-upstrategie geïmplementeerd; dagelijkse back-ups; maandelijks hersteltest.' },
+  { id:'SOA_8_24', ctrl:'8.24 Gebruik van cryptografie',   status:'IS_PartiallyImplemented', motivatie:'Cryptografiebeleid in concept; TLS 1.2+ en AES-256 standaard; sleutelbeheerproces nog niet formeel.' },
+  { id:'SOA_8_25', ctrl:'8.25 Beveiligde ontwikkelcyclus', status:'IS_InProgress',            motivatie:'Secure SDLC-beleid in opzet; SAST-tooling geïntroduceerd voor nieuwe projecten.' },
+];
+
+const calendar = [
+  { id:'CE_01', title:'Risicoregister: kwartaalupdate en review',              deadline:'2026-04-01', freq:'Kwartaal' },
+  { id:'CE_02', title:'BIO 2.0: Jaarlijkse zelfevaluatie en rapportage CIO',   deadline:'2026-06-30', freq:'Jaarlijks' },
+  { id:'CE_03', title:'VIRBI 2025: beoordeling gerubriceerde informatieregisters', deadline:'2026-06-30', freq:'Jaarlijks' },
+  { id:'CE_04', title:'ISO 27001: Interne audit ISMS Q3 2026',                 deadline:'2026-09-30', freq:'Jaarlijks' },
+  { id:'CE_05', title:'ISO 27001: Directiebeoordeling Q4 2026',                deadline:'2026-11-30', freq:'Jaarlijks' },
+  { id:'CE_06', title:'SoA: jaarlijkse herziening en actualisatie',            deadline:'2026-12-01', freq:'Jaarlijks' },
+  { id:'CE_07', title:'NIS2/CBW: Jaarlijkse melding bij NCSC',                 deadline:'2026-12-31', freq:'Jaarlijks' },
+  { id:'CE_08', title:'IB-bewustzijnstraining: jaarlijkse cyclus medewerkers', deadline:'2026-12-31', freq:'Jaarlijks' },
+];
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+function statusPill(s) {
+  const map = {
+    'IS_FullyImplemented':      ['pill-green',  'VOLLEDIG'],
+    'IS_PartiallyImplemented':  ['pill-yellow', 'GEDEELTELIJK'],
+    'IS_InProgress':            ['pill-orange', 'IN UITVOERING'],
+    'IS_NotStarted':            ['pill-red',    'NIET GESTART'],
+    'IS_Planned':               ['pill-blue',   'GEPLAND'],
+  };
+  const [cls, lbl] = map[s] || ['pill-grey', s];
+  return `<span class="pill ${cls}">${lbl}</span>`;
+}
+
+function progressBar(s) {
+  const map = {
+    'IS_FullyImplemented':     ['progress-green',  100],
+    'IS_PartiallyImplemented': ['progress-yellow',  50],
+    'IS_InProgress':           ['progress-orange',  25],
+    'IS_NotStarted':           ['progress-red',      5],
+  };
+  const [cls, pct] = map[s] || ['progress-grey', 0];
+  return `<div class="progress-wrap" style="width:120px;"><div class="progress-bar ${cls}" style="width:${pct}%"></div></div>`;
+}
+
+function scoreLevel(s) {
+  if (s >= 16) return ['pill-red',    'KRITIEK'];
+  if (s >= 10) return ['pill-orange', 'HOOG'];
+  if (s >= 5)  return ['pill-yellow', 'MEDIUM'];
+  return ['pill-green', 'LAAG'];
+}
+
+function getQ(dateStr) {
+  const m = parseInt(dateStr.split('-')[1]);
+  return m <= 3 ? 'Q1' : m <= 6 ? 'Q2' : m <= 9 ? 'Q3' : 'Q4';
+}
+
+// ════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════
+
+function renderHeatmap() {
+  const hm = document.getElementById('heatmap');
+  // impact (rij, 5→1 van boven naar onder), kans (kolom, 1→5 van links naar rechts)
+  const riskPositions = {
+    '4-4': 'R_001 (20)', // kans=4, impact=5
+    '3-4': 'R_002 (12)', // kans=3, impact=4
+    '3-5': 'R_003 (12)',
+    '3-6': 'R_004 (12)',
+  };
+
+  // Risico's op heatmap: R_001 @ kans=4,impact=5  R_002/3/4 @ kans=3,impact=4
+  const riskMap = {
+    '4_5': 'R001', '3_4a': 'R002', '3_4b': 'R003', '3_4c': 'R004'
+  };
+
+  let html = '';
+  // Lege hoekcel
+  html += '<div class="hm-cell hm-axis"></div>';
+  // Kans-labels (kolommen)
+  for (let k=1; k<=5; k++) {
+    html += `<div class="hm-cell hm-axis" style="text-align:center;font-size:9px;">K${k}</div>`;
+  }
+
+  for (let impact=5; impact>=1; impact--) {
+    // Impact-label (rij)
+    html += `<div class="hm-cell hm-axis" style="font-size:9px;">I${impact}</div>`;
+    for (let kans=1; kans<=5; kans++) {
+      const score = kans * impact;
+      let cls = score >= 16 ? 'hm-critical' : score >= 10 ? 'hm-high' : score >= 5 ? 'hm-medium' : 'hm-low';
+      // Zoek risico's op deze positie
+      let label = '';
+      let hasRisk = '';
+      if (kans === 4 && impact === 5) { label = 'R001'; hasRisk = 'has-risk'; }
+      if (kans === 3 && impact === 4) { label = 'R002-004'; hasRisk = 'has-risk'; }
+      html += `<div class="hm-cell ${cls} ${hasRisk}" data-label="${label}" title="Score: ${score}${label ? ' · ' + label : ''}">${label ? '●' : score}</div>`;
+    }
+  }
+  // Kans-label rij onderaan
+  html += '<div class="hm-cell hm-axis"></div>';
+  for (let k=1; k<=5; k++) {
+    html += `<div class="hm-cell hm-axis" style="text-align:center;font-size:9px;color:var(--text-muted);">${k}</div>`;
+  }
+  html += '<div class="hm-cell hm-axis" style="font-size:9px;color:var(--text-muted);text-align:center;grid-column:2/7;">→ Kans</div>';
+
+  hm.innerHTML = html;
+}
+
+function renderRiskTable() {
+  const tbody = document.getElementById('risk-table');
+  tbody.innerHTML = risks.map(r => {
+    const [pillCls, pillLbl] = scoreLevel(r.score);
+    return `<tr>
+      <td class="mono">${r.id}</td>
+      <td>${r.title}</td>
+      <td><span class="pill ${pillCls}">${r.score} · ${pillLbl}</span></td>
+      <td class="mono">${r.kans}</td>
+      <td class="mono">${r.impact}</td>
+      <td class="mono">${r.ctrl}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderMitigatieChart() {
+  const ctx = document.getElementById('mitigatieChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: risks.map(r => r.id + ': ' + r.title.substring(0,30) + '…'),
+      datasets: [{
+        label: 'Risicoscore',
+        data: risks.map(r => r.score),
+        backgroundColor: risks.map(r => r.score >= 16 ? 'rgba(218,54,51,.6)' : 'rgba(219,109,40,.5)'),
+        borderColor: risks.map(r => r.score >= 16 ? '#da3633' : '#db6d28'),
+        borderWidth: 1,
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: (ctx) => 'Maatregel: ' + risks[ctx.dataIndex].ctrl
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#8b949e', font: { size: 11 } }, grid: { color: '#21262d' } },
+        y: {
+          ticks: { color: '#8b949e' }, grid: { color: '#21262d' },
+          min: 0, max: 25,
+          title: { display: true, text: 'Risicoscore (kans × impact)', color: '#8b949e', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+function renderNIS2Grid() {
+  const grid = document.getElementById('nis2-grid');
+  grid.innerHTML = Object.entries(nis2).map(([letter, data]) =>
+    `<div class="nis2-item covered">
+      <div class="nis2-art">Art.21(${letter})</div>
+      <div class="nis2-desc">${data.desc}</div>
+      <div class="nis2-ctrl">${data.ctrls.map(c=>'ISO27002_'+c).join(' · ')}</div>
+      <div style="margin-top:6px;"><span class="pill pill-green">✓ ${data.ctrls.length} maatregel${data.ctrls.length>1?'en':''}</span></div>
+    </div>`
+  ).join('');
+}
+
+function renderNIS2Table() {
+  const tbody = document.querySelector('#nis2-table tbody');
+  tbody.innerHTML = Object.entries(nis2).map(([letter, data]) =>
+    `<tr>
+      <td><span class="pill pill-blue mono">Art.21(${letter})</span></td>
+      <td>${data.desc}</td>
+      <td class="mono" style="font-size:11px;">${data.ctrls.map(c=>'ISO/IEC 27002:'+c.replace('_','.')).join('<br>')}</td>
+      <td><span class="pill pill-green">✓ GEDEKT</span></td>
+    </tr>`
+  ).join('');
+}
+
+function renderSoaDonut() {
+  const ctx = document.getElementById('soaDonut').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Volledig', 'Gedeeltelijk', 'In uitvoering', 'Niet gestart'],
+      datasets: [{
+        data: [3, 8, 3, 1],
+        backgroundColor: ['rgba(46,160,67,.7)', 'rgba(210,153,34,.7)', 'rgba(219,109,40,.7)', 'rgba(218,54,51,.7)'],
+        borderColor: ['#2ea043', '#d29922', '#db6d28', '#da3633'],
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '65%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#8b949e', font: { size: 11 }, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}/15` } }
+      }
+    }
+  });
+}
+
+function renderSoaBar() {
+  const ctx = document.getElementById('soaBar').getContext('2d');
+  const statusOrder = ['IS_FullyImplemented','IS_PartiallyImplemented','IS_InProgress','IS_NotStarted'];
+  const colorMap = {
+    'IS_FullyImplemented':     'rgba(46,160,67,.7)',
+    'IS_PartiallyImplemented': 'rgba(210,153,34,.7)',
+    'IS_InProgress':           'rgba(219,109,40,.7)',
+    'IS_NotStarted':           'rgba(218,54,51,.7)',
+  };
+  const pctMap = {
+    'IS_FullyImplemented': 100, 'IS_PartiallyImplemented': 50,
+    'IS_InProgress': 25, 'IS_NotStarted': 5,
+  };
+  const sorted = [...soa].sort((a,b) => pctMap[b.status] - pctMap[a.status]);
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sorted.map(s => s.ctrl.split(' ')[0]),
+      datasets: [{
+        label: 'Implementatie %',
+        data: sorted.map(s => pctMap[s.status]),
+        backgroundColor: sorted.map(s => colorMap[s.status]),
+        borderRadius: 3,
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { min: 0, max: 100, ticks: { color: '#8b949e', font:{size:10}, callback: v => v+'%' }, grid: { color: '#21262d' } },
+        y: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function renderSoaTable() {
+  const tbody = document.getElementById('soa-table');
+  tbody.innerHTML = soa.map(s =>
+    `<tr>
+      <td class="mono">${s.ctrl}</td>
+      <td>${statusPill(s.status)}</td>
+      <td>${progressBar(s.status)}</td>
+      <td style="font-size:11px;color:var(--text-dim);max-width:400px;">${s.motivatie}</td>
+    </tr>`
+  ).join('');
+}
+
+function renderTimeline() {
+  const tl = document.getElementById('timeline');
+  const today = new Date('2026-03-09');
+  tl.innerHTML = calendar.map(c => {
+    const d = new Date(c.deadline);
+    const days = Math.ceil((d - today) / 86400000);
+    const urgency = days < 30 ? 'urgent' : days < 90 ? 'soon' : 'future';
+    const formattedDate = d.toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' });
+    const daysStr = days < 0 ? 'Verstreken' : days === 0 ? 'Vandaag' : `over ${days} dagen`;
+    return `<div class="timeline-item ${urgency}">
+      <div class="timeline-date">${formattedDate} · <span style="color:${urgency==='urgent'?'#ff7b72':urgency==='soon'?'#e3b341':'#3fb950'}">${daysStr}</span> · ${c.freq}</div>
+      <div class="timeline-title">${c.title}</div>
+      <div class="timeline-sub mono" style="font-size:10px;">${c.id}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCalChart() {
+  const ctx = document.getElementById('calChart').getContext('2d');
+  const q1 = calendar.filter(c => getQ(c.deadline)==='Q1').length;
+  const q2 = calendar.filter(c => getQ(c.deadline)==='Q2').length;
+  const q3 = calendar.filter(c => getQ(c.deadline)==='Q3').length;
+  const q4 = calendar.filter(c => getQ(c.deadline)==='Q4').length;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Q1 2026','Q2 2026','Q3 2026','Q4 2026'],
+      datasets: [{
+        data: [q1, q2, q3, q4],
+        backgroundColor: ['rgba(218,54,51,.5)','rgba(210,153,34,.5)','rgba(31,111,235,.5)','rgba(46,160,67,.5)'],
+        borderColor: ['#da3633','#d29922','#1f6feb','#2ea043'],
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+        y: { ticks: { color: '#8b949e', stepSize: 1 }, grid: { color: '#21262d' }, min: 0 }
+      }
+    }
+  });
+}
+
+function renderCalTable() {
+  const tbody = document.getElementById('cal-table');
+  const today = new Date('2026-03-09');
+  tbody.innerHTML = calendar.map((c, i) => {
+    const d = new Date(c.deadline);
+    const days = Math.ceil((d - today) / 86400000);
+    const urgency = days < 30 ? 'pill-red' : days < 90 ? 'pill-yellow' : 'pill-green';
+    const formattedDate = d.toLocaleDateString('nl-NL', { day:'numeric', month:'short', year:'numeric' });
+    return `<tr>
+      <td class="mono">${c.id}</td>
+      <td>${c.title}</td>
+      <td><span class="pill ${urgency} mono">${formattedDate}</span></td>
+      <td class="mono">${c.freq}</td>
+      <td class="mono">${getQ(c.deadline)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.closest('.nav-item').classList.add('active');
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#30363d';
+Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+
+document.getElementById('ts').textContent = new Date().toLocaleString('nl-NL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+renderHeatmap();
+renderRiskTable();
+renderMitigatieChart();
+renderNIS2Grid();
+renderNIS2Table();
+renderSoaDonut();
+renderSoaBar();
+renderSoaTable();
+renderTimeline();
+renderCalChart();
+renderCalTable();
+</script>
+</body>
+</html>

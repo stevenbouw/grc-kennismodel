@@ -1,0 +1,1837 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix asset:   <https://grc.example.org/asset/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+
+# =============================================================================
+# GRC Ontologie — Module M18: Asset (geconsolideerd)
+# Versie: 4.2.1 | Datum: 2026-04-13 | Profiel: OWL 2 DL
+# =============================================================================
+#
+# CONSOLIDATIE-RATIONALE (v4.2.1, 13 april 2026)
+# Tijdens de M18-ontwikkeling (april 2026) ontstonden organisch vijf
+# afzonderlijke bestanden door splitsingen in de uitvoering die niet via
+# de masterchat-besluitvorming liepen. Bij de v4.2.0-oplevering werd dit
+# door de masterchat opgemerkt en gecorrigeerd. v4.2.1 voert de
+# oorspronkelijke afspraak alsnog door (één M18-module, één bestand),
+# zonder semantische wijzigingen.
+#
+# Dit bestand bevat nu:
+#   SECTIE 1 — TBox: hoofdklassen, sub-taxonomie, properties, SKOS-mappings
+#   SECTIE 2 — Mappings: ISO 27002:2022 → asset-type (128 triples)
+#   SECTIE 3 — Mappings: BIO 2.0 ISO27002-controls (inferentie-strategie)
+#   SECTIE 4 — Mappings: BIO 2.0 Overheidsmaatregelen → asset-type (300 triples)
+#   APPENDIX A — Patroon-statistieken voor overheidsmaatregelen (P1/P2/P3/P4)
+#   APPENDIX B — Overrides-log
+#
+# M18 SHACL-shapes zijn gemigreerd naar grc-shacl.ttl (v4.2.1) als
+# expliciet gelabelde post-inferentie sectie.
+# =============================================================================
+#
+# Architecturale asset-typologie voor het GRC Kennismodel.
+# Framework-neutraal (D9): basisstructuur uit ISO 27005:2024,
+# aangevuld vanuit BVA-stelsel art. 1k, VIRBI 2025 en Besluit CIO-stelsel 2026.
+#
+# Masterchat-beslissingen (13 april 2026):
+#   - D-M18-1: Namespace asset: https://grc.example.org/asset/ (akkoord)
+#   - D-M18-2: appliesToAssetType in asset:-namespace (Optie 2b)
+#   - D-M18-3: M06-stubs blijven; link via rdfs:seeAlso (Optie 3b)
+#   - D-M18-4: BVA TBB als skos:Concept in M01 (separate patch)
+#   - D-M18-5: Mens-systeem-relatie via asset:isOperatedBy (Optie A)
+#
+# Scope: Spoor A (TBox + klasse-niveau SKOS); geen instances.
+# =============================================================================
+
+<https://grc.example.org/ontology/m18-assets>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M18 — Asset"@nl ,
+               "GRC Ontology Module M18 — Asset"@en ;
+    rdfs:comment "Architecturale asset-typologie op basis van ISO 27005:2024, aangevuld met overheid-specifieke aspecten uit BVA-stelsel art. 1k (Te Beschermen Belangen), VIRBI 2025 en Besluit CIO-stelsel 2026 art. 1o. Onafhankelijk van de ISMS-administratieve asset-stubs in M06 (zie rdfs:seeAlso-relaties)."@nl ,
+                 "Architectural asset typology based on ISO 27005:2024, supplemented with government-specific aspects from the BVA-stelsel art. 1k (Te Beschermen Belangen), VIRBI 2025 and Besluit CIO-stelsel 2026 art. 1o. Independent from the ISMS administrative asset stubs in M06 (see rdfs:seeAlso relations)."@en ;
+    dcterms:created "2026-04-13"^^xsd:date ;
+    owl:versionInfo "4.2.1" ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# =============================================================================
+# 1. TOPLAAG — Asset en AssetComponent
+# =============================================================================
+
+asset:Asset
+    rdf:type owl:Class ;
+    rdfs:label "Asset"@en , "Bedrijfsmiddel"@nl ;
+    rdfs:comment "Top-level class for any asset that has value to the organisation and requires protection. Framework-neutral root (D9). Subclasses cover the seven BVA Te Beschermen Belangen (BVA-stelsel 2021 art. 1k) and the ISO 27005:2024 asset categorisation."@en ,
+                 "Topklasse voor elk bedrijfsmiddel dat waarde heeft voor de organisatie en bescherming vereist. Framework-neutrale basis (D9). Subklassen dekken de zeven BVA Te Beschermen Belangen (BVA-stelsel 2021 art. 1k) en de ISO 27005:2024-asset-categorisering."@nl ;
+    dcterms:source "ISO/IEC 27005:2024; BVA-stelsel Rijksdienst 2021 art. 1k" ;
+    rdfs:seeAlso isms:InformationAsset .
+
+asset:AssetComponent
+    rdf:type owl:Class ;
+    rdfs:label "Asset Component"@en , "Bedrijfsmiddelcomponent"@nl ;
+    rdfs:comment "A constituent part of an asset. Used as range (together with asset:Asset) for mereological relations (asset:hasComponent) and for control-applicability (asset:appliesToAssetType). Components are typed per asset subclass — see CIO-stelsel art. 1o for the canonical InformationSystem components."@en ,
+                 "Een samenstellend onderdeel van een bedrijfsmiddel. Gebruikt als range (samen met asset:Asset) voor mereologische relaties (asset:hasComponent) en voor maatregeltoepasbaarheid (asset:appliesToAssetType). Componenten worden per asset-subklasse getypeerd — zie CIO-stelsel art. 1o voor de canonieke InformationSystem-componenten."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+# =============================================================================
+# 2. VIJF HOOFDKLASSEN ASSET
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 2.1 InformationAsset
+# -----------------------------------------------------------------------------
+
+asset:InformationAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Asset ;
+    rdfs:label "Information Asset"@en , "Informatiebedrijfsmiddel"@nl ;
+    rdfs:comment "Information as a standalone asset: data, documents, knowledge. Includes classified information under VIRBI 2025. Distinct from asset:InformationSystem (which is the composite processing environment)."@en ,
+                 "Informatie als zelfstandig bedrijfsmiddel: data, documenten, kennis. Omvat gerubriceerde informatie onder VIRBI 2025. Onderscheiden van asset:InformationSystem (dat de samengestelde verwerkingsomgeving is)."@nl ;
+    dcterms:source "ISO/IEC 27005:2024; BVA-stelsel 2021 art. 1k (informatie); VIRBI 2025" ;
+    rdfs:seeAlso isms:InformationAsset .
+    # WAARSCHUWING: isms:InformationAsset (M06) is een ISMS-administratieve stub,
+    # niet de architecturale asset-klasse. De rdfs:seeAlso is bewust een zachte
+    # verwijzing; geen owl:equivalentClass (zou M06 formeel wijzigen).
+
+# -----------------------------------------------------------------------------
+# 2.2 InformationSystem
+# -----------------------------------------------------------------------------
+
+asset:InformationSystem
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Asset ;
+    rdfs:label "Information System"@en , "Informatiesysteem"@nl ;
+    rdfs:comment "A composite asset consisting of data collections, procedures, processes, software and facilities for storage, processing and communication. Per Besluit CIO-stelsel Rijksdienst 2026 art. 1o. Components are linked via asset:hasComponent. Persons who operate the system are linked via asset:isOperatedBy — NOT via asset:hasComponent (masterchat decision D-M18-5: CIO-stelsel primary source, not VIRBI 2025 / VIR 2007 which do include 'personen' in the informatiesysteem definition)."@en ,
+                 "Een samengesteld bedrijfsmiddel bestaande uit gegevensverzamelingen, procedures, processen, programmatuur en voorzieningen voor opslag, verwerking en communicatie. Conform Besluit CIO-stelsel Rijksdienst 2026 art. 1o. Componenten via asset:hasComponent. Personen die het systeem bedienen via asset:isOperatedBy — NIET via asset:hasComponent (masterchat-besluit D-M18-5: CIO-stelsel als primaire bron, niet VIRBI 2025 / VIR 2007 die 'personen' wel in de informatiesysteem-definitie opnemen)."@nl ;
+    dcterms:source "ISO/IEC 27005:2024; Besluit CIO-stelsel Rijksdienst 2026 art. 1o; BVA-stelsel 2021 art. 1k (informatiesystemen)" .
+
+# -----------------------------------------------------------------------------
+# 2.3 PhysicalAsset + sub-klassen (BVA-splitsing)
+# -----------------------------------------------------------------------------
+
+asset:PhysicalAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Asset ;
+    rdfs:label "Physical Asset"@en , "Fysiek bedrijfsmiddel"@nl ;
+    rdfs:comment "Tangible assets: buildings, hardware, equipment, goods, objects. Sub-classed to align with the BVA-stelsel 2021 art. 1k distinction between materieel, goederen and objecten."@en ,
+                 "Tastbare bedrijfsmiddelen: gebouwen, hardware, materieel, goederen, objecten. Subklassen volgen het onderscheid uit BVA-stelsel 2021 art. 1k tussen materieel, goederen en objecten."@nl ;
+    dcterms:source "ISO/IEC 27005:2024; BVA-stelsel 2021 art. 1k" .
+
+asset:Equipment
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:PhysicalAsset ;
+    rdfs:label "Equipment"@en , "Materieel"@nl ;
+    rdfs:comment "Equipment: durable operational resources such as hardware, tools, vehicles, specialised instruments. Corresponds to BVA-stelsel 2021 art. 1k 'materieel'."@en ,
+                 "Materieel: duurzame operationele middelen zoals hardware, gereedschap, voertuigen, specialistische instrumenten. Correspondeert met BVA-stelsel 2021 art. 1k 'materieel'."@nl ;
+    dcterms:source "BVA-stelsel Rijksdienst 2021 art. 1k" .
+
+asset:TangibleGoods
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:PhysicalAsset ;
+    rdfs:label "Tangible Goods"@en , "Goederen"@nl ;
+    rdfs:comment "Consumable or inventoried tangible goods. Corresponds to BVA-stelsel 2021 art. 1k 'goederen'. Distinct from Equipment (durable) and PhysicalObject (other protectable objects)."@en ,
+                 "Verbruiksgoederen of inventarisgoederen. Correspondeert met BVA-stelsel 2021 art. 1k 'goederen'. Onderscheiden van Materieel (duurzaam) en PhysicalObject (overige beschermwaardige objecten)."@nl ;
+    dcterms:source "BVA-stelsel Rijksdienst 2021 art. 1k" .
+
+asset:PhysicalObject
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:PhysicalAsset ;
+    rdfs:label "Physical Object"@en , "Fysiek object"@nl ;
+    rdfs:comment "Protectable physical objects not covered by Equipment or TangibleGoods — e.g. buildings, secure rooms, facilities. Corresponds to BVA-stelsel 2021 art. 1k 'objecten'."@en ,
+                 "Beschermwaardige fysieke objecten die niet onder Materieel of Goederen vallen — bijv. gebouwen, beveiligde ruimten, voorzieningen. Correspondeert met BVA-stelsel 2021 art. 1k 'objecten'."@nl ;
+    dcterms:source "BVA-stelsel Rijksdienst 2021 art. 1k" .
+    # WAARSCHUWING: naam 'PhysicalObject' i.p.v. 'Object' gekozen om verwarring
+    # met het generieke begrip 'object' (OWL/RDF) te voorkomen.
+
+# -----------------------------------------------------------------------------
+# 2.4 HumanAsset
+# -----------------------------------------------------------------------------
+
+asset:HumanAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Asset ;
+    rdfs:label "Human Asset"@en , "Personeel bedrijfsmiddel"@nl ;
+    rdfs:comment "Persons as protectable assets: employees, external staff, role-holders. Per masterchat-decision D-M18-5, persons are NOT modelled as components of InformationSystem (Option A). The operator-relation is expressed via asset:isOperatedBy. Role-assignment is handled by the M04 roles-module."@en ,
+                 "Personen als beschermwaardige bedrijfsmiddelen: medewerkers, externen, rolhouders. Conform masterchat-besluit D-M18-5 worden personen NIET als component van InformationSystem gemodelleerd (Optie A). De bedienings-relatie wordt uitgedrukt via asset:isOperatedBy. Rolkoppeling valt onder M04 rollen-module."@nl ;
+    dcterms:source "ISO/IEC 27005:2024; BVA-stelsel 2021 art. 1k (personen)" ;
+    rdfs:seeAlso roles:Role .
+
+# -----------------------------------------------------------------------------
+# 2.5 IntangibleAsset
+# -----------------------------------------------------------------------------
+
+asset:IntangibleAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Asset ;
+    rdfs:label "Intangible Asset"@en , "Immaterieel bedrijfsmiddel"@nl ;
+    rdfs:comment "Intangible assets: reputation, image, trust. Added beyond ISO 27005:2024 to cover BVA-stelsel 2021 art. 1k 'imago'. Has no physical components but can be affected by incidents involving other asset-types."@en ,
+                 "Immateriële bedrijfsmiddelen: reputatie, imago, vertrouwen. Toegevoegd bovenop ISO 27005:2024 om BVA-stelsel 2021 art. 1k 'imago' te dekken. Heeft geen fysieke componenten maar kan worden geraakt door incidenten bij andere asset-types."@nl ;
+    dcterms:source "BVA-stelsel Rijksdienst 2021 art. 1k (imago); aanvulling op ISO/IEC 27005:2024" .
+
+# =============================================================================
+# 3. COMPONENT-KLASSEN (per CIO-stelsel 2026 art. 1o)
+# =============================================================================
+# De onderstaande klassen typeren de componenten van asset:InformationSystem.
+# Voor andere asset-types (PhysicalAsset → ruimtes; HumanAsset → vetting-status)
+# worden componenten pas in latere iteraties toegevoegd.
+
+asset:DataCollection
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:AssetComponent ;
+    rdfs:label "Data Collection"@en , "Gegevensverzameling"@nl ;
+    rdfs:comment "A structured or unstructured collection of data that is part of an information system. Per CIO-stelsel 2026 art. 1o 'gegevensverzameling'."@en ,
+                 "Een gestructureerde of ongestructureerde verzameling gegevens die deel uitmaakt van een informatiesysteem. Per CIO-stelsel 2026 art. 1o 'gegevensverzameling'."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:Procedure
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:AssetComponent ;
+    rdfs:label "Procedure (system component)"@en , "Procedure (systeemcomponent)"@nl ;
+    rdfs:comment "An operational procedure that forms part of an information system (e.g. operational runbooks, administration procedures). Per CIO-stelsel 2026 art. 1o 'procedure'. Distinct from isms:Procedure (M06) which is an ISMS-documentation artefact, not a system component."@en ,
+                 "Een operationele procedure die deel uitmaakt van een informatiesysteem (bijv. operationele runbooks, beheerprocedures). Per CIO-stelsel 2026 art. 1o 'procedure'. Onderscheiden van isms:Procedure (M06) dat een ISMS-documentatie-artefact is, geen systeemcomponent."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" ;
+    rdfs:seeAlso isms:Procedure .
+
+asset:SystemProcess
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:AssetComponent ;
+    rdfs:label "System Process"@en , "Systeemproces"@nl ;
+    rdfs:comment "A process executing within an information system. Per CIO-stelsel 2026 art. 1o 'proces'. Naming 'SystemProcess' (not 'Process') to avoid ambiguity with business-processes (biz:) or risk-processes (risk:)."@en ,
+                 "Een proces dat binnen een informatiesysteem wordt uitgevoerd. Per CIO-stelsel 2026 art. 1o 'proces'. Naamgeving 'SystemProcess' (niet 'Process') om verwarring met bedrijfsprocessen (biz:) of risicoprocessen (risk:) te voorkomen."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:Software
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:AssetComponent ;
+    rdfs:label "Software"@en , "Programmatuur"@nl ;
+    rdfs:comment "Software components of an information system: applications, services, libraries, firmware. Per CIO-stelsel 2026 art. 1o 'programmatuur'."@en ,
+                 "Programmatuur-componenten van een informatiesysteem: applicaties, diensten, libraries, firmware. Per CIO-stelsel 2026 art. 1o 'programmatuur'."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:Facility
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:AssetComponent ;
+    rdfs:label "Facility (system component)"@en , "Voorziening (systeemcomponent)"@nl ;
+    rdfs:comment "A facility that supports an information system: storage, processing or communication. Per CIO-stelsel 2026 art. 1o 'voorzieningen voor opslag, verwerking en communicatie'. Subclassed into StorageFacility, ProcessingFacility and CommunicationFacility."@en ,
+                 "Een voorziening die een informatiesysteem ondersteunt: opslag, verwerking of communicatie. Per CIO-stelsel 2026 art. 1o 'voorzieningen voor opslag, verwerking en communicatie'. Gesubklasseerd in StorageFacility, ProcessingFacility en CommunicationFacility."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:StorageFacility
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Facility ;
+    rdfs:label "Storage Facility"@en , "Opslagvoorziening"@nl ;
+    rdfs:comment "Storage facility component of an information system (e.g. storage arrays, databases at infrastructure level, archive systems)."@en ,
+                 "Opslagvoorzieningscomponent van een informatiesysteem (bijv. storage arrays, databases op infrastructuurniveau, archiefsystemen)."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:ProcessingFacility
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Facility ;
+    rdfs:label "Processing Facility"@en , "Verwerkingsvoorziening"@nl ;
+    rdfs:comment "Processing facility component of an information system (e.g. compute clusters, application servers, container platforms)."@en ,
+                 "Verwerkingsvoorzieningscomponent van een informatiesysteem (bijv. compute clusters, applicatieservers, containerplatforms)."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:CommunicationFacility
+    rdf:type owl:Class ;
+    rdfs:subClassOf asset:Facility ;
+    rdfs:label "Communication Facility"@en , "Communicatievoorziening"@nl ;
+    rdfs:comment "Communication facility component of an information system (e.g. networks, VPN, message brokers, APIs at infrastructure level)."@en ,
+                 "Communicatievoorzieningscomponent van een informatiesysteem (bijv. netwerken, VPN, message brokers, API's op infrastructuurniveau)."@nl ;
+    dcterms:source "Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+# =============================================================================
+# 4. OBJECT PROPERTIES
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 4.1 Mereologie — hasComponent / isComponentOf
+# -----------------------------------------------------------------------------
+
+asset:hasComponent
+    rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain asset:Asset ;
+    rdfs:range asset:AssetComponent ;
+    owl:inverseOf asset:isComponentOf ;
+    rdfs:label "has component"@en , "heeft component"@nl ;
+    rdfs:comment "Mereological part-whole relation: the subject-asset has the object as a constituent component. Transitive: if A hasComponent B and B hasComponent C, then A hasComponent C. Usage varies per asset-subclass; for InformationSystem, components are typed per CIO-stelsel 2026 art. 1o."@en ,
+                 "Mereologische deel-geheel-relatie: het subject-bedrijfsmiddel heeft het object als samenstellende component. Transitief: als A hasComponent B en B hasComponent C, dan A hasComponent C. Gebruik varieert per asset-subklasse; voor InformationSystem worden componenten getypeerd per CIO-stelsel 2026 art. 1o."@nl ;
+    dcterms:source "Masterchat-besluit A4.3 (13 april 2026)" .
+
+asset:isComponentOf
+    rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain asset:AssetComponent ;
+    rdfs:range asset:Asset ;
+    owl:inverseOf asset:hasComponent ;
+    rdfs:label "is component of"@en , "is component van"@nl ;
+    rdfs:comment "Inverse of asset:hasComponent. Transitive."@en ,
+                 "Inverse van asset:hasComponent. Transitief."@nl .
+
+# -----------------------------------------------------------------------------
+# 4.2 Mens-systeem-relatie — isOperatedBy
+# -----------------------------------------------------------------------------
+
+asset:isOperatedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain asset:InformationSystem ;
+    rdfs:range asset:HumanAsset ;
+    rdfs:label "is operated by"@en , "wordt bediend door"@nl ;
+    rdfs:comment "Relates an information system to the persons who operate it. Distinct from asset:hasComponent (masterchat-decision D-M18-5, Option A): persons are not mereological parts of a system. Note: VIR 2007 art. 1b, VIRBI 2025 art. 1 and BIO 2.0 DO include 'personen' in their information-system definition; this model follows Besluit CIO-stelsel 2026 art. 1o as primary source for architectural cleanliness."@en ,
+                 "Koppelt een informatiesysteem aan de personen die het bedienen. Onderscheiden van asset:hasComponent (masterchat-besluit D-M18-5, Optie A): personen zijn geen mereologische delen van een systeem. Noot: VIR 2007 art. 1b, VIRBI 2025 art. 1 en BIO 2.0 noemen 'personen' WEL in hun informatiesysteem-definitie; dit model volgt Besluit CIO-stelsel 2026 art. 1o als primaire bron voor architecturale zuiverheid."@nl ;
+    dcterms:source "Masterchat-besluit D-M18-5 (13 april 2026); Besluit CIO-stelsel Rijksdienst 2026 art. 1o" .
+
+asset:operates
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain asset:HumanAsset ;
+    rdfs:range asset:InformationSystem ;
+    owl:inverseOf asset:isOperatedBy ;
+    rdfs:label "operates"@en , "bedient"@nl ;
+    rdfs:comment "Inverse of asset:isOperatedBy. Relates a person-asset to information systems they operate."@en ,
+                 "Inverse van asset:isOperatedBy. Koppelt een persoons-bedrijfsmiddel aan de informatiesystemen die zij bedient."@nl .
+
+# -----------------------------------------------------------------------------
+# 4.3 Control-toepasbaarheid — appliesToAssetType
+# -----------------------------------------------------------------------------
+
+asset:AssetOrComponent
+    rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf ( asset:Asset asset:AssetComponent )
+    ] ;
+    rdfs:label "Asset or Component"@en , "Bedrijfsmiddel of component"@nl ;
+    rdfs:comment "Union class of asset:Asset and asset:AssetComponent. Used as rdfs:range for asset:appliesToAssetType. Masterchat-decision A4.4: one property with union-range rather than two separate properties."@en ,
+                 "Unieklasse van asset:Asset en asset:AssetComponent. Gebruikt als rdfs:range voor asset:appliesToAssetType. Masterchat-besluit A4.4: één property met union-range in plaats van twee aparte properties."@nl ;
+    dcterms:source "Masterchat-besluit A4.4 (13 april 2026)" .
+
+asset:appliesToAssetType
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain ctrl:Control ;
+    rdfs:range asset:AssetOrComponent ;
+    rdfs:label "applies to asset type"@en , "is van toepassing op bedrijfsmiddeltype"@nl ;
+    rdfs:comment "Relates a control to the asset type(s) — asset-class or component-class — for which it is relevant. Class-level property (Spoor A): the object is an asset-class, not an instance. Instance-level applicability (Spoor B) follows once the asset inventory is populated. Placed in asset:-namespace per masterchat-decision D-M18-2 (Option 2b) to respect the no-changes-to-M02 constraint (DEEL 7.3 of M18 chatstarter)."@en ,
+                 "Koppelt een beheersmaatregel aan het asset-type (of component-type) waarvoor deze relevant is. Klasse-niveau-property (Spoor A): het object is een asset-klasse, geen instance. Instance-niveau-toepasbaarheid (Spoor B) volgt zodra de asset-inventaris is gevuld. Geplaatst in asset:-namespace per masterchat-besluit D-M18-2 (Optie 2b) om de geen-wijzigingen-in-M02-constraint te respecteren (DEEL 7.3 van M18 chatstarter)."@nl ;
+    dcterms:source "Masterchat-besluiten A4.4 en D-M18-2 (13 april 2026)" .
+
+asset:hasApplicableControl
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain asset:AssetOrComponent ;
+    rdfs:range ctrl:Control ;
+    owl:inverseOf asset:appliesToAssetType ;
+    rdfs:label "has applicable control"@en , "heeft toepasselijke beheersmaatregel"@nl ;
+    rdfs:comment "Inverse of asset:appliesToAssetType. Enables two-way querying: given an asset-type, find all applicable controls."@en ,
+                 "Inverse van asset:appliesToAssetType. Maakt tweezijdige bevraging mogelijk: gegeven een asset-type, vind alle toepasselijke beheersmaatregelen."@nl .
+
+# =============================================================================
+# 5. SKOS-MAPPINGS — BVA Te Beschermen Belangen → M18-klassen
+# =============================================================================
+# Zeven Te Beschermen Belangen uit BVA-stelsel Rijksdienst 2021 art. 1k:
+#   personen, informatie, informatiesystemen, materieel, goederen, imago, objecten
+#
+# De skos:Concept-individuals worden geleverd in de M01-patch (zie
+# m01-patch-bva-tbb.ttl). Onderstaande mappings leggen hun relatie met de
+# M18-klassen vast.
+# =============================================================================
+
+fw:TBB_Personen skos:exactMatch asset:HumanAsset .
+asset:HumanAsset skos:exactMatch fw:TBB_Personen .
+
+fw:TBB_Informatie skos:exactMatch asset:InformationAsset .
+asset:InformationAsset skos:exactMatch fw:TBB_Informatie .
+
+fw:TBB_Informatiesystemen skos:exactMatch asset:InformationSystem .
+asset:InformationSystem skos:exactMatch fw:TBB_Informatiesystemen .
+
+fw:TBB_Materieel skos:exactMatch asset:Equipment .
+asset:Equipment skos:exactMatch fw:TBB_Materieel .
+
+fw:TBB_Goederen skos:exactMatch asset:TangibleGoods .
+asset:TangibleGoods skos:exactMatch fw:TBB_Goederen .
+
+fw:TBB_Objecten skos:exactMatch asset:PhysicalObject .
+asset:PhysicalObject skos:exactMatch fw:TBB_Objecten .
+
+fw:TBB_Imago skos:exactMatch asset:IntangibleAsset .
+asset:IntangibleAsset skos:exactMatch fw:TBB_Imago .
+
+
+# =============================================================================
+# SECTIE 2 — MAPPINGS: ISO 27002:2022 CONTROLS → ASSET-TYPE
+# =============================================================================
+# 93 ISO 27002:2022-controls gekoppeld aan asset-types via
+# asset:appliesToAssetType (klasse-niveau, Spoor A).
+#
+# Mapping-conventies V1-V8 vastgesteld door masterchat (13 april 2026):
+#   V1  elke asset-rakende control krijgt één of meer triples
+#   V2  mapping op klasse-niveau (Spoor A), geen instances
+#   V3  meest specifieke subklasse waar de control direct relevant is
+#   V4  meerdere asset-types = meerdere triples (geen unieklasse)
+#   V5  component-specifieke controls wijzen naar component-klasse;
+#       niet-exclusief met V4 (een control kan zowel component-specifieke
+#       als asset-niveau triples hebben als beide direct relevant zijn)
+#   V6a governance-controls → asset:Asset (toplaag) + WAARSCHUWING-tag
+#   V7a proces-controls (over informatie) → asset:InformationAsset + tag
+#   V8  multi-laag: meerdere klassen op verschillende lagen, maar nooit
+#       tussenlagen waar geen directe maatregel landt (niet naar "vehikels")
+#
+# WAARSCHUWING-tags (compact): [V6-governance], [V7-proces], [BCM-raakvlak],
+# [utilities], [privacy], [VIRBI]
+# =============================================================================
+# =============================================================================
+# GRC Ontologie — M18 Mappings: ISO 27002:2022 → asset-type
+# Versie: 4.2.0 | Datum: 2026-04-13 | Profiel: OWL 2 DL
+# =============================================================================
+#
+# 93 ISO 27002:2022-controls gekoppeld aan asset-types via
+# asset:appliesToAssetType (klasse-niveau, Spoor A).
+#
+# Mapping-conventies V1-V8 vastgesteld door masterchat (13 april 2026):
+#   V1  elke asset-rakende control krijgt één of meer triples
+#   V2  mapping op klasse-niveau (Spoor A), geen instances
+#   V3  meest specifieke subklasse waar de control direct relevant is
+#   V4  meerdere asset-types = meerdere triples (geen unieklasse)
+#   V5  component-specifieke controls wijzen naar component-klasse;
+#       niet-exclusief met V4 (een control kan zowel component-specifieke
+#       als asset-niveau triples hebben als beide direct relevant zijn)
+#   V6a governance-controls → asset:Asset (toplaag) + WAARSCHUWING-tag
+#   V7a proces-controls (over informatie) → asset:InformationAsset + tag
+#   V8  multi-laag: meerdere klassen op verschillende lagen, maar nooit
+#       tussenlagen waar geen directe maatregel landt (niet naar "vehikels")
+#
+# WAARSCHUWING-tags (compact): [V6-governance], [V7-proces], [BCM-raakvlak],
+# [utilities], [privacy]. Uitleg onder elke sectie-header.
+#
+# NIET-GEBRUIKTE M18-KLASSEN IN DEZE FILE (bewust):
+#   asset:DataCollection, asset:SystemProcess, asset:StorageFacility,
+#   asset:Facility (toplaag).
+# ISO 27002 landt geen directe maatregelen op deze component-types.
+# Deze klassen worden relevant bij BIO-overheidsmaatregelen (Stap 4) en
+# instance-niveau (Spoor B). Afwezigheid hier is geen gat in het model.
+# =============================================================================
+
+
+
+
+# =============================================================================
+# Clause 5 — Organisational controls (37 controls)
+# =============================================================================
+
+# 5.01 "Beleidsregels voor informatiebeveiliging"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_01 asset:appliesToAssetType asset:Asset .
+
+# 5.02 "Rollen en verantwoordelijkheden bij informatiebeveiliging"
+ctrl:ISO27002_5_02 asset:appliesToAssetType asset:HumanAsset .
+
+# 5.03 "Functiescheiding"
+ctrl:ISO27002_5_03 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationSystem .
+
+# 5.04 "Managementverantwoordelijkheden"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_04 asset:appliesToAssetType asset:Asset .
+
+# 5.05 "Contact met overheidsinstanties"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_05 asset:appliesToAssetType asset:Asset .
+
+# 5.06 "Contact met speciale belangengroepen"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_06 asset:appliesToAssetType asset:Asset .
+
+# 5.07 "Informatie en analyses over dreigingen"
+# [V7-proces] Proces-control waarvan het object informatie is (incident-data, threat-intel, bewijsmateriaal); mapping naar asset:InformationAsset per V7a.
+ctrl:ISO27002_5_07 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.08 "Informatiebeveiliging in projectmanagement"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_08 asset:appliesToAssetType asset:Asset .
+
+# 5.09 "Inventarisatie van informatie en andere gerelateerde bedrijfsmiddelen"
+ctrl:ISO27002_5_09 asset:appliesToAssetType asset:Asset .
+
+# 5.10 "Aanvaard gebruik van informatie en andere gerelateerde bedrijfsmiddelen"
+ctrl:ISO27002_5_10 asset:appliesToAssetType asset:Asset .
+
+# 5.11 "Retourneren van bedrijfsmiddelen"
+ctrl:ISO27002_5_11 asset:appliesToAssetType asset:Equipment ,
+                                            asset:InformationAsset .
+
+# 5.12 "Classificeren van informatie"
+ctrl:ISO27002_5_12 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.13 "Labelen van informatie"
+ctrl:ISO27002_5_13 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.14 "Overdragen van informatie"
+ctrl:ISO27002_5_14 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.15 "Toegangsbeveiliging"
+ctrl:ISO27002_5_15 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationSystem ,
+                                            asset:InformationAsset .
+
+# 5.16 "Identiteitsbeheer"
+ctrl:ISO27002_5_16 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationSystem .
+
+# 5.17 "Authenticatie-informatie"
+ctrl:ISO27002_5_17 asset:appliesToAssetType asset:InformationAsset ,
+                                            asset:InformationSystem .
+
+# 5.18 "Toegangsrechten"
+ctrl:ISO27002_5_18 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationSystem ,
+                                            asset:InformationAsset .
+
+# 5.19 "Informatiebeveiliging in leveranciersrelaties"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_19 asset:appliesToAssetType asset:Asset .
+
+# 5.20 "Adresseren van informatiebeveiliging in leveranciersovereenkomsten"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_20 asset:appliesToAssetType asset:Asset .
+
+# 5.21 "Beheren van informatiebeveiliging in de ICT-toeleveringsketen"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_21 asset:appliesToAssetType asset:Asset .
+
+# 5.22 "Monitoren, beoordelen en het beheren van wijzigingen van leveranciersdiensten"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_22 asset:appliesToAssetType asset:Asset .
+
+# 5.23 "Informatiebeveiliging voor het gebruik van clouddiensten"
+ctrl:ISO27002_5_23 asset:appliesToAssetType asset:InformationSystem .
+
+# 5.24 "Plannen en voorbereiden van het beheer van informatiebeveiligingsincidenten"
+# [V7-proces] Proces-control waarvan het object informatie is (incident-data, threat-intel, bewijsmateriaal); mapping naar asset:InformationAsset per V7a.
+ctrl:ISO27002_5_24 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.25 "Beoordelen van en besluiten over informatiebeveiligingsgebeurtenissen"
+# [V7-proces] Proces-control waarvan het object informatie is (incident-data, threat-intel, bewijsmateriaal); mapping naar asset:InformationAsset per V7a.
+ctrl:ISO27002_5_25 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.26 "Reageren op informatiebeveiligingsincidenten"
+# [V7-proces] Proces-control waarvan het object informatie is (incident-data, threat-intel, bewijsmateriaal); mapping naar asset:InformationAsset per V7a.
+ctrl:ISO27002_5_26 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.27 "Leren van informatiebeveiligingsincidenten"
+# [V7-proces] Proces-control waarvan het object informatie is (incident-data, threat-intel, bewijsmateriaal); mapping naar asset:InformationAsset per V7a.
+ctrl:ISO27002_5_27 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.28 "Verzamelen van bewijsmateriaal"
+ctrl:ISO27002_5_28 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.29 "Informatiebeveiliging tijdens een verstoring"
+# [BCM-raakvlak] IB-maatregelen tijdens verstoring raken in essentie de volledige asset-landschap; mapping naar asset:Asset (toplaag) met BCM-context.
+ctrl:ISO27002_5_29 asset:appliesToAssetType asset:Asset .
+
+# 5.30 "ICT-gereedheid voor bedrijfscontinuïteit"
+ctrl:ISO27002_5_30 asset:appliesToAssetType asset:InformationSystem .
+
+# 5.31 "Wettelijke, statutaire, regelgevende en contractuele eisen"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_31 asset:appliesToAssetType asset:Asset .
+
+# 5.32 "Intellectuele-eigendomsrechten"
+ctrl:ISO27002_5_32 asset:appliesToAssetType asset:InformationAsset ,
+                                            asset:IntangibleAsset .
+
+# 5.33 "Beschermen van registraties"
+ctrl:ISO27002_5_33 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.34 "Privacy en bescherming van persoonsgegevens"
+# [privacy] Specifiek voor persoonsgegevens. AVG-koppeling via M14 SKOS-mappings.
+ctrl:ISO27002_5_34 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.35 "Onafhankelijke beoordeling van informatiebeveiliging"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_35 asset:appliesToAssetType asset:Asset .
+
+# 5.36 "Naleving van beleid, regels en normen voor informatiebeveiliging"
+# [V6-governance] Raakt geen specifiek asset-type; mapping naar asset:Asset (toplaag) per mapping-conventie V6a.
+ctrl:ISO27002_5_36 asset:appliesToAssetType asset:Asset .
+
+# 5.37 "Gedocumenteerde bedieningsprocedures"
+ctrl:ISO27002_5_37 asset:appliesToAssetType asset:Procedure .
+
+
+# =============================================================================
+# Clause 6 — People controls (8 controls)
+# =============================================================================
+
+# 6.01 "Screening"
+ctrl:ISO27002_6_01 asset:appliesToAssetType asset:HumanAsset .
+
+# 6.02 "Arbeidsovereenkomst"
+ctrl:ISO27002_6_02 asset:appliesToAssetType asset:HumanAsset .
+
+# 6.03 "Bewustwording van, opleiding en training in informatiebeveiliging"
+ctrl:ISO27002_6_03 asset:appliesToAssetType asset:HumanAsset .
+
+# 6.04 "Disciplinaire procedure"
+ctrl:ISO27002_6_04 asset:appliesToAssetType asset:HumanAsset .
+
+# 6.05 "Verantwoordelijkheden na beëindiging of wijziging van het dienstverband"
+ctrl:ISO27002_6_05 asset:appliesToAssetType asset:HumanAsset .
+
+# 6.06 "Vertrouwelijkheids- of geheimhoudingsovereenkomsten"
+ctrl:ISO27002_6_06 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationAsset .
+
+# 6.07 "Werken op afstand"
+ctrl:ISO27002_6_07 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationSystem .
+
+# 6.08 "Melden van informatiebeveiligingsgebeurtenissen"
+ctrl:ISO27002_6_08 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationAsset .
+
+
+# =============================================================================
+# Clause 7 — Physical controls (14 controls)
+# =============================================================================
+
+# 7.01 "Fysieke beveiligingszones"
+ctrl:ISO27002_7_01 asset:appliesToAssetType asset:PhysicalObject .
+
+# 7.02 "Fysieke toegangsbeveiliging"
+ctrl:ISO27002_7_02 asset:appliesToAssetType asset:PhysicalObject ,
+                                            asset:HumanAsset .
+
+# 7.03 "Beveiligen van kantoren, ruimten en faciliteiten"
+ctrl:ISO27002_7_03 asset:appliesToAssetType asset:PhysicalObject .
+
+# 7.04 "Monitoren van de fysieke beveiliging"
+ctrl:ISO27002_7_04 asset:appliesToAssetType asset:PhysicalObject .
+
+# 7.05 "Beschermen tegen fysieke en omgevingsdreigingen"
+ctrl:ISO27002_7_05 asset:appliesToAssetType asset:PhysicalObject ,
+                                            asset:Equipment .
+
+# 7.06 "Werken in beveiligde zones"
+ctrl:ISO27002_7_06 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:PhysicalObject .
+
+# 7.07 "'Clear desk' en 'clear screen'"
+ctrl:ISO27002_7_07 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationAsset .
+
+# 7.08 "Plaatsen en beschermen van apparatuur"
+ctrl:ISO27002_7_08 asset:appliesToAssetType asset:Equipment .
+
+# 7.09 "Beveiligen van bedrijfsmiddelen buiten het terrein"
+ctrl:ISO27002_7_09 asset:appliesToAssetType asset:Equipment ,
+                                            asset:InformationAsset .
+
+# 7.10 "Opslagmedia"
+ctrl:ISO27002_7_10 asset:appliesToAssetType asset:Equipment ,
+                                            asset:InformationAsset .
+
+# 7.11 "Nutsvoorzieningen"
+# [utilities] Nutsvoorzieningen (stroom, koeling, HVAC) zijn infrastructurele fysieke objecten. PhysicalObject is de dichtstbijzijnde klasse; ze zijn geen asset-component in de CIO-zin (niet opslag/verwerking/communicatie).
+ctrl:ISO27002_7_11 asset:appliesToAssetType asset:PhysicalObject .
+
+# 7.12 "Beveiligen van bekabeling"
+ctrl:ISO27002_7_12 asset:appliesToAssetType asset:CommunicationFacility .
+
+# 7.13 "Onderhoud van apparatuur"
+ctrl:ISO27002_7_13 asset:appliesToAssetType asset:Equipment .
+
+# 7.14 "Veilig verwijderen of hergebruiken van apparatuur"
+ctrl:ISO27002_7_14 asset:appliesToAssetType asset:Equipment ,
+                                            asset:InformationAsset .
+
+
+# =============================================================================
+# Clause 8 — Technological controls (34 controls)
+# =============================================================================
+
+# 8.01 "User endpoint devices"
+ctrl:ISO27002_8_01 asset:appliesToAssetType asset:Equipment ,
+                                            asset:InformationSystem .
+
+# 8.02 "Speciale toegangsrechten"
+ctrl:ISO27002_8_02 asset:appliesToAssetType asset:HumanAsset ,
+                                            asset:InformationSystem .
+
+# 8.03 "Beperking toegang tot informatie"
+ctrl:ISO27002_8_03 asset:appliesToAssetType asset:InformationAsset ,
+                                            asset:InformationSystem .
+
+# 8.04 "Toegangsbeveiliging op broncode"
+ctrl:ISO27002_8_04 asset:appliesToAssetType asset:InformationAsset ,
+                                            asset:InformationSystem .
+
+# 8.05 "Beveiligde authenticatie"
+ctrl:ISO27002_8_05 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:HumanAsset .
+
+# 8.06 "Capaciteitsbeheer"
+ctrl:ISO27002_8_06 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.07 "Bescherming tegen malware"
+ctrl:ISO27002_8_07 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.08 "Beheer van technische kwetsbaarheden"
+ctrl:ISO27002_8_08 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:Software .
+
+# 8.09 "Configuratiebeheer"
+ctrl:ISO27002_8_09 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:Software .
+
+# 8.10 "Wissen van informatie"
+ctrl:ISO27002_8_10 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.11 "Maskeren van gegevens"
+ctrl:ISO27002_8_11 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.12 "Voorkomen van gegevenslekken (data leakage prevention)"
+ctrl:ISO27002_8_12 asset:appliesToAssetType asset:InformationAsset ,
+                                            asset:InformationSystem .
+
+# 8.13 "Back-up van informatie"
+ctrl:ISO27002_8_13 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.14 "Redundantie van informatieverwerkende faciliteiten"
+ctrl:ISO27002_8_14 asset:appliesToAssetType asset:ProcessingFacility .
+
+# 8.15 "Logging"
+ctrl:ISO27002_8_15 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:InformationAsset .
+
+# 8.16 "Monitoren van activiteiten"
+ctrl:ISO27002_8_16 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:InformationAsset .
+
+# 8.17 "Kloksynchronisatie"
+ctrl:ISO27002_8_17 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.18 "Gebruik van speciale systeemhulpmiddelen"
+ctrl:ISO27002_8_18 asset:appliesToAssetType asset:Software ,
+                                            asset:InformationSystem .
+
+# 8.19 "Installeren van software op operationele systemen"
+ctrl:ISO27002_8_19 asset:appliesToAssetType asset:Software ,
+                                            asset:InformationSystem .
+
+# 8.20 "Beveiliging netwerkcomponenten"
+ctrl:ISO27002_8_20 asset:appliesToAssetType asset:CommunicationFacility .
+
+# 8.21 "Beveiliging van netwerkdiensten"
+ctrl:ISO27002_8_21 asset:appliesToAssetType asset:CommunicationFacility .
+
+# 8.22 "Netwerksegmentatie"
+ctrl:ISO27002_8_22 asset:appliesToAssetType asset:CommunicationFacility .
+
+# 8.23 "Toepassen van webfilters"
+ctrl:ISO27002_8_23 asset:appliesToAssetType asset:CommunicationFacility ,
+                                            asset:Software .
+
+# 8.24 "Gebruik van cryptografie"
+ctrl:ISO27002_8_24 asset:appliesToAssetType asset:Software ,
+                                            asset:InformationAsset .
+
+# 8.25 "Beveiligen tijdens de ontwikkelcyclus"
+ctrl:ISO27002_8_25 asset:appliesToAssetType asset:Software .
+
+# 8.26 "Toepassingsbeveiligingseisen"
+ctrl:ISO27002_8_26 asset:appliesToAssetType asset:Software .
+
+# 8.27 "Veilige systeemarchitectuur en technische uitgangspunten"
+ctrl:ISO27002_8_27 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:Software .
+
+# 8.28 "Veilig coderen"
+ctrl:ISO27002_8_28 asset:appliesToAssetType asset:Software .
+
+# 8.29 "Testen van de beveiliging tijdens ontwikkeling en acceptatie"
+ctrl:ISO27002_8_29 asset:appliesToAssetType asset:Software .
+
+# 8.30 "Uitbestede systeemontwikkeling"
+ctrl:ISO27002_8_30 asset:appliesToAssetType asset:Software .
+
+# 8.31 "Scheiden van ontwikkel-, test- en productieomgevingen"
+ctrl:ISO27002_8_31 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.32 "Wijzigingsbeheer"
+ctrl:ISO27002_8_32 asset:appliesToAssetType asset:InformationSystem ,
+                                            asset:Software .
+
+# 8.33 "Testgegevens"
+ctrl:ISO27002_8_33 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.34 "Bescherming van informatiesystemen tijdens audits"
+ctrl:ISO27002_8_34 asset:appliesToAssetType asset:InformationSystem .
+
+
+# =============================================================================
+# SECTIE 3 — MAPPINGS: BIO 2.0 ISO27002-CONTROLS (INFERENTIE-STRATEGIE)
+# =============================================================================
+# STRATEGIE: GEEN expliciete mapping-triples voor de 93 BIO ISO27002-controls.
+#
+# REDEN: De 93 bio:ISO27002_X_YY-individuals zijn via owl:sameAs gekoppeld
+# aan hun ctrl:ISO27002_X_YY-tegenhangers in grc-bridges.ttl (D5). Onder
+# OWL RL of sterker reasoning propageert appliesToAssetType-eigenschap
+# automatisch via owl:sameAs-equivalentie.
+#
+# GEVERIFIEERD (13 april 2026):
+#   - 128 ctrl:-mappings → 128 bio:-mappings na owlrl.OWLRL_Semantics
+#   - bio:ISO27002_5_15 levert na inferentie identiek HumanAsset +
+#     InformationSystem + InformationAsset op als ctrl:ISO27002_5_15
+#
+# REASONING-VEREISTE: OWL RL of sterker. Pure RDFS-inferentie propageert
+# owl:sameAs NIET — de technische chat moet de bundel-validatierun
+# uitvoeren met OWL RL (HermiT, owlrl, of equivalent), niet met
+# inference='rdfs'. Anders zijn de bio:-mappings onzichtbaar.
+# =============================================================================
+# =============================================================================
+# GRC Ontologie — M18 Mappings: BIO 2.0 ISO27002-controls → asset-type
+# Versie: 4.2.0 | Datum: 2026-04-13 | Profiel: OWL 2 RL+
+# =============================================================================
+#
+# STRATEGIE: GEEN expliciete mapping-triples voor de 93 BIO ISO27002-controls.
+#
+# REDEN: De 93 bio:ISO27002_X_YY-individuals zijn via owl:sameAs gekoppeld
+# aan hun ctrl:ISO27002_X_YY-tegenhangers in grc-bridges.ttl (D5). Onder
+# OWL RL of sterker reasoning propageert appliesToAssetType-eigenschap
+# automatisch via owl:sameAs-equivalentie.
+#
+# GEVERIFIEERD (13 april 2026):
+#   - 128 ctrl:-mappings → 128 bio:-mappings na owlrl.OWLRL_Semantics
+#   - bio:ISO27002_5_15 levert na inferentie identiek HumanAsset +
+#     InformationSystem + InformationAsset op als ctrl:ISO27002_5_15
+#
+# REASONING-VEREISTE: OWL RL of sterker. Pure RDFS-inferentie propageert
+# owl:sameAs NIET — de technische chat moet de bundel-validatierun
+# uitvoeren met OWL RL (HermiT, owlrl, of equivalent), niet met
+# inference='rdfs'. Anders zijn de bio:-mappings onzichtbaar.
+#
+# ALTERNATIEF VERWORPEN: 93 expliciete duplicaten in dit bestand. Dat is
+# 93 redundante triples die bij elke wijziging in de ctrl:-mappings
+# óók in bio:-vorm bijgewerkt zouden moeten worden — dubbele
+# onderhoudslast, terwijl D5 de bridges juist inrichtte om dit te
+# voorkomen.
+# =============================================================================
+
+
+# =============================================================================
+# VERIFICATIE-SPARQL (zie ook m18-demo-sparql.rq)
+# =============================================================================
+# De volgende query toont (na OWL RL inferentie) dat een willekeurige
+# bio:ISO27002_X_YY dezelfde asset-mappings heeft als de ctrl:-tegenhanger.
+# Voor uitvoering in productie:
+#
+#   PREFIX bio:   <https://grc.example.org/bio/>
+#   PREFIX asset: <https://grc.example.org/asset/>
+#   PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+#
+#   SELECT ?bioControl ?assetType ?assetLabel WHERE {
+#     ?bioControl a bio:BIOControl ;
+#                 asset:appliesToAssetType ?assetType .
+#     ?assetType rdfs:label ?assetLabel .
+#     FILTER(LANG(?assetLabel) = "nl")
+#   }
+#   ORDER BY ?bioControl ?assetType
+#
+# Verwacht resultaat: 128 rijen (identiek aan ctrl:-zijde).
+# =============================================================================
+
+
+# =============================================================================
+# SECTIE 4 — MAPPINGS: BIO 2.0 OVERHEIDSMAATREGELEN → ASSET-TYPE
+# =============================================================================
+# 148 BIO 2.0 Overheidsmaatregelen (bio:OverheidsMaatregel) gekoppeld aan
+# asset-types via asset:appliesToAssetType (klasse-niveau, Spoor A).
+#
+# PATRONEN VASTGESTELD DOOR MASTERCHAT (13 april 2026):
+#   P1 INHERIT             OM erft asset-types van parent ISO27002-control (default)
+#   P2 ADD                 Parent-types + extra asset-aspect
+#   P3 NARROW              Subset van parent-types (zeldzaam, met WAARSCHUWING)
+#   P4 OVERHEIDSSPECIFIEK  Eigen mapping, parent als referentie
+#   P5 niet apart          Procedurele/administratieve OMs vallen onder P1
+#                          voor query-uniformiteit
+#
+# WAARSCHUWING-tags: [privacy] (AVG-raakvlak), [VIRBI] (gerubriceerde info)
+#
+# BBN-niveau (1/2 uit Handreiking BIO2-opmaat) is GEEN asset-type-eigenschap
+# en wordt uitsluitend via ext:hasHandreikingBBN op de control zelf
+# vastgelegd (Q-OM-4 bevestigd).
+# =============================================================================
+# =============================================================================
+# GRC Ontologie — M18 Mappings: BIO 2.0 Overheidsmaatregelen → asset-type
+# Versie: 4.2.0 | Datum: 2026-04-13 | Profiel: OWL 2 DL
+# =============================================================================
+#
+# 148 BIO 2.0 Overheidsmaatregelen (bio:OverheidsMaatregel) gekoppeld aan
+# asset-types via asset:appliesToAssetType (klasse-niveau, Spoor A).
+#
+# PATRONEN VASTGESTELD DOOR MASTERCHAT (13 april 2026):
+#   P1 INHERIT             OM erft asset-types van parent ISO27002-control (default)
+#   P2 ADD                 Parent-types + extra asset-aspect
+#   P3 NARROW              Subset van parent-types (zeldzaam, met WAARSCHUWING)
+#   P4 OVERHEIDSSPECIFIEK  Eigen mapping, parent als referentie
+#   P5 niet apart          Procedurele/administratieve OMs vallen onder P1
+#                          voor query-uniformiteit
+#
+# WAARSCHUWING-tags: [privacy] (AVG-raakvlak), [VIRBI] (gerubriceerde info)
+#
+# BBN-niveau (1/2 uit Handreiking BIO2-opmaat) is GEEN asset-type-eigenschap
+# en wordt uitsluitend via ext:hasHandreikingBBN op de control zelf
+# vastgelegd (Q-OM-4 bevestigd).
+# =============================================================================
+
+
+
+
+# --- Parent: ISO27002_5_01 (2 OMs) ---
+
+# 5.01.1
+bio:BIO2_5_01_1 asset:appliesToAssetType asset:Asset .
+
+# 5.01.2
+bio:BIO2_5_01_2 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_02 (4 OMs) ---
+
+# 5.02.1
+bio:BIO2_5_02_1 asset:appliesToAssetType asset:HumanAsset .
+
+# 5.02.2
+bio:BIO2_5_02_2 asset:appliesToAssetType asset:HumanAsset .
+
+# 5.02.3
+# [P2] CISO-functieprofiel: rol-gerelateerd maar betreft beleidsvaststelling — voeg toplaag Asset toe
+bio:BIO2_5_02_3 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:Asset .
+
+# 5.02.4
+# [P2] CISO aanstellen: organisatie-brede impact
+bio:BIO2_5_02_4 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:Asset .
+
+
+# --- Parent: ISO27002_5_03 (1 OMs) ---
+
+# 5.03.1
+# [P2] Functiescheiding-implementatie raakt ook informatietoegang
+bio:BIO2_5_03_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+
+# --- Parent: ISO27002_5_04 (1 OMs) ---
+
+# 5.04.1
+bio:BIO2_5_04_1 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_05 (2 OMs) ---
+
+# 5.05.1
+bio:BIO2_5_05_1 asset:appliesToAssetType asset:Asset .
+
+# 5.05.2
+bio:BIO2_5_05_2 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_08 (1 OMs) ---
+
+# 5.08.1
+# [P2] Risicoafweging bij nieuwe/gewijzigde informatiesystemen — landt expliciet op InformationSystem
+bio:BIO2_5_08_1 asset:appliesToAssetType asset:Asset ,
+                                         asset:InformationSystem .
+
+
+# --- Parent: ISO27002_5_10 (2 OMs) ---
+
+# 5.10.1
+# [P2] Medewerkers gewezen op gedragsregels: HumanAsset-aspect
+bio:BIO2_5_10_1 asset:appliesToAssetType asset:Asset ,
+                                         asset:HumanAsset .
+
+# 5.10.2
+# [P2] Extern personeel contractueel gebonden: HumanAsset-aspect
+bio:BIO2_5_10_2 asset:appliesToAssetType asset:Asset ,
+                                         asset:HumanAsset .
+
+
+# --- Parent: ISO27002_5_12 (1 OMs) ---
+
+# 5.12.1
+# [P2] Classificatie via risicoafweging in informatiesystemen
+bio:BIO2_5_12_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:InformationSystem .
+
+
+# --- Parent: ISO27002_5_14 (5 OMs) ---
+
+# 5.14.1
+# [P2] E-mail/web-standaarden landen op communicatievoorziening en software-implementatie
+bio:BIO2_5_14_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:CommunicationFacility ,
+                                         asset:Software .
+
+# 5.14.2
+# [P2] Digikoppeling = communicatievoorziening + software
+bio:BIO2_5_14_2 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:CommunicationFacility ,
+                                         asset:Software .
+
+# 5.14.3
+# [P2] OV/PKIo-certificaten geïmplementeerd in software
+bio:BIO2_5_14_3 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software .
+
+# 5.14.4
+# [P2] E-mail over onvertrouwde netwerken — communicatievoorziening
+bio:BIO2_5_14_4 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:CommunicationFacility .
+
+# 5.14.5
+# [P2] AdES Baseline Profile = software-standaard
+bio:BIO2_5_14_5 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_5_15 (2 OMs) ---
+
+# 5.15.1
+# [P2] Geauthentiseerde apparatuur — Equipment-aspect
+bio:BIO2_5_15_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Equipment .
+
+# 5.15.2
+# [P2] BYOD = Equipment-aspect (apparatuur-categorisering)
+bio:BIO2_5_15_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Equipment .
+
+
+# --- Parent: ISO27002_5_16 (2 OMs) ---
+
+# 5.16.1
+# [P2] Registratie-/afmeldprocedure: Procedure-component
+bio:BIO2_5_16_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:Procedure .
+
+# 5.16.2
+bio:BIO2_5_16_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem .
+
+
+# --- Parent: ISO27002_5_17 (5 OMs) ---
+
+# 5.17.1
+# [P2] Tweefactor-authenticatie en wachtwoordbeleid raken gebruiker-zijde
+bio:BIO2_5_17_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:HumanAsset .
+
+# 5.17.2
+# [P2] Wachtwoordmanager: software + medewerker-ondersteuning
+bio:BIO2_5_17_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:HumanAsset ,
+                                         asset:Software .
+
+# 5.17.3
+# [P2] Wachtwoordmanager met compromise-detectie: software-functie
+bio:BIO2_5_17_3 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Software .
+
+# 5.17.4
+# [P2] Geautomatiseerde wachtwoordeisen: software-implementatie
+bio:BIO2_5_17_4 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Software .
+
+# 5.17.5
+# [P2] Geautomatiseerd afdwingen wachtwoordwissel: software
+bio:BIO2_5_17_5 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_5_18 (6 OMs) ---
+
+# 5.18.1
+bio:BIO2_5_18_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 5.18.2
+bio:BIO2_5_18_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 5.18.3
+bio:BIO2_5_18_3 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 5.18.4
+bio:BIO2_5_18_4 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 5.18.5
+bio:BIO2_5_18_5 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 5.18.6
+bio:BIO2_5_18_6 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+
+# --- Parent: ISO27002_5_19 (3 OMs) ---
+
+# 5.19.1
+bio:BIO2_5_19_1 asset:appliesToAssetType asset:Asset .
+
+# 5.19.2
+bio:BIO2_5_19_2 asset:appliesToAssetType asset:Asset .
+
+# 5.19.3
+bio:BIO2_5_19_3 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_20 (6 OMs) ---
+
+# 5.20.1
+bio:BIO2_5_20_1 asset:appliesToAssetType asset:Asset .
+
+# 5.20.2
+bio:BIO2_5_20_2 asset:appliesToAssetType asset:Asset .
+
+# 5.20.3
+bio:BIO2_5_20_3 asset:appliesToAssetType asset:Asset .
+
+# 5.20.4
+bio:BIO2_5_20_4 asset:appliesToAssetType asset:Asset .
+
+# 5.20.5
+bio:BIO2_5_20_5 asset:appliesToAssetType asset:Asset .
+
+# 5.20.6
+bio:BIO2_5_20_6 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_21 (1 OMs) ---
+
+# 5.21.1
+bio:BIO2_5_21_1 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_22 (1 OMs) ---
+
+# 5.22.1
+bio:BIO2_5_22_1 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_24 (6 OMs) ---
+
+# 5.24.1
+# [P2] Meldloket-procedure: Procedure-component
+bio:BIO2_5_24_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Procedure .
+
+# 5.24.2
+# [P2] Meldprocedure + taken/verantwoordelijkheden: Procedure + HumanAsset
+bio:BIO2_5_24_2 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Procedure ,
+                                         asset:HumanAsset .
+
+# 5.24.3
+# [P2] Proceseigenaar verantwoordelijk: HumanAsset-aspect
+bio:BIO2_5_24_3 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:HumanAsset .
+
+# 5.24.4
+bio:BIO2_5_24_4 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.24.5
+bio:BIO2_5_24_5 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.24.6
+bio:BIO2_5_24_6 asset:appliesToAssetType asset:InformationAsset .
+
+
+# --- Parent: ISO27002_5_25 (1 OMs) ---
+
+# 5.25.1
+# [P2] Inbreuk op informatieverwerkende systemen — InformationSystem-aspect
+bio:BIO2_5_25_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:InformationSystem .
+
+
+# --- Parent: ISO27002_5_27 (2 OMs) ---
+
+# 5.27.1
+bio:BIO2_5_27_1 asset:appliesToAssetType asset:InformationAsset .
+
+# 5.27.2
+bio:BIO2_5_27_2 asset:appliesToAssetType asset:InformationAsset .
+
+
+# --- Parent: ISO27002_5_28 (1 OMs) ---
+
+# 5.28.1
+bio:BIO2_5_28_1 asset:appliesToAssetType asset:InformationAsset .
+
+
+# --- Parent: ISO27002_5_29 (3 OMs) ---
+
+# 5.29.1
+# [P2] Continuïteitsplannen testen: Procedure-component
+bio:BIO2_5_29_1 asset:appliesToAssetType asset:Asset ,
+                                         asset:Procedure .
+
+# 5.29.2
+bio:BIO2_5_29_2 asset:appliesToAssetType asset:Asset .
+
+# 5.29.3
+# [P2] Bedrijfskritische dienstverlening herstellen: raakt verwerkingsvoorziening
+bio:BIO2_5_29_3 asset:appliesToAssetType asset:Asset ,
+                                         asset:ProcessingFacility .
+
+
+# --- Parent: ISO27002_5_31 (2 OMs) ---
+
+# 5.31.1
+# [P2] Cryptografische beheersmaatregelen volgens standaarden: software-implementatie
+bio:BIO2_5_31_1 asset:appliesToAssetType asset:Asset ,
+                                         asset:Software .
+
+# 5.31.2
+bio:BIO2_5_31_2 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_33 (1 OMs) ---
+
+# 5.33.1
+# [P2] Proceseigenaar bewaartermijnen: HumanAsset-aspect
+bio:BIO2_5_33_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:HumanAsset .
+
+
+# --- Parent: ISO27002_5_34 (2 OMs) ---
+
+# 5.34.1
+# [privacy] Specifiek voor persoonsgegevens. AVG-koppeling via M14 SKOS-mappings.
+# [P2] FG-rol-mandaat — voegt HumanAsset toe; AVG-koppeling via M14
+bio:BIO2_5_34_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:HumanAsset .
+
+# 5.34.2
+# [privacy] Specifiek voor persoonsgegevens. AVG-koppeling via M14 SKOS-mappings.
+bio:BIO2_5_34_2 asset:appliesToAssetType asset:InformationAsset .
+
+
+# --- Parent: ISO27002_5_35 (2 OMs) ---
+
+# 5.35.1
+# [P2] ISMS-implementatie raakt informatiesystemen-beheer
+bio:BIO2_5_35_1 asset:appliesToAssetType asset:Asset ,
+                                         asset:InformationSystem .
+
+# 5.35.2
+bio:BIO2_5_35_2 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_5_36 (1 OMs) ---
+
+# 5.36.1
+bio:BIO2_5_36_1 asset:appliesToAssetType asset:Asset .
+
+
+# --- Parent: ISO27002_6_01 (1 OMs) ---
+
+# 6.01.1
+bio:BIO2_6_01_1 asset:appliesToAssetType asset:HumanAsset .
+
+
+# --- Parent: ISO27002_6_02 (1 OMs) ---
+
+# 6.02.1
+bio:BIO2_6_02_1 asset:appliesToAssetType asset:HumanAsset .
+
+
+# --- Parent: ISO27002_6_03 (3 OMs) ---
+
+# 6.03.1
+bio:BIO2_6_03_1 asset:appliesToAssetType asset:HumanAsset .
+
+# 6.03.2
+# [P2] I-bewustzijn-training is voorwaarde voor gebruik informatiesystemen
+bio:BIO2_6_03_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem .
+
+# 6.03.3
+bio:BIO2_6_03_3 asset:appliesToAssetType asset:HumanAsset .
+
+
+# --- Parent: ISO27002_6_08 (3 OMs) ---
+
+# 6.08.1
+bio:BIO2_6_08_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset .
+
+# 6.08.2
+bio:BIO2_6_08_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset .
+
+# 6.08.3
+bio:BIO2_6_08_3 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset .
+
+
+# --- Parent: ISO27002_7_01 (1 OMs) ---
+
+# 7.01.1
+# [P2] Standaarden voor inrichten beveiligde zones: procedurele basis
+bio:BIO2_7_01_1 asset:appliesToAssetType asset:PhysicalObject ,
+                                         asset:Procedure .
+
+
+# --- Parent: ISO27002_7_02 (1 OMs) ---
+
+# 7.02.1
+bio:BIO2_7_02_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:PhysicalObject .
+
+
+# --- Parent: ISO27002_7_03 (1 OMs) ---
+
+# 7.03.1
+# [P2] Sleutelbeheer: procedure + sleutels (Equipment)
+bio:BIO2_7_03_1 asset:appliesToAssetType asset:PhysicalObject ,
+                                         asset:Procedure ,
+                                         asset:Equipment .
+
+
+# --- Parent: ISO27002_7_05 (2 OMs) ---
+
+# 7.05.1
+# [P2] Papieren archieven = InformationAsset (fysieke drager van informatie)
+bio:BIO2_7_05_1 asset:appliesToAssetType asset:Equipment ,
+                                         asset:PhysicalObject ,
+                                         asset:InformationAsset .
+
+# 7.05.2
+bio:BIO2_7_05_2 asset:appliesToAssetType asset:Equipment ,
+                                         asset:PhysicalObject .
+
+
+# --- Parent: ISO27002_7_07 (5 OMs) ---
+
+# 7.07.1
+# [P2] Werkplek-vergrendeling raakt fysieke werkstation/apparatuur
+bio:BIO2_7_07_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset ,
+                                         asset:Equipment .
+
+# 7.07.2
+# [P2] Screensaver = software op werkplek-Equipment
+bio:BIO2_7_07_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset ,
+                                         asset:Software ,
+                                         asset:Equipment .
+
+# 7.07.3
+# [P2] Remote desktop sessie-vergrendeling: software op systeem
+bio:BIO2_7_07_3 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset ,
+                                         asset:Software ,
+                                         asset:InformationSystem .
+
+# 7.07.4
+# [P2] Remote sessies-overname: systeem-toegangsbeveiliging
+bio:BIO2_7_07_4 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset ,
+                                         asset:InformationSystem .
+
+# 7.07.5
+# [P2] Chipcardtoken: hardware-token (Equipment)
+bio:BIO2_7_07_5 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationAsset ,
+                                         asset:Equipment .
+
+
+# --- Parent: ISO27002_7_10 (6 OMs) ---
+
+# 7.10.1
+# [P2] Verwijderinstructie: Procedure-component
+bio:BIO2_7_10_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment ,
+                                         asset:Procedure .
+
+# 7.10.2
+# [VIRBI] Specifiek voor gerubriceerde informatie conform VIRBI 2025.
+# [P2] Vertrouwelijke media in beveiligde opslag — fysiek object (kluis/ruimte)
+bio:BIO2_7_10_2 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment ,
+                                         asset:PhysicalObject .
+
+# 7.10.3
+# [P2] Procedure voor fysiek transport
+bio:BIO2_7_10_3 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment ,
+                                         asset:Procedure .
+
+# 7.10.4
+# [VIRBI] Specifiek voor gerubriceerde informatie conform VIRBI 2025.
+# [P2] BBN2-koeriers/transporteurs: betrouwbaarheidseisen aan personen — VIRBI-classificatie expliciet
+bio:BIO2_7_10_4 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment ,
+                                         asset:HumanAsset .
+
+# 7.10.5
+# [P2] Veilige verwijdering: Procedure
+bio:BIO2_7_10_5 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment ,
+                                         asset:Procedure .
+
+# 7.10.6
+# [P2] Datawisprocedure: Procedure
+bio:BIO2_7_10_6 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment ,
+                                         asset:Procedure .
+
+
+# --- Parent: ISO27002_7_14 (1 OMs) ---
+
+# 7.14.1
+bio:BIO2_7_14_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Equipment .
+
+
+# --- Parent: ISO27002_8_01 (2 OMs) ---
+
+# 8.01.1
+# [P2] Zero-footprint mobiel: bescherming van bedrijfsinformatie
+bio:BIO2_8_01_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Equipment ,
+                                         asset:InformationAsset .
+
+# 8.01.2
+# [P2] MDM, patchmanagement, hardening = software-aspecten
+bio:BIO2_8_01_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Equipment ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_8_02 (1 OMs) ---
+
+# 8.02.1
+bio:BIO2_8_02_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem .
+
+
+# --- Parent: ISO27002_8_03 (2 OMs) ---
+
+# 8.03.1
+# [P2] Logisch isoleren raakt netwerkscheiding (communicatievoorziening)
+bio:BIO2_8_03_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:CommunicationFacility .
+
+# 8.03.2
+bio:BIO2_8_03_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+
+# --- Parent: ISO27002_8_05 (2 OMs) ---
+
+# 8.05.1
+# [P2] Tweefactor-auth bij zone-toegang: koppelvlak communicatievoorziening
+bio:BIO2_8_05_1 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem ,
+                                         asset:CommunicationFacility .
+
+# 8.05.2
+# [P2] Toegang externe leveranciers: HumanAsset (leverancier-personen)
+bio:BIO2_8_05_2 asset:appliesToAssetType asset:HumanAsset ,
+                                         asset:InformationSystem .
+
+
+# --- Parent: ISO27002_8_07 (4 OMs) ---
+
+# 8.07.1
+bio:BIO2_8_07_1 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.07.2
+bio:BIO2_8_07_2 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.07.3
+# [P2] Antimalwaresoftware: software-component
+bio:BIO2_8_07_3 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+# 8.07.4
+# [P2] Malwarescan op mailservers/netwerk: software + communicatievoorziening
+bio:BIO2_8_07_4 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software ,
+                                         asset:CommunicationFacility .
+
+
+# --- Parent: ISO27002_8_08 (5 OMs) ---
+
+# 8.08.1
+bio:BIO2_8_08_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+# 8.08.2
+bio:BIO2_8_08_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+# 8.08.3
+bio:BIO2_8_08_3 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+# 8.08.4
+bio:BIO2_8_08_4 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+# 8.08.5
+bio:BIO2_8_08_5 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_8_13 (6 OMs) ---
+
+# 8.13.1
+bio:BIO2_8_13_1 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.13.2
+bio:BIO2_8_13_2 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.13.3
+bio:BIO2_8_13_3 asset:appliesToAssetType asset:InformationAsset .
+
+# 8.13.4
+# [P2] Backup op andere locatie: raakt fysieke locatie
+bio:BIO2_8_13_4 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:PhysicalObject .
+
+# 8.13.5
+# [P2] Offline backup-opslag: opslagvoorziening
+bio:BIO2_8_13_5 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:StorageFacility .
+
+# 8.13.6
+bio:BIO2_8_13_6 asset:appliesToAssetType asset:InformationAsset .
+
+
+# --- Parent: ISO27002_8_15 (6 OMs) ---
+
+# 8.15.1
+# [privacy] Specifiek voor persoonsgegevens. AVG-koppeling via M14 SKOS-mappings.
+bio:BIO2_8_15_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.15.2
+bio:BIO2_8_15_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.15.3
+bio:BIO2_8_15_3 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.15.4
+bio:BIO2_8_15_4 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.15.5
+bio:BIO2_8_15_5 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.15.6
+bio:BIO2_8_15_6 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+
+# --- Parent: ISO27002_8_16 (5 OMs) ---
+
+# 8.16.1
+# [P2] Detectie- en response-oplossing (EDR/SIEM): software-component
+bio:BIO2_8_16_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Software .
+
+# 8.16.2
+# [P2] Actieve netwerkcomponenten = communicatievoorziening
+bio:BIO2_8_16_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:CommunicationFacility .
+
+# 8.16.3
+bio:BIO2_8_16_3 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.16.4
+bio:BIO2_8_16_4 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset .
+
+# 8.16.5
+# [P2] SIEM/SOC-rapportageregels: software + management
+bio:BIO2_8_16_5 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:InformationAsset ,
+                                         asset:Software ,
+                                         asset:HumanAsset .
+
+
+# --- Parent: ISO27002_8_18 (2 OMs) ---
+
+# 8.18.1
+# [P2] Bevoegd personeel: HumanAsset-aspect
+bio:BIO2_8_18_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software ,
+                                         asset:HumanAsset .
+
+# 8.18.2
+# [P2] Logging gebruik systeemhulpmiddelen — procedurele bewaring
+bio:BIO2_8_18_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software ,
+                                         asset:Procedure .
+
+
+# --- Parent: ISO27002_8_19 (1 OMs) ---
+
+# 8.19.1
+# [P2] Whitelisting raakt gebruikers-rechten
+bio:BIO2_8_19_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software ,
+                                         asset:HumanAsset .
+
+
+# --- Parent: ISO27002_8_21 (4 OMs) ---
+
+# 8.21.1
+# [P2] DDoS-detectie/respons-mechanismen: software
+bio:BIO2_8_21_1 asset:appliesToAssetType asset:CommunicationFacility ,
+                                         asset:Software .
+
+# 8.21.2
+# [P2] Detectievoorzieningen op dataverkeer: software
+bio:BIO2_8_21_2 asset:appliesToAssetType asset:CommunicationFacility ,
+                                         asset:Software .
+
+# 8.21.3
+bio:BIO2_8_21_3 asset:appliesToAssetType asset:CommunicationFacility .
+
+# 8.21.4
+# [P2] Encryptiemiddelen NBV-advies: software-component
+bio:BIO2_8_21_4 asset:appliesToAssetType asset:CommunicationFacility ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_8_22 (1 OMs) ---
+
+# 8.22.1
+bio:BIO2_8_22_1 asset:appliesToAssetType asset:CommunicationFacility .
+
+
+# --- Parent: ISO27002_8_24 (5 OMs) ---
+
+# 8.24.1
+# [P2] Cryptografiebeleid: rol-toewijzing (verantwoordelijken)
+bio:BIO2_8_24_1 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software ,
+                                         asset:HumanAsset .
+
+# 8.24.2
+bio:BIO2_8_24_2 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software .
+
+# 8.24.3
+bio:BIO2_8_24_3 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software .
+
+# 8.24.4
+bio:BIO2_8_24_4 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software .
+
+# 8.24.5
+bio:BIO2_8_24_5 asset:appliesToAssetType asset:InformationAsset ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_8_25 (1 OMs) ---
+
+# 8.25.1
+bio:BIO2_8_25_1 asset:appliesToAssetType asset:Software .
+
+
+# --- Parent: ISO27002_8_26 (1 OMs) ---
+
+# 8.26.1
+bio:BIO2_8_26_1 asset:appliesToAssetType asset:Software .
+
+
+# --- Parent: ISO27002_8_27 (1 OMs) ---
+
+# 8.27.1
+bio:BIO2_8_27_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software .
+
+
+# --- Parent: ISO27002_8_29 (2 OMs) ---
+
+# 8.29.1
+# [P2] Gestructureerde testmethodieken: Procedure-component
+bio:BIO2_8_29_1 asset:appliesToAssetType asset:Software ,
+                                         asset:Procedure .
+
+# 8.29.2
+bio:BIO2_8_29_2 asset:appliesToAssetType asset:Software .
+
+
+# --- Parent: ISO27002_8_30 (1 OMs) ---
+
+# 8.30.1
+# [P2] Uitbestedingstrajecten: organisatie-brede risicoafweging
+bio:BIO2_8_30_1 asset:appliesToAssetType asset:Software ,
+                                         asset:Asset .
+
+
+# --- Parent: ISO27002_8_31 (3 OMs) ---
+
+# 8.31.1
+bio:BIO2_8_31_1 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.31.2
+bio:BIO2_8_31_2 asset:appliesToAssetType asset:InformationSystem .
+
+# 8.31.3
+bio:BIO2_8_31_3 asset:appliesToAssetType asset:InformationSystem .
+
+
+# --- Parent: ISO27002_8_32 (2 OMs) ---
+
+# 8.32.1
+# [P2] Wijzigingsbeheer-procedure: Procedure-component
+bio:BIO2_8_32_1 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software ,
+                                         asset:Procedure .
+
+# 8.32.2
+# [P2] Beheerraamwerk wijzigingsbeheer: Procedure-component
+bio:BIO2_8_32_2 asset:appliesToAssetType asset:InformationSystem ,
+                                         asset:Software ,
+                                         asset:Procedure .
+
+
+# =============================================================================
+# APPENDIX A — Patroon-statistieken
+# =============================================================================
+#   P1:  80 OMs  ( 54.1%)
+#   P2:  68 OMs  ( 45.9%)
+#   P3:   0 OMs  (  0.0%)
+#   P4:   0 OMs  (  0.0%)
+#   Totaal: 148 OMs
+
+# =============================================================================
+# APPENDIX B — Overrides-log (handmatige beslissingen)
+# =============================================================================
+# Onderstaande OMs wijken af van P1 INHERIT-default. Voor toekomstige
+# updates (BIO 3.0) is dit de audit-trail van handmatige interpretaties.
+#
+# OM                 Patroon  Tag        Rationale
+# ------------------ -------- ---------- -------------------------------------------------------
+# BIO2_5_02_3        P2       -          CISO-functieprofiel: rol-gerelateerd maar betreft belei
+# BIO2_5_02_4        P2       -          CISO aanstellen: organisatie-brede impact
+# BIO2_5_03_1        P2       -          Functiescheiding-implementatie raakt ook informatietoeg
+# BIO2_5_08_1        P2       -          Risicoafweging bij nieuwe/gewijzigde informatiesystemen
+# BIO2_5_10_1        P2       -          Medewerkers gewezen op gedragsregels: HumanAsset-aspect
+# BIO2_5_10_2        P2       -          Extern personeel contractueel gebonden: HumanAsset-aspe
+# BIO2_5_12_1        P2       -          Classificatie via risicoafweging in informatiesystemen
+# BIO2_5_14_1        P2       -          E-mail/web-standaarden landen op communicatievoorzienin
+# BIO2_5_14_2        P2       -          Digikoppeling = communicatievoorziening + software
+# BIO2_5_14_3        P2       -          OV/PKIo-certificaten geïmplementeerd in software
+# BIO2_5_14_4        P2       -          E-mail over onvertrouwde netwerken — communicatievoorzi
+# BIO2_5_14_5        P2       -          AdES Baseline Profile = software-standaard
+# BIO2_5_15_1        P2       -          Geauthentiseerde apparatuur — Equipment-aspect
+# BIO2_5_15_2        P2       -          BYOD = Equipment-aspect (apparatuur-categorisering)
+# BIO2_5_16_1        P2       -          Registratie-/afmeldprocedure: Procedure-component
+# BIO2_5_17_1        P2       -          Tweefactor-authenticatie en wachtwoordbeleid raken gebr
+# BIO2_5_17_2        P2       -          Wachtwoordmanager: software + medewerker-ondersteuning
+# BIO2_5_17_3        P2       -          Wachtwoordmanager met compromise-detectie: software-fun
+# BIO2_5_17_4        P2       -          Geautomatiseerde wachtwoordeisen: software-implementati
+# BIO2_5_17_5        P2       -          Geautomatiseerd afdwingen wachtwoordwissel: software
+# BIO2_5_24_1        P2       -          Meldloket-procedure: Procedure-component
+# BIO2_5_24_2        P2       -          Meldprocedure + taken/verantwoordelijkheden: Procedure 
+# BIO2_5_24_3        P2       -          Proceseigenaar verantwoordelijk: HumanAsset-aspect
+# BIO2_5_25_1        P2       -          Inbreuk op informatieverwerkende systemen — Information
+# BIO2_5_29_1        P2       -          Continuïteitsplannen testen: Procedure-component
+# BIO2_5_29_3        P2       -          Bedrijfskritische dienstverlening herstellen: raakt ver
+# BIO2_5_31_1        P2       -          Cryptografische beheersmaatregelen volgens standaarden:
+# BIO2_5_33_1        P2       -          Proceseigenaar bewaartermijnen: HumanAsset-aspect
+# BIO2_5_34_1        P2       privacy    FG-rol-mandaat — voegt HumanAsset toe; AVG-koppeling vi
+# BIO2_5_34_2        P1       privacy    
+# BIO2_5_35_1        P2       -          ISMS-implementatie raakt informatiesystemen-beheer
+# BIO2_6_03_2        P2       -          I-bewustzijn-training is voorwaarde voor gebruik inform
+# BIO2_7_01_1        P2       -          Standaarden voor inrichten beveiligde zones: procedurel
+# BIO2_7_03_1        P2       -          Sleutelbeheer: procedure + sleutels (Equipment)
+# BIO2_7_05_1        P2       -          Papieren archieven = InformationAsset (fysieke drager v
+# BIO2_7_07_1        P2       -          Werkplek-vergrendeling raakt fysieke werkstation/appara
+# BIO2_7_07_2        P2       -          Screensaver = software op werkplek-Equipment
+# BIO2_7_07_3        P2       -          Remote desktop sessie-vergrendeling: software op systee
+# BIO2_7_07_4        P2       -          Remote sessies-overname: systeem-toegangsbeveiliging
+# BIO2_7_07_5        P2       -          Chipcardtoken: hardware-token (Equipment)
+# BIO2_7_10_1        P2       -          Verwijderinstructie: Procedure-component
+# BIO2_7_10_2        P2       VIRBI      Vertrouwelijke media in beveiligde opslag — fysiek obje
+# BIO2_7_10_3        P2       -          Procedure voor fysiek transport
+# BIO2_7_10_4        P2       VIRBI      BBN2-koeriers/transporteurs: betrouwbaarheidseisen aan 
+# BIO2_7_10_5        P2       -          Veilige verwijdering: Procedure
+# BIO2_7_10_6        P2       -          Datawisprocedure: Procedure
+# BIO2_7_14_1        P1       -          
+# BIO2_8_01_1        P2       -          Zero-footprint mobiel: bescherming van bedrijfsinformat
+# BIO2_8_01_2        P2       -          MDM, patchmanagement, hardening = software-aspecten
+# BIO2_8_03_1        P2       -          Logisch isoleren raakt netwerkscheiding (communicatievo
+# BIO2_8_05_1        P2       -          Tweefactor-auth bij zone-toegang: koppelvlak communicat
+# BIO2_8_05_2        P2       -          Toegang externe leveranciers: HumanAsset (leverancier-p
+# BIO2_8_07_3        P2       -          Antimalwaresoftware: software-component
+# BIO2_8_07_4        P2       -          Malwarescan op mailservers/netwerk: software + communic
+# BIO2_8_13_4        P2       -          Backup op andere locatie: raakt fysieke locatie
+# BIO2_8_13_5        P2       -          Offline backup-opslag: opslagvoorziening
+# BIO2_8_15_1        P1       privacy    Logregel met persoonsherleidbaarheid — AVG-raakvlak
+# BIO2_8_16_1        P2       -          Detectie- en response-oplossing (EDR/SIEM): software-co
+# BIO2_8_16_2        P2       -          Actieve netwerkcomponenten = communicatievoorziening
+# BIO2_8_16_5        P2       -          SIEM/SOC-rapportageregels: software + management
+# BIO2_8_18_1        P2       -          Bevoegd personeel: HumanAsset-aspect
+# BIO2_8_18_2        P2       -          Logging gebruik systeemhulpmiddelen — procedurele bewar
+# BIO2_8_19_1        P2       -          Whitelisting raakt gebruikers-rechten
+# BIO2_8_21_1        P2       -          DDoS-detectie/respons-mechanismen: software
+# BIO2_8_21_2        P2       -          Detectievoorzieningen op dataverkeer: software
+# BIO2_8_21_4        P2       -          Encryptiemiddelen NBV-advies: software-component
+# BIO2_8_24_1        P2       -          Cryptografiebeleid: rol-toewijzing (verantwoordelijken)
+# BIO2_8_29_1        P2       -          Gestructureerde testmethodieken: Procedure-component
+# BIO2_8_30_1        P2       -          Uitbestedingstrajecten: organisatie-brede risicoafwegin
+# BIO2_8_32_1        P2       -          Wijzigingsbeheer-procedure: Procedure-component
+# BIO2_8_32_2        P2       -          Beheerraamwerk wijzigingsbeheer: Procedure-component
+
+
+# =============================================================================
+# EINDE m18-assets.ttl (v4.2.1 — geconsolideerd)
+# =============================================================================

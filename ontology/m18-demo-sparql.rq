@@ -1,0 +1,149 @@
+# =============================================================================
+# M18 Demonstratie-SPARQL — drie kernextracties
+# Versie: 4.2.0-alpha | Datum: 2026-04-13
+# =============================================================================
+#
+# Drie SPARQL-queries die de bevraagbaarheidsdoelen uit DEEL 6 van de
+# M18 chatstarter implementeren. Tegen de v4.2.0-alpha ontologie (M18 +
+# M01-patch + 93 ISO 27002-mappings).
+#
+# Aannames: SPARQL 1.1 met OWL 2 RL of OWL 2 DL reasoning beschikbaar
+# voor het traverseren van rdfs:subClassOf en owl:sameAs (M02↔M08 brug).
+# Zonder reasoning leveren queries 1 en 2 alleen de directe (niet-
+# inferred) triples — daarom expliciete subClassOf-traversal in de query
+# zelf via property paths waar relevant.
+# =============================================================================
+
+PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:   <http://www.w3.org/2002/07/owl#>
+PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>
+PREFIX ctrl:  <https://grc.example.org/control/>
+PREFIX asset: <https://grc.example.org/asset/>
+PREFIX fw:    <https://grc.example.org/framework/>
+PREFIX bio:   <https://grc.example.org/bio/>
+
+# =============================================================================
+# Q1 — "Welke maatregelen gelden voor information systems?"
+# =============================================================================
+# Strategie: alle controls waarvoor appliesToAssetType direct of via
+# asset-subklassen InformationSystem raakt. Property path rdfs:subClassOf*
+# vangt mogelijke toekomstige InformationSystem-subklassen mee. We pakken
+# óók controls die naar component-klassen wijzen die bij InformationSystem
+# horen (DataCollection, Procedure, SystemProcess, Software, Facility en
+# subs) — die zijn per CIO art. 1o componenten van een information system.
+# =============================================================================
+
+SELECT DISTINCT ?control ?controlTitle ?assetType
+WHERE {
+  ?control asset:appliesToAssetType ?assetType .
+  ?control ctrl:hasControlTitle ?controlTitle .
+  {
+    # Pad 1: directe match op InformationSystem of subklasse
+    ?assetType rdfs:subClassOf* asset:InformationSystem .
+  } UNION {
+    # Pad 2: component-klassen die bij InformationSystem horen
+    # (per CIO-stelsel 2026 art. 1o)
+    VALUES ?compType {
+      asset:DataCollection asset:Procedure asset:SystemProcess
+      asset:Software asset:Facility
+    }
+    ?assetType rdfs:subClassOf* ?compType .
+  }
+}
+ORDER BY ?control
+
+# Verwacht resultaat (peildatum 2026-04-13): 40 unieke controls
+# (samenstelling: 27 InformationSystem + 13 Software + 1 Procedure + 1 ProcessingFacility
+# + 5 CommunicationFacility, met overlap door multi-mapping; DISTINCT levert 40).
+
+# =============================================================================
+# Q2 — "Voor systeem X (componenten: database + applicatieserver +
+#       procedures), welke maatregelen zijn van toepassing op elk onderdeel?"
+# =============================================================================
+# Strategie: traverse hasComponent vanaf een instance, en haal voor elk
+# component-type de toepasselijke controls op. Demo gebruikt een hypothetisch
+# systeem dat in deze query inline wordt gedefinieerd via VALUES — vervang
+# dat blok in productie door een echte instance uit de asset-inventaris.
+#
+# NB: voor Spoor A (geen instances) gebruikt deze query klasse-niveau
+# matching: de "componenten" worden gedeclareerd als hun TYPE, en de
+# query haalt controls op die op dat type van toepassing zijn.
+# =============================================================================
+
+SELECT ?componentType ?control ?controlTitle
+WHERE {
+  # Spoor A demo: componenttypes die "Systeem X" bezit
+  # (database = StorageFacility, applicatieserver = ProcessingFacility,
+  #  procedures = Procedure)
+  VALUES ?componentType {
+    asset:StorageFacility
+    asset:ProcessingFacility
+    asset:Procedure
+  }
+
+  # Match controls direct op dit componenttype OF op een superklasse
+  # (asset:Facility, asset:AssetComponent) waar de control op landt
+  ?control asset:appliesToAssetType ?targetType .
+  ?componentType rdfs:subClassOf* ?targetType .
+  ?control ctrl:hasControlTitle ?controlTitle .
+}
+ORDER BY ?componentType ?control
+
+# Spoor B uitbreiding (later, na ABox-vulling): vervang VALUES-blok door
+#   ?systeemX asset:hasComponent+ ?component .
+#   ?component rdf:type ?componentType .
+# en geef ?systeemX als parameter mee.
+
+# =============================================================================
+# Q3 — "Welke 'Te Beschermen Belangen' uit BVA-stelsel zijn niet gedekt
+#       door onze huidige asset-inventaris?"
+# =============================================================================
+# Strategie: alle BVA TBB-concepten ophalen, en per concept controleren
+# of er een M18-asset-klasse aan gekoppeld is via skos:exactMatch én er
+# instances van die klasse bestaan. Voor Spoor A (geen instances) levert
+# deze query alle 7 TBB op als "ongedekt" — dat is semantisch correct en
+# laat zien dat de query klaar is voor Spoor B-evaluatie.
+# =============================================================================
+
+SELECT ?tbb ?tbbLabel ?assetClass ?assetClassLabel ?dekkingsstatus
+WHERE {
+  ?tbb skos:inScheme fw:BVATeBeschermenBelangen ;
+       skos:prefLabel ?tbbLabel .
+  FILTER(LANG(?tbbLabel) = "nl")
+
+  OPTIONAL {
+    ?tbb skos:exactMatch ?assetClass .
+    ?assetClass rdfs:label ?assetClassLabel .
+    FILTER(LANG(?assetClassLabel) = "nl")
+  }
+
+  # Tel instances van de gekoppelde asset-klasse (en subklassen)
+  OPTIONAL {
+    SELECT ?assetClass (COUNT(DISTINCT ?instance) AS ?aantalInstances)
+    WHERE {
+      ?subClass rdfs:subClassOf* ?assetClass .
+      ?instance rdf:type ?subClass .
+      FILTER(?subClass != ?assetClass || EXISTS { ?instance rdf:type ?assetClass })
+    }
+    GROUP BY ?assetClass
+  }
+
+  BIND(
+    IF(!BOUND(?assetClass), "Geen M18-mapping",
+      IF(!BOUND(?aantalInstances) || ?aantalInstances = 0,
+         "Gemapt, geen instances (Spoor B-werk)",
+         CONCAT("Gedekt: ", STR(?aantalInstances), " instances")))
+    AS ?dekkingsstatus
+  )
+}
+ORDER BY ?tbbLabel
+
+# Verwacht resultaat Spoor A (peildatum 2026-04-13):
+#   Alle 7 TBB → "Gemapt, geen instances (Spoor B-werk)"
+# Spoor B (na ABox-vulling): per TBB ofwel "Gedekt: N instances" ofwel
+# "Gemapt, geen instances" (laatste = échte gap).
+
+# =============================================================================
+# EINDE m18-demo-sparql.rq
+# =============================================================================

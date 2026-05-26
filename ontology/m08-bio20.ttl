@@ -1,0 +1,3343 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix csf:     <https://grc.example.org/csf/> .
+
+# =============================================================================
+# GRC Ontologie — Module M8: BIO 2.0
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m08-bio20>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M8 — BIO 2.0"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# ═══ MODULE M8 — BIO 2.0 ═══
+
+# ═══════════════════════════════════════════════════════════════════════════
+# MODULE M8 — BIO 2.0 (Baseline Informatiebeveiliging Overheid v1.3)
+# Bron: Handreiking BIO2-opmaat v2.5 — 5 maart 2026
+# 93 ISO/IEC 27002:2022 controls + overheidsspecifieke maatregelen
+# ═══════════════════════════════════════════════════════════════════════════
+
+bio:BIOControl rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:Control ;
+    rdfs:label "BIO Beheersmaatregel"@nl ;
+    rdfs:label "BIO Control"@en .
+
+bio:OverheidsMaatregel rdf:type owl:Class ;
+    rdfs:subClassOf ctrl:Control ;
+    rdfs:label "Overheidsmaatregel"@nl ;
+    rdfs:label "Government-Specific Measure"@en .
+
+bio:hasControlType rdf:type owl:DatatypeProperty ;
+    rdfs:domain bio:BIOControl ;
+    rdfs:range xsd:string ;
+    rdfs:label "heeft controlsoort"@nl .
+
+bio:hasIBEigenschap rdf:type owl:DatatypeProperty ;
+    rdfs:domain bio:BIOControl ;
+    rdfs:range xsd:string ;
+    rdfs:label "heeft IB-eigenschap"@nl .
+
+bio:hasMaatregel rdf:type owl:DatatypeProperty ;
+    rdfs:domain bio:OverheidsMaatregel ;
+    rdfs:range xsd:string ;
+    rdfs:label "heeft maatregeltekst"@nl .
+
+bio:hasVerantwoordelijke rdf:type owl:DatatypeProperty ;
+    rdfs:domain bio:BIOControl ;
+    rdfs:range xsd:string ;
+    rdfs:label "heeft verantwoordelijke"@nl .
+
+bio:bioControlNummer rdf:type owl:DatatypeProperty ;
+    rdfs:domain bio:BIOControl ;
+    rdfs:range xsd:string ;
+    rdfs:label "BIO controlenummer"@nl .
+
+bio:bioMaatregelNummer rdf:type owl:DatatypeProperty ;
+    rdfs:domain bio:OverheidsMaatregel ;
+    rdfs:range xsd:string ;
+    rdfs:label "BIO maatregelnummer"@nl .
+
+bio:implementsControl rdf:type owl:ObjectProperty ;
+    rdfs:domain bio:OverheidsMaatregel ;
+    rdfs:range bio:BIOControl ;
+    rdfs:label "implementeert beheersmaatregel"@nl .
+
+bio:hasOverheidsMaatregel rdf:type owl:ObjectProperty ;
+    owl:inverseOf bio:implementsControl ;
+    rdfs:domain bio:BIOControl ;
+    rdfs:range bio:OverheidsMaatregel ;
+    rdfs:label "heeft overheidsmaatregel"@nl .
+
+bio:correspondsToISO rdf:type owl:ObjectProperty ;
+    rdfs:domain bio:BIOControl ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "correspondeert met ISO 27002 control"@nl .
+
+
+
+# ── 5.01: Beleidsregels voor informatiebeveiliging ──
+bio:ISO27002_5_01 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beleidsregels voor informatiebeveiliging"@nl ;
+    rdfs:comment "Informatiebeveiligingsbeleid en onderwerpspecifieke beleidsregels behoren te worden gedefinieerd, goedgekeurd door het management, gepubliceerd, gecommuniceerd aan en erkend door relevant personeel en relevante belanghebbenden en met geplande tussenp"@nl ;
+    bio:bioControlNummer "5.01" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_01 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_01_1 , bio:BIO2_5_01_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_01_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.01.1"@nl ;
+    bio:bioMaatregelNummer "5.01.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De organisatie heeft een informatiebeveiligingsbeleid opgesteld. Dit beleid is vastgesteld door de leiding van de organisatie en bevat ten minste de volgende punten:\n(a) De strategische uitgangspunten en randvoorwaarden die de organisatie hanteert voor informatiebeveiliging en in het bijzonder de inbedding in en afstemming op het algemene beveiligingsbeleid en het informatievoorzieningsbeleid.\n(b) De organisatie van de informatiebeveiligingsfunctie, waaronder verantwoordelijkheden, taken en be" ;
+    bio:implementsControl bio:ISO27002_5_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_01_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.01.2"@nl ;
+    bio:bioMaatregelNummer "5.01.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Het informatiebeveiligingsbeleid wordt periodiek en in aansluiting bij de (bestaande) bestuurs- en Planning & Control (P&C)-cycli en externe ontwikkelingen beoordeeld en zo nodig bijgesteld." ;
+    bio:implementsControl bio:ISO27002_5_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.02: Rollen en verantwoordelijkheden bij informatiebeveiligi ──
+bio:ISO27002_5_02 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Rollen en verantwoordelijkheden bij informatiebeveiliging"@nl ;
+    rdfs:comment "Rollen en verantwoordelijkheden bij informatiebeveiliging behoren te worden gedefinieerd en toegewezen overeenkomstig de behoeften van de organisatie."@nl ;
+    bio:bioControlNummer "5.02" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_02 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_02_1 , bio:BIO2_5_02_2 , bio:BIO2_5_02_3 , bio:BIO2_5_02_4 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_02_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.02.1"@nl ;
+    bio:bioMaatregelNummer "5.02.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De leiding van de organisatie heeft vastgelegd wat de verantwoordelijkheden en rollen zijn op het gebied van informatiebeveiliging binnen haar organisatie." ;
+    bio:implementsControl bio:ISO27002_5_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_02_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.02.2"@nl ;
+    bio:bioMaatregelNummer "5.02.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De verantwoordelijkheden en rollen ten aanzien van informatiebeveiliging zijn gebaseerd op relevante voorschriften en wetten." ;
+    bio:implementsControl bio:ISO27002_5_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_02_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.02.3"@nl ;
+    bio:bioMaatregelNummer "5.02.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De rol en verantwoordelijkheden van de Chief Information Security Officer (CISO) zijn in een CISO-functieprofiel vastgelegd." ;
+    bio:implementsControl bio:ISO27002_5_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_02_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.02.4"@nl ;
+    bio:bioMaatregelNummer "5.02.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is een CISO aangesteld conform een vastgesteld CISO-functieprofiel." ;
+    bio:implementsControl bio:ISO27002_5_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.03: Functiescheiding ──
+bio:ISO27002_5_03 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Functiescheiding"@nl ;
+    rdfs:comment "Conflicterende taken en conflicterende verantwoordelijkheden behoren te worden gescheiden."@nl ;
+    bio:bioControlNummer "5.03" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_03 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_03_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_03_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.03.1"@nl ;
+    bio:bioMaatregelNummer "5.03.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er zijn maatregelen getroffen die onbedoelde of ongeautoriseerde toegang tot bedrijfsmiddelen waarnemen of voorkomen." ;
+    bio:implementsControl bio:ISO27002_5_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.04: Managementverantwoordelijkheden ──
+bio:ISO27002_5_04 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Managementverantwoordelijkheden"@nl ;
+    rdfs:comment "Het management behoort van al het personeel te eisen dat ze informatiebeveiliging toepassen overeenkomstig het vastgestelde informatiebeveiligingsbeleid, de onderwerpspecifieke beleidsregels en procedures van de organisatie."@nl ;
+    bio:bioControlNummer "5.04" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_04 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_04_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_04_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.04.1"@nl ;
+    bio:bioMaatregelNummer "5.04.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is aansluiting bij een klokkenluidersregeling, zodat iedereen anoniem en veilig beveiligingsissues kan melden." ;
+    bio:implementsControl bio:ISO27002_5_04 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.05: Contact met overheidsinstanties ──
+bio:ISO27002_5_05 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Contact met overheidsinstanties"@nl ;
+    rdfs:comment "De organisatie behoort contact met de relevante instanties te leggen en te onderhouden."@nl ;
+    bio:bioControlNummer "5.05" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_05 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_05_1 , bio:BIO2_5_05_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_05_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.05.1"@nl ;
+    bio:bioMaatregelNummer "5.05.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De organisatie heeft uitgewerkt wie met welke (overheids)instanties en toezichthouders contact heeft ten aanzien van informatiebeveiligingsaangelegenheden (vergunningen/incidenten/calamiteiten) en welke eisen voor deze aangelegenheden relevant zijn." ;
+    bio:implementsControl bio:ISO27002_5_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_05_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.05.2"@nl ;
+    bio:bioMaatregelNummer "5.05.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Het contactoverzicht wordt jaarlijks geactualiseerd." ;
+    bio:implementsControl bio:ISO27002_5_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.06: Contact met speciale belangengroepen ──
+bio:ISO27002_5_06 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Contact met speciale belangengroepen"@nl ;
+    rdfs:comment "De organisatie behoort contacten met speciale belangengroepen of andere gespecialiseerde beveiligingsfora en beroepsverenigingen te leggen en te onderhouden."@nl ;
+    bio:bioControlNummer "5.06" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_06 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.07: Informatie en analyses over dreigingen ──
+bio:ISO27002_5_07 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Informatie en analyses over dreigingen"@nl ;
+    rdfs:comment "Informatie met betrekking tot informatiebeveiligingsdreigingen behoort te worden verzameld en geanalyseerd om informatie en analyses over dreigingen te produceren."@nl ;
+    bio:bioControlNummer "5.07" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.08: Informatiebeveiliging in projectmanagement ──
+bio:ISO27002_5_08 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Informatiebeveiliging in projectmanagement"@nl ;
+    rdfs:comment "Informatiebeveiliging behoort te worden geïntegreerd in projectmanagement."@nl ;
+    bio:bioControlNummer "5.08" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_08 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_08_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_08_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.08.1"@nl ;
+    bio:bioMaatregelNummer "5.08.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Bij nieuwe informatiesystemen en bij wijzigingen op bestaande informatiesystemen moet een expliciete risicoafweging worden uitgevoerd ten behoeve van het vaststellen van de beveiligingseisen, uitgaande van de BIO." ;
+    bio:implementsControl bio:ISO27002_5_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.09: Inventarisatie van informatie en andere gerelateerde be ──
+bio:ISO27002_5_09 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Inventarisatie van informatie en andere gerelateerde bedrijfsmiddelen"@nl ;
+    rdfs:comment "Er behoort een inventarislijst van informatie en andere gerelateerde bedrijfsmiddelen, met inbegrip van de eigenaren, te worden opgesteld en onderhouden."@nl ;
+    bio:bioControlNummer "5.09" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_09 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.1: Aanvaard gebruik van informatie en andere gerelateerde  ──
+bio:ISO27002_5_10 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Aanvaard gebruik van informatie en andere gerelateerde bedrijfsmiddelen"@nl ;
+    rdfs:comment "Regels voor het aanvaardbaar gebruik van en procedures voor het omgaan met informatie en andere gerelateerde bedrijfsmiddelen behoren te worden geïdentificeerd, gedocumenteerd en geïmplementeerd."@nl ;
+    bio:bioControlNummer "5.1" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_01 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_10_1 , bio:BIO2_5_10_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_10_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.10.1"@nl ;
+    bio:bioMaatregelNummer "5.10.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alle medewerkers zijn aantoonbaar gewezen op de gedragsregels voor het gebruik van bedrijfsmiddelen." ;
+    bio:implementsControl bio:ISO27002_5_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_10_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.10.2"@nl ;
+    bio:bioMaatregelNummer "5.10.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De gedragsregels voor het gebruik van bedrijfsmiddelen zijn voor extern personeel in het contract vastgelegd overeenkomstig de huisregels of gedragsregels." ;
+    bio:implementsControl bio:ISO27002_5_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.11: Retourneren van bedrijfsmiddelen ──
+bio:ISO27002_5_11 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Retourneren van bedrijfsmiddelen"@nl ;
+    rdfs:comment "Personeel en andere belanghebbenden, al naargelang de situatie, behoren alle bedrijfsmiddelen van de organisatie die ze in hun bezit hebben bij beëindiging van hun dienstverband, contract of overeenkomst te retourneren."@nl ;
+    bio:bioControlNummer "5.11" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_11 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.12: Classificeren van informatie ──
+bio:ISO27002_5_12 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Classificeren van informatie"@nl ;
+    rdfs:comment "Informatie behoort te worden geclassificeerd volgens de informatiebeveiligingsbehoeften van de organisatie, op basis van de eisen voor vertrouwelijkheid, integriteit, beschikbaarheid en relevante eisen van belanghebbenden."@nl ;
+    bio:bioControlNummer "5.12" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_12 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_12_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_12_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.12.1"@nl ;
+    bio:bioMaatregelNummer "5.12.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De informatie in alle informatiesystemen is door middel van een expliciete risicoafweging geclassificeerd, zodat duidelijk is welke bescherming nodig is." ;
+    bio:implementsControl bio:ISO27002_5_12 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.13: Labelen van informatie ──
+bio:ISO27002_5_13 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Labelen van informatie"@nl ;
+    rdfs:comment "Om informatie te labelen, behoort een passende reeks procedures te worden ontwikkeld en geïmplementeerd in overeenstemming met het informatieclassificatieschema dat is vastgesteld door de organisatie."@nl ;
+    bio:bioControlNummer "5.13" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.14: Overdragen van informatie ──
+bio:ISO27002_5_14 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Overdragen van informatie"@nl ;
+    rdfs:comment "Er behoren regels, procedures of overeenkomsten voor informatieoverdracht te zijn ingesteld voor alle soorten van communicatiefaciliteiten binnen de organisatie en tussen de organisatie en andere partijen."@nl ;
+    bio:bioControlNummer "5.14" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_14 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_14_1 , bio:BIO2_5_14_2 , bio:BIO2_5_14_3 , bio:BIO2_5_14_4 , bio:BIO2_5_14_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_14_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.14.1"@nl ;
+    bio:bioMaatregelNummer "5.14.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Voor de beveiliging van elektronische (e-mail)berichten gelden de vastgestelde open standaarden tegen phishing en afluisteren op de ‘pas toe of leg uit’-lijst van het Forum Standaardisatie. Voor beveiliging van websiteverkeer gelden de open standaarden tegen afluisteren op de ‘pas toe of leg uit’-lijst van het Forum Standaardisatie." ;
+    bio:implementsControl bio:ISO27002_5_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_14_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.14.2"@nl ;
+    bio:bioMaatregelNummer "5.14.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Voor veilige berichtenuitwisseling met basisregistraties wordt, conform de ‘pas toe of leg uit’-lijst van het Forum Standaardisatie, gebruik gemaakt van de actuele versie van Digikoppeling." ;
+    bio:implementsControl bio:ISO27002_5_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_14_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.14.3"@nl ;
+    bio:bioMaatregelNummer "5.14.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Maak bij openbaar webverkeer van gevoelige gegevens gebruik van ten minste publiek vertrouwde Organization Validated-certificaten. Maak bij intern webverkeer voor gevoelige gegevens gebruik van ten minste publieke vertrouwde OV-certificaten of private PKIo-certificaten. Hogere eisen aan certificaten kunnen voortvloeien uit een risicoanalyse, aansluitvoorwaarden of wetgeving." ;
+    bio:implementsControl bio:ISO27002_5_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_14_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.14.4"@nl ;
+    bio:bioMaatregelNummer "5.14.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Verzend gevoelige gegevens via e-mail alleen over onvertrouwde netwerken als de keten tussen verzender en ontvanger voldoende beveiligd is, zoals door het toepassen van maatregel 5.14.1." ;
+    bio:implementsControl bio:ISO27002_5_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_14_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.14.5"@nl ;
+    bio:bioMaatregelNummer "5.14.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Om zekerheid te bieden over de integriteit van het elektronische bericht, wordt voor elektronische handtekeningen gebruik gemaakt van de AdES Baseline Profile standaard." ;
+    bio:implementsControl bio:ISO27002_5_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.15: Toegangsbeveiliging ──
+bio:ISO27002_5_15 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Toegangsbeveiliging"@nl ;
+    rdfs:comment "Er behoren regels op basis van bedrijfs- en informatiebeveiligingseisen te worden vastgesteld en geïmplementeerd om de fysieke en logische toegang tot informatie en andere gerelateerde bedrijfsmiddelen te beheersen."@nl ;
+    bio:bioControlNummer "5.15" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_15 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_15_1 , bio:BIO2_5_15_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_15_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.15.1"@nl ;
+    bio:bioMaatregelNummer "5.15.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alleen geauthentiseerde apparatuur kan toegang krijgen tot een vertrouwde zone." ;
+    bio:implementsControl bio:ISO27002_5_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_15_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.15.2"@nl ;
+    bio:bioMaatregelNummer "5.15.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Gebruikers met eigen of ongeauthentiseerde apparatuur (Bring Your Own Device) krijgen alleen toegang tot een onvertrouwde zone." ;
+    bio:implementsControl bio:ISO27002_5_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.16: Identiteitsbeheer ──
+bio:ISO27002_5_16 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Identiteitsbeheer"@nl ;
+    rdfs:comment "De volledige levenscyclus van identiteiten behoort te worden beheerd."@nl ;
+    bio:bioControlNummer "5.16" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_16 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_16_1 , bio:BIO2_5_16_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_16_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.16.1"@nl ;
+    bio:bioMaatregelNummer "5.16.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is een sluitende formele registratie- en afmeldprocedure voor het beheren van gebruikersidentificaties." ;
+    bio:implementsControl bio:ISO27002_5_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_16_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.16.2"@nl ;
+    bio:bioMaatregelNummer "5.16.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Het gebruiken van groepsaccounts is niet toegestaan, tenzij dit wordt gemotiveerd en vastgelegd door de proceseigenaar." ;
+    bio:implementsControl bio:ISO27002_5_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.17: Authenticatie-informatie ──
+bio:ISO27002_5_17 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Authenticatie-informatie"@nl ;
+    rdfs:comment "De toewijzing en het beheer van authenticatie-informatie behoort te worden beheerst door middel van een beheerproces waarvan het adviseren van het personeel over de juiste manier van omgaan met authenticatie-informatie deel uitmaakt."@nl ;
+    bio:bioControlNummer "5.17" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_17 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_17_1 , bio:BIO2_5_17_2 , bio:BIO2_5_17_3 , bio:BIO2_5_17_4 , bio:BIO2_5_17_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_17_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.17.1"@nl ;
+    bio:bioMaatregelNummer "5.17.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Bij het aanloggen op een vertrouwde zone:\n(a) is het gebruik van tweefactor-authenticatie altijd verplicht;\n(b) is de minimale wachtwoordlengte 12 posities en wordt het wachtwoord minimaal halfjaarlijks vernieuwd als geen tweefactor-authenticatie mogelijk is (zie ook 8.5.1);\n(c) mogen wachtwoorden niet worden hergebruikt;\n(d) zijn de tekens van een wachtwoord zo willekeurig mogelijk gekozen dat individuele tekens of combinaties van tekens geen voorspellende waarde hebben voor de rest van het" ;
+    bio:implementsControl bio:ISO27002_5_17 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_17_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.17.2"@nl ;
+    bio:bioMaatregelNummer "5.17.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Medewerkers worden ondersteund in het beheren van hun wachtwoorden door het beschikbaar stellen van een wachtwoordmanager of een vergelijkbaar systeem." ;
+    bio:implementsControl bio:ISO27002_5_17 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_17_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.17.3"@nl ;
+    bio:bioMaatregelNummer "5.17.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Een wachtwoordmanager is in staat om een waarschuwing te geven als de combinatie van account en wachtwoord voorkomt op lijsten met gecompromitteerde wachtwoorden of het vermoeden bestaat dat het wachtwoord gecompromitteerd is. In dat geval moet het wachtwoord worden gewijzigd." ;
+    bio:implementsControl bio:ISO27002_5_17 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_17_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.17.4"@nl ;
+    bio:bioMaatregelNummer "5.17.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De eisen aan wachtwoorden moeten geautomatiseerd worden afgedwongen." ;
+    bio:implementsControl bio:ISO27002_5_17 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_17_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.17.5"@nl ;
+    bio:bioMaatregelNummer "5.17.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Van initiële wachtwoorden en wachtwoorden die gereset zijn, wordt automatisch afgedwongen dat deze bij het eerste gebruik worden gewijzigd." ;
+    bio:implementsControl bio:ISO27002_5_17 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.18: Toegangsrechten ──
+bio:ISO27002_5_18 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Toegangsrechten"@nl ;
+    rdfs:comment "Toegangsrechten voor informatie en andere gerelateerde bedrijfsmiddelen behoren te worden verstrekt, beoordeeld, aangepast en verwijderd overeenkomstig het onderwerpspecifieke beleid en de regels inzake toegangsbeveiliging van de organisatie."@nl ;
+    bio:bioControlNummer "5.18" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_18 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_18_1 , bio:BIO2_5_18_2 , bio:BIO2_5_18_4 , bio:BIO2_5_18_6 , bio:BIO2_5_18_3 , bio:BIO2_5_18_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_18_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.18.1"@nl ;
+    bio:bioMaatregelNummer "5.18.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is uitsluitend toegang verleend tot informatiesystemen na autorisatie door een bevoegde functionaris." ;
+    bio:implementsControl bio:ISO27002_5_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_18_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.18.2"@nl ;
+    bio:bioMaatregelNummer "5.18.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Op basis van een risicoafweging is bepaald waar en op welke wijze functiescheiding wordt toegepast en welke toegangsrechten worden gegeven." ;
+    bio:implementsControl bio:ISO27002_5_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_18_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.18.4"@nl ;
+    bio:bioMaatregelNummer "5.18.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alle uitgegeven toegangsrechten worden minimaal eenmaal per jaar beoordeeld." ;
+    bio:implementsControl bio:ISO27002_5_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_18_6 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.18.6"@nl ;
+    bio:bioMaatregelNummer "5.18.6" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Ongeautoriseerde afwijkingen op of ongeautoriseerde aanpassingen aan uitgegeven toegangsrechten worden beschouwd als beveiligingsgebeurtenis en als zodanig vastgelegd en afgehandeld." ;
+    bio:implementsControl bio:ISO27002_5_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_18_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.18.3"@nl ;
+    bio:bioMaatregelNummer "5.18.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er is een actueel mandaatregister of er zijn functieprofielen waaruit blijkt welke personen bevoegdheden hebben voor het verlenen van toegangsrechten." ;
+    bio:implementsControl bio:ISO27002_5_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_18_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.18.5"@nl ;
+    bio:bioMaatregelNummer "5.18.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Alle uitgegeven toegangsrechten worden minimaal eenmaal per halfjaar beoordeeld." ;
+    bio:implementsControl bio:ISO27002_5_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.19: Informatiebeveiliging in leveranciersrelaties ──
+bio:ISO27002_5_19 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Informatiebeveiliging in leveranciersrelaties"@nl ;
+    rdfs:comment "Er behoren processen en procedures te worden vastgesteld en geïmplementeerd om de informatiebeveiligingsrisico’s in verband met het gebruik van producten of diensten van de leverancier te beheersen."@nl ;
+    bio:bioControlNummer "5.19" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_19 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_19_1 , bio:BIO2_5_19_2 , bio:BIO2_5_19_3 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_19_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.19.1"@nl ;
+    bio:bioMaatregelNummer "5.19.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Bij offerteaanvragen waar informatie(voorziening) een rol speelt, worden inkoopeisen ten aanzien van informatiebeveiliging (beschikbaarheid, integriteit en vertrouwelijkheid) benoemd. Deze eisen zijn gebaseerd op een expliciete risicoafweging. Bijvoorbeeld kan gebruik gemaakt worden van de maatregelset uit de Inkoopeisen Cybersecurity Overheid (ICO)." ;
+    bio:implementsControl bio:ISO27002_5_19 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_19_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.19.2"@nl ;
+    bio:bioMaatregelNummer "5.19.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Op basis van een expliciete risicoafweging worden de beheersmaatregelen met betrekking tot leverancierstoegang tot bedrijfsinformatie vastgesteld." ;
+    bio:implementsControl bio:ISO27002_5_19 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_19_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.19.3"@nl ;
+    bio:bioMaatregelNummer "5.19.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Met alle leveranciers die als verwerker voor of namens de organisatie persoonsgegevens verwerken, worden verwerkersovereenkomsten gesloten waarin alle wettelijk vereiste afspraken zijn vastgesteld." ;
+    bio:implementsControl bio:ISO27002_5_19 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.2: Adresseren van informatiebeveiliging in leveranciersove ──
+bio:ISO27002_5_20 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Adresseren van informatiebeveiliging in leveranciersovereenkomsten"@nl ;
+    rdfs:comment "Relevante informatiebeveiligingseisen behoren te worden vastgesteld en met elke leverancier op basis van het type leveranciersrelatie te worden overeengekomen."@nl ;
+    bio:bioControlNummer "5.2" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_02 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_20_1 , bio:BIO2_5_20_2 , bio:BIO2_5_20_3 , bio:BIO2_5_20_4 , bio:BIO2_5_20_5 , bio:BIO2_5_20_6 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_20_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.20.1"@nl ;
+    bio:bioMaatregelNummer "5.20.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De beveiligingseisen uit de offerteaanvraag worden expliciet opgenomen in de (inkoop)contracten waar de verwerking van informatie een rol speelt." ;
+    bio:implementsControl bio:ISO27002_5_20 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_20_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.20.2"@nl ;
+    bio:bioMaatregelNummer "5.20.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In de inkoopcontracten worden expliciet prestatie-indicatoren en de bijbehorende verantwoordingsrapportages opgenomen." ;
+    bio:implementsControl bio:ISO27002_5_20 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_20_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.20.3"@nl ;
+    bio:bioMaatregelNummer "5.20.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In situaties waarin contractvoorwaarden worden opgelegd door leveranciers, is voorafgaand aan het tekenen van het contract met een risicoafweging helder gemaakt wat de consequenties hiervan zijn voor de organisatie. Expliciet is gemaakt welke consequenties geaccepteerd worden, welke gemitigeerd moeten zijn en welke voorwaarden niet of nooit geaccepteerd mogen worden bij het aangaan van de overeenkomst." ;
+    bio:implementsControl bio:ISO27002_5_20 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_20_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.20.4"@nl ;
+    bio:bioMaatregelNummer "5.20.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Ter waarborging van vertrouwelijkheid of geheimhouding worden bij IT-inkopen standaardvoorwaarden voor inkoop gehanteerd." ;
+    bio:implementsControl bio:ISO27002_5_20 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_20_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.20.5"@nl ;
+    bio:bioMaatregelNummer "5.20.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Voordat een contract wordt afgesloten, wordt in een risicoafweging bepaald of de afhankelijkheid van een leverancier beheersbaar is. Een vast onderdeel van het contract is een expliciete uitwerking van de exit-strategie." ;
+    bio:implementsControl bio:ISO27002_5_20 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_20_6 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.20.6"@nl ;
+    bio:bioMaatregelNummer "5.20.6" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "In inkoopcontracten wordt expliciet de mogelijkheid van een externe audit opgenomen waarmee de betrouwbaarheid van de geleverde dienst kan worden getoetst. Een audit is niet nodig als de contractant door middel van certificering aantoont dat de gewenste betrouwbaarheid van de dienst is geborgd." ;
+    bio:implementsControl bio:ISO27002_5_20 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.21: Beheren van informatiebeveiliging in de ICT-toelevering ──
+bio:ISO27002_5_21 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beheren van informatiebeveiliging in de ICT-toeleveringsketen"@nl ;
+    rdfs:comment "Er behoren processen en procedures te worden bepaald en geïmplementeerd om de informatiebeveiligingsrisico’s in verband met de toeleveringsketen van ICT-producten en -diensten te beheersen."@nl ;
+    bio:bioControlNummer "5.21" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_21 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_21_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_21_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.21.1"@nl ;
+    bio:bioMaatregelNummer "5.21.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Leveranciers moeten gedurende de looptijd van het contract:\n(a) hun keten van toeleveranciers bekendmaken;\n(b) transparant zijn over de maatregelen die zij genomen hebben om de aan hen opgelegde eisen ook door te vertalen naar hun toeleveranciers;\n(c) transparant zijn over de resultaten van de controle bij toeleveranciers over de aan hen opgelegde maatregelen, zie ook paragraaf 4.4;\n(d) risico's terugmelden." ;
+    bio:implementsControl bio:ISO27002_5_21 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.22: Monitoren, beoordelen en het beheren van wijzigingen va ──
+bio:ISO27002_5_22 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Monitoren, beoordelen en het beheren van wijzigingen van leveranciersdiensten"@nl ;
+    rdfs:comment "De organisatie behoort de informatiebeveiligingspraktijken en de dienstverlening van leveranciers regelmatig te monitoren, beoordelen, evalueren en veranderingen daaraan te beheren."@nl ;
+    bio:bioControlNummer "5.22" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_22 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_22_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_22_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.22.1"@nl ;
+    bio:bioMaatregelNummer "5.22.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Jaarlijks wordt de prestatie van leveranciers op het gebied van informatiebeveiliging beoordeeld op vooraf vastgestelde prestatie-indicatoren, zoals in het contract opgenomen is." ;
+    bio:implementsControl bio:ISO27002_5_22 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.23: Informatiebeveiliging voor het gebruik van clouddienste ──
+bio:ISO27002_5_23 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Informatiebeveiliging voor het gebruik van clouddiensten"@nl ;
+    rdfs:comment "Processen voor het aanschaffen, gebruiken, beheren en beëindigen van clouddiensten behoren overeenkomstig de informatiebeveiligingseisen van de organisatie te worden opgesteld."@nl ;
+    bio:bioControlNummer "5.23" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_23 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.24: Plannen en voorbereiden van het beheer van informatiebe ──
+bio:ISO27002_5_24 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Plannen en voorbereiden van het beheer van informatiebeveiligingsincidenten"@nl ;
+    rdfs:comment "De organisatie behoort plannen op te stellen voor, en zich voor te bereiden op, het beheren van informatiebeveiligingsincidenten door processen, rollen en verantwoordelijkheden voor het beheer van informatiebeveiligingsincidenten te definiëren, vast "@nl ;
+    bio:bioControlNummer "5.24" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_24 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_24_1 , bio:BIO2_5_24_2 , bio:BIO2_5_24_3 , bio:BIO2_5_24_4 , bio:BIO2_5_24_5 , bio:BIO2_5_24_6 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_24_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.24.1"@nl ;
+    bio:bioMaatregelNummer "5.24.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is een meldloket waar beveiligingsincidenten kunnen worden gemeld." ;
+    bio:implementsControl bio:ISO27002_5_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_24_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.24.2"@nl ;
+    bio:bioMaatregelNummer "5.24.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is een meldprocedure waarin de taken en verantwoordelijkheden van het meldloket staan beschreven." ;
+    bio:implementsControl bio:ISO27002_5_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_24_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.24.3"@nl ;
+    bio:bioMaatregelNummer "5.24.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De proceseigenaar is verantwoordelijk voor het oplossen van beveiligingsincidenten." ;
+    bio:implementsControl bio:ISO27002_5_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_24_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.24.4"@nl ;
+    bio:bioMaatregelNummer "5.24.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De opvolging van incidenten wordt maandelijks gerapporteerd aan de verantwoordelijke." ;
+    bio:implementsControl bio:ISO27002_5_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_24_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.24.5"@nl ;
+    bio:bioMaatregelNummer "5.24.5" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Een Coordinated Vulnerability Disclosure (CVD)-procedure is gepubliceerd en ingericht, inclusief de opvolging 46).\n\n46) Voorheen werd Coordinated Vulnerability Disclosure (CVD) responsible disclosure genoemd." ;
+    bio:implementsControl bio:ISO27002_5_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_24_6 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.24.6"@nl ;
+    bio:bioMaatregelNummer "5.24.6" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Informatie afkomstig uit de Coordinated Vulnerability Disclosure (CVD)-procedure is onderdeel van de incidentrapportage." ;
+    bio:implementsControl bio:ISO27002_5_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.25: Beoordelen van en besluiten over informatiebeveiligings ──
+bio:ISO27002_5_25 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beoordelen van en besluiten over informatiebeveiligingsgebeurtenissen"@nl ;
+    rdfs:comment "De organisatie behoort informatiebeveiligingsgebeurtenissen te beoordelen en te beslissen of ze moeten worden gecategoriseerd als informatiebeveiligingsincidenten."@nl ;
+    bio:bioControlNummer "5.25" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_25 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_25_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_25_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.25.1"@nl ;
+    bio:bioMaatregelNummer "5.25.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Informatiebeveiligingsincidenten die hebben geleid tot een vermoedelijk of mogelijk opzettelijke inbreuk op de beschikbaarheid, vertrouwelijkheid of integriteit van informatieverwerkende systemen, behoren zo snel mogelijk (binnen 72 uur) al dan niet geautomatiseerd te worden gemeld aan het NCSC (alleen voor rijksoverheidsorganisaties) of de sectorale CERT." ;
+    bio:implementsControl bio:ISO27002_5_25 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.26: Reageren op informatiebeveiligingsincidenten ──
+bio:ISO27002_5_26 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Reageren op informatiebeveiligingsincidenten"@nl ;
+    rdfs:comment "Op informatiebeveiligingsincidenten behoort te worden gereageerd in overeenstemming met de gedocumenteerde procedures."@nl ;
+    bio:bioControlNummer "5.26" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_26 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.27: Leren van informatiebeveiligingsincidenten ──
+bio:ISO27002_5_27 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Leren van informatiebeveiligingsincidenten"@nl ;
+    rdfs:comment "Kennis die is opgedaan met informatiebeveiligingsincidenten behoort te worden gebruikt om de beheersmaatregelen voor informatiebeveiliging te versterken en te verbeteren."@nl ;
+    bio:bioControlNummer "5.27" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_27 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_27_1 , bio:BIO2_5_27_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_27_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.27.1"@nl ;
+    bio:bioMaatregelNummer "5.27.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Beveiligingsincidenten worden geanalyseerd met als doel te leren en toekomstige beveiligingsincidenten te voorkomen." ;
+    bio:implementsControl bio:ISO27002_5_27 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_27_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.27.2"@nl ;
+    bio:bioMaatregelNummer "5.27.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De analyses van de beveiligingsincidenten worden gedeeld met de relevante partners om herhaling en toekomstige incidenten te voorkomen." ;
+    bio:implementsControl bio:ISO27002_5_27 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.28: Verzamelen van bewijsmateriaal ──
+bio:ISO27002_5_28 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Verzamelen van bewijsmateriaal"@nl ;
+    rdfs:comment "De organisatie behoort procedures vast te stellen en te implementeren voor het identificeren, verzamelen, verkrijgen en bewaren van bewijs met betrekking tot informatiebeveiligingsgebeurtenissen."@nl ;
+    bio:bioControlNummer "5.28" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_28 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_28_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_28_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.28.1"@nl ;
+    bio:bioMaatregelNummer "5.28.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "In geval van een (vermoed) informatiebeveiligingsincident is de bewaartermijn van de gelogde incidentinformatie minimaal drie jaar." ;
+    bio:implementsControl bio:ISO27002_5_28 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.29: Informatiebeveiliging tijdens een verstoring ──
+bio:ISO27002_5_29 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Informatiebeveiliging tijdens een verstoring"@nl ;
+    rdfs:comment "De organisatie behoort plannen te maken voor het op het passende niveau waarborgen van de informatiebeveiliging tijdens een verstoring."@nl ;
+    bio:bioControlNummer "5.29" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_29 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_29_1 , bio:BIO2_5_29_2 , bio:BIO2_5_29_3 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_29_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.29.1"@nl ;
+    bio:bioMaatregelNummer "5.29.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Continuïteitsplannen worden jaarlijks getest op geldigheid en bruikbaarheid." ;
+    bio:implementsControl bio:ISO27002_5_29 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_29_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.29.2"@nl ;
+    bio:bioMaatregelNummer "5.29.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Door het uitvoeren van een expliciete risicoafweging worden de bedrijfskritische procesonderdelen met hun bijbehorende betrouwbaarheidseisen geïdentificeerd." ;
+    bio:implementsControl bio:ISO27002_5_29 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_29_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.29.3"@nl ;
+    bio:bioMaatregelNummer "5.29.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De dienstverlening van de bedrijfskritische onderdelen wordt bij calamiteiten uiterlijk binnen een week hersteld." ;
+    bio:implementsControl bio:ISO27002_5_29 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.3: ICT-gereedheid voor bedrijfscontinuïteit ──
+bio:ISO27002_5_30 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "ICT-gereedheid voor bedrijfscontinuïteit"@nl ;
+    rdfs:comment "De ICT-gereedheid behoort te worden gepland, geïmplementeerd, onderhouden en getest op basis van bedrijfscontinuïteitsdoelstellingen en ICT-continuïteitseisen."@nl ;
+    bio:bioControlNummer "5.3" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.31: Wettelijke, statutaire, regelgevende en contractuele ei ──
+bio:ISO27002_5_31 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Wettelijke, statutaire, regelgevende en contractuele eisen"@nl ;
+    rdfs:comment "Wettelijke, statutaire, regelgevende en contractuele eisen die relevant zijn voor informatiebeveiliging en de aanpak van de organisatie om aan deze eisen te voldoen, behoren te worden geïdentificeerd, gedocumenteerd en actueel gehouden."@nl ;
+    bio:bioControlNummer "5.31" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_31 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_31_1 , bio:BIO2_5_31_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_31_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.31.1"@nl ;
+    bio:bioMaatregelNummer "5.31.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Cryptografische beheersmaatregelen moeten expliciet aansluiten bij de standaarden op de ‘pas toe of leg uit’-lijst van het Forum Standaardisatie." ;
+    bio:implementsControl bio:ISO27002_5_31 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_31_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.31.2"@nl ;
+    bio:bioMaatregelNummer "5.31.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Zie overheidsmaatregel 8.24.1." ;
+    bio:implementsControl bio:ISO27002_5_31 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.32: Intellectuele-eigendomsrechten ──
+bio:ISO27002_5_32 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Intellectuele-eigendomsrechten"@nl ;
+    rdfs:comment "De organisatie behoort passende procedures te implementeren om intellectuele-eigendomsrechten te beschermen."@nl ;
+    bio:bioControlNummer "5.32" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_32 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.33: Beschermen van registraties ──
+bio:ISO27002_5_33 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beschermen van registraties"@nl ;
+    rdfs:comment "Registraties behoren te worden beschermd tegen verlies, vernietiging, vervalsing, toegang door onbevoegden en ongeoorloofde vrijgave."@nl ;
+    bio:bioControlNummer "5.33" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_33 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_33_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_33_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.33.1"@nl ;
+    bio:bioMaatregelNummer "5.33.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De proceseigenaar heeft per soort informatie inzichtelijk gemaakt wat de bewaartermijn is." ;
+    bio:implementsControl bio:ISO27002_5_33 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.34: Privacy en bescherming van persoonsgegevens ──
+bio:ISO27002_5_34 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Privacy en bescherming van persoonsgegevens"@nl ;
+    rdfs:comment "De organisatie behoort de eisen met betrekking tot het behoud van privacy en de bescherming van persoonsgegevens volgens de toepasselijke wet- en regelgeving en contractuele eisen te identificeren en eraan te voldoen."@nl ;
+    bio:bioControlNummer "5.34" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_34 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_34_1 , bio:BIO2_5_34_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_34_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.34.1"@nl ;
+    bio:bioMaatregelNummer "5.34.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In overeenstemming met de AVG heeft iedere organisatie een Functionaris Gegevensbescherming (FG) met voldoende mandaat om zijn/haar functie uit te voeren." ;
+    bio:implementsControl bio:ISO27002_5_34 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_34_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.34.2"@nl ;
+    bio:bioMaatregelNummer "5.34.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Organisaties controleren regelmatig de naleving van de privacyregels en informatieverwerking en -procedures binnen hun verantwoordelijkheidsgebied aan de hand van de desbetreffende beleidsregels, normen en andere eisen betreffende beveiliging." ;
+    bio:implementsControl bio:ISO27002_5_34 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.35: Onafhankelijke beoordeling van informatiebeveiliging ──
+bio:ISO27002_5_35 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Onafhankelijke beoordeling van informatiebeveiliging"@nl ;
+    rdfs:comment "De aanpak van de organisatie ten aanzien van het beheer van informatiebeveiliging en de implementatie ervan, met inbegrip van mensen, processen en technologieën, behoren onafhankelijk en met geplande tussenpozen of zodra zich belangrijke veranderinge"@nl ;
+    bio:bioControlNummer "5.35" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_35 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_35_1 , bio:BIO2_5_35_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_35_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.35.1"@nl ;
+    bio:bioMaatregelNummer "5.35.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er is een information security management system (ISMS) waarmee aantoonbaar de gehele Plan-Do-Check-Act cyclus op gestructureerde wijze wordt afgedekt." ;
+    bio:implementsControl bio:ISO27002_5_35 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_35_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.35.2"@nl ;
+    bio:bioMaatregelNummer "5.35.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er is een vastgesteld auditplan waarin jaarlijks keuzes worden gemaakt voor welke systemen welk soort beveiligingsaudits worden uitgevoerd." ;
+    bio:implementsControl bio:ISO27002_5_35 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.36: Naleving van beleid, regels en normen voor informatiebe ──
+bio:ISO27002_5_36 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Naleving van beleid, regels en normen voor informatiebeveiliging"@nl ;
+    rdfs:comment "De naleving van het informatiebeveiligingsbeleid, het onderwerpspecifieke beleid, regels en de normen van de organisatie behoren regelmatig te worden beoordeeld."@nl ;
+    bio:bioControlNummer "5.36" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_36 ;
+    bio:hasOverheidsMaatregel bio:BIO2_5_36_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_5_36_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 5.36.1"@nl ;
+    bio:bioMaatregelNummer "5.36.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In de P&C-cyclus wordt gerapporteerd over informatiebeveiliging, resulterend in een jaarlijks af te geven In Control Verklaring (ICV) over de informatiebeveiliging. Indien voldoende herkenbaar kan de ICV voor informatiebeveiliging onderdeel zijn van de reguliere, generieke verantwoording." ;
+    bio:implementsControl bio:ISO27002_5_36 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 5.37: Gedocumenteerde bedieningsprocedures ──
+bio:ISO27002_5_37 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Gedocumenteerde bedieningsprocedures"@nl ;
+    rdfs:comment "Bedieningsprocedures voor informatieverwerkende faciliteiten behoren te worden gedocumenteerd en beschikbaar te worden gesteld aan het personeel dat ze nodig heeft."@nl ;
+    bio:bioControlNummer "5.37" ;
+    bio:hasControlType "Organisatorisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_5_37 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.01: Screening ──
+bio:ISO27002_6_01 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Screening"@nl ;
+    rdfs:comment "De achtergrond van alle kandidaten voor een dienstverband behoort te worden gecontroleerd voordat ze bij de organisatie in dienst treden en daarna op gezette tijden te worden herhaald. Hierbij behoort rekening te worden gehouden met de toepasselijke "@nl ;
+    bio:bioControlNummer "6.01" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_01 ;
+    bio:hasOverheidsMaatregel bio:BIO2_6_01_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_01_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.01.1"@nl ;
+    bio:bioMaatregelNummer "6.01.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Elke organisatie heeft een vastgesteld screeningsbeleid. Bij indiensttreding en bij functiewijziging kan een Verklaring Omtrent het Gedrag (VOG) gevraagd worden." ;
+    bio:implementsControl bio:ISO27002_6_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.02: Arbeidsovereenkomst ──
+bio:ISO27002_6_02 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Arbeidsovereenkomst"@nl ;
+    rdfs:comment "In arbeidsovereenkomsten behoort te worden vermeld wat de verantwoordelijkheden van het personeel en van de organisatie zijn wat betreft informatiebeveiliging."@nl ;
+    bio:bioControlNummer "6.02" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_02 ;
+    bio:hasOverheidsMaatregel bio:BIO2_6_02_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_02_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.02.1"@nl ;
+    bio:bioMaatregelNummer "6.02.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alle medewerkers (intern en extern) zijn bij hun aanstelling of functiewisseling gewezen op hun verantwoordelijkheden ten aanzien van informatiebeveiliging. De voor hen geldende regelingen en instructies ten aanzien van informatiebeveiliging zijn eenvoudig toegankelijk." ;
+    bio:implementsControl bio:ISO27002_6_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.03: Bewustwording van, opleiding en training in informatieb ──
+bio:ISO27002_6_03 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Bewustwording van, opleiding en training in informatiebeveiliging"@nl ;
+    rdfs:comment "Personeel van de organisatie en relevante belanghebbenden behoren een passende bewustwording van, opleiding en training in informatiebeveiliging en regelmatige updates over het informatiebeveiligingsbeleid, onderwerpspecifieke beleidsregels en proced"@nl ;
+    bio:bioControlNummer "6.03" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_03 ;
+    bio:hasOverheidsMaatregel bio:BIO2_6_03_1 , bio:BIO2_6_03_2 , bio:BIO2_6_03_3 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_03_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.03.1"@nl ;
+    bio:bioMaatregelNummer "6.03.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alle medewerkers hebben de verantwoordelijkheid bedrijfsinformatie te beschermen. Iedereen kent de regels en verplichtingen met betrekking tot informatiebeveiliging en daar waar relevant de speciale eisen voor gerubriceerde omgevingen." ;
+    bio:implementsControl bio:ISO27002_6_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_03_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.03.2"@nl ;
+    bio:bioMaatregelNummer "6.03.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alle medewerkers en contractanten die gebruikmaken van de informatiesystemen en -diensten hebben binnen drie maanden na indiensttreding een training I-bewustzijn succesvol gevolgd." ;
+    bio:implementsControl bio:ISO27002_6_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_03_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.03.3"@nl ;
+    bio:bioMaatregelNummer "6.03.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Het management benadrukt bij aanstelling en interne overplaatsing en bijvoorbeeld in werkoverleggen of in personeelsgesprekken bij zijn medewerkers en contractanten het belang van opleiding en training op het gebied van informatiebeveiliging en stimuleert hen actief deze periodiek te volgen." ;
+    bio:implementsControl bio:ISO27002_6_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.04: Disciplinaire procedure ──
+bio:ISO27002_6_04 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Disciplinaire procedure"@nl ;
+    rdfs:comment "Er behoort een formele en gecommuniceerde disciplinaire procedure te zijn om actie te ondernemen tegen personeel en andere belanghebbenden die zich schuldig hebben gemaakt aan een schending van het informatiebeveiligingsbeleid."@nl ;
+    bio:bioControlNummer "6.04" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_04 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.05: Verantwoordelijkheden na beëindiging of wijziging van h ──
+bio:ISO27002_6_05 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Verantwoordelijkheden na beëindiging of wijziging van het dienstverband"@nl ;
+    rdfs:comment "Verantwoordelijkheden en taken met betrekking tot informatiebeveiliging die van kracht blijven na beëindiging of wijziging van het dienstverband, behoren te worden gedefinieerd, gehandhaafd en gecommuniceerd aan relevant personeel en andere belangheb"@nl ;
+    bio:bioControlNummer "6.05" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.06: Vertrouwelijkheids- of geheimhoudingsovereenkomsten ──
+bio:ISO27002_6_06 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Vertrouwelijkheids- of geheimhoudingsovereenkomsten"@nl ;
+    rdfs:comment "Vertrouwelijkheids- of geheimhoudingsovereenkomsten die de behoeften van de organisatie inzake de bescherming van informatie weerspiegelen, behoren te worden geïdentificeerd, gedocumenteerd, regelmatig te worden beoordeeld en ondertekend door persone"@nl ;
+    bio:bioControlNummer "6.06" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_06 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.07: Werken op afstand ──
+bio:ISO27002_6_07 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Werken op afstand"@nl ;
+    rdfs:comment "Wanneer personeel op afstand werkt, behoren er beveiligingsmaatregelen te worden geïmplementeerd om informatie te beschermen die buiten het gebouw en/of terrein van de organisatie wordt ingezien, verwerkt of opgeslagen."@nl ;
+    bio:bioControlNummer "6.07" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 6.08: Melden van informatiebeveiligingsgebeurtenissen ──
+bio:ISO27002_6_08 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Melden van informatiebeveiligingsgebeurtenissen"@nl ;
+    rdfs:comment "De organisatie behoort te voorzien in een mechanisme waarmee personeel waargenomen of vermoede informatiebeveiligingsgebeurtenissen tijdig via passende kanalen kan melden."@nl ;
+    bio:bioControlNummer "6.08" ;
+    bio:hasControlType "Mensgericht" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_6_08 ;
+    bio:hasOverheidsMaatregel bio:BIO2_6_08_1 , bio:BIO2_6_08_2 , bio:BIO2_6_08_3 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_08_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.08.1"@nl ;
+    bio:bioMaatregelNummer "6.08.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alle medewerkers en contractanten hebben aantoonbaar kennisgenomen van de meldingsprocedure van incidenten." ;
+    bio:implementsControl bio:ISO27002_6_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_08_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.08.2"@nl ;
+    bio:bioMaatregelNummer "6.08.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Incidenten worden zo snel mogelijk, maar in ieder geval binnen 24 uur na bekendwording, intern gemeld." ;
+    bio:implementsControl bio:ISO27002_6_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_6_08_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 6.08.3"@nl ;
+    bio:bioMaatregelNummer "6.08.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Zie overheidsmaatregel 5.24.5." ;
+    bio:implementsControl bio:ISO27002_6_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.01: Fysieke beveiligingszones ──
+bio:ISO27002_7_01 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Fysieke beveiligingszones"@nl ;
+    rdfs:comment "Zones die informatie en andere gerelateerde bedrijfsmiddelen bevatten, behoren te worden beschermd door beveiligingszones te definiëren en te gebruiken."@nl ;
+    bio:bioControlNummer "7.01" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_01 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_01_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_01_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.01.1"@nl ;
+    bio:bioMaatregelNummer "7.01.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er wordt voor het inrichten van beveiligde zones gebruik gemaakt van standaarden." ;
+    bio:implementsControl bio:ISO27002_7_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.02: Fysieke toegangsbeveiliging ──
+bio:ISO27002_7_02 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Fysieke toegangsbeveiliging"@nl ;
+    rdfs:comment "Beveiligde zones behoren te worden beschermd door passende toegangsbeveiligings­maatregelen en toegangspunten."@nl ;
+    bio:bioControlNummer "7.02" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_02 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_02_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_02_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.02.1"@nl ;
+    bio:bioMaatregelNummer "7.02.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "In geval van concrete beveiligingsrisico’s worden waarschuwingen, conform onderlinge afspraken, verzonden aan de relevante collega’s binnen het beveiligingsdomein van de overheid." ;
+    bio:implementsControl bio:ISO27002_7_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.03: Beveiligen van kantoren, ruimten en faciliteiten ──
+bio:ISO27002_7_03 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiligen van kantoren, ruimten en faciliteiten"@nl ;
+    rdfs:comment "Voor kantoren, ruimten en faciliteiten behoort fysieke beveiliging te worden ontworpen en geïmplementeerd."@nl ;
+    bio:bioControlNummer "7.03" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_03 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_03_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_03_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.03.1"@nl ;
+    bio:bioMaatregelNummer "7.03.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Sleutelbeheer is ingericht op basis van een sleutelplan." ;
+    bio:implementsControl bio:ISO27002_7_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.04: Monitoren van de fysieke beveiliging ──
+bio:ISO27002_7_04 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Monitoren van de fysieke beveiliging"@nl ;
+    rdfs:comment "Het gebouw en terrein behoort voortdurend te worden gemonitord op onbevoegde fysieke toegang."@nl ;
+    bio:bioControlNummer "7.04" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_04 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.05: Beschermen tegen fysieke en omgevingsdreigingen ──
+bio:ISO27002_7_05 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beschermen tegen fysieke en omgevingsdreigingen"@nl ;
+    rdfs:comment "Er behoort bescherming tegen fysieke en omgevingsdreigingen, zoals natuurrampen en andere opzettelijke of onopzettelijke fysieke dreigingen voor de infrastructuur, te worden ontworpen en geïmplementeerd."@nl ;
+    bio:bioControlNummer "7.05" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_05 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_05_1 , bio:BIO2_7_05_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_05_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.05.1"@nl ;
+    bio:bioMaatregelNummer "7.05.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De organisatie heeft geïnventariseerd welke papieren archieven en apparatuur bedrijfskritisch zijn. Tegen bedreigingen van buitenaf zijn beveiligingsmaatregelen genomen op basis van een expliciete risicoafweging." ;
+    bio:implementsControl bio:ISO27002_7_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_05_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.05.2"@nl ;
+    bio:bioMaatregelNummer "7.05.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Bij huisvesting van IT-apparatuur wordt rekening gehouden met de kans op gevolgen van rampen veroorzaakt door de natuur en menselijk handelen." ;
+    bio:implementsControl bio:ISO27002_7_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.06: Werken in beveiligde zones ──
+bio:ISO27002_7_06 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Werken in beveiligde zones"@nl ;
+    rdfs:comment "Voor het werken in beveiligde zones behoren beveiligingsmaatregelen te worden ontwikkeld en geïmplementeerd."@nl ;
+    bio:bioControlNummer "7.06" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_06 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.07: ‘Clear desk’ en ‘clear screen’ ──
+bio:ISO27002_7_07 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "'Clear desk' en 'clear screen'"@nl ;
+    rdfs:comment "Er behoren 'clear desk'-regels voor papieren documenten en verwijderbare opslagmedia en 'clear screen'-regels voor informatieverwerkende faciliteiten te worden gedefinieerd en op passende wijze te worden afgedwongen."@nl ;
+    bio:bioControlNummer "7.07" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_07 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_07_1 , bio:BIO2_7_07_2 , bio:BIO2_7_07_3 , bio:BIO2_7_07_4 , bio:BIO2_7_07_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_07_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.07.1"@nl ;
+    bio:bioMaatregelNummer "7.07.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Een onbemenste werkplek is altijd vergrendeld." ;
+    bio:implementsControl bio:ISO27002_7_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_07_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.07.2"@nl ;
+    bio:bioMaatregelNummer "7.07.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Informatie wordt automatisch ontoegankelijk gemaakt met bijvoorbeeld een screensaver na een inactiviteit van maximaal 15 minuten." ;
+    bio:implementsControl bio:ISO27002_7_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_07_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.07.3"@nl ;
+    bio:bioMaatregelNummer "7.07.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Sessies op remote desktops worden op het remote platform vergrendeld na een vastgestelde periode." ;
+    bio:implementsControl bio:ISO27002_7_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_07_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.07.4"@nl ;
+    bio:bioMaatregelNummer "7.07.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Het overnemen van sessies op remote werkplekken op een andere werkplek is alleen mogelijk via dezelfde beveiligde loginprocedure als waarmee de sessie is gecreëerd. Na een expliciete risicoafweging mag hiervan worden afgeweken." ;
+    bio:implementsControl bio:ISO27002_7_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_07_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.07.5"@nl ;
+    bio:bioMaatregelNummer "7.07.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Bij het gebruik van een chipcardtoken voor toegang tot systemen wordt bij het verwijderen van het token de toegangsbeveiligingsvergrendeling automatisch geactiveerd." ;
+    bio:implementsControl bio:ISO27002_7_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.08: Plaatsen en beschermen van apparatuur ──
+bio:ISO27002_7_08 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Plaatsen en beschermen van apparatuur"@nl ;
+    rdfs:comment "Apparatuur behoort veilig te worden geplaatst en beschermd."@nl ;
+    bio:bioControlNummer "7.08" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.09: Beveiligen van bedrijfsmiddelen buiten het terrein ──
+bio:ISO27002_7_09 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiligen van bedrijfsmiddelen buiten het terrein"@nl ;
+    rdfs:comment "Bedrijfsmiddelen buiten het gebouw en/of terrein behoren te worden beschermd."@nl ;
+    bio:bioControlNummer "7.09" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_09 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.1: Opslagmedia ──
+bio:ISO27002_7_10 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Opslagmedia"@nl ;
+    rdfs:comment "Opslagmedia behoren te worden beheerd gedurende hun volledige levenscyclus van aanschaf, gebruik, transport en verwijdering overeenkomstig het classificatieschema en de hanteringseisen van de organisatie."@nl ;
+    bio:bioControlNummer "7.1" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_01 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_10_1 , bio:BIO2_7_10_2 , bio:BIO2_7_10_3 , bio:BIO2_7_10_4 , bio:BIO2_7_10_5 , bio:BIO2_7_10_6 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_10_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.10.1"@nl ;
+    bio:bioMaatregelNummer "7.10.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er is een verwijderinstructie waarin is opgenomen dat van verwijderbare media die herbruikbaar zijn en die de organisatie verlaten de onnodige inhoud onherstelbaar verwijderd is." ;
+    bio:implementsControl bio:ISO27002_7_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_10_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.10.2"@nl ;
+    bio:bioMaatregelNummer "7.10.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Media die vertrouwelijke informatie bevatten, zijn opgeslagen op een plek die niet toegankelijk is voor onbevoegden." ;
+    bio:implementsControl bio:ISO27002_7_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_10_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.10.3"@nl ;
+    bio:bioMaatregelNummer "7.10.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er is een vastgestelde procedure voor het fysiek transport van media." ;
+    bio:implementsControl bio:ISO27002_7_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_10_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.10.4"@nl ;
+    bio:bioMaatregelNummer "7.10.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Het gebruik van koeriers of transporteurs voor transport van op BBN2 of hoger geclassificeerde informatie voldoet aan vooraf opgestelde betrouwbaarheidseisen." ;
+    bio:implementsControl bio:ISO27002_7_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_10_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.10.5"@nl ;
+    bio:bioMaatregelNummer "7.10.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Verwijdering vindt plaats op een veilige manier, bijvoorbeeld door verbranding of versnippering. Verwijdering van alleen gegevens is ook mogelijk door het wissen van de gegevens voordat de media worden gebruikt voor een andere toepassing in de organisatie." ;
+    bio:implementsControl bio:ISO27002_7_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_10_6 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.10.6"@nl ;
+    bio:bioMaatregelNummer "7.10.6" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Voor het wissen van alle data op het medium, wordt de data onherstelbaar verwijderd, bijvoorbeeld door minimaal twee keer te overschrijven met vaste data en één keer met random data. Er wordt gecontroleerd of alle data onherstelbaar verwijderd is en er wordt verslag van gemaakt." ;
+    bio:implementsControl bio:ISO27002_7_10 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.11: Nutsvoorzieningen ──
+bio:ISO27002_7_11 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Nutsvoorzieningen"@nl ;
+    rdfs:comment "Informatieverwerkende faciliteiten behoren te worden beschermd tegen stroomuitval en andere verstoringen die worden veroorzaakt door storingen in nutsvoorzieningen."@nl ;
+    bio:bioControlNummer "7.11" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_11 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.12: Beveiligen van bekabeling ──
+bio:ISO27002_7_12 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiligen van bekabeling"@nl ;
+    rdfs:comment "Voedingskabels en kabels voor het versturen van gegevens of die informatiediensten ondersteunen, behoren te worden beschermd tegen onderschepping, interferentie of beschadiging."@nl ;
+    bio:bioControlNummer "7.12" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_12 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.13: Onderhoud van apparatuur ──
+bio:ISO27002_7_13 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Onderhoud van apparatuur"@nl ;
+    rdfs:comment "Apparatuur behoort op de juiste wijze te worden onderhouden om de beschikbaarheid, integriteit en betrouwbaarheid van informatie te garanderen."@nl ;
+    bio:bioControlNummer "7.13" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 7.14: Veilig verwijderen of hergebruiken van apparatuur ──
+bio:ISO27002_7_14 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Veilig verwijderen of hergebruiken van apparatuur"@nl ;
+    rdfs:comment "Onderdelen van de apparatuur die opslagmedia bevatten, behoren te worden gecontroleerd om te waarborgen dat gevoelige gegevens en gelicentieerde software zijn verwijderd of veilig zijn overschreven voordat ze worden verwijderd of hergebruikt."@nl ;
+    bio:bioControlNummer "7.14" ;
+    bio:hasControlType "Fysiek" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid" ;
+    bio:correspondsToISO ctrl:ISO27002_7_14 ;
+    bio:hasOverheidsMaatregel bio:BIO2_7_14_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_7_14_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 7.14.1"@nl ;
+    bio:bioMaatregelNummer "7.14.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Zie overheidsmaatregelen van 7.10 (7.10.2, 7.10.5 en 7.10.6)." ;
+    bio:implementsControl bio:ISO27002_7_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.01: ‘User endpoint devices’ ──
+bio:ISO27002_8_01 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "'User endpoint devices'"@nl ;
+    rdfs:comment "Informatie die is opgeslagen op, wordt verwerkt door of toegankelijk is via 'user endpoint devices' behoort te worden beschermd."@nl ;
+    bio:bioControlNummer "8.01" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_01 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_01_1 , bio:BIO2_8_01_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_01_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.01.1"@nl ;
+    bio:bioMaatregelNummer "8.01.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Mobiele apparatuur is zo ingericht dat bedrijfsinformatie niet onbewust wordt opgeslagen (‘zero footprint’). Als zero footprint (nog) niet realiseerbaar is, biedt een mobiel apparaat (zoals een laptop, tablet en smartphone) de mogelijkheid om de toegang te beschermen door middel van een toegangsbeveiligingsmechanisme en, indien vertrouwelijke gegevens worden opgeslagen, versleuteling van die gegevens. In het geval van opslag van vertrouwelijke informatie moet op deze mobiele apparatuur ‘wissen o" ;
+    bio:implementsControl bio:ISO27002_8_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_01_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.01.2"@nl ;
+    bio:bioMaatregelNummer "8.01.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Bij de inzet van mobiele apparatuur zijn minimaal de volgende aspecten geïmplementeerd:\n(a) In bewustwordingsprogramma’s komen gedragsaspecten van veilig mobiel werken aan de orde. \n(b) Het apparaat maakt deel uit van patchmanagement en hardening.\n(c) Er wordt gebruik gemaakt van Mobile Device Management (MDM) of van Mobile Application Management (MAM)-oplossingen. \n(d) Gebruikers tekenen een gebruikersovereenkomst voor mobiel werken, waarmee zij verklaren zich bewust te zijn van de gevaren " ;
+    bio:implementsControl bio:ISO27002_8_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.02: Speciale toegangsrechten ──
+bio:ISO27002_8_02 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Speciale toegangsrechten"@nl ;
+    rdfs:comment "Het toewijzen en het gebruik van speciale toegangsrechten behoren te worden beperkt en beheerd."@nl ;
+    bio:bioControlNummer "8.02" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_02 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_02_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_02_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.02.1"@nl ;
+    bio:bioMaatregelNummer "8.02.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De uitgegeven speciale bevoegdheden worden minimaal ieder kwartaal beoordeeld." ;
+    bio:implementsControl bio:ISO27002_8_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.03: Beperking toegang tot informatie ──
+bio:ISO27002_8_03 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beperking toegang tot informatie"@nl ;
+    rdfs:comment "De toegang tot informatie en andere gerelateerde bedrijfsmiddelen behoren te worden beperkt overeenkomstig het vastgestelde onderwerpspecifieke beleid inzake toegangsbeveiliging."@nl ;
+    bio:bioControlNummer "8.03" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_03 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_03_1 , bio:BIO2_8_03_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_03_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.03.1"@nl ;
+    bio:bioMaatregelNummer "8.03.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er zijn maatregelen genomen die het fysiek en/of logisch isoleren van informatie met specifiek belang waarborgen." ;
+    bio:implementsControl bio:ISO27002_8_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_03_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.03.2"@nl ;
+    bio:bioMaatregelNummer "8.03.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Gebruikers kunnen alleen die informatie met specifiek belang inzien en verwerken die ze nodig hebben voor de uitoefening van hun taak." ;
+    bio:implementsControl bio:ISO27002_8_03 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.04: Toegangsbeveiliging op broncode ──
+bio:ISO27002_8_04 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Toegangsbeveiliging op broncode"@nl ;
+    rdfs:comment "Lees- en schrijftoegang tot broncode, ontwikkelinstrumenten en softwarebibliotheken behoren op passende wijze te worden beheerd."@nl ;
+    bio:bioControlNummer "8.04" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_04 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.05: Beveiligde authenticatie ──
+bio:ISO27002_8_05 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiligde authenticatie"@nl ;
+    rdfs:comment "Er behoren beveiligde authenticatietechnologieën en -procedures te worden geïmplementeerd op basis van beperkingen van de toegang tot informatie en het onderwerpspecifieke beleid inzake toegangsbeveiliging."@nl ;
+    bio:bioControlNummer "8.05" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_05 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_05_1 , bio:BIO2_8_05_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_05_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.05.1"@nl ;
+    bio:bioMaatregelNummer "8.05.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Als vanuit een onvertrouwde zone toegang wordt verleend naar een vertrouwde zone, gebeurt dit alleen op basis van minimaal tweefactor-authenticatie." ;
+    bio:implementsControl bio:ISO27002_8_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_05_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.05.2"@nl ;
+    bio:bioMaatregelNummer "8.05.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Voor het verlenen van toegang tot het netwerk aan externe leveranciers wordt vooraf een risicoafweging gemaakt. De risicoafweging bepaalt onder welke voorwaarden de leveranciers toegang krijgen. Uit een registratie blijkt hoe de rechten zijn toegekend." ;
+    bio:implementsControl bio:ISO27002_8_05 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.06: Capaciteitsbeheer ──
+bio:ISO27002_8_06 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Capaciteitsbeheer"@nl ;
+    rdfs:comment "Het gebruik van middelen behoort te worden gemonitord en aangepast overeenkomstig de huidige en verwachte capaciteitseisen."@nl ;
+    bio:bioControlNummer "8.06" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_06 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.07: Bescherming tegen malware ──
+bio:ISO27002_8_07 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Bescherming tegen malware"@nl ;
+    rdfs:comment "Bescherming tegen malware behoort te worden geïmplementeerd en ondersteund door een passend gebruikersbewustzijn."@nl ;
+    bio:bioControlNummer "8.07" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_07 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_07_1 , bio:BIO2_8_07_2 , bio:BIO2_8_07_3 , bio:BIO2_8_07_4 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_07_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.07.1"@nl ;
+    bio:bioMaatregelNummer "8.07.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Het downloaden van bestanden is beheerst en beperkt op basis van risico en need-of-use." ;
+    bio:implementsControl bio:ISO27002_8_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_07_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.07.2"@nl ;
+    bio:bioMaatregelNummer "8.07.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Gebruikers zijn voorgelicht over de risico’s ten aanzien van surfgedrag en het klikken op onbekende links." ;
+    bio:implementsControl bio:ISO27002_8_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_07_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.07.3"@nl ;
+    bio:bioMaatregelNummer "8.07.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De gebruikte antimalwaresoftware en bijbehorende herstelsoftware is actueel en wordt ondersteund door periodieke updates." ;
+    bio:implementsControl bio:ISO27002_8_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_07_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.07.4"@nl ;
+    bio:bioMaatregelNummer "8.07.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De malwarescan wordt uitgevoerd op: \n(a) alle omgevingen, bijvoorbeeld op mailservers, (desktop)computers en bij de toegangsverlening tot het netwerk van de organisatie;\n(b) alle gedownloade content voorafgaand aan executie of opslag;\n(c) alle bestanden die via netwerken of via elke vorm van opslagmedium zijn ontvangen, vóór gebruik of opslag in de eigen omgeving." ;
+    bio:implementsControl bio:ISO27002_8_07 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.08: Beheer van technische kwetsbaarheden ──
+bio:ISO27002_8_08 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beheer van technische kwetsbaarheden"@nl ;
+    rdfs:comment "Er behoort informatie te worden verkregen over technische kwetsbaarheden van in gebruik zijnde informatiesystemen, de blootstelling van de organisatie aan dergelijke kwetsbaarheden behoort te worden geëvalueerd en er behorende passende maatregelen te"@nl ;
+    bio:bioControlNummer "8.08" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_08 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_08_1 , bio:BIO2_8_08_2 , bio:BIO2_8_08_3 , bio:BIO2_8_08_4 , bio:BIO2_8_08_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_08_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.08.1"@nl ;
+    bio:bioMaatregelNummer "8.08.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Als de kans op misbruik en de verwachte schade beide hoog zijn (bijvoorbeeld met de NCSC-Inschalingsmatrix beveiligingsadviezen of leveranciersbeveiligingsadviezen), worden passende mitigerende maatregelen zo snel mogelijk, maar uiterlijk binnen een week getroffen." ;
+    bio:implementsControl bio:ISO27002_8_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_08_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.08.2"@nl ;
+    bio:bioMaatregelNummer "8.08.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Op basis van een expliciete risicoafweging wordt bepaald op welke wijze mitigerende maatregelen getroffen worden." ;
+    bio:implementsControl bio:ISO27002_8_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_08_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.08.3"@nl ;
+    bio:bioMaatregelNummer "8.08.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In de tussentijd of als installatie binnen een week niet mogelijk is, worden op basis van een expliciete risicoafweging mitigerende maatregelen getroffen." ;
+    bio:implementsControl bio:ISO27002_8_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_08_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.08.4"@nl ;
+    bio:bioMaatregelNummer "8.08.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Informatiesystemen worden bij voorkeur jaarlijks gecontroleerd op technische naleving van beveiligingsnormen en risico’s ten aanzien van de feitelijke veiligheid. Dit kan bijvoorbeeld door (geautomatiseerde) kwetsbaarheidsanalyses, penetratietesten of red-teamingstesten." ;
+    bio:implementsControl bio:ISO27002_8_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_08_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.08.5"@nl ;
+    bio:bioMaatregelNummer "8.08.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Internetfacing-systemen hebben een verplichte (bij voorkeur geautomatiseerde) penetratietest bij iedere nieuwe release of major update. Als daar bevindingen met een hoog risico uitkomen, mag het systeem niet in productie." ;
+    bio:implementsControl bio:ISO27002_8_08 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.09: Configuratiebeheer ──
+bio:ISO27002_8_09 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Configuratiebeheer"@nl ;
+    rdfs:comment "Configuraties, met inbegrip van beveiligingsconfiguraties, van hardware, software, diensten en netwerken behoren te worden vastgesteld, gedocumenteerd, geïmplementeerd, gemonitord en beoordeeld."@nl ;
+    bio:bioControlNummer "8.09" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_09 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.1: Wissen van informatie ──
+bio:ISO27002_8_10 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Wissen van informatie"@nl ;
+    rdfs:comment "In informatiesystemen, apparaten of andere opslagmedia opgeslagen informatie behoort te worden gewist als deze niet langer vereist is."@nl ;
+    bio:bioControlNummer "8.1" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_01 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.11: Maskeren van gegevens ──
+bio:ISO27002_8_11 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Maskeren van gegevens"@nl ;
+    rdfs:comment "Gegevens behoren te worden gemaskeerd overeenkomstig het onderwerpspecifieke beleid inzake toegangsbeveiliging en andere gerelateerde onderwerpspecifieke beleidsregels, en bedrijfseisen van de organisatie, rekening houdend met de toepasselijke wetgev"@nl ;
+    bio:bioControlNummer "8.11" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_11 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.12: Voorkomen van gegevenslekken (data leakage prevention) ──
+bio:ISO27002_8_12 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Voorkomen van gegevenslekken (data leakage prevention)"@nl ;
+    rdfs:comment "Maatregelen om gegevenslekken te voorkomen, behoren te worden toegepast in systemen, netwerken en andere apparaten waarop of waarmee gevoelige informatie wordt verwerkt, opgeslagen of getransporteerd."@nl ;
+    bio:bioControlNummer "8.12" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_12 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.13: Back-up van informatie ──
+bio:ISO27002_8_13 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Back-up van informatie"@nl ;
+    rdfs:comment "Back-ups van informatie, software en systemen behoren te worden bewaard en regelmatig te worden getest overeenkomstig het overeengekomen onderwerpspecifieke beleid inzake back-ups."@nl ;
+    bio:bioControlNummer "8.13" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_13 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_13_1 , bio:BIO2_8_13_2 , bio:BIO2_8_13_3 , bio:BIO2_8_13_4 , bio:BIO2_8_13_5 , bio:BIO2_8_13_6 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_13_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.13.1"@nl ;
+    bio:bioMaatregelNummer "8.13.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is een back-upbeleid waarin de eisen voor het bewaren en beschermen zijn gedefinieerd en vastgesteld. Er moet speciale aandacht zijn voor het beschermen van de back-up tegen ransomware-aanvallen." ;
+    bio:implementsControl bio:ISO27002_8_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_13_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.13.2"@nl ;
+    bio:bioMaatregelNummer "8.13.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Op basis van een expliciete risicoafweging is bepaald wat het maximaal toegestane dataverlies is en wat de maximale hersteltijd is na een incident." ;
+    bio:implementsControl bio:ISO27002_8_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_13_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.13.3"@nl ;
+    bio:bioMaatregelNummer "8.13.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In het back-upbeleid staan minimaal de volgende eisen:\n(a) Dataverlies bedraagt maximaal 28 uur.\n(b) Hersteltijd in geval van incidenten is maximaal 16 werkuren (2 dagen van 8 uur) in 85% van de gevallen." ;
+    bio:implementsControl bio:ISO27002_8_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_13_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.13.4"@nl ;
+    bio:bioMaatregelNummer "8.13.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Het back-upproces voorziet in opslag van de back-up op een locatie, waarbij een incident op de ene locatie niet kan leiden tot schade op de andere." ;
+    bio:implementsControl bio:ISO27002_8_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_13_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.13.5"@nl ;
+    bio:bioMaatregelNummer "8.13.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Zorg dat ten minste één back-up niet online benaderbaar is en beschermd wordt tegen veranderingen." ;
+    bio:implementsControl bio:ISO27002_8_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_13_6 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.13.6"@nl ;
+    bio:bioMaatregelNummer "8.13.6" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De herstelprocedure wordt minimaal jaarlijks getest of na een grote wijziging, om de goede werking te waarborgen als deze in noodgevallen uitgevoerd moet worden." ;
+    bio:implementsControl bio:ISO27002_8_13 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.14: Redundantie van informatieverwerkende faciliteiten ──
+bio:ISO27002_8_14 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Redundantie van informatieverwerkende faciliteiten"@nl ;
+    rdfs:comment "Informatieverwerkende faciliteiten behoren met voldoende redundantie te worden geïmplementeerd om aan beschikbaarheidseisen te voldoen."@nl ;
+    bio:bioControlNummer "8.14" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_14 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.15: Logging ──
+bio:ISO27002_8_15 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Logging"@nl ;
+    rdfs:comment "Er behoren logbestanden waarin activiteiten, uitzonderingen, fouten en andere relevante gebeurtenissen worden geregistreerd, te worden geproduceerd, opgeslagen, beschermd en geanalyseerd."@nl ;
+    bio:bioControlNummer "8.15" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_15 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_15_1 , bio:BIO2_8_15_2 , bio:BIO2_8_15_3 , bio:BIO2_8_15_4 , bio:BIO2_8_15_5 , bio:BIO2_8_15_6 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_15_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.15.1"@nl ;
+    bio:bioMaatregelNummer "8.15.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Een logregel bevat minimaal:\n(a) de gebeurtenis;\n(b) de benodigde informatie die nodig is om het incident met hoge mate van zekerheid te herleiden tot een natuurlijk persoon; \n(c) het gebruikte apparaat;\n(d) het resultaat van de handeling;\n(e) een datum en tijdstip van de gebeurtenis." ;
+    bio:implementsControl bio:ISO27002_8_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_15_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.15.2"@nl ;
+    bio:bioMaatregelNummer "8.15.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Een logregel bevat in geen geval gegevens die tot het doorbreken van de beveiliging kunnen leiden." ;
+    bio:implementsControl bio:ISO27002_8_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_15_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.15.3"@nl ;
+    bio:bioMaatregelNummer "8.15.3" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Er is een overzicht van logbestanden die worden gegenereerd." ;
+    bio:implementsControl bio:ISO27002_8_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_15_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.15.4"@nl ;
+    bio:bioMaatregelNummer "8.15.4" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Ten behoeve van de loganalyse is op basis van een expliciete risicoafweging de bewaarperiode van de logging bepaald. Binnen deze periode is de beschikbaarheid van de loginformatie gewaarborgd." ;
+    bio:implementsControl bio:ISO27002_8_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_15_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.15.5"@nl ;
+    bio:bioMaatregelNummer "8.15.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Oneigenlijk wijzigen, verwijderen of pogingen daartoe van loggegevens worden zo snel mogelijk gemeld als beveiligingsincident via de procedure voor informatiebeveiligingsincidenten conform control 5.24." ;
+    bio:implementsControl bio:ISO27002_8_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_15_6 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.15.6"@nl ;
+    bio:bioMaatregelNummer "8.15.6" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Minimaal halfjaarlijks wordt door een onafhankelijke functionaris (ten opzichte van de uitvoering) getoetst op het ongewijzigd bestaan van logbestanden gedurende de bewaartermijn." ;
+    bio:implementsControl bio:ISO27002_8_15 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.16: Monitoren van activiteiten ──
+bio:ISO27002_8_16 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Monitoren van activiteiten"@nl ;
+    rdfs:comment "Netwerken, systemen en toepassingen behoren te worden gemonitord op afwijkend gedrag en er behoren passende maatregelen te worden getroffen om potentiële informatiebeveiligingsincidenten te evalueren."@nl ;
+    bio:bioControlNummer "8.16" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_16 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_16_1 , bio:BIO2_8_16_2 , bio:BIO2_8_16_3 , bio:BIO2_8_16_4 , bio:BIO2_8_16_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_16_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.16.1"@nl ;
+    bio:bioMaatregelNummer "8.16.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De informatieverwerkende omgeving wordt gemonitord met een detectie- en response-oplossing, waarmee aanvallen kunnen worden gedetecteerd en afwijkingen worden adequaat en tijdig behandeld." ;
+    bio:implementsControl bio:ISO27002_8_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_16_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.16.2"@nl ;
+    bio:bioMaatregelNummer "8.16.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Actieve netwerkcomponenten zijn voorzien van logging en monitoring van die logging om afwijkende gebeurtenissen te kunnen waarnemen en daarop te reageren." ;
+    bio:implementsControl bio:ISO27002_8_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_16_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.16.3"@nl ;
+    bio:bioMaatregelNummer "8.16.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Een risicoafweging bepaalt de bewaartermijn van de logging." ;
+    bio:implementsControl bio:ISO27002_8_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_16_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.16.4"@nl ;
+    bio:bioMaatregelNummer "8.16.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Bij ontdekte nieuwe dreigingen (aanvallen) via 8.16.1 worden deze binnen geldende juridische kaders verplicht gedeeld binnen de overheid, waaronder met het NCSC (alleen voor rijksoverheidsorganisaties) of via de sectorale CERT (voor andere overheidsorganisaties), middels (bij voorkeur geautomatiseerde) threat intelligence sharing mechanismen." ;
+    bio:implementsControl bio:ISO27002_8_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_16_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.16.5"@nl ;
+    bio:bioMaatregelNummer "8.16.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De SIEM en/of SOC hebben heldere regels over wanneer een incident moet worden gerapporteerd aan het verantwoordelijk management." ;
+    bio:implementsControl bio:ISO27002_8_16 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.17: Kloksynchronisatie ──
+bio:ISO27002_8_17 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Kloksynchronisatie"@nl ;
+    rdfs:comment "De klokken van informatieverwerkende systemen die door de organisatie worden gebruikt, behoren te worden gesynchroniseerd met goedgekeurde tijdsbronnen."@nl ;
+    bio:bioControlNummer "8.17" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Integriteit" ;
+    bio:correspondsToISO ctrl:ISO27002_8_17 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.18: Gebruik van speciale systeemhulpmiddelen ──
+bio:ISO27002_8_18 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Gebruik van speciale systeemhulpmiddelen"@nl ;
+    rdfs:comment "Het gebruik van systeemhulpmiddelen die in staat kunnen zijn om beheersmaatregelen voor systemen en toepassingen te omzeilen, behoort te worden beperkt en nauwkeurig te worden gecontroleerd."@nl ;
+    bio:bioControlNummer "8.18" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_18 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_18_1 , bio:BIO2_8_18_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_18_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.18.1"@nl ;
+    bio:bioMaatregelNummer "8.18.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Alleen bevoegd personeel heeft toegang tot systeemhulpmiddelen." ;
+    bio:implementsControl bio:ISO27002_8_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_18_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.18.2"@nl ;
+    bio:bioMaatregelNummer "8.18.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Het gebruik van systeemhulpmiddelen wordt gelogd. De logging is een halfjaar beschikbaar voor onderzoek." ;
+    bio:implementsControl bio:ISO27002_8_18 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.19: Installeren van software op operationele systemen ──
+bio:ISO27002_8_19 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Installeren van software op operationele systemen"@nl ;
+    rdfs:comment "Er behoren procedures en maatregelen te worden geïmplementeerd om het installeren van software op operationele systemen op beveiligde wijze te beheren."@nl ;
+    bio:bioControlNummer "8.19" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_19 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_19_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_19_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.19.1"@nl ;
+    bio:bioMaatregelNummer "8.19.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Gebruikers kunnen op hun werkomgeving niets zelf installeren, anders dan wat via de ICT-leverancier wordt aangeboden of wordt toegestaan (whitelist)." ;
+    bio:implementsControl bio:ISO27002_8_19 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.2: Beveiliging netwerkcomponenten ──
+bio:ISO27002_8_20 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiliging netwerkcomponenten"@nl ;
+    rdfs:comment "Netwerken en netwerkapparaten behoren te worden beveiligd, beheerd en beheerst om informatie in systemen en toepassingen te beschermen."@nl ;
+    bio:bioControlNummer "8.2" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_02 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.21: Beveiliging van netwerkdiensten ──
+bio:ISO27002_8_21 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiliging van netwerkdiensten"@nl ;
+    rdfs:comment "Beveiligingsmechanismen, dienstverleningsniveaus en dienstverleningseisen voor alle netwerkdiensten behoren te worden geïdentificeerd, geïmplementeerd en gemonitord."@nl ;
+    bio:bioControlNummer "8.21" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_21 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_21_1 , bio:BIO2_8_21_2 , bio:BIO2_8_21_3 , bio:BIO2_8_21_4 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_21_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.21.1"@nl ;
+    bio:bioMaatregelNummer "8.21.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In koppelpunten met externe of onvertrouwde zones zijn maatregelen getroffen om mogelijke aanvallen die de beschikbaarheid van de informatievoorziening negatief beïnvloeden (bijvoorbeeld DDoS-aanvallen, Distributed Denial of Service attacks) te signaleren en hierop te reageren." ;
+    bio:implementsControl bio:ISO27002_8_21 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_21_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.21.2"@nl ;
+    bio:bioMaatregelNummer "8.21.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Het dataverkeer dat de organisatie binnenkomt of uitgaat, wordt bewaakt/geanalyseerd op kwaadaardige elementen middels detectievoorzieningen (zoals beschreven in de richtlijn voor implementatie van detectieoplossingen), zoals het Nationaal Detectie Netwerk (alleen voor rijksoverheidsorganisaties) of GDI, die worden ingezet op basis van een risicoafweging, mede aan de hand van de aard van de te beschermen gegevens en informatiesystemen." ;
+    bio:implementsControl bio:ISO27002_8_21 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_21_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.21.3"@nl ;
+    bio:bioMaatregelNummer "8.21.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Bij ontdekte nieuwe dreigingen vanuit 8.21.2 worden deze, rekening houdend met de geldende juridische kaders, verplicht gedeeld binnen de overheid, waaronder met het NCSC (alleen voor rijksoverheidsorganisaties) of de sectorale CERT, bij voorkeur door geautomatiseerde mechanismen (threat intelligence sharing)." ;
+    bio:implementsControl bio:ISO27002_8_21 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_21_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.21.4"@nl ;
+    bio:bioMaatregelNummer "8.21.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Bij draadloze verbindingen zoals wifi en bij bedrade verbindingen buiten het gecontroleerd gebied wordt gebruik gemaakt van encryptiemiddelen waarvoor het Nationaal Bureau voor Verbindingsbeveiliging (NBV) een positief inzetadvies heeft afgegeven." ;
+    bio:implementsControl bio:ISO27002_8_21 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.22: Netwerksegmentatie ──
+bio:ISO27002_8_22 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Netwerksegmentatie"@nl ;
+    rdfs:comment "Groepen informatiediensten, gebruikers en informatiesystemen behoren in de netwerken van de organisatie te worden gesegmenteerd."@nl ;
+    bio:bioControlNummer "8.22" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_22 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_22_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_22_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.22.1"@nl ;
+    bio:bioMaatregelNummer "8.22.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Alle gescheiden groepen hebben een gedefinieerd beveiligingsniveau." ;
+    bio:implementsControl bio:ISO27002_8_22 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.23: Toepassen van webfilters ──
+bio:ISO27002_8_23 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Toepassen van webfilters"@nl ;
+    rdfs:comment "De toegang tot externe websites behoort te worden beheerd om de blootstelling aan kwaadaardige inhoud te beperken."@nl ;
+    bio:bioControlNummer "8.23" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_23 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.24: Gebruik van cryptografie ──
+bio:ISO27002_8_24 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Gebruik van cryptografie"@nl ;
+    rdfs:comment "Regels voor het doeltreffende gebruik van cryptografie, met inbegrip van het beheer van cryptografische sleutels, behoren te worden gedefinieerd en geïmplementeerd."@nl ;
+    bio:bioControlNummer "8.24" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_24 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_24_1 , bio:BIO2_8_24_2 , bio:BIO2_8_24_3 , bio:BIO2_8_24_4 , bio:BIO2_8_24_5 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_24_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.24.1"@nl ;
+    bio:bioMaatregelNummer "8.24.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "In het cryptografiebeleid zijn minimaal de volgende onderwerpen uitgewerkt: \n(a) Wanneer cryptografie ingezet wordt. \n(b) Wie verantwoordelijk is voor de implementatie.\n(c) Wie verantwoordelijk is voor het sleutelbeheer. \n(d) Welke normen als basis dienen voor cryptografie en de wijze waarop de normen van het Forum Standaardisatie worden toegepast. \n(e) De wijze waarop het beschermingsniveau vastgesteld wordt. \n(f) Bij communicatie tussen organisaties wordt het beleid onderling vastgesteld" ;
+    bio:implementsControl bio:ISO27002_8_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_24_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.24.2"@nl ;
+    bio:bioMaatregelNummer "8.24.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Cryptografische toepassingen voldoen aan passende standaarden van het Forum Standaardisatie." ;
+    bio:implementsControl bio:ISO27002_8_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_24_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.24.3"@nl ;
+    bio:bioMaatregelNummer "8.24.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "De sterkte van de cryptografie wordt waar mogelijk gebaseerd op de actuele adviezen van het NCSC." ;
+    bio:implementsControl bio:ISO27002_8_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_24_4 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.24.4"@nl ;
+    bio:bioMaatregelNummer "8.24.4" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "In geval van PKIoverheid-certificaten hanteer de PKIoverheid-eisen ten aanzien van het sleutelbeheer. In overige situaties hanteer de norm ISO 11770-1 voor het beheer van cryptografische sleutels." ;
+    bio:implementsControl bio:ISO27002_8_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_24_5 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.24.5"@nl ;
+    bio:bioMaatregelNummer "8.24.5" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Er zijn (contractuele) afspraken over reservecertificaten van een alternatieve leverancier als uit risicoafweging blijkt dat deze noodzakelijk zijn." ;
+    bio:implementsControl bio:ISO27002_8_24 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.25: Beveiligen tijdens de ontwikkelcyclus ──
+bio:ISO27002_8_25 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Beveiligen tijdens de ontwikkelcyclus"@nl ;
+    rdfs:comment "Voor het veilig ontwikkelen van software en systemen behoren regels te worden vastgesteld en toegepast."@nl ;
+    bio:bioControlNummer "8.25" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Secretaris/Algemeen directeur\nProceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_25 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_25_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_25_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.25.1"@nl ;
+    bio:bioMaatregelNummer "8.25.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "De gangbare principes rondom ‘security by design’ zijn uitgangspunt voor de ontwikkeling van software en systemen." ;
+    bio:implementsControl bio:ISO27002_8_25 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.26: Toepassingsbeveiligingseisen ──
+bio:ISO27002_8_26 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Toepassingsbeveiligingseisen"@nl ;
+    rdfs:comment "Er behoren eisen aan de informatiebeveiliging te worden geïdentificeerd, gespecificeerd en goedgekeurd bij het ontwikkelen of aanschaffen van toepassingen."@nl ;
+    bio:bioControlNummer "8.26" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_26 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_26_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_26_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.26.1"@nl ;
+    bio:bioMaatregelNummer "8.26.1" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Zie overheidsmaatregel 5.14.3." ;
+    bio:implementsControl bio:ISO27002_8_26 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.27: Veilige systeemarchitectuur en technische uitgangspunte ──
+bio:ISO27002_8_27 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Veilige systeemarchitectuur en technische uitgangspunten"@nl ;
+    rdfs:comment "Uitgangspunten voor het ontwerpen van beveiligde systemen behoren te worden vastgesteld, gedocumenteerd, onderhouden en toegepast voor alle activiteiten betreffende het ontwikkelen van informatiesystemen."@nl ;
+    bio:bioControlNummer "8.27" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_27 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_27_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_27_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.27.1"@nl ;
+    bio:bioMaatregelNummer "8.27.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Zie overheidsmaatregel 8.25.1." ;
+    bio:implementsControl bio:ISO27002_8_27 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.28: Veilig coderen ──
+bio:ISO27002_8_28 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Veilig coderen"@nl ;
+    rdfs:comment "Er behoren principes voor veilig coderen te worden toegepast op softwareontwikkeling."@nl ;
+    bio:bioControlNummer "8.28" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Dienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_28 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.29: Testen van de beveiliging tijdens ontwikkeling en accep ──
+bio:ISO27002_8_29 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Testen van de beveiliging tijdens ontwikkeling en acceptatie"@nl ;
+    rdfs:comment "Processen voor het testen van de beveiliging behoren te worden gedefinieerd en geïmplementeerd in de ontwikkelcyclus."@nl ;
+    bio:bioControlNummer "8.29" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_29 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_29_1 , bio:BIO2_8_29_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_29_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.29.1"@nl ;
+    bio:bioMaatregelNummer "8.29.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Voor acceptatietesten van systemen worden gestructureerde testmethodieken gebruikt. De testen worden bij voorkeur geautomatiseerd uitgevoerd." ;
+    bio:implementsControl bio:ISO27002_8_29 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_29_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.29.2"@nl ;
+    bio:bioMaatregelNummer "8.29.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Van de resultaten van de testen wordt verslag gemaakt." ;
+    bio:implementsControl bio:ISO27002_8_29 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.3: Uitbestede systeemontwikkeling ──
+bio:ISO27002_8_30 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Uitbestede systeemontwikkeling"@nl ;
+    rdfs:comment "De organisatie behoort de activiteiten in verband met uitbestede systeemontwikkeling te sturen, bewaken en beoordelen."@nl ;
+    bio:bioControlNummer "8.3" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_03 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_30_1 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_30_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.30.1"@nl ;
+    bio:bioMaatregelNummer "8.30.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Een voorwaarde voor uitbestedingstrajecten is een expliciete risicoafweging. De noodzakelijke beveiligingsmaatregelen die daaruit volgen, worden aan de leverancier opgelegd." ;
+    bio:implementsControl bio:ISO27002_8_30 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.31: Scheiden van ontwikkel-, test- en productieomgevingen ──
+bio:ISO27002_8_31 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Scheiden van ontwikkel-, test- en productieomgevingen"@nl ;
+    rdfs:comment "Ontwikkel-, test- en productieomgevingen behoren te worden gescheiden en beveiligd."@nl ;
+    bio:bioControlNummer "8.31" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_31 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_31_1 , bio:BIO2_8_31_2 , bio:BIO2_8_31_3 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_31_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.31.1"@nl ;
+    bio:bioMaatregelNummer "8.31.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Systeemontwikkelomgevingen worden passend beveiligd op basis van een expliciete risicoafweging." ;
+    bio:implementsControl bio:ISO27002_8_31 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_31_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.31.2"@nl ;
+    bio:bioMaatregelNummer "8.31.2" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "In de productieomgeving wordt niet getest. Alleen met voorafgaande goedkeuring door de proceseigenaar en schriftelijke vastlegging hiervan, kan hiervan worden afgeweken." ;
+    bio:implementsControl bio:ISO27002_8_31 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_31_3 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.31.3"@nl ;
+    bio:bioMaatregelNummer "8.31.3" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasMaatregel "Wijzigingen in de productieomgeving worden altijd getest voordat zij in productie gebracht worden. Alleen met voorafgaande goedkeuring door de proceseigenaar en schriftelijke vastlegging hiervan, kan hiervan worden afgeweken." ;
+    bio:implementsControl bio:ISO27002_8_31 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.32: Wijzigingsbeheer ──
+bio:ISO27002_8_32 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Wijzigingsbeheer"@nl ;
+    rdfs:comment "Wijzigingen in informatieverwerkende faciliteiten en informatiesystemen behoren onderworpen te zijn aan procedures voor wijzigingsbeheer."@nl ;
+    bio:bioControlNummer "8.32" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_32 ;
+    bio:hasOverheidsMaatregel bio:BIO2_8_32_1 , bio:BIO2_8_32_2 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_32_1 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.32.1"@nl ;
+    bio:bioMaatregelNummer "8.32.1" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "In de procedure voor wijzigingenbeheer is minimaal aandacht besteed aan: \n(a) het administreren van wijzigingen; \n(b) risicoafweging van mogelijke gevolgen van de wijzigingen; \n(c) goedkeuringsprocedure voor wijzigingen." ;
+    bio:implementsControl bio:ISO27002_8_32 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+bio:BIO2_8_32_2 rdf:type bio:OverheidsMaatregel , owl:NamedIndividual ;
+    rdfs:label "BIO2 Maatregel 8.32.2"@nl ;
+    bio:bioMaatregelNummer "8.32.2" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasMaatregel "Wijzigingsbeheer vindt plaats op basis van een algemeen geaccepteerd beheerraamwerk." ;
+    bio:implementsControl bio:ISO27002_8_32 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.33: Testgegevens ──
+bio:ISO27002_8_33 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Testgegevens"@nl ;
+    rdfs:comment "Testgegevens behoren op passende wijze te worden geselecteerd, beschermd en beheerd."@nl ;
+    bio:bioControlNummer "8.33" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 2 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit" ;
+    bio:correspondsToISO ctrl:ISO27002_8_33 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+# ── 8.34: Bescherming van informatiesystemen tijdens audits ──
+bio:ISO27002_8_34 rdf:type bio:BIOControl , owl:NamedIndividual ;
+    rdfs:label "Bescherming van informatiesystemen tijdens audits"@nl ;
+    rdfs:comment "Audittests en andere auditactiviteiten waarbij operationele systemen worden beoordeeld, behoren te worden gepland en overeengekomen tussen de tester en het verantwoordelijke management."@nl ;
+    bio:bioControlNummer "8.34" ;
+    bio:hasControlType "Technologisch" ;
+    ext:hasHandreikingBBN 1 ;
+    bio:hasVerantwoordelijke "Proceseigenaar\nDienstenleverancier" ;
+    bio:hasIBEigenschap "#Vertrouwelijkheid\n#Integriteit\n#Beschikbaarheid" ;
+    bio:correspondsToISO ctrl:ISO27002_8_34 ;
+    ctrl:definedInFramework fw:BIO_2_0 .
+
+
+
+# =============================================================================
+# v4.4.0 Stap 5 — Sheet 9 'Mapping BIO2' Cbw/Cbb-mappings op BIO-Control-niveau
+# Datum: 2026-05-13
+# Bron: CBW/NIS2 Control Framework (ADR & NOREA, versie 1.0, 30 september 2025, CC-BY 4.0)
+# =============================================================================
+# 145 Cbw + 145 Cbb article-refs gemapped op 81 unieke BIO-Controls (kolom B/D).
+# Letterlijke overname ref-notatie conform Signaal 4 (addendum 1).
+# n.v.t./- rijen overgeslagen (16 rijen).
+# 12 BIO-Controls krijgen geen mapping (sheet-bron-eigen; conform Signaal 2 addendum 1):
+# 5_03, 5_05, 5_08, 5_12, 5_13, 5_32, 5_33, 5_34, 5_37, 7_02, 8_05, 8_34.
+# Bron-attribuering via property-comment (ext:Attr_CBW_NIS2_Framework_2025_CC_BY_4_0,
+# geen per-triple ext:sourceAttribution-link — masterchat-voorkeur Stap 5 GO).
+
+bio:ISO27002_5_01
+    ext:hasCbwArticle "art. 21 lid a" , "art. 21 lid a" ;
+    ext:hasCbbArticle "art. 6" , "art. 6" .
+
+bio:ISO27002_5_02
+    ext:hasCbwArticle "art. 21 lid a" , "art. 21 lid a" ;
+    ext:hasCbbArticle "art. 6" , "art. 6" .
+
+bio:ISO27002_5_04
+    ext:hasCbwArticle "art. 24.2" , "art. 21.3 lid i" ;
+    ext:hasCbbArticle "art. 20" , "art. 14" .
+
+bio:ISO27002_5_06
+    ext:hasCbwArticle "art. 21.3 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_5_07
+    ext:hasCbwArticle "art. 21.3 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_5_09
+    ext:hasCbwArticle "art. 21.3 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_5_10
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_5_11
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_5_14
+    ext:hasCbwArticle "art. 21.3 lid e" , "art. 21.3 lid e" , "art. 21.3 lid e" , "art. 21.3 lid e" , "art. 21.3 lid e" ;
+    ext:hasCbbArticle "art. 11" , "art. 11" , "art. 11" , "art. 11" , "art. 11" .
+
+bio:ISO27002_5_15
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" .
+
+bio:ISO27002_5_16
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" , "art. 15" .
+
+bio:ISO27002_5_17
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid i" , "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" , "art. 15" , "art. 15" .
+
+bio:ISO27002_5_18
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid i" , "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" , "art. 15" , "art. 15" .
+
+bio:ISO27002_5_19
+    ext:hasCbwArticle "art. 21 lid d" ;
+    ext:hasCbbArticle "art. 10" .
+
+bio:ISO27002_5_20
+    ext:hasCbwArticle "art. 21 lid d en art. 21 lid e" , "art. 21 lid d en art. 21 lid e" , "art. 21 lid d en art. 21 lid e" , "art. 21 lid d en art. 21 lid e" , "art. 21 lid d en art. 21 lid e" , "art. 21 lid d en art. 21 lid e" ;
+    ext:hasCbbArticle "art. 10  en art. 11" , "art. 10  en art. 11" , "art. 10  en art. 11" , "art. 10  en art. 11" , "art. 10  en art. 11" , "art. 10  en art. 11" .
+
+bio:ISO27002_5_21
+    ext:hasCbwArticle "art. 21  lid d" , "art. 21  lid d" , "art. 21  lid d" ;
+    ext:hasCbbArticle "art. 10" , "art. 10" , "art. 10" .
+
+bio:ISO27002_5_22
+    ext:hasCbwArticle "art. 21  lid d" , "art. 21  lid d" ;
+    ext:hasCbbArticle "art. 10" , "art. 10" .
+
+bio:ISO27002_5_23
+    ext:hasCbwArticle "art. 21  lid d" ;
+    ext:hasCbbArticle "art. 10" .
+
+bio:ISO27002_5_24
+    ext:hasCbwArticle "art. 21 lid b" , "art. 21 lid b" , "art. 21 lid b" , "art. 21 lid b" , "art. 21 lid b" , "art. 21 lid b" ;
+    ext:hasCbbArticle "art. 8" , "art. 8" , "art. 8" , "art. 8" , "art. 8" , "art. 8" .
+
+bio:ISO27002_5_25
+    ext:hasCbwArticle "art. 21 lid b" ;
+    ext:hasCbbArticle "art. 8" .
+
+bio:ISO27002_5_26
+    ext:hasCbwArticle "art. 21 lid b" ;
+    ext:hasCbbArticle "art. 8" .
+
+bio:ISO27002_5_27
+    ext:hasCbwArticle "art. 21 lid b" , "art. 21 lid b" ;
+    ext:hasCbbArticle "art. 8" , "art. 8" .
+
+bio:ISO27002_5_28
+    ext:hasCbwArticle "art. 21 lid b" ;
+    ext:hasCbbArticle "art. 8" .
+
+bio:ISO27002_5_29
+    ext:hasCbwArticle "art. 21 lid c" ;
+    ext:hasCbbArticle "art. 9" .
+
+bio:ISO27002_5_30
+    ext:hasCbwArticle "art. 21 lid c" ;
+    ext:hasCbbArticle "art. 9" .
+
+bio:ISO27002_5_31
+    ext:hasCbwArticle "art. 21  lid d" ;
+    ext:hasCbbArticle "art. 10" .
+
+bio:ISO27002_5_35
+    ext:hasCbwArticle "art. 21f lid f" , "art. 21f lid f" ;
+    ext:hasCbbArticle "art.  6.4" , "art. 11, art. 19" .
+
+bio:ISO27002_5_36
+    ext:hasCbwArticle "art. 21f lid f" ;
+    ext:hasCbbArticle "art. 6.4" .
+
+bio:ISO27002_6_01
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_6_02
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_6_03
+    ext:hasCbwArticle "art. 21 lid g" , "art. 21 lid g" , "art. 21 lid g" ;
+    ext:hasCbbArticle "art. 12" , "art. 13" , "art. 14" .
+
+bio:ISO27002_6_04
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_6_05
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_6_06
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_6_07
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 14" .
+
+bio:ISO27002_6_08
+    ext:hasCbwArticle "art. 21 lid g" ;
+    ext:hasCbbArticle "art. 12" .
+
+bio:ISO27002_7_01
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_7_03
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_04
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_05
+    ext:hasCbwArticle "art. 21 lid c/i" ;
+    ext:hasCbbArticle "art.  9/16" .
+
+bio:ISO27002_7_06
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_07
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" , "art. 14" .
+
+bio:ISO27002_7_08
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_09
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_10
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid i" , "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" , "art. 16" , "art. 16" .
+
+bio:ISO27002_7_11
+    ext:hasCbwArticle "art. 21 lid c" ;
+    ext:hasCbbArticle "art. 9" .
+
+bio:ISO27002_7_12
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_13
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_7_14
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_8_01
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid f/i" ;
+    ext:hasCbbArticle "art. 16" , "art. 12/14/16" .
+
+bio:ISO27002_8_02
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" .
+
+bio:ISO27002_8_03
+    ext:hasCbwArticle "art. 21 lid i" , "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15" , "art. 15" .
+
+bio:ISO27002_8_04
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11.1" .
+
+bio:ISO27002_8_06
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 15/16" .
+
+bio:ISO27002_8_07
+    ext:hasCbwArticle "art. 21 lid g" , "art. 21 lid g" , "art. 21 lid g" , "art. 21 lid g" ;
+    ext:hasCbbArticle "art. 12" , "art. 13" , "art. 14" , "art. 15" .
+
+bio:ISO27002_8_08
+    ext:hasCbwArticle "art. 21 lid e" , "art. 21 lid e" , "art. 21 lid e" , "art. 21 lid e" , "art. 21 lid e" , "21.2" ;
+    ext:hasCbbArticle "art. 11" , "art. 12" , "art. 13" , "art. 14" , "art. 11" , "8.4" .
+
+bio:ISO27002_8_09
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_10
+    ext:hasCbwArticle "art. 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_8_11
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_12
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_13
+    ext:hasCbwArticle "art. 21 lid c" , "art. 21 lid c" , "art. 21 lid c" , "art. 21 lid c" ;
+    ext:hasCbbArticle "art. 9" , "art. 9" , "art. 9" , "art. 9" .
+
+bio:ISO27002_8_14
+    ext:hasCbwArticle "art. 21 lid c" ;
+    ext:hasCbbArticle "art. 9" .
+
+bio:ISO27002_8_15
+    ext:hasCbwArticle "art. 21 lid b en c" , "art. 21 lid b en c" , "art. 21 lid b en c" , "art. 21 lid b en c" , "art. 21 lid b en c" , "art. 21 lid b en c" ;
+    ext:hasCbbArticle "art. 8/9" , "art. 8/9" , "art. 8/9" , "art. 8/9" , "art. 8/9" , "art. 8/9" .
+
+bio:ISO27002_8_16
+    ext:hasCbwArticle "art. 21 lid b en c" , "art. 21 lid b en c" , "art. 21 lid b en c" , "art. 21 lid b en c" ;
+    ext:hasCbbArticle "art. 8/9" , "art. 8/9" , "art. 8/9" , "art. 8/9" .
+
+bio:ISO27002_8_17
+    ext:hasCbwArticle "art . 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_8_18
+    ext:hasCbwArticle "art . 21 lid i" , "art . 21 lid i" ;
+    ext:hasCbbArticle "art. 16" , "art. 11" .
+
+bio:ISO27002_8_19
+    ext:hasCbwArticle "art . 21 lid i" ;
+    ext:hasCbbArticle "art. 16" .
+
+bio:ISO27002_8_20
+    ext:hasCbwArticle "art . 21 lid e" , "art . 21 lid e" ;
+    ext:hasCbbArticle "art. 11" , "art. 11" .
+
+bio:ISO27002_8_21
+    ext:hasCbwArticle "art. 21 lid e" , "art. 21.2" , "art. 21.2" , "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" , "art. 8.4" , "art. 8.4" , "art. 13" .
+
+bio:ISO27002_8_22
+    ext:hasCbwArticle "art. 21 lid f" ;
+    ext:hasCbbArticle "art 6.2" .
+
+bio:ISO27002_8_23
+    ext:hasCbwArticle "art. 21 lid f" ;
+    ext:hasCbbArticle "art 10" .
+
+bio:ISO27002_8_24
+    ext:hasCbwArticle "art. 21 lid h" , "art. 21 lid h" , "art. 21 lid h" , "art. 21 lid h" , "art. 21 lid h" ;
+    ext:hasCbbArticle "art. 13" , "art. 13" , "art. 13" , "art. 13" , "art. 13" .
+
+bio:ISO27002_8_25
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_26
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_27
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_28
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_29
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "art. 11" .
+
+bio:ISO27002_8_30
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "11.2" .
+
+bio:ISO27002_8_31
+    ext:hasCbwArticle "art. 21 lid e" , "art. 21 lid e" ;
+    ext:hasCbbArticle "11.2" , "11.3" .
+
+bio:ISO27002_8_32
+    ext:hasCbwArticle "art. 21 lid e" , "art. 21 lid e" ;
+    ext:hasCbbArticle "11.3" , "11.3" .
+
+bio:ISO27002_8_33
+    ext:hasCbwArticle "art. 21 lid e" ;
+    ext:hasCbbArticle "11.2" .
+
+# Einde Stap 5 — v4.4.0 Fase 2
+
+# =============================================================================
+# v4.5.0 Fase 3 — Stap 6: SKOS-mappings ISO/IEC 27001:2022 Annex A Controls → CSF 2.0
+# Datum: 2026-05-19
+# Bron: NIST CSF 2.0 Reference Tool export csf2.xlsx (gegenereerd 2026-05-19)
+#       Bron-attribuering: ext:Attr_NIST_CSF_2_0_Reference_Tool_2026 (Public Domain)
+# Match-type: skos:closeMatch (Aanpassing 2 — uniform; geen relationship-types in bron)
+# Patroon: csf:<CSFComponent> skos:closeMatch bio:ISO27002_<X>_<YY zfill> (via D5 sameAs-brug naar ctrl:)
+# =============================================================================
+# Bron-attribuering via blok-comment (consistent met v4.4.0 Stap 5 + v4.5.0 Stap 5).
+# Geen per-triple ext:sourceAttribution-link.
+#
+# Aantal unieke (csf,target)-paren in dit blok: 291
+# Verdeling CSF-niveau: F=5, C=42, S=244
+
+
+# --- 291 skos:closeMatch (gegroepeerd per CSF-subject) ---
+
+csf:DETECT skos:closeMatch
+        bio:ISO27002_8_16 .
+
+csf:DE_AE_02 skos:closeMatch
+        bio:ISO27002_5_24 ,
+        bio:ISO27002_5_25 .
+
+csf:DE_AE_03 skos:closeMatch
+        bio:ISO27002_8_15 ,
+        bio:ISO27002_8_16 .
+
+csf:DE_AE_04 skos:closeMatch
+        bio:ISO27002_5_25 .
+
+csf:DE_AE_06 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:DE_AE_07 skos:closeMatch
+        bio:ISO27002_5_07 .
+
+csf:DE_AE_08 skos:closeMatch
+        bio:ISO27002_5_25 ,
+        bio:ISO27002_5_26 .
+
+csf:DE_AdverseEventAnalysis skos:closeMatch
+        bio:ISO27002_5_26 ,
+        bio:ISO27002_8_16 .
+
+csf:DE_CM_01 skos:closeMatch
+        bio:ISO27002_8_16 .
+
+csf:DE_CM_02 skos:closeMatch
+        bio:ISO27002_7_04 .
+
+csf:DE_CM_03 skos:closeMatch
+        bio:ISO27002_7_04 ,
+        bio:ISO27002_8_16 .
+
+csf:DE_CM_06 skos:closeMatch
+        bio:ISO27002_5_22 ,
+        bio:ISO27002_8_16 .
+
+csf:DE_CM_09 skos:closeMatch
+        bio:ISO27002_8_16 .
+
+csf:DE_ContinuousMonitoring skos:closeMatch
+        bio:ISO27002_8_16 .
+
+csf:GOVERN skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_CybersecuritySupplyChainRiskManagement skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 .
+
+csf:GV_OC_03 skos:closeMatch
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_31 .
+
+csf:GV_OC_04 skos:closeMatch
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_31 .
+
+csf:GV_OC_05 skos:closeMatch
+        bio:ISO27002_5_03 .
+
+csf:GV_OV_01 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 .
+
+csf:GV_OV_02 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 .
+
+csf:GV_OV_03 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 .
+
+csf:GV_OrganizationalContext skos:closeMatch
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_31 .
+
+csf:GV_Oversight skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 .
+
+csf:GV_PO_01 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_PO_02 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_Policy skos:closeMatch
+        bio:ISO27002_5_03 ,
+        bio:ISO27002_5_36 .
+
+csf:GV_RM_01 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_RM_02 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_RM_03 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_RM_04 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_RM_05 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 .
+
+csf:GV_RM_06 skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_RR_01 skos:closeMatch
+        bio:ISO27002_5_04 .
+
+csf:GV_RR_04 skos:closeMatch
+        bio:ISO27002_6_01 ,
+        bio:ISO27002_6_02 ,
+        bio:ISO27002_6_03 ,
+        bio:ISO27002_6_04 ,
+        bio:ISO27002_6_05 ,
+        bio:ISO27002_6_06 ,
+        bio:ISO27002_6_07 ,
+        bio:ISO27002_6_08 .
+
+csf:GV_RiskManagementStrategy skos:closeMatch
+        bio:ISO27002_5_01 .
+
+csf:GV_RolesResponsibilitiesAndAuthorities skos:closeMatch
+        bio:ISO27002_5_02 ,
+        bio:ISO27002_5_04 .
+
+csf:GV_SC_01 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_21 ,
+        bio:ISO27002_5_22 .
+
+csf:GV_SC_02 skos:closeMatch
+        bio:ISO27002_5_02 ,
+        bio:ISO27002_5_04 .
+
+csf:GV_SC_03 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_21 .
+
+csf:GV_SC_04 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_22 .
+
+csf:GV_SC_05 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_31 .
+
+csf:GV_SC_06 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_31 .
+
+csf:GV_SC_07 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_31 .
+
+csf:GV_SC_08 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:GV_SC_09 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_21 ,
+        bio:ISO27002_5_22 .
+
+csf:GV_SC_10 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_21 ,
+        bio:ISO27002_5_22 .
+
+csf:ID_AM_01 skos:closeMatch
+        bio:ISO27002_5_09 .
+
+csf:ID_AM_02 skos:closeMatch
+        bio:ISO27002_5_09 .
+
+csf:ID_AM_03 skos:closeMatch
+        bio:ISO27002_5_14 ,
+        bio:ISO27002_8_20 ,
+        bio:ISO27002_8_21 ,
+        bio:ISO27002_8_22 .
+
+csf:ID_AM_04 skos:closeMatch
+        bio:ISO27002_5_22 .
+
+csf:ID_AM_05 skos:closeMatch
+        bio:ISO27002_5_09 ,
+        bio:ISO27002_5_12 ,
+        bio:ISO27002_5_13 .
+
+csf:ID_AM_07 skos:closeMatch
+        bio:ISO27002_5_09 .
+
+csf:ID_AM_08 skos:closeMatch
+        bio:ISO27002_5_08 ,
+        bio:ISO27002_5_09 ,
+        bio:ISO27002_5_12 ,
+        bio:ISO27002_5_13 ,
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_22 ,
+        bio:ISO27002_7_10 ,
+        bio:ISO27002_7_13 ,
+        bio:ISO27002_7_14 .
+
+csf:ID_AssetManagement skos:closeMatch
+        bio:ISO27002_5_09 ,
+        bio:ISO27002_5_12 ,
+        bio:ISO27002_5_13 .
+
+csf:ID_IM_01 skos:closeMatch
+        bio:ISO27002_5_35 .
+
+csf:ID_IM_02 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_35 .
+
+csf:ID_IM_03 skos:closeMatch
+        bio:ISO27002_5_27 .
+
+csf:ID_IM_04 skos:closeMatch
+        bio:ISO27002_5_24 ,
+        bio:ISO27002_5_26 ,
+        bio:ISO27002_5_27 .
+
+csf:ID_RA_01 skos:closeMatch
+        bio:ISO27002_8_08 .
+
+csf:ID_RA_02 skos:closeMatch
+        bio:ISO27002_5_07 ,
+        bio:ISO27002_5_22 ,
+        bio:ISO27002_8_16 .
+
+csf:ID_RA_03 skos:closeMatch
+        bio:ISO27002_5_07 ,
+        bio:ISO27002_5_22 ,
+        bio:ISO27002_8_16 .
+
+csf:ID_RA_05 skos:closeMatch
+        bio:ISO27002_5_07 .
+
+csf:ID_RA_06 skos:closeMatch
+        bio:ISO27002_5_07 .
+
+csf:ID_RA_07 skos:closeMatch
+        bio:ISO27002_8_32 .
+
+csf:ID_RA_09 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_22 .
+
+csf:ID_RA_10 skos:closeMatch
+        bio:ISO27002_5_19 ,
+        bio:ISO27002_5_20 ,
+        bio:ISO27002_5_22 .
+
+csf:PR_AA_01 skos:closeMatch
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_5_18 ,
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_05 .
+
+csf:PR_AA_02 skos:closeMatch
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_03 ,
+        bio:ISO27002_8_05 .
+
+csf:PR_AA_03 skos:closeMatch
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_5_16 ,
+        bio:ISO27002_5_17 ,
+        bio:ISO27002_5_18 ,
+        bio:ISO27002_8_05 .
+
+csf:PR_AA_04 skos:closeMatch
+        bio:ISO27002_5_16 .
+
+csf:PR_AA_05 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_03 ,
+        bio:ISO27002_5_14 ,
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_5_16 ,
+        bio:ISO27002_5_17 ,
+        bio:ISO27002_5_18 ,
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_03 ,
+        bio:ISO27002_8_05 ,
+        bio:ISO27002_8_18 .
+
+csf:PR_AA_06 skos:closeMatch
+        bio:ISO27002_7_01 ,
+        bio:ISO27002_7_02 ,
+        bio:ISO27002_7_03 ,
+        bio:ISO27002_7_04 ,
+        bio:ISO27002_7_12 .
+
+csf:PR_AT_01 skos:closeMatch
+        bio:ISO27002_6_03 .
+
+csf:PR_AT_02 skos:closeMatch
+        bio:ISO27002_5_02 ,
+        bio:ISO27002_6_03 .
+
+csf:PR_AwarenessAndTraining skos:closeMatch
+        bio:ISO27002_6_03 .
+
+csf:PR_DS_01 skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_03 ,
+        bio:ISO27002_5_10 ,
+        bio:ISO27002_5_13 ,
+        bio:ISO27002_5_14 ,
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_6_01 ,
+        bio:ISO27002_6_02 ,
+        bio:ISO27002_6_05 ,
+        bio:ISO27002_7_07 ,
+        bio:ISO27002_7_10 ,
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_03 ,
+        bio:ISO27002_8_04 ,
+        bio:ISO27002_8_07 ,
+        bio:ISO27002_8_08 ,
+        bio:ISO27002_8_17 ,
+        bio:ISO27002_8_19 ,
+        bio:ISO27002_8_22 ,
+        bio:ISO27002_8_26 .
+
+csf:PR_DS_02 skos:closeMatch
+        bio:ISO27002_5_03 ,
+        bio:ISO27002_5_10 ,
+        bio:ISO27002_5_13 ,
+        bio:ISO27002_5_14 ,
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_6_01 ,
+        bio:ISO27002_6_02 ,
+        bio:ISO27002_6_05 ,
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_03 ,
+        bio:ISO27002_8_04 ,
+        bio:ISO27002_8_17 ,
+        bio:ISO27002_8_20 ,
+        bio:ISO27002_8_22 ,
+        bio:ISO27002_8_26 .
+
+csf:PR_DS_10 skos:closeMatch
+        bio:ISO27002_5_03 ,
+        bio:ISO27002_5_10 ,
+        bio:ISO27002_5_13 ,
+        bio:ISO27002_5_14 ,
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_6_01 ,
+        bio:ISO27002_6_02 ,
+        bio:ISO27002_6_05 ,
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_03 ,
+        bio:ISO27002_8_04 ,
+        bio:ISO27002_8_17 ,
+        bio:ISO27002_8_22 ,
+        bio:ISO27002_8_26 .
+
+csf:PR_DS_11 skos:closeMatch
+        bio:ISO27002_8_13 .
+
+csf:PR_DataSecurity skos:closeMatch
+        bio:ISO27002_5_01 ,
+        bio:ISO27002_5_33 .
+
+csf:PR_IR_01 skos:closeMatch
+        bio:ISO27002_8_20 ,
+        bio:ISO27002_8_21 ,
+        bio:ISO27002_8_22 .
+
+csf:PR_IR_02 skos:closeMatch
+        bio:ISO27002_7_05 .
+
+csf:PR_IR_03 skos:closeMatch
+        bio:ISO27002_5_29 ,
+        bio:ISO27002_8_14 .
+
+csf:PR_IR_04 skos:closeMatch
+        bio:ISO27002_8_06 .
+
+csf:PR_IdentityManagementAuthenticationAndAccessControl skos:closeMatch
+        bio:ISO27002_5_15 ,
+        bio:ISO27002_5_18 ,
+        bio:ISO27002_8_02 ,
+        bio:ISO27002_8_03 .
+
+csf:PR_PS_01 skos:closeMatch
+        bio:ISO27002_8_09 .
+
+csf:PR_PS_02 skos:closeMatch
+        bio:ISO27002_5_09 .
+
+csf:PR_PS_03 skos:closeMatch
+        bio:ISO27002_5_09 .
+
+csf:PR_PS_04 skos:closeMatch
+        bio:ISO27002_8_15 ,
+        bio:ISO27002_8_17 .
+
+csf:PR_PS_05 skos:closeMatch
+        bio:ISO27002_8_19 .
+
+csf:PR_PS_06 skos:closeMatch
+        bio:ISO27002_8_25 ,
+        bio:ISO27002_8_28 .
+
+csf:PR_PlatformSecurity skos:closeMatch
+        bio:ISO27002_8_05 ,
+        bio:ISO27002_8_08 ,
+        bio:ISO27002_8_09 ,
+        bio:ISO27002_8_14 .
+
+csf:PR_TechnologyInfrastructureResilience skos:closeMatch
+        bio:ISO27002_6_06 ,
+        bio:ISO27002_8_27 .
+
+csf:RC_CO_03 skos:closeMatch
+        bio:ISO27002_5_28 .
+
+csf:RC_IncidentRecoveryCommunication skos:closeMatch
+        bio:ISO27002_5_28 .
+
+csf:RC_IncidentRecoveryPlanExecution skos:closeMatch
+        bio:ISO27002_8_13 .
+
+csf:RC_RP_01 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RC_RP_02 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RC_RP_03 skos:closeMatch
+        bio:ISO27002_8_13 .
+
+csf:RC_RP_05 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RC_RP_06 skos:closeMatch
+        bio:ISO27002_5_27 ,
+        bio:ISO27002_8_13 .
+
+csf:RECOVER skos:closeMatch
+        bio:ISO27002_5_29 ,
+        bio:ISO27002_8_13 .
+
+csf:RESPOND skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_AN_03 skos:closeMatch
+        bio:ISO27002_5_25 ,
+        bio:ISO27002_5_27 .
+
+csf:RS_AN_06 skos:closeMatch
+        bio:ISO27002_5_28 .
+
+csf:RS_AN_07 skos:closeMatch
+        bio:ISO27002_5_28 .
+
+csf:RS_AN_08 skos:closeMatch
+        bio:ISO27002_5_25 .
+
+csf:RS_CO_02 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_CO_03 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_IncidentAnalysis skos:closeMatch
+        bio:ISO27002_5_26 ,
+        bio:ISO27002_5_28 .
+
+csf:RS_IncidentManagement skos:closeMatch
+        bio:ISO27002_5_24 ,
+        bio:ISO27002_5_25 ,
+        bio:ISO27002_5_26 ,
+        bio:ISO27002_5_27 ,
+        bio:ISO27002_5_28 .
+
+csf:RS_IncidentMitigation skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_IncidentResponseReportingAndCommunication skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_MA_01 skos:closeMatch
+        bio:ISO27002_5_26 ,
+        bio:ISO27002_5_27 ,
+        bio:ISO27002_5_28 .
+
+csf:RS_MA_02 skos:closeMatch
+        bio:ISO27002_5_24 ,
+        bio:ISO27002_5_26 ,
+        bio:ISO27002_5_27 ,
+        bio:ISO27002_5_28 ,
+        bio:ISO27002_6_08 .
+
+csf:RS_MA_03 skos:closeMatch
+        bio:ISO27002_5_25 .
+
+csf:RS_MA_04 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_MA_05 skos:closeMatch
+        bio:ISO27002_5_25 .
+
+csf:RS_MI_01 skos:closeMatch
+        bio:ISO27002_5_26 .
+
+csf:RS_MI_02 skos:closeMatch
+        bio:ISO27002_5_26 .

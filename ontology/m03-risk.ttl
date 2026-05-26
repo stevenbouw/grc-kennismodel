@@ -1,0 +1,981 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M3: Risk Management
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+#
+# v4.3.0 (13 april 2026):
+# G4 — risk:ReportingRisk klasse toegevoegd (subClassOf risk:Risk) met
+#   skos:broadMatch ext:COSO_ERM_Performance. Opgenomen in bestaande
+#   owl:AllDisjointClasses-set (vier → vijf leden; G4 optie B, masterchat-
+#   besluit 13 april 2026) conform patroon v4.0.0 dat categorische Risk-
+#   subtypes disjoint verklaart.
+# G5 — skos:altLabel "Consequence"@en toegevoegd op risk:Impact (ISO 27005:2024
+#   terminologie direct vindbaar). Zie patch-rapport-v4.3.0.md.
+# =============================================================================
+
+<https://grc.example.org/ontology/m03-risk>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M3 — Risk Management"@nl ,
+               "GRC Ontology Module M3 — Risk Management"@en ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+risk:Risk
+    rdf:type owl:Class ;
+    rdfs:label "Risk"@en , "Risico"@nl ;
+    rdfs:comment
+        "The effect of uncertainty on objectives. A risk is characterised by its sources (threats/vulnerabilities), likelihood, and potential consequences (impact)."@en ,
+        "Het effect van onzekerheid op doelstellingen. Een risico wordt gekenmerkt door zijn bronnen (dreigingen/kwetsbaarheden), waarschijnlijkheid en mogelijke gevolgen (impact)."@nl ;
+    prov:wasDerivedFrom fw:ISO_31000_2018 ;
+    prov:wasDerivedFrom fw:COSO_ERM .
+
+risk:InformationSecurityRisk
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Risk ;
+    rdfs:label "Information Security Risk"@en , "Informatiebeveiligingsrisico"@nl ;
+    rdfs:comment
+        "A risk specific to information security: the potential that a threat will exploit a vulnerability of an information asset causing harm to the organisation."@en ,
+        "Een risico specifiek voor informatiebeveiliging: de mogelijkheid dat een dreiging een kwetsbaarheid van een informatiebedrijfsmiddel benut en schade veroorzaakt."@nl ;
+    prov:wasDerivedFrom fw:ISO_IEC_27005_2022 .
+
+risk:OperationalRisk
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Risk ;
+    rdfs:label "Operational Risk"@en , "Operationeel risico"@nl ;
+    rdfs:comment
+        "Risk arising from inadequate or failed internal processes, people, systems or from external events."@en ,
+        "Risico voortvloeiend uit tekortschietende of mislukte interne processen, mensen, systemen of externe gebeurtenissen."@nl .
+
+risk:StrategicRisk
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Risk ;
+    rdfs:label "Strategic Risk"@en , "Strategisch risico"@nl ;
+    rdfs:comment
+        "Risk that affects the long-term objectives or strategic direction of the organisation."@en ,
+        "Risico dat de langetermijndoelstellingen of strategische richting van de organisatie beïnvloedt."@nl .
+
+risk:ComplianceRisk
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Risk ;
+    rdfs:label "Compliance Risk"@en , "Compliancerisico"@nl ;
+    rdfs:comment
+        "Risk arising from failure to comply with applicable laws, regulations, standards or contractual obligations."@en ,
+        "Risico voortvloeiend uit niet-naleving van toepasselijke wet- en regelgeving, normen of contractuele verplichtingen."@nl .
+
+risk:ReportingRisk
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Risk ;
+    rdfs:label "Reporting Risk"@en , "Rapportagerisico"@nl ;
+    rdfs:comment
+        "Risk related to the reliability and integrity of managerial and financial reporting."@en ,
+        "Risico met betrekking tot betrouwbaarheid en integriteit van management- en financiële rapportage."@nl ;
+    skos:broadMatch ext:COSO_ERM_Performance ;
+    rdfs:isDefinedBy <https://grc.example.org/risk/> .
+
+# Disjointness at subclass level — COSO ERM vier-plus-één categorische risk-types.
+# ReportingRisk toegevoegd in v4.3.0 (G4 optie B, masterchat-besluit 13 april 2026):
+# consistent met bestaand patroon v4.0.0 dat categorische Risk-subtypes disjoint verklaart.
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( risk:InformationSecurityRisk risk:OperationalRisk risk:StrategicRisk risk:ComplianceRisk risk:ReportingRisk ) .
+
+# -----------------------------------------------------------------------------
+# 1.2 Dreiging / Threat
+# -----------------------------------------------------------------------------
+
+risk:Threat
+    rdf:type owl:Class ;
+    rdfs:label "Threat"@en , "Dreiging"@nl ;
+    rdfs:comment
+        "A potential cause of an unwanted incident that may result in harm to a system or organisation. [ISO/IEC 27000:2018]"@en ,
+        "Een potentiële oorzaak van een ongewenst incident dat kan resulteren in schade aan een systeem of organisatie. [ISO/IEC 27000:2018]"@nl ;
+    prov:wasDerivedFrom fw:ISO_IEC_27005_2022 .
+
+risk:ThreatSource
+    rdf:type owl:Class ;
+    rdfs:label "Threat Source"@en , "Dreigingsbron"@nl ;
+    rdfs:comment
+        "The intent and method targeted at the intentional exploitation of a vulnerability, or a situation and method that may accidentally trigger a vulnerability. [NIST SP 800-30]"@en ,
+        "De intentie en methode gericht op het opzettelijk benutten van een kwetsbaarheid, of een situatie en methode die per ongeluk een kwetsbaarheid kan activeren. [NIST SP 800-30]"@nl .
+
+risk:HumanThreatSource
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:ThreatSource ;
+    rdfs:label "Human Threat Source"@en , "Menselijke dreigingsbron"@nl ;
+    rdfs:comment
+        "Threat source involving human actors, either intentional (adversarial) or unintentional (accidental)."@en ,
+        "Dreigingsbron waarbij menselijke actoren betrokken zijn, intentioneel (adversarieel) of onbedoeld (per ongeluk)."@nl .
+
+risk:EnvironmentalThreatSource
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:ThreatSource ;
+    rdfs:label "Environmental Threat Source"@en , "Omgevingsdreigingsbron"@nl ;
+    rdfs:comment
+        "Threat source arising from natural disasters, infrastructure failures, or other environmental events."@en ,
+        "Dreigingsbron voortkomend uit natuurrampen, infrastructuurstoringen of andere omgevingsgebeurtenissen."@nl .
+
+risk:TechnicalThreatSource
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:ThreatSource ;
+    rdfs:label "Technical Threat Source"@en , "Technische dreigingsbron"@nl ;
+    rdfs:comment
+        "Threat source arising from hardware or software failures, configuration errors or technical vulnerabilities."@en ,
+        "Dreigingsbron voortkomend uit hardware- of softwarefouten, configuratiefouten of technische kwetsbaarheden."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.3 Kwetsbaarheid / Vulnerability
+# -----------------------------------------------------------------------------
+
+risk:Vulnerability
+    rdf:type owl:Class ;
+    rdfs:label "Vulnerability"@en , "Kwetsbaarheid"@nl ;
+    rdfs:comment
+        "A weakness in an information system, security procedures, internal controls or implementation that could be exploited or triggered by a threat source. [NIST SP 800-30]"@en ,
+        "Een zwakheid in een informatiesysteem, beveiligingsprocedures, interne beheersmaatregelen of implementatie die door een dreigingsbron benut of getriggerd kan worden. [NIST SP 800-30]"@nl ;
+    prov:wasDerivedFrom fw:ISO_IEC_27005_2022 .
+
+risk:TechnicalVulnerability
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Vulnerability ;
+    rdfs:label "Technical Vulnerability"@en , "Technische kwetsbaarheid"@nl ;
+    rdfs:comment
+        "A weakness in hardware, software, firmware or configuration."@en ,
+        "Een zwakheid in hardware, software, firmware of configuratie."@nl .
+
+risk:OrganisationalVulnerability
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Vulnerability ;
+    rdfs:label "Organisational Vulnerability"@en , "Organisatorische kwetsbaarheid"@nl ;
+    rdfs:comment
+        "A weakness in organisational processes, procedures, governance structures or culture."@en ,
+        "Een zwakheid in organisatorische processen, procedures, bestuursstructuren of cultuur."@nl .
+
+risk:PhysicalVulnerability
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Vulnerability ;
+    rdfs:label "Physical Vulnerability"@en , "Fysieke kwetsbaarheid"@nl ;
+    rdfs:comment
+        "A weakness in physical security measures, facilities or environment."@en ,
+        "Een zwakheid in fysieke beveiligingsmaatregelen, faciliteiten of omgeving."@nl .
+
+risk:HumanVulnerability
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Vulnerability ;
+    rdfs:label "Human Vulnerability"@en , "Menselijke kwetsbaarheid"@nl ;
+    rdfs:comment
+        "A weakness related to people: lack of awareness, training, skills or susceptibility to social engineering."@en ,
+        "Een zwakheid gerelateerd aan mensen: gebrek aan bewustzijn, training, vaardigheden of vatbaarheid voor social engineering."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.4 Bedrijfsmiddel / Asset
+# -----------------------------------------------------------------------------
+
+risk:Asset
+    rdf:type owl:Class ;
+    rdfs:label "Asset"@en , "Bedrijfsmiddel"@nl ;
+    rdfs:comment
+        "Anything that has value to the organisation and therefore requires protection."@en ,
+        "Alles wat waarde heeft voor de organisatie en daarom bescherming vereist."@nl ;
+    prov:wasDerivedFrom fw:ISO_IEC_27005_2022 .
+
+risk:InformationAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Asset ;
+    rdfs:label "Information Asset"@en , "Informatiebedrijfsmiddel"@nl ;
+    rdfs:comment
+        "Information or data in any form that has value to the organisation."@en ,
+        "Informatie of gegevens in welke vorm dan ook die waarde heeft voor de organisatie."@nl .
+
+risk:SystemAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Asset ;
+    rdfs:label "System Asset"@en , "Systeembedrijfsmiddel"@nl ;
+    rdfs:comment
+        "An information system, application, infrastructure component or ICT service."@en ,
+        "Een informatiesysteem, applicatie, infrastructuurcomponent of ICT-dienst."@nl .
+
+risk:PhysicalAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Asset ;
+    rdfs:label "Physical Asset"@en , "Fysiek bedrijfsmiddel"@nl ;
+    rdfs:comment
+        "Physical items such as hardware, facilities, and equipment."@en ,
+        "Fysieke items zoals hardware, faciliteiten en apparatuur."@nl .
+
+risk:HumanAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Asset ;
+    rdfs:label "Human Asset"@en , "Menselijk bedrijfsmiddel"@nl ;
+    rdfs:comment
+        "Personnel and their associated knowledge, skills and competencies."@en ,
+        "Personeel en de bijbehorende kennis, vaardigheden en competenties."@nl .
+
+risk:ServiceAsset
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Asset ;
+    rdfs:label "Service Asset"@en , "Dienstbedrijfsmiddel"@nl ;
+    rdfs:comment
+        "An IT or business service on which the organisation depends."@en ,
+        "Een IT- of bedrijfsdienst waarvan de organisatie afhankelijk is."@nl .
+
+# Disjointness for asset subclasses
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( risk:InformationAsset risk:SystemAsset risk:PhysicalAsset risk:HumanAsset risk:ServiceAsset ) .
+
+# -----------------------------------------------------------------------------
+# 1.5 Waarschijnlijkheid / Likelihood
+# -----------------------------------------------------------------------------
+
+risk:Likelihood
+    rdf:type owl:Class ;
+    rdfs:label "Likelihood"@en , "Waarschijnlijkheid"@nl ;
+    rdfs:comment
+        "The chance of something happening, expressed qualitatively or quantitatively. [ISO 31000:2018]"@en ,
+        "De kans dat iets gebeurt, uitgedrukt kwalitatief of kwantitatief. [ISO 31000:2018]"@nl .
+
+risk:LikelihoodLevel
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Likelihood ;
+    rdfs:label "Likelihood Level"@en , "Waarschijnlijkheidsniveau"@nl ;
+    rdfs:comment
+        "A qualitative level of likelihood on a defined scale."@en ,
+        "Een kwalitatief niveau van waarschijnlijkheid op een gedefinieerde schaal."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.6 Impact / Consequence
+# -----------------------------------------------------------------------------
+
+risk:Impact
+    rdf:type owl:Class ;
+    rdfs:label "Impact"@en , "Impact"@nl ;
+    rdfs:comment
+        "The consequence or outcome of a risk materialising: the effect on organisational objectives, operations, assets, individuals or reputation."@en ,
+        "De consequentie of uitkomst van een zich manifesterende risico: het effect op organisatiedoelstellingen, -activiteiten, -bedrijfsmiddelen, personen of reputatie."@nl ;
+    skos:altLabel "Consequence"@en .
+
+risk:ImpactLevel
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Impact ;
+    rdfs:label "Impact Level"@en , "Impactniveau"@nl ;
+    rdfs:comment
+        "A qualitative level of impact on a defined scale."@en ,
+        "Een kwalitatief niveau van impact op een gedefinieerde schaal."@nl .
+
+risk:ImpactCategory
+    rdf:type owl:Class ;
+    rdfs:label "Impact Category"@en , "Impactcategorie"@nl ;
+    rdfs:comment
+        "A domain in which impact may be experienced: financial, operational, reputational, legal, safety."@en ,
+        "Een domein waarin impact kan optreden: financieel, operationeel, reputationeel, juridisch, veiligheid."@nl .
+
+# -----------------------------------------------------------------------------
+# 1.7 Risicobehandeling / Risk Treatment
+# -----------------------------------------------------------------------------
+
+risk:RiskTreatment
+    rdf:type owl:Class ;
+    rdfs:label "Risk Treatment"@en , "Risicobehandeling"@nl ;
+    rdfs:comment
+        "A process to modify risk. Treatment options: modify (mitigate), retain (accept), avoid, share/transfer. [ISO 31000:2018]"@en ,
+        "Een proces om risico te wijzigen. Behandelopties: wijzigen (mitigeren), behouden (accepteren), vermijden, delen/overdragen. [ISO 31000:2018]"@nl ;
+    prov:wasDerivedFrom fw:ISO_31000_2018 .
+
+risk:RiskMitigation
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:RiskTreatment ;
+    rdfs:label "Risk Mitigation"@en , "Risicomitigatie"@nl ;
+    rdfs:comment
+        "Reducing the likelihood or impact of a risk by implementing controls."@en ,
+        "Verminderen van de waarschijnlijkheid of impact van een risico door beheersmaatregelen te implementeren."@nl .
+
+risk:RiskAcceptance
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:RiskTreatment ;
+    rdfs:label "Risk Acceptance"@en , "Risicoaanvaarding"@nl ;
+    rdfs:comment
+        "An informed decision to retain a risk without further treatment, within defined risk appetite."@en ,
+        "Een weloverwogen beslissing om een risico te behouden zonder verdere behandeling, binnen de gedefinieerde risicobereidheid."@nl .
+
+risk:RiskAvoidance
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:RiskTreatment ;
+    rdfs:label "Risk Avoidance"@en , "Risicoafwijzing"@nl ;
+    rdfs:comment
+        "Decision not to start or continue with an activity that gives rise to a particular risk."@en ,
+        "Beslissing om een activiteit die aanleiding geeft tot een specifiek risico niet te starten of voort te zetten."@nl .
+
+risk:RiskTransfer
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:RiskTreatment ;
+    rdfs:label "Risk Transfer / Sharing"@en , "Risico-overdracht / -deling"@nl ;
+    rdfs:comment
+        "Sharing the risk with another party, e.g. through insurance, contracts or outsourcing."@en ,
+        "Het risico delen met een andere partij, bijv. via verzekering, contracten of uitbesteding."@nl .
+
+# Disjointness of treatment options
+[] rdf:type owl:AllDisjointClasses ;
+   owl:members ( risk:RiskMitigation risk:RiskAcceptance risk:RiskAvoidance risk:RiskTransfer ) .
+
+# -----------------------------------------------------------------------------
+# 1.8 Risicobeoordeling en -proces klassen
+# -----------------------------------------------------------------------------
+
+risk:RiskAssessment
+    rdf:type owl:Class ;
+    rdfs:label "Risk Assessment"@en , "Risicobeoordeling"@nl ;
+    rdfs:comment
+        "The overall process of risk identification, risk analysis and risk evaluation. [ISO 31000:2018]"@en ,
+        "Het algehele proces van risicoidentificatie, risicoanalyse en risico-evaluatie. [ISO 31000:2018]"@nl ;
+    prov:wasDerivedFrom fw:ISO_31000_2018 , fw:ISO_IEC_27005_2022 .
+
+risk:RiskRegister
+    rdf:type owl:Class ;
+    rdfs:label "Risk Register"@en , "Risicoregister"@nl ;
+    rdfs:comment
+        "A documented record of identified risks, their assessment results, treatment decisions and residual risk."@en ,
+        "Een gedocumenteerd overzicht van geïdentificeerde risico's, beoordelingsresultaten, behandelbeslissingen en restrisico."@nl .
+
+risk:ResidualRisk
+    rdf:type owl:Class ;
+    rdfs:subClassOf risk:Risk ;
+    rdfs:label "Residual Risk"@en , "Restrisico"@nl ;
+    rdfs:comment
+        "The risk remaining after risk treatment has been applied."@en ,
+        "Het risico dat overblijft nadat risicobehandeling is toegepast."@nl .
+
+risk:RiskAppetite
+    rdf:type owl:Class ;
+    rdfs:label "Risk Appetite"@en , "Risicobereidheid"@nl ;
+    rdfs:comment
+        "The amount and type of risk an organisation is willing to pursue or retain in order to meet its strategic objectives."@en ,
+        "De hoeveelheid en het type risico dat een organisatie bereid is na te streven of te behouden om haar strategische doelstellingen te bereiken."@nl .
+
+risk:RiskCriteria
+    rdf:type owl:Class ;
+    rdfs:label "Risk Criteria"@en , "Risicocriteria"@nl ;
+    rdfs:comment
+        "Terms of reference against which the significance of a risk is evaluated."@en ,
+        "Referentiecriteria aan de hand waarvan de betekenis van een risico wordt beoordeeld."@nl .
+
+risk:RiskOwner
+    rdf:type owl:Class ;
+    rdfs:label "Risk Owner"@en , "Risico-eigenaar"@nl ;
+    rdfs:comment
+        "A person or entity with the accountability and authority to manage a risk."@en ,
+        "Een persoon of entiteit met de verantwoordelijkheid en bevoegdheid om een risico te beheren."@nl .
+
+risk:RiskScenario
+    rdf:type owl:Class ;
+    rdfs:label "Risk Scenario"@en , "Risicoscenario"@nl ;
+    rdfs:comment
+        "A described sequence of events that may result in the materialisation of a risk, including the threat, the exploited vulnerability and the impact on one or more assets."@en ,
+        "Een beschreven reeks gebeurtenissen die kan resulteren in het optreden van een risico, inclusief de dreiging, de benutte kwetsbaarheid en de impact op een of meer bedrijfsmiddelen."@nl .
+
+# --- NIST SP 800-39 Risk Management Tiers (GAP 1, toegevoegd 2026-03-26) ---
+
+risk:RiskManagementTier
+    rdf:type owl:Class ;
+    rdfs:label "Risk Management Tier"@en , "Risicomanagementniveau"@nl ;
+    rdfs:comment
+        "One of three organisational tiers at which risk management activities occur, as defined in NIST SP 800-39: (1) Organisation, (2) Mission/Business Process, (3) Information System."@en ,
+        "Een van drie organisatieniveaus waarop risicomanagementactiviteiten plaatsvinden, zoals gedefinieerd in NIST SP 800-39: (1) Organisatie, (2) Missie/Bedrijfsproces, (3) Informatiesysteem."@nl ;
+    prov:wasDerivedFrom fw:NIST_SP_800_39 .
+
+risk:Tier1_Organisation
+    rdf:type risk:RiskManagementTier , owl:NamedIndividual ;
+    rdfs:label "Tier 1 — Organisation"@en , "Tier 1 — Organisatie"@nl ;
+    rdfs:comment
+        "Addresses risk from an organisational perspective. Provides the context for all risk management activities: risk framing, risk governance, risk appetite, and organisational risk strategy."@en ,
+        "Adresseert risico vanuit organisatieperspectief. Biedt de context voor alle risicomanagementactiviteiten: risicokader, risicogovernance, risicobereidheid en organisatorische risicostrategie."@nl .
+
+risk:Tier2_MissionBusinessProcess
+    rdf:type risk:RiskManagementTier , owl:NamedIndividual ;
+    rdfs:label "Tier 2 — Mission/Business Process"@en , "Tier 2 — Missie/Bedrijfsproces"@nl ;
+    rdfs:comment
+        "Addresses risk from a mission/business process perspective. Focuses on enterprise architecture, information flows between systems, and the prioritisation of missions/business functions."@en ,
+        "Adresseert risico vanuit missie-/bedrijfsprocesperspectief. Richt zich op enterprise-architectuur, informatiestromen tussen systemen en prioritering van missies/bedrijfsfuncties."@nl .
+
+risk:Tier3_InformationSystem
+    rdf:type risk:RiskManagementTier , owl:NamedIndividual ;
+    rdfs:label "Tier 3 — Information System"@en , "Tier 3 — Informatiesysteem"@nl ;
+    rdfs:comment
+        "Addresses risk from an information system perspective. Focuses on system-specific risk assessments, security categorisation, control selection and implementation."@en ,
+        "Adresseert risico vanuit informatiesysteemperspectief. Richt zich op systeemspecifieke risicobeoordelingen, beveiligingscategorisatie, controleselectie en -implementatie."@nl .
+
+# =============================================================================
+# SECTIE 2 – OBJECT PROPERTIES
+# =============================================================================
+
+# --- Risico-gerelateerde properties ------------------------------------------
+
+risk:threatens
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Threat ;
+    rdfs:range risk:Asset ;
+    rdfs:label "threatens"@en , "bedreigt"@nl ;
+    rdfs:comment "A threat potentially causes harm to one or more assets."@en ,
+                 "Een dreiging veroorzaakt potentieel schade aan een of meer bedrijfsmiddelen."@nl .
+
+risk:exploits
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Threat ;
+    rdfs:range risk:Vulnerability ;
+    rdfs:label "exploits"@en , "benut"@nl ;
+    rdfs:comment "A threat exploits a vulnerability to materialise."@en ,
+                 "Een dreiging benut een kwetsbaarheid om zich te manifesteren."@nl .
+
+risk:affects
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:Asset ;
+    rdfs:label "affects"@en , "beïnvloedt"@nl ;
+    rdfs:comment "A risk has potential consequences for one or more assets."@en ,
+                 "Een risico heeft mogelijke gevolgen voor een of meer bedrijfsmiddelen."@nl .
+
+risk:atManagementTier
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:RiskManagementTier ;
+    rdfs:label "at management tier"@en , "op managementniveau"@nl ;
+    rdfs:comment
+        "Links a risk to the NIST 800-39 management tier at which it is primarily assessed and managed."@en ,
+        "Koppelt een risico aan het NIST 800-39 managementniveau waarop het primair wordt beoordeeld en beheerst."@nl .
+
+risk:hasSource
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:ThreatSource ;
+    rdfs:label "has source"@en , "heeft bron"@nl ;
+    rdfs:comment "Links a risk to the threat source(s) that cause it."@en ,
+                 "Koppelt een risico aan de dreigingsbron(nen) die het veroorzaken."@nl .
+
+risk:hasThreat
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:Threat ;
+    rdfs:label "has threat"@en , "heeft dreiging"@nl .
+
+risk:hasVulnerability
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:Vulnerability ;
+    rdfs:label "has vulnerability"@en , "heeft kwetsbaarheid"@nl .
+
+risk:hasLikelihood
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:LikelihoodLevel ;
+    rdfs:label "has likelihood"@en , "heeft waarschijnlijkheid"@nl .
+
+risk:hasImpact
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:ImpactLevel ;
+    rdfs:label "has impact"@en , "heeft impact"@nl .
+
+risk:hasImpactCategory
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:ImpactCategory ;
+    rdfs:label "has impact category"@en , "heeft impactcategorie"@nl .
+
+risk:mitigatedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range ctrl:Control ;
+    rdfs:label "mitigated by"@en , "gemitigeerd door"@nl ;
+    rdfs:comment "Links a risk to the control(s) that mitigate it."@en ,
+                 "Koppelt een risico aan de beheersmaatregel(en) die het mitigeren."@nl .
+
+risk:treatedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:RiskTreatment ;
+    rdfs:label "treated by"@en , "behandeld door"@nl .
+
+risk:ownedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:RiskOwner ;
+    rdfs:label "owned by"@en , "eigendom van"@nl ;
+    rdfs:comment "The risk owner is accountable for managing the risk."@en ,
+                 "De risico-eigenaar is verantwoordelijk voor het beheren van het risico."@nl .
+
+risk:resultsInResidualRisk
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:RiskTreatment ;
+    rdfs:range risk:ResidualRisk ;
+    rdfs:label "results in residual risk"@en , "resulteert in restrisico"@nl .
+
+risk:isInRegister
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:RiskRegister ;
+    rdfs:label "is recorded in register"@en , "is opgenomen in register"@nl .
+
+risk:governedByAppetite
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:RiskAssessment ;
+    rdfs:range risk:RiskAppetite ;
+    rdfs:label "governed by appetite"@en , "gestuurd door risicobereidheid"@nl .
+
+risk:hasRiskCriteria
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:RiskAssessment ;
+    rdfs:range risk:RiskCriteria ;
+    rdfs:label "has risk criteria"@en , "heeft risicocriteria"@nl .
+
+risk:assessedIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range risk:RiskAssessment ;
+    rdfs:label "assessed in"@en , "beoordeeld in"@nl .
+
+risk:describesScenario
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:RiskAssessment ;
+    rdfs:range risk:RiskScenario ;
+    rdfs:label "describes scenario"@en , "beschrijft scenario"@nl .
+
+risk:hasVulnerabilityInAsset
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Vulnerability ;
+    rdfs:range risk:Asset ;
+    rdfs:label "is present in asset"@en , "aanwezig in bedrijfsmiddel"@nl .
+
+risk:originatesFrom
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:Threat ;
+    rdfs:range risk:ThreatSource ;
+    rdfs:label "originates from"@en , "afkomstig van"@nl .
+
+# Cross-link to Framework module
+risk:assessedAgainst
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain risk:RiskAssessment ;
+    rdfs:range fw:GRCFramework ;
+    rdfs:label "assessed against framework"@en , "beoordeeld aan de hand van kaderwerk"@nl .
+
+# =============================================================================
+# SECTIE 3 – DATA PROPERTIES
+# =============================================================================
+
+risk:hasRiskID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:string ;
+    rdfs:label "has risk ID"@en , "heeft risico-ID"@nl .
+
+risk:hasRiskTitle
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has risk title"@en , "heeft risicotitel"@nl .
+
+risk:hasRiskDescription
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has risk description"@en , "heeft risicoомschrijving"@nl .
+
+risk:hasInherentRiskScore
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has inherent risk score"@en , "heeft inherente risicoscore"@nl ;
+    rdfs:comment "Numeric score before treatment (e.g. likelihood × impact on a 1–5 scale)."@en ,
+                 "Numerieke score vóór behandeling (bijv. waarschijnlijkheid × impact op een 1–5 schaal)."@nl .
+
+risk:hasResidualRiskScore
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has residual risk score"@en , "heeft restrisicoscore"@nl ;
+    rdfs:comment "Numeric score after treatment."@en ,
+                 "Numerieke score na behandeling."@nl .
+
+risk:isAccepted
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is accepted"@en , "is aanvaard"@nl ;
+    rdfs:comment "True if the residual risk is formally accepted by the risk owner."@en ,
+                 "True als het restrisico formeel is aanvaard door de risico-eigenaar."@nl .
+
+risk:assessmentDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:RiskAssessment ;
+    rdfs:range xsd:date ;
+    rdfs:label "assessment date"@en , "beoordelingsdatum"@nl .
+
+risk:reviewDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:date ;
+    rdfs:label "review date"@en , "herzieningsdatum"@nl .
+
+risk:hasLikelihoodScore
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has likelihood score"@en , "heeft waarschijnlijkheidsscore"@nl .
+
+risk:hasImpactScore
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:Risk ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has impact score"@en , "heeft impactscore"@nl .
+
+risk:cvssScore
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:TechnicalVulnerability ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "CVSS score"@en , "CVSS-score"@nl ;
+    rdfs:comment "Common Vulnerability Scoring System (CVSS) base score (0.0–10.0)."@en ,
+                 "Common Vulnerability Scoring System (CVSS) basisscore (0,0–10,0)."@nl .
+
+risk:cveID
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain risk:TechnicalVulnerability ;
+    rdfs:range xsd:string ;
+    rdfs:label "CVE identifier"@en , "CVE-identificatiecode"@nl ;
+    rdfs:comment "Common Vulnerabilities and Exposures (CVE) identifier (e.g. CVE-2024-1234)."@en ,
+                 "Common Vulnerabilities and Exposures (CVE) identificatiecode (bijv. CVE-2024-1234)."@nl .
+
+# =============================================================================
+# SECTIE 4 – ABOX: SCHAAL-INDIVIDUEN (Waarschijnlijkheid & Impact)
+# =============================================================================
+
+# --- Likelihood Levels (5-puntsschaal – conform ISO 27005 / NIST 800-30) ----
+
+risk:LL_VeryLow
+    rdf:type risk:LikelihoodLevel ;
+    rdfs:label "Very Low (1)"@en , "Zeer laag (1)"@nl ;
+    risk:hasLikelihoodScore 1 ;
+    rdfs:comment "Event is very unlikely to occur (< once in 10 years)."@en ,
+                 "Gebeurtenis is zeer onwaarschijnlijk (< eenmaal in 10 jaar)."@nl .
+
+risk:LL_Low
+    rdf:type risk:LikelihoodLevel ;
+    rdfs:label "Low (2)"@en , "Laag (2)"@nl ;
+    risk:hasLikelihoodScore 2 ;
+    rdfs:comment "Event is unlikely to occur (once in 5–10 years)."@en ,
+                 "Gebeurtenis is onwaarschijnlijk (eenmaal in 5–10 jaar)."@nl .
+
+risk:LL_Medium
+    rdf:type risk:LikelihoodLevel ;
+    rdfs:label "Medium (3)"@en , "Gemiddeld (3)"@nl ;
+    risk:hasLikelihoodScore 3 ;
+    rdfs:comment "Event may occur (once in 1–5 years)."@en ,
+                 "Gebeurtenis kan optreden (eenmaal in 1–5 jaar)."@nl .
+
+risk:LL_High
+    rdf:type risk:LikelihoodLevel ;
+    rdfs:label "High (4)"@en , "Hoog (4)"@nl ;
+    risk:hasLikelihoodScore 4 ;
+    rdfs:comment "Event is likely to occur (once or more per year)."@en ,
+                 "Gebeurtenis treedt waarschijnlijk op (eenmaal of vaker per jaar)."@nl .
+
+risk:LL_VeryHigh
+    rdf:type risk:LikelihoodLevel ;
+    rdfs:label "Very High (5)"@en , "Zeer hoog (5)"@nl ;
+    risk:hasLikelihoodScore 5 ;
+    rdfs:comment "Event is almost certain to occur (multiple times per year)."@en ,
+                 "Gebeurtenis treedt bijna zeker op (meerdere keren per jaar)."@nl .
+
+# --- Impact Levels (5-puntsschaal) -------------------------------------------
+
+risk:IL_Negligible
+    rdf:type risk:ImpactLevel ;
+    rdfs:label "Negligible (1)"@en , "Verwaarloosbaar (1)"@nl ;
+    risk:hasImpactScore 1 ;
+    rdfs:comment "Minimal consequence; easily recoverable, no significant disruption."@en ,
+                 "Minimale gevolgen; eenvoudig herstelbaar, geen noemenswaardige verstoring."@nl .
+
+risk:IL_Minor
+    rdf:type risk:ImpactLevel ;
+    rdfs:label "Minor (2)"@en , "Gering (2)"@nl ;
+    risk:hasImpactScore 2 ;
+    rdfs:comment "Limited consequences; short disruption, manageable."@en ,
+                 "Beperkte gevolgen; korte verstoring, beheersbaar."@nl .
+
+risk:IL_Moderate
+    rdf:type risk:ImpactLevel ;
+    rdfs:label "Moderate (3)"@en , "Matig (3)"@nl ;
+    risk:hasImpactScore 3 ;
+    rdfs:comment "Significant consequences; notable disruption to services or operations."@en ,
+                 "Aanzienlijke gevolgen; merkbare verstoring van diensten of activiteiten."@nl .
+
+risk:IL_Significant
+    rdf:type risk:ImpactLevel ;
+    rdfs:label "Significant (4)"@en , "Aanzienlijk (4)"@nl ;
+    risk:hasImpactScore 4 ;
+    rdfs:comment "Severe consequences; major disruption, significant financial or reputational damage."@en ,
+                 "Ernstige gevolgen; grote verstoring, aanzienlijke financiële of reputatieschade."@nl .
+
+risk:IL_Critical
+    rdf:type risk:ImpactLevel ;
+    rdfs:label "Critical (5)"@en , "Kritiek (5)"@nl ;
+    risk:hasImpactScore 5 ;
+    rdfs:comment "Catastrophic consequences; existential threat, inability to fulfil legal obligations."@en ,
+                 "Catastrofale gevolgen; existentiële dreiging, onvermogen om wettelijke verplichtingen na te komen."@nl .
+
+# --- Impact Categories -------------------------------------------------------
+
+risk:IC_Confidentiality rdf:type risk:ImpactCategory ;
+    rdfs:label "Confidentiality impact"@en , "Vertrouwelijkheidsimpact"@nl .
+risk:IC_Integrity       rdf:type risk:ImpactCategory ;
+    rdfs:label "Integrity impact"@en , "Integriteitsimpact"@nl .
+risk:IC_Availability    rdf:type risk:ImpactCategory ;
+    rdfs:label "Availability impact"@en , "Beschikbaarheidsimpact"@nl .
+risk:IC_Financial       rdf:type risk:ImpactCategory ;
+    rdfs:label "Financial impact"@en , "Financiële impact"@nl .
+risk:IC_Reputational    rdf:type risk:ImpactCategory ;
+    rdfs:label "Reputational impact"@en , "Reputatie-impact"@nl .
+risk:IC_Legal           rdf:type risk:ImpactCategory ;
+    rdfs:label "Legal / compliance impact"@en , "Juridische / compliance-impact"@nl .
+risk:IC_Safety          rdf:type risk:ImpactCategory ;
+    rdfs:label "Safety impact"@en , "Veiligheidsimpact"@nl .
+risk:IC_Operational     rdf:type risk:ImpactCategory ;
+    rdfs:label "Operational impact"@en , "Operationele impact"@nl .
+
+# =============================================================================
+# SECTIE 5 – ABOX: DREIGINGSCATALOGUS (representatieve set)
+# Gebaseerd op ISO/IEC 27005:2022 Annex C + ENISA Threat Landscape
+# =============================================================================
+
+# --- Dreigingsbronnen --------------------------------------------------------
+risk:TS_Cybercriminal    rdf:type risk:HumanThreatSource ;
+    rdfs:label "Cybercriminal"@en , "Cybercrimineel"@nl .
+risk:TS_NationState      rdf:type risk:HumanThreatSource ;
+    rdfs:label "Nation-state actor"@en , "Statelijke actor"@nl .
+risk:TS_Insider          rdf:type risk:HumanThreatSource ;
+    rdfs:label "Malicious insider"@en , "Kwaadwillende insider"@nl .
+risk:TS_Negligent        rdf:type risk:HumanThreatSource ;
+    rdfs:label "Negligent employee"@en , "Nalatige medewerker"@nl .
+risk:TS_NaturalDisaster  rdf:type risk:EnvironmentalThreatSource ;
+    rdfs:label "Natural disaster"@en , "Natuurramp"@nl .
+risk:TS_PowerFailure     rdf:type risk:EnvironmentalThreatSource ;
+    rdfs:label "Power / utility failure"@en , "Stroom- / nutsuitval"@nl .
+risk:TS_HardwareFault    rdf:type risk:TechnicalThreatSource ;
+    rdfs:label "Hardware failure"@en , "Hardwarestoring"@nl .
+risk:TS_SoftwareFault    rdf:type risk:TechnicalThreatSource ;
+    rdfs:label "Software defect"@en , "Softwaredefect"@nl .
+risk:TS_Supplier         rdf:type risk:HumanThreatSource ;
+    rdfs:label "Compromised supplier"@en , "Gecompromitteerde leverancier"@nl .
+
+# --- Dreigingen --------------------------------------------------------------
+
+risk:T_Ransomware
+    rdf:type risk:Threat ;
+    rdfs:label "Ransomware attack"@en , "Ransomware-aanval"@nl ;
+    risk:originatesFrom risk:TS_Cybercriminal ;
+    risk:threatens risk:InformationAsset , risk:SystemAsset .
+
+risk:T_Phishing
+    rdf:type risk:Threat ;
+    rdfs:label "Phishing / social engineering"@en , "Phishing / social engineering"@nl ;
+    risk:originatesFrom risk:TS_Cybercriminal , risk:TS_NationState ;
+    risk:threatens risk:InformationAsset , risk:HumanAsset .
+
+risk:T_UnauthorisedAccess
+    rdf:type risk:Threat ;
+    rdfs:label "Unauthorised access"@en , "Ongeautoriseerde toegang"@nl ;
+    risk:originatesFrom risk:TS_Cybercriminal , risk:TS_Insider ;
+    risk:threatens risk:InformationAsset , risk:SystemAsset .
+
+risk:T_DataLeak
+    rdf:type risk:Threat ;
+    rdfs:label "Data leak / disclosure"@en , "Datalek / openbaarmaking"@nl ;
+    risk:originatesFrom risk:TS_Cybercriminal , risk:TS_Negligent , risk:TS_Insider ;
+    risk:threatens risk:InformationAsset .
+
+risk:T_DDoS
+    rdf:type risk:Threat ;
+    rdfs:label "Distributed Denial of Service (DDoS)"@en , "Gedistribueerde DoS-aanval"@nl ;
+    risk:originatesFrom risk:TS_Cybercriminal , risk:TS_NationState ;
+    risk:threatens risk:SystemAsset , risk:ServiceAsset .
+
+risk:T_SupplyChainCompromise
+    rdf:type risk:Threat ;
+    rdfs:label "Supply chain compromise"@en , "Leveranciersketen-compromittering"@nl ;
+    risk:originatesFrom risk:TS_NationState , risk:TS_Supplier ;
+    risk:threatens risk:SystemAsset , risk:ServiceAsset .
+
+risk:T_InsiderSabotage
+    rdf:type risk:Threat ;
+    rdfs:label "Insider sabotage"@en , "Sabotage door insider"@nl ;
+    risk:originatesFrom risk:TS_Insider ;
+    risk:threatens risk:InformationAsset , risk:SystemAsset , risk:PhysicalAsset .
+
+risk:T_ConfigError
+    rdf:type risk:Threat ;
+    rdfs:label "Configuration error / misconfiguration"@en , "Configuratiefout"@nl ;
+    risk:originatesFrom risk:TS_Negligent , risk:TS_SoftwareFault ;
+    risk:threatens risk:SystemAsset .
+
+risk:T_PhysicalIntrusion
+    rdf:type risk:Threat ;
+    rdfs:label "Physical intrusion"@en , "Fysieke inbraak"@nl ;
+    risk:originatesFrom risk:TS_Cybercriminal ;
+    risk:threatens risk:PhysicalAsset , risk:InformationAsset .
+
+risk:T_NaturalHazard
+    rdf:type risk:Threat ;
+    rdfs:label "Natural hazard (flood, fire, storm)"@en , "Natuurlijk gevaar (overstroming, brand, storm)"@nl ;
+    risk:originatesFrom risk:TS_NaturalDisaster ;
+    risk:threatens risk:PhysicalAsset , risk:SystemAsset .
+
+# =============================================================================
+# SECTIE 6 – ABOX: KWETSBAARHEDENCATALOGUS (representatieve set)
+# =============================================================================
+
+risk:V_WeakPasswords      rdf:type risk:TechnicalVulnerability ;
+    rdfs:label "Weak authentication / passwords"@en , "Zwakke authenticatie / wachtwoorden"@nl ;
+    risk:exploits risk:T_UnauthorisedAccess .
+
+risk:V_UnpatchedSoftware  rdf:type risk:TechnicalVulnerability ;
+    rdfs:label "Unpatched software"@en , "Ongepatchte software"@nl ;
+    risk:exploits risk:T_Ransomware , risk:T_UnauthorisedAccess .
+
+risk:V_MissingMFA         rdf:type risk:TechnicalVulnerability ;
+    rdfs:label "Missing multi-factor authentication"@en , "Ontbrekende meervoudige authenticatie"@nl ;
+    risk:exploits risk:T_UnauthorisedAccess , risk:T_Phishing .
+
+risk:V_ExcessivePrivileges rdf:type risk:OrganisationalVulnerability ;
+    rdfs:label "Excessive user privileges"@en , "Te ruime gebruikersrechten"@nl ;
+    risk:exploits risk:T_InsiderSabotage , risk:T_UnauthorisedAccess .
+
+risk:V_NoAwareness        rdf:type risk:HumanVulnerability ;
+    rdfs:label "Insufficient security awareness"@en , "Onvoldoende beveiligingsbewustzijn"@nl ;
+    risk:exploits risk:T_Phishing .
+
+risk:V_NoEncryption       rdf:type risk:TechnicalVulnerability ;
+    rdfs:label "Unencrypted data storage or transfer"@en , "Onversleutelde gegevensopslag of -overdracht"@nl ;
+    risk:exploits risk:T_DataLeak .
+
+risk:V_WeakSupplierVetting rdf:type risk:OrganisationalVulnerability ;
+    rdfs:label "Inadequate supplier vetting"@en , "Ontoereikende leveranciersbeoordeling"@nl ;
+    risk:exploits risk:T_SupplyChainCompromise .
+
+risk:V_SinglePointOfFailure rdf:type risk:TechnicalVulnerability ;
+    rdfs:label "Single point of failure (no redundancy)"@en , "Enkel foutpunt (geen redundantie)"@nl ;
+    risk:exploits risk:T_DDoS , risk:T_NaturalHazard .
+
+risk:V_InadequateBackup   rdf:type risk:OrganisationalVulnerability ;
+    rdfs:label "Inadequate backup and recovery"@en , "Ontoereikende back-up en herstel"@nl ;
+    risk:exploits risk:T_Ransomware , risk:T_NaturalHazard .
+
+risk:V_OpenPorts          rdf:type risk:TechnicalVulnerability ;
+    rdfs:label "Unnecessary open ports / services"@en , "Onnodige open poorten / diensten"@nl ;
+    risk:exploits risk:T_UnauthorisedAccess , risk:T_DDoS .
+
+# =============================================================================
+# SECTIE 7 – ABOX: VOORBEELDRISICO'S (illustratief risicoregister)
+# =============================================================================
+
+risk:R_001
+    rdf:type risk:InformationSecurityRisk ;
+    risk:hasRiskID "R-001" ;
+    risk:hasRiskTitle "Ransomware via phishing e-mail"@nl ;
+    risk:hasRiskDescription "Medewerkers klikken op kwaadaardige link waardoor ransomware wordt geïnstalleerd op bedrijfssystemen."@nl ;
+    risk:hasThreat risk:T_Ransomware ;
+    risk:hasVulnerability risk:V_NoAwareness , risk:V_UnpatchedSoftware ;
+    risk:affects risk:InformationAsset , risk:SystemAsset ;
+    risk:hasLikelihood risk:LL_High ;
+    risk:hasImpact risk:IL_Critical ;
+    risk:hasInherentRiskScore 20 ;
+    risk:hasImpactCategory risk:IC_Availability , risk:IC_Integrity , risk:IC_Financial ;
+    risk:mitigatedBy ctrl:ISO27002_8_07 , ctrl:ISO27002_6_03 , ctrl:ISO27002_8_13 ;
+    risk:atManagementTier risk:Tier3_InformationSystem .
+
+risk:R_002
+    rdf:type risk:InformationSecurityRisk ;
+    risk:hasRiskID "R-002" ;
+    risk:hasRiskTitle "Ongeautoriseerde toegang door ex-medewerker"@nl ;
+    risk:hasRiskDescription "Accounts van vertrokken medewerkers worden niet tijdig uitgeschakeld, waardoor toegang tot systemen mogelijk blijft."@nl ;
+    risk:hasThreat risk:T_UnauthorisedAccess ;
+    risk:hasVulnerability risk:V_ExcessivePrivileges ;
+    risk:affects risk:InformationAsset ;
+    risk:hasLikelihood risk:LL_Medium ;
+    risk:hasImpact risk:IL_Significant ;
+    risk:hasInherentRiskScore 12 ;
+    risk:hasImpactCategory risk:IC_Confidentiality , risk:IC_Legal ;
+    risk:mitigatedBy ctrl:ISO27002_5_18 , ctrl:ISO27002_6_05 ;
+    risk:atManagementTier risk:Tier2_MissionBusinessProcess .
+
+risk:R_003
+    rdf:type risk:InformationSecurityRisk ;
+    risk:hasRiskID "R-003" ;
+    risk:hasRiskTitle "Datalek door leverancier"@nl ;
+    risk:hasRiskDescription "Een leverancier die toegang heeft tot persoonsgegevens lekt deze door een beveiligingsincident aan zijn kant."@nl ;
+    risk:hasThreat risk:T_DataLeak ;
+    risk:hasVulnerability risk:V_WeakSupplierVetting ;
+    risk:affects risk:InformationAsset ;
+    risk:hasLikelihood risk:LL_Medium ;
+    risk:hasImpact risk:IL_Significant ;
+    risk:hasInherentRiskScore 12 ;
+    risk:hasImpactCategory risk:IC_Confidentiality , risk:IC_Legal , risk:IC_Reputational ;
+    risk:mitigatedBy ctrl:ISO27002_5_19 , ctrl:ISO27002_5_20 , ctrl:ISO27002_5_21 ;
+    risk:atManagementTier risk:Tier2_MissionBusinessProcess .
+
+risk:R_004
+    rdf:type risk:InformationSecurityRisk ;
+    risk:hasRiskID "R-004" ;
+    risk:hasRiskTitle "Uitval kritieke ICT-dienst door DDoS"@nl ;
+    risk:hasRiskDescription "Een DDoS-aanval maakt een kritieke publiek-toegankelijke dienst onbereikbaar."@nl ;
+    risk:hasThreat risk:T_DDoS ;
+    risk:hasVulnerability risk:V_SinglePointOfFailure , risk:V_OpenPorts ;
+    risk:affects risk:ServiceAsset ;
+    risk:hasLikelihood risk:LL_Medium ;
+    risk:hasImpact risk:IL_Significant ;
+    risk:hasInherentRiskScore 12 ;
+    risk:hasImpactCategory risk:IC_Availability , risk:IC_Operational , risk:IC_Reputational ;
+    risk:mitigatedBy ctrl:ISO27002_8_14 , ctrl:ISO27002_8_20 , ctrl:ISO27002_8_22 ;
+    risk:atManagementTier risk:Tier3_InformationSystem .
+
+# =============================================================================
+# SECTIE 8 – SKOS ALIGNMENT (Risk Module ↔ Frameworks)
+# =============================================================================
+
+# ISO 31000 alignment
+risk:Risk           skos:broadMatch     fw:ISO_31000_2018 .
+risk:RiskTreatment  skos:broadMatch     fw:ISO_31000_2018 .
+risk:RiskAppetite   skos:broadMatch     fw:ISO_31000_2018 .
+risk:RiskAssessment skos:exactMatch     fw:ISO_IEC_27005_2022 .
+
+# NIST 800-30 alignment
+risk:Threat         skos:closeMatch     fw:NIST_SP_800_30_R1 .
+risk:Vulnerability  skos:closeMatch     fw:NIST_SP_800_30_R1 .
+risk:LikelihoodLevel skos:closeMatch    fw:NIST_SP_800_30_R1 .
+risk:ImpactLevel    skos:closeMatch     fw:NIST_SP_800_30_R1 .
+
+# NIST 800-39 tier alignment
+risk:RiskManagementTier skos:exactMatch fw:NIST_SP_800_39 .
+risk:Tier1_Organisation skos:relatedMatch ext:COSO_ERM_GovernanceCulture .
+risk:Tier1_Organisation skos:relatedMatch ext:COSO_ERM_StrategyObjectiveSetting .
+
+# COSO ERM alignment (GAP 4)
+risk:Risk           skos:broadMatch     fw:COSO_ERM .
+risk:RiskAppetite   skos:relatedMatch   ext:COSO_ERM_GovernanceCulture .
+risk:RiskTreatment  skos:relatedMatch   ext:COSO_ERM_Performance .
+risk:RiskAssessment skos:relatedMatch   ext:COSO_ERM_Performance .
+risk:RiskRegister   skos:relatedMatch   ext:COSO_ERM_ReviewRevision .
+
+# =============================================================================
+# EINDE MODULE M3

@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+._.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.env
+
+# Editor
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+Thumbs.db
+ehthumbs.db
+
+# Project-specifiek
+output/tmp/
+*.bak
+*.tmp
+
+# Geheim
+.env.local
+secrets.json

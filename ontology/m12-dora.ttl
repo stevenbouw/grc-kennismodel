@@ -1,0 +1,232 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# =============================================================================
+# GRC Ontologie — Module M12: DORA
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m12-dora>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M12 — DORA"@nl ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# === M12: DORA (EU 2022/2554) ===
+
+ext:DORA_Art5 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 5: ICT-governancekader"@nl ;
+    rdfs:label "DORA Article 5: ICT governance framework"@en ;
+    compl:articleRef "art. 5" ;
+    compl:requirementText "Financiele entiteiten moeten beschikken over een intern governancekader en beheerstructuur die effectief en prudent beheer van alle ICT-risicos garanderen."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art6 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 6: ICT-risicobeheerkader"@nl ;
+    rdfs:label "DORA Article 6: ICT risk management framework"@en ;
+    compl:articleRef "art. 6" ;
+    compl:requirementText "Financiele entiteiten beschikken over een solide uitgebreid en goed gedocumenteerd ICT-risicobeheerkader als onderdeel van hun algemeen risicobeheersysteem."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art7 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 7: ICT-systemen protocollen en tools"@nl ;
+    rdfs:label "DORA Article 7: ICT systems protocols and tools"@en ;
+    compl:articleRef "art. 7" ;
+    compl:requirementText "Financiele entiteiten gebruiken en onderhouden bijgewerkte ICT-systemen protocollen en tools die geschikt zijn voor de omvang van activiteiten."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art8 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 8: Identificatie"@nl ;
+    rdfs:label "DORA Article 8: Identification"@en ;
+    compl:articleRef "art. 8" ;
+    compl:requirementText "Financiele entiteiten identificeren en classificeren ICT-risicos en documenteren alle functies taken en ICT-bedrijfsmiddelen."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art9 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 9: Bescherming en preventie"@nl ;
+    rdfs:label "DORA Article 9: Protection and prevention"@en ;
+    compl:articleRef "art. 9" ;
+    compl:requirementText "Financiele entiteiten stellen voortdurend de bescherming van ICT-bedrijfsmiddelen vast en implementeren beveiligingsbeleid en -maatregelen."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art10 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 10: Detectie"@nl ;
+    rdfs:label "DORA Article 10: Detection"@en ;
+    compl:articleRef "art. 10" ;
+    compl:requirementText "Financiele entiteiten implementeren mechanismen voor anomaliedetectie en respons op ICT-gerelateerde incidenten."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art11 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 11: Reactie en herstel"@nl ;
+    rdfs:label "DORA Article 11: Response and recovery"@en ;
+    compl:articleRef "art. 11" ;
+    compl:requirementText "Financiele entiteiten beschikken over een ICT-bedrijfscontinuiteitsbeleid en herstelplannen voor ICT-gerelateerde incidenten."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art12 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 12: Back-up herstel en herstelprocedures"@nl ;
+    rdfs:label "DORA Article 12: Back-up restore and recovery"@en ;
+    compl:articleRef "art. 12" ;
+    compl:requirementText "Financiele entiteiten beschikken over uitgebreide ICT-back-upbeleid en -procedures en herstelprocedures en testen deze regelmatig."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art13 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 13: Leren en evolueren"@nl ;
+    rdfs:label "DORA Article 13: Learning and evolving"@en ;
+    compl:articleRef "art. 13" ;
+    compl:requirementText "Financiele entiteiten verwerven capaciteiten voor het beoordelen van kwetsbaarheden en het leren van ICT-incidenten."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art14 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 14: Communicatie"@nl ;
+    rdfs:label "DORA Article 14: Communication"@en ;
+    compl:articleRef "art. 14" ;
+    compl:requirementText "Financiele entiteiten beschikken over plannen voor crisiscommunicatie voor ICT-gerelateerde incidenten."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art16 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 16: Vereenvoudigd ICT-risicobeheerkader"@nl ;
+    rdfs:label "DORA Article 16: Simplified ICT risk management framework"@en ;
+    compl:articleRef "art. 16" ;
+    compl:requirementText "Kleine financiele entiteiten passen een vereenvoudigd ICT-risicobeheerkader toe overeenkomstig hun omvang en risicoprofiel."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art17 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 17: Beheer van ICT-gerelateerde incidenten"@nl ;
+    rdfs:label "DORA Article 17: ICT incident management"@en ;
+    compl:articleRef "art. 17" ;
+    compl:requirementText "Financiele entiteiten definieren stellen vast en implementeren een beheersproces voor ICT-gerelateerde incidenten."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art18 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 18: Classificatie van ICT-gerelateerde incidenten"@nl ;
+    rdfs:label "DORA Article 18: ICT incident classification"@en ;
+    compl:articleRef "art. 18" ;
+    compl:requirementText "Financiele entiteiten classificeren ICT-gerelateerde incidenten en bepalen de impact aan de hand van vastgestelde criteria."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+ext:DORA_Art19 rdf:type ext:DORARequirement , owl:NamedIndividual ;
+    rdfs:label "DORA Artikel 19: Melding van ernstige ICT-gerelateerde incidenten"@nl ;
+    rdfs:label "DORA Article 19: Reporting major ICT-related incidents"@en ;
+    compl:articleRef "art. 19" ;
+    compl:requirementText "Financiele entiteiten rapporteren ernstige ICT-gerelateerde incidenten aan de relevante bevoegde autoriteit via een initieel rapport tussentijds rapport en eindrapport."@nl ;
+    compl:derivedFrom fw:DORA_Regulation .
+
+# DORA -> ISO 27002 koppelingen
+
+ext:DORA_Art6 compl:satisfiedBy ctrl:ISO27002_5_01 , ctrl:ISO27002_5_09 .
+
+ext:DORA_Art8 compl:satisfiedBy ctrl:ISO27002_5_09 , ctrl:ISO27002_8_09 .
+
+ext:DORA_Art9 compl:satisfiedBy ctrl:ISO27002_8_07 , ctrl:ISO27002_8_08 , ctrl:ISO27002_5_15 .
+
+ext:DORA_Art10 compl:satisfiedBy ctrl:ISO27002_8_15 , ctrl:ISO27002_8_16 .
+
+ext:DORA_Art11 compl:satisfiedBy ctrl:ISO27002_5_29 , ctrl:ISO27002_5_30 .
+
+ext:DORA_Art12 compl:satisfiedBy ctrl:ISO27002_8_13 .
+
+ext:DORA_Art17 compl:satisfiedBy ctrl:ISO27002_5_24 , ctrl:ISO27002_5_25 .
+
+ext:DORA_Art19 compl:satisfiedBy ctrl:ISO27002_5_26 , ctrl:ISO27002_6_08 .
+
+# =============================================================================
+# SKOS MAPPINGS: DORA artikelen → ISO 27002 controls
+# Validatieniveau: analytisch (expert-mapping op basis van DORA-tekst en ISO 27002-controltitels)
+# Toegevoegd: 2026-03-26
+# =============================================================================
+
+# Art. 5 (ICT-governance) → IB-beleid, rollen, managementverantwoordelijkheid
+ext:DORA_Art5
+    skos:relatedMatch ctrl:ISO27002_5_01 ;    # Beleidsregels voor IB
+    skos:relatedMatch ctrl:ISO27002_5_02 ;    # Rollen en verantwoordelijkheden
+    skos:relatedMatch ctrl:ISO27002_5_04 .    # Managementverantwoordelijkheden
+
+# Art. 6 (ICT-risicobeheerkader) → risicomanagement, beleid, inventarisatie
+ext:DORA_Art6
+    skos:relatedMatch ctrl:ISO27002_5_01 ;    # Beleidsregels voor IB
+    skos:relatedMatch ctrl:ISO27002_5_09 .    # Inventarisatie bedrijfsmiddelen
+
+# Art. 7 (ICT-systemen, protocollen, tools) → configuratiebeheer, kwetsbaarheden, wijzigingsbeheer
+ext:DORA_Art7
+    skos:relatedMatch ctrl:ISO27002_8_09 ;    # Configuratiebeheer
+    skos:relatedMatch ctrl:ISO27002_8_08 ;    # Beheer technische kwetsbaarheden
+    skos:relatedMatch ctrl:ISO27002_8_32 .    # Wijzigingsbeheer
+
+# Art. 8 (Identificatie) → inventarisatie, classificatie
+ext:DORA_Art8
+    skos:relatedMatch ctrl:ISO27002_5_09 ;    # Inventarisatie bedrijfsmiddelen
+    skos:relatedMatch ctrl:ISO27002_5_12 ;    # Classificeren van informatie
+    skos:relatedMatch ctrl:ISO27002_8_09 .    # Configuratiebeheer
+
+# Art. 9 (Bescherming en preventie) → brede set technologische controls
+ext:DORA_Art9
+    skos:broadMatch ctrl:ISO27002_5_15 ;      # Toegangsbeveiliging
+    skos:relatedMatch ctrl:ISO27002_8_07 ;    # Bescherming tegen malware
+    skos:relatedMatch ctrl:ISO27002_8_08 ;    # Technische kwetsbaarheden
+    skos:relatedMatch ctrl:ISO27002_8_24 ;    # Cryptografie
+    skos:relatedMatch ctrl:ISO27002_8_20 .    # Beveiliging netwerkcomponenten
+
+# Art. 10 (Detectie) → logging, monitoring
+ext:DORA_Art10
+    skos:relatedMatch ctrl:ISO27002_8_15 ;    # Logging
+    skos:relatedMatch ctrl:ISO27002_8_16 .    # Monitoren van activiteiten
+
+# Art. 11 (Reactie en herstel) → incidentbeheer, BCM
+ext:DORA_Art11
+    skos:relatedMatch ctrl:ISO27002_5_26 ;    # Reageren op incidenten
+    skos:relatedMatch ctrl:ISO27002_5_29 ;    # IB tijdens verstoring
+    skos:relatedMatch ctrl:ISO27002_5_30 .    # ICT-gereedheid BCM
+
+# Art. 12 (Back-up, herstel) → back-up, redundantie
+ext:DORA_Art12
+    skos:relatedMatch ctrl:ISO27002_8_13 ;    # Back-up van informatie
+    skos:relatedMatch ctrl:ISO27002_8_14 .    # Redundantie informatieverwerkende faciliteiten
+
+# Art. 13 (Leren en evolueren) → leren van incidenten, kwetsbaarheden, testen
+ext:DORA_Art13
+    skos:relatedMatch ctrl:ISO27002_5_27 ;    # Leren van incidenten
+    skos:relatedMatch ctrl:ISO27002_8_08 ;    # Beheer technische kwetsbaarheden
+    skos:relatedMatch ctrl:ISO27002_8_29 .    # Testen beveiliging tijdens ontwikkeling
+
+# Art. 14 (Communicatie) → incidentcommunicatie
+ext:DORA_Art14
+    skos:relatedMatch ctrl:ISO27002_5_05 ;    # Contact met overheidsinstanties
+    skos:relatedMatch ctrl:ISO27002_5_24 .    # Plannen incidentbeheer
+
+# Art. 16 (Vereenvoudigd kader) → geen directe control-mapping (proportionaliteitsbeginsel)
+
+# Art. 17 (ICT-incidentbeheer) → incidentbeheerproces
+ext:DORA_Art17
+    skos:relatedMatch ctrl:ISO27002_5_24 ;    # Plannen incidentbeheer
+    skos:relatedMatch ctrl:ISO27002_5_25 ;    # Beoordelen gebeurtenissen
+    skos:relatedMatch ctrl:ISO27002_6_08 .    # Melden gebeurtenissen
+
+# Art. 18 (Classificatie incidenten) → beoordeling gebeurtenissen
+ext:DORA_Art18
+    skos:relatedMatch ctrl:ISO27002_5_25 .    # Beoordelen en besluiten over gebeurtenissen
+
+# Art. 19 (Rapportage incidenten) → meldplicht, bewijsmateriaal
+ext:DORA_Art19
+    skos:relatedMatch ctrl:ISO27002_5_26 ;    # Reageren op incidenten
+    skos:relatedMatch ctrl:ISO27002_5_28 ;    # Verzamelen bewijsmateriaal
+    skos:relatedMatch ctrl:ISO27002_6_08 .    # Melden gebeurtenissen
+
+# =============================================================================
+# EINDE MODULE M12
+# =============================================================================
+

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>GRC Kennismodel Explorer — Rijksoverheidsorganisatie</title>
+  <script src="grc-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+  <style>
+    /* ── RESET & BASE ── */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:#f5f6fa; color:#1a202c; height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+
+    /* ── HEADER ── */
+    #header { background:#1e3a5f; color:#fff; padding:12px 24px; display:flex; align-items:center; gap:14px; flex-shrink:0; box-shadow:0 2px 6px rgba(0,0,0,.2); }
+    .logo { width:34px; height:34px; background:#2563eb; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:700; }
+    #header h1 { font-size:16px; font-weight:600; }
+    #header .sub { font-size:11px; color:rgba(255,255,255,.6); }
+    #headerMeta { margin-left:auto; font-size:11px; color:rgba(255,255,255,.5); text-align:right; line-height:1.6; }
+
+    /* ── TABS ── */
+    #tabBar { background:#fff; border-bottom:2px solid #e2e8f0; padding:0 24px; display:flex; flex-shrink:0; box-shadow:0 1px 3px rgba(0,0,0,.06); z-index:50; }
+    .tab-btn { padding:13px 20px; background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; cursor:pointer; font-size:13px; font-weight:500; color:#718096; transition:all .15s; white-space:nowrap; }
+    .tab-btn:hover { color:#2563eb; }
+    .tab-btn.active { color:#2563eb; border-bottom-color:#2563eb; font-weight:600; }
+
+    /* ── PANELS ── */
+    .tab-panel { display:none; flex:1; overflow:auto; }
+    .tab-panel.active { display:block; }
+    #tab3.active { display:flex; flex-direction:column; overflow:hidden; }
+
+    /* ── CARD ── */
+    .card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+    .card h2 { font-size:14px; font-weight:600; color:#2d3748; margin-bottom:3px; }
+    .card-sub { font-size:11px; color:#a0aec0; margin-bottom:14px; }
+
+    /* ── TOOLTIP ── */
+    #tooltip { position:fixed; background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:7px 11px; font-size:12px; pointer-events:none; display:none; z-index:9999; max-width:230px; box-shadow:0 2px 8px rgba(0,0,0,.12); }
+
+    /* ══════════════════════════════════════════
+       TAB 1 — IN CONTROL?
+    ══════════════════════════════════════════ */
+    #tab1 { padding:20px 24px; }
+    .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+    .kpi { background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; text-align:center; }
+    .kpi-val { font-size:26px; font-weight:700; color:#2563eb; }
+    .kpi-lbl { font-size:11px; color:#718096; margin-top:2px; }
+    .main-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+
+    /* Sunburst */
+    #sbSvg { display:block; margin:0 auto; }
+    #sbLegend { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin-top:12px; }
+    .li { display:flex; align-items:center; gap:5px; font-size:11px; color:#4a5568; }
+    .ld { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+    /* Scorecard */
+    .sc-item { margin-bottom:10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:7px; cursor:pointer; transition:background .12s; }
+    .sc-item:hover { background:#f7f9fc; }
+    .sc-item.sel { background:#eff6ff; border-color:#bfdbfe; }
+    .sc-hd { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+    .sc-name { font-size:12px; font-weight:500; }
+    .sc-pct { font-size:13px; font-weight:700; }
+    .bar-bg { height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden; }
+    .bar-fg { height:100%; border-radius:3px; transition:width .5s; }
+    .sc-meta { font-size:10px; color:#a0aec0; margin-top:4px; }
+
+    /* Detail table */
+    #dtWrap { display:none; margin-top:20px; }
+    #dtTable { width:100%; border-collapse:collapse; font-size:12px; }
+    #dtTable th { background:#f7f9fc; padding:8px 10px; text-align:left; font-weight:600; border-bottom:2px solid #e2e8f0; color:#4a5568; font-size:11px; }
+    #dtTable td { padding:6px 10px; border-bottom:1px solid #f0f2f5; }
+    #dtTable tr:hover td { background:#fafbff; }
+
+    /* ══════════════════════════════════════════
+       TAB 2 — WET ↔ CONTROL
+    ══════════════════════════════════════════ */
+    #tab2 { padding:20px 24px; }
+    .ctrl-row { display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+    #mSearch { flex:1; min-width:200px; padding:8px 12px; border:1px solid #e2e8f0; border-radius:6px; font-size:13px; }
+    #mSearch:focus { outline:none; border-color:#2563eb; }
+    .tog { display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer; user-select:none; }
+    .tog input { cursor:pointer; accent-color:#2563eb; }
+    .exp-btn { background:#2563eb; color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:500; }
+    .exp-btn:hover { background:#1d4ed8; }
+
+    .mx-wrap { overflow-x:auto; }
+    #mxTable { width:100%; border-collapse:collapse; font-size:12px; min-width:640px; }
+    #mxTable thead th { background:#1e3a5f; color:#fff; padding:10px 12px; text-align:center; font-size:11px; font-weight:600; }
+    #mxTable thead th:first-child { text-align:left; min-width:240px; }
+    #mxTable tbody tr { border-bottom:1px solid #f0f2f5; }
+    #mxTable tbody tr:hover td { background:#fafbff; }
+    #mxTable tbody tr.mfw { background:#f0fdf4; }
+    #mxTable tbody tr.mfw:hover td { background:#dcfce7; }
+    #mxTable td { padding:7px 10px; }
+    #mxTable td:not(:first-child) { text-align:center; }
+    .cn { max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .mbadge { background:#16a34a; color:#fff; font-size:9px; font-weight:700; padding:1px 5px; border-radius:8px; margin-left:5px; }
+    .mdot { display:inline-block; width:18px; height:18px; background:#16a34a; border-radius:50%; color:#fff; font-size:12px; line-height:18px; text-align:center; cursor:pointer; }
+    .mdot:hover { transform:scale(1.2); }
+    .nodot { color:#cbd5e0; }
+    .mx-stats { margin-top:10px; font-size:12px; color:#718096; }
+    .mx-stats strong { color:#2563eb; }
+
+    /* Popup */
+    #popOv { display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:500; align-items:center; justify-content:center; }
+    #popOv.show { display:flex; }
+    #pop { background:#fff; border-radius:10px; padding:20px; max-width:480px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,.18); }
+    #pop h3 { font-size:14px; margin-bottom:3px; }
+    .pop-sub { font-size:11px; color:#718096; margin-bottom:12px; }
+    .pop-row { font-size:12px; margin-bottom:8px; padding:8px; background:#f7f9fc; border-radius:5px; }
+    .pop-key { color:#a0aec0; font-size:10px; display:block; margin-bottom:2px; }
+    .pop-close { background:#f0f2f5; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px; margin-top:8px; }
+
+    /* ══════════════════════════════════════════
+       TAB 3 — VERKENNER
+    ══════════════════════════════════════════ */
+    #expBar { padding:12px 20px; background:#fff; border-bottom:1px solid #e2e8f0; display:flex; gap:10px; align-items:center; flex-shrink:0; }
+    .sw { position:relative; flex:1; max-width:500px; }
+    #expSearch { width:100%; padding:9px 12px; border:2px solid #e2e8f0; border-radius:8px; font-size:14px; }
+    #expSearch:focus { outline:none; border-color:#2563eb; }
+    #acList { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #e2e8f0; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,.1); z-index:200; max-height:280px; overflow-y:auto; display:none; }
+    .ac-it { padding:8px 12px; cursor:pointer; border-bottom:1px solid #f0f2f5; }
+    .ac-it:last-child { border:none; }
+    .ac-it:hover { background:#eff6ff; }
+    .ac-nm { font-size:13px; font-weight:500; }
+    .ac-mt { font-size:10px; color:#a0aec0; }
+    #nCount { font-size:12px; color:#718096; background:#f7f9fc; padding:5px 10px; border-radius:6px; white-space:nowrap; }
+    .clr-btn { background:#fee2e2; color:#dc2626; border:1px solid #fecaca; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:500; }
+    .clr-btn:hover { background:#fecaca; }
+
+    #expMain { flex:1; display:flex; overflow:hidden; }
+    #cyWrap { flex:1; position:relative; }
+    #cy3 { width:100%; height:100%; background:#fafbff; }
+    #empty3 { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:#cbd5e0; pointer-events:none; }
+    #empty3 .ei { font-size:44px; }
+    #empty3 p { font-size:13px; margin-top:6px; }
+    #empty3 small { font-size:11px; }
+
+    /* Explorer detail */
+    #expDet { width:0; overflow:hidden; background:#fff; border-left:1px solid #e2e8f0; transition:width .2s; flex-shrink:0; }
+    #expDet.open { width:280px; }
+    #expDetC { width:280px; padding:16px; height:100%; overflow-y:auto; }
+    #expDetC h3 { font-size:14px; font-weight:600; padding-right:20px; word-break:break-word; }
+    .ed-en { font-size:11px; color:#718096; margin-bottom:9px; }
+    .ed-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; margin:2px 3px 8px 0; }
+    .ed-sec { margin-top:12px; }
+    .ed-sec h4 { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:#a0aec0; margin-bottom:5px; }
+    .ed-row { font-size:11px; margin-bottom:3px; }
+    .ed-key { color:#718096; }
+    .rchip { display:inline-block; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:2px 7px; border-radius:3px; font-size:10px; margin:2px; cursor:pointer; }
+    .rchip:hover { background:#dbeafe; }
+    #closeED { float:right; background:none; border:none; cursor:pointer; font-size:17px; color:#a0aec0; }
+    #closeED:hover { color:#4a5568; }
+    .nav-cw { background:#1e3a5f; color:#fff; border:none; padding:7px 12px; border-radius:6px; cursor:pointer; font-size:11px; width:100%; margin-top:10px; }
+    .nav-cw:hover { background:#2563eb; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:5px; height:5px; }
+    ::-webkit-scrollbar-track { background:#f0f2f5; }
+    ::-webkit-scrollbar-thumb { background:#cbd5e0; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="logo">G</div>
+  <div>
+    <h1>GRC Kennismodel Explorer</h1>
+    <div class="sub">Rijksoverheidsorganisatie — Informatiebeveiliging v4.2.1</div>
+  </div>
+  <div id="headerMeta"></div>
+</div>
+
+<!-- TABS -->
+<div id="tabBar">
+  <button class="tab-btn active" data-tab="tab1" onclick="switchTab('tab1',this)">✓ In control?</button>
+  <button class="tab-btn"        data-tab="tab2" onclick="switchTab('tab2',this)">⇄ Wet ↔ Control</button>
+  <button class="tab-btn"        data-tab="tab3" onclick="switchTab('tab3',this)">◎ Verkenner</button>
+</div>
+
+<!-- ══ TAB 1 ══ -->
+<div id="tab1" class="tab-panel active">
+  <div class="kpi-row" id="kpiRow"></div>
+  <div class="main-grid">
+    <div class="card">
+      <h2>Verdeling normenkader-lagen</h2>
+      <div class="card-sub">Aantal individuals per laag — klik segment om scorecard te filteren</div>
+      <svg id="sbSvg" width="260" height="260" viewBox="0 0 260 260"></svg>
+      <div id="sbLegend"></div>
+    </div>
+    <div class="card">
+      <h2>Framework coverage scorecard</h2>
+      <div class="card-sub">% ctrl/bio-controls met ≥1 cross-framework SKOS-mapping (direct of 2-hop)</div>
+      <div id="scorecard"></div>
+    </div>
+  </div>
+  <div id="dtWrap" class="card">
+    <h2 id="dtTitle">Gemapte controls</h2>
+    <div class="card-sub" id="dtSub"></div>
+    <div style="overflow-x:auto;margin-top:12px">
+      <table id="dtTable">
+        <thead><tr><th>ID</th><th>Label</th><th>Relatie</th><th>Doel</th><th>Via</th></tr></thead>
+        <tbody id="dtBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 2 ══ -->
+<div id="tab2" class="tab-panel">
+  <div class="card">
+    <h2>Crosswalk matrix: BIO 2.0 ↔ Wet- en regelgeving</h2>
+    <div class="card-sub">SKOS-mappings (direct + 2-hop via ISO 27002). Klik ● voor details.</div>
+    <div class="ctrl-row" style="margin-top:12px">
+      <input type="text" id="mSearch" placeholder="🔍 Filter op control-naam…" oninput="filterMx()">
+      <label class="tog"><input type="checkbox" id="multiOnly" onchange="filterMx()"> Alleen multi-framework</label>
+      <button class="exp-btn" onclick="exportCSV()">⬇ CSV</button>
+    </div>
+    <div class="mx-wrap">
+      <table id="mxTable">
+        <thead>
+          <tr>
+            <th>BIO 2.0 Control / Maatregel</th>
+            <th>NIS2</th><th>VIR 2007</th><th>VIRBI</th><th>AVG/GDPR</th><th>ISO 27002</th>
+          </tr>
+        </thead>
+        <tbody id="mxBody"></tbody>
+      </table>
+    </div>
+    <div class="mx-stats" id="mxStats"></div>
+  </div>
+</div>
+
+<!-- ══ TAB 3 ══ -->
+<div id="tab3" class="tab-panel">
+  <div id="expBar">
+    <div class="sw">
+      <input type="text" id="expSearch" placeholder="🔍 Zoek een framework, control, wet of rol…"
+             oninput="onExpSearch(this.value)" onfocus="onExpSearch(this.value)">
+      <div id="acList"></div>
+    </div>
+    <div id="nCount">0 nodes</div>
+    <button class="clr-btn" onclick="clearCy()">✕ Wis canvas</button>
+  </div>
+  <div id="expMain">
+    <div id="cyWrap">
+      <div id="cy3"></div>
+      <div id="empty3">
+        <div class="ei">◎</div>
+        <p>Zoek een individual om te beginnen</p>
+        <small>Klik op een zoekresultaat → node + directe buren<br>Klik op buur → expand &nbsp;|&nbsp; Dubbelklik → zoom<br>Rechtermuisklik → maak startpunt</small>
+      </div>
+    </div>
+    <div id="expDet">
+      <div id="expDetC">
+        <button id="closeED" onclick="closeExpDet()">×</button>
+        <div id="expDetBody"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup -->
+<div id="popOv" onclick="closePop(event)">
+  <div id="pop">
+    <h3 id="popTitle"></h3>
+    <div class="pop-sub" id="popSub"></div>
+    <div id="popBody"></div>
+    <button class="pop-close" onclick="closePop()">Sluiten</button>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// 0. GUARD + DATA
+// ══════════════════════════════════════════════════════════════════
+if (!window.GRC_DATA) {
+  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif"><h2 style="color:#dc2626">Fout: grc-data.js niet gevonden</h2><p>Zorg dat grc-data.js naast dit bestand staat. Genereer met: <code>python3 build_grc_explorer.py</code></p></div>';
+  throw new Error('GRC_DATA missing');
+}
+const DATA = window.GRC_DATA;
+
+// ══════════════════════════════════════════════════════════════════
+// 1. CONFIG
+// ══════════════════════════════════════════════════════════════════
+const LAAG = {
+  0: { name:'COSO/Enterprise',    color:'#7c3aed' },
+  1: { name:'IT-governance',      color:'#2563eb' },
+  2: { name:'Wet/regelgeving',    color:'#dc2626' },
+  3: { name:'Operationeel (BIO)', color:'#0891b2' },
+  4: { name:'Normen (ISO/NIST)',  color:'#16a34a' },
+  5: { name:'Audit (ENSIA)',      color:'#d97706' },
+  9: { name:'ISMS/Bedrijf',       color:'#6b7280' },
+};
+
+// Scorecard frameworks
+const FWS = [
+  { key:'NIS2',    label:'NIS2',       sub:'Laag 2 — EU-richtlijn',    fn: id => /nis2/i.test(id) },
+  { key:'VIR',     label:'VIR 2007',   sub:'Laag 2 — Wet',             fn: id => /vir_/i.test(id) && !/virbi/i.test(id) },
+  { key:'VIRBI',   label:'VIRBI 2025', sub:'Laag 2 — Wet',             fn: id => /virbi/i.test(id) },
+  { key:'AVG',     label:'AVG/GDPR',   sub:'Laag 2 — Wet',             fn: id => /avg|gdpr/i.test(id) },
+  { key:'BIO',     label:'BIO 2.0',    sub:'Laag 3 — Operationeel',    fn: id => /bio_2_0/i.test(id) },
+  { key:'ISO1',    label:'ISO 27001',  sub:'Laag 4 — Norm',            fn: id => /iso_iec_27001|iso27001/i.test(id) },
+  { key:'ISO2',    label:'ISO 27002',  sub:'Laag 4 — Norm',            fn: id => /iso_iec_27002|iso27002|^ctrl:/i.test(id) },
+  { key:'NIST',    label:'NIST 800-53',sub:'Laag 4 — Norm',            fn: id => /nist_sp_800|nist_800/i.test(id) },
+  { key:'ENSIA',   label:'ENSIA',      sub:'Laag 5 — Audit',           fn: id => /ensia/i.test(id) },
+];
+
+// Matrix columns (Tab 2)
+const MCOLS = [
+  { key:'NIS2',  label:'NIS2',     fn: id => /nis2/i.test(id) },
+  { key:'VIR',   label:'VIR 2007', fn: id => /vir_/i.test(id) && !/virbi/i.test(id) },
+  { key:'VIRBI', label:'VIRBI',    fn: id => /virbi/i.test(id) },
+  { key:'AVG',   label:'AVG/GDPR', fn: id => /avg|gdpr/i.test(id) },
+  { key:'ISO2',  label:'ISO 27002',fn: id => /iso27002/i.test(id) || id.startsWith('ctrl:') },
+];
+
+// ══════════════════════════════════════════════════════════════════
+// 2. PREPROCESSING
+// ══════════════════════════════════════════════════════════════════
+const nodeMap = {};
+DATA.nodes.forEach(n => nodeMap[n.id] = n);
+
+const outAdj = {}, inAdj = {};
+DATA.edges.forEach(e => {
+  if (!outAdj[e.source]) outAdj[e.source] = [];
+  outAdj[e.source].push(e);
+  if (!inAdj[e.target]) inAdj[e.target] = [];
+  inAdj[e.target].push(e);
+});
+
+const degrees = {};
+DATA.edges.forEach(e => {
+  degrees[e.source] = (degrees[e.source]||0) + 1;
+  degrees[e.target] = (degrees[e.target]||0) + 1;
+});
+
+const laagCounts = {};
+DATA.nodes.forEach(n => laagCounts[n.laag] = (laagCounts[n.laag]||0)+1);
+
+// ── Coverage computation ──
+function computeCov(matchFn) {
+  const relevant = DATA.nodes.filter(n => n.namespace==='ctrl' || n.namespace==='bio');
+  const details = [], mapped = new Set();
+  relevant.forEach(n => {
+    // 1-hop
+    (outAdj[n.id]||[]).forEach(e => {
+      if (matchFn(e.target) && !mapped.has(n.id)) {
+        mapped.add(n.id);
+        details.push({ nodeId:n.id, label:n.label, via:null, target:e.target, relation:e.relation });
+      }
+    });
+    // 2-hop
+    if (!mapped.has(n.id)) {
+      outer: for (const e1 of (outAdj[n.id]||[])) {
+        for (const e2 of (outAdj[e1.target]||[])) {
+          if (matchFn(e2.target)) {
+            mapped.add(n.id);
+            details.push({ nodeId:n.id, label:n.label, via:e1.target, target:e2.target, relation:e2.relation });
+            break outer;
+          }
+        }
+      }
+    }
+  });
+  const total = relevant.length;
+  return { mapped:mapped.size, total, pct: total ? Math.round(mapped.size/total*100) : 0, details };
+}
+
+const covCache = {};
+FWS.forEach(fw => { covCache[fw.key] = computeCov(fw.fn); });
+
+// ── Matrix data ──
+let mxData = [];
+function buildMxData() {
+  const bioNodes = DATA.nodes.filter(n => n.namespace==='bio');
+  mxData = bioNodes.map(n => {
+    const maps = {};
+    MCOLS.forEach(c => maps[c.key] = []);
+
+    // 1-hop
+    (outAdj[n.id]||[]).forEach(e => {
+      MCOLS.forEach(c => {
+        if (c.fn(e.target)) maps[c.key].push({ hop:1, via:null, target:e.target, relation:e.relation });
+      });
+    });
+    // 2-hop
+    (outAdj[n.id]||[]).forEach(e1 => {
+      (outAdj[e1.target]||[]).forEach(e2 => {
+        MCOLS.forEach(c => {
+          if (c.fn(e2.target) && !maps[c.key].some(m => m.target===e2.target)) {
+            maps[c.key].push({ hop:2, via:e1.target, target:e2.target, relation:e2.relation });
+          }
+        });
+      });
+    });
+
+    const fwCnt = MCOLS.filter(c => maps[c.key].length > 0).length;
+    return { node:n, maps, fwCnt };
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+// 3. TAB NAVIGATION
+// ══════════════════════════════════════════════════════════════════
+let tab2Done = false;
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+  if (id==='tab2' && !tab2Done) { renderMx(); tab2Done=true; }
+  if (id==='tab3' && !cyExp) initExp();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// 4. TAB 1 — IN CONTROL?
+// ══════════════════════════════════════════════════════════════════
+function initTab1() {
+  // KPIs
+  const fwCount = DATA.nodes.filter(n => n.namespace==='fw').length;
+  document.getElementById('kpiRow').innerHTML = [
+    [DATA.meta.individuals, 'Individuals'],
+    [DATA.meta.triples.toLocaleString('nl-NL'), 'Triples'],
+    [DATA.meta.skos_mappings, 'SKOS-mappings'],
+    [fwCount, 'Frameworks'],
+  ].map(([v,l]) => `<div class="kpi"><div class="kpi-val">${v}</div><div class="kpi-lbl">${l}</div></div>`).join('');
+
+  document.getElementById('headerMeta').innerHTML =
+    `Gegenereerd: ${DATA.meta.generated}<br>GRC Kennismodel v4.2.1`;
+
+  drawSunburst();
+  renderScorecard(null);
+}
+
+// ── Sunburst ──
+function p2c(cx,cy,r,deg) {
+  const a = (deg-90)*Math.PI/180;
+  return [cx+r*Math.cos(a), cy+r*Math.sin(a)];
+}
+function arc(cx,cy,r1,r2,a1,a2) {
+  const [x1,y1]=p2c(cx,cy,r2,a1), [x2,y2]=p2c(cx,cy,r2,a2);
+  const [x3,y3]=p2c(cx,cy,r1,a2), [x4,y4]=p2c(cx,cy,r1,a1);
+  const lg=(a2-a1)>180?1:0;
+  return `M${x1},${y1} A${r2},${r2} 0 ${lg} 1 ${x2},${y2} L${x3},${y3} A${r1},${r1} 0 ${lg} 0 ${x4},${y4}Z`;
+}
+
+let sbFilter = null;
+function drawSunburst() {
+  const cx=130,cy=130,or=115,ir=54, total=DATA.nodes.length;
+  const segs = Object.entries(laagCounts)
+    .map(([l,cnt]) => ({ l:+l, cnt, cfg:LAAG[+l]||{name:'Overig',color:'#94a3b8'} }))
+    .sort((a,b)=>a.l-b.l);
+
+  let html='', start=0;
+  segs.forEach(({l,cnt,cfg}) => {
+    const sw=(cnt/total)*360;
+    if(sw<0.3){start+=sw;return;}
+    const end=start+sw;
+    const d=arc(cx,cy,ir,or,start,end);
+    const [lx,ly]=p2c(cx,cy,(ir+or)/2,start+sw/2);
+    const op = sbFilter===null||sbFilter===l ? '0.88' : '0.25';
+    html+=`<path d="${d}" fill="${cfg.color}" opacity="${op}" stroke="#fff" stroke-width="2"
+      style="cursor:pointer;transition:opacity .15s"
+      onmouseenter="tt(event,'${cfg.name}: ${cnt} individuals')"
+      onmouseleave="th()"
+      onclick="sbClick(${l})"></path>`;
+    if(sw>18) html+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="9" font-weight="600" pointer-events="none">${cnt}</text>`;
+    start=end;
+  });
+  html+=`<text x="${cx}" y="${cy-8}" text-anchor="middle" fill="#2d3748" font-size="20" font-weight="700">${total}</text>`;
+  html+=`<text x="${cx}" y="${cy+11}" text-anchor="middle" fill="#718096" font-size="10">individuals</text>`;
+  document.getElementById('sbSvg').innerHTML=html;
+
+  document.getElementById('sbLegend').innerHTML = segs.map(({l,cnt,cfg}) =>
+    `<div class="li"><span class="ld" style="background:${cfg.color}"></span>L${l}: ${cfg.name} <strong>(${cnt})</strong></div>`
+  ).join('');
+}
+
+function sbClick(l) {
+  sbFilter = sbFilter===l ? null : l;
+  drawSunburst();
+  renderScorecard(sbFilter);
+}
+
+// ── Scorecard ──
+function pctCol(p) { return p>=80?'#22c55e':p>=50?'#f59e0b':'#ef4444'; }
+
+function renderScorecard(laagFilter) {
+  let fws = FWS;
+  if (laagFilter !== null) {
+    // Show all when no filter match to avoid empty
+    const filtered = FWS.filter(fw => {
+      const laagMap = {0:[0],1:[1],2:[2],3:[3],4:[4],5:[5],9:[9]};
+      return (laagMap[laagFilter]||[]).length===0 || true; // show all — laag filter on scorecard is visual only
+    });
+    // Actually just dim unrelated items instead of hiding
+  }
+  document.getElementById('scorecard').innerHTML = fws.map(fw => {
+    const c=covCache[fw.key];
+    const col=pctCol(c.pct);
+    return `<div class="sc-item" onclick="showDT('${fw.key}','${fw.label}',event)">
+      <div class="sc-hd">
+        <span class="sc-name">${fw.label} <span style="font-size:10px;color:#a0aec0">— ${fw.sub}</span></span>
+        <span class="sc-pct" style="color:${col}">${c.pct}%</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fg" style="width:${c.pct}%;background:${col}"></div></div>
+      <div class="sc-meta">${c.mapped} van ${c.total} controls gemapped</div>
+    </div>`;
+  }).join('');
+}
+
+function showDT(key, label, event) {
+  document.querySelectorAll('.sc-item').forEach(e=>e.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+  const c=covCache[key];
+  document.getElementById('dtTitle').textContent=`${label} — gemapte controls`;
+  document.getElementById('dtSub').textContent=`${c.details.length} resultaten`;
+  document.getElementById('dtBody').innerHTML = c.details.map(d=>{
+    const vn=d.via?nodeMap[d.via]:null, tn=nodeMap[d.target];
+    return `<tr>
+      <td style="font-size:10px;color:#a0aec0">${d.nodeId}</td>
+      <td>${d.label}</td>
+      <td><span style="background:#eff6ff;color:#2563eb;padding:1px 6px;border-radius:8px;font-size:10px">${d.relation}</span></td>
+      <td style="font-size:11px">${tn?tn.label:d.target}</td>
+      <td style="font-size:10px;color:#a0aec0">${vn?vn.label:(d.via||'—')}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="5" style="text-align:center;color:#a0aec0;padding:14px">Geen mappings gevonden</td></tr>';
+  const w=document.getElementById('dtWrap');
+  w.style.display='block';
+  w.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ══════════════════════════════════════════════════════════════════
+// 5. TAB 2 — CROSSWALK MATRIX
+// ══════════════════════════════════════════════════════════════════
+let mxFilter='', mxMulti=false;
+
+function renderMx() {
+  const q=mxFilter.toLowerCase(), multiOnly=mxMulti;
+  let rows=mxData.filter(r=>{
+    if(q && !r.node.label.toLowerCase().includes(q)) return false;
+    if(multiOnly && r.fwCnt<2) return false;
+    return true;
+  });
+  rows.sort((a,b)=>b.fwCnt-a.fwCnt||a.node.label.localeCompare(b.node.label));
+
+  document.getElementById('mxBody').innerHTML = rows.map(r=>{
+    const isM=r.fwCnt>=2;
+    const cells=MCOLS.map(c=>{
+      const ms=r.maps[c.key];
+      return ms.length
+        ? `<td><span class="mdot" onclick="showPop('${r.node.id.replace(/'/g,"\\'")}','${c.key}','${r.node.label.replace(/'/g,"\\'")}','${c.label}')">●</span></td>`
+        : `<td><span class="nodot">–</span></td>`;
+    }).join('');
+    return `<tr class="${isM?'mfw':''}">
+      <td><span class="cn" title="${r.node.label}">${r.node.label.substring(0,60)}${r.node.label.length>60?'…':''}</span>${isM?'<span class="mbadge">Multi</span>':''}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  const tot=mxData.filter(r=>r.fwCnt>0).length;
+  const t3=mxData.filter(r=>r.fwCnt>=3).length;
+  document.getElementById('mxStats').innerHTML=
+    `<strong>${tot}</strong> van de <strong>${mxData.length}</strong> BIO-controls hebben een cross-framework mapping &nbsp;·&nbsp; <strong>${t3}</strong> controls dekken 3 of meer frameworks`;
+}
+
+function filterMx() {
+  mxFilter=document.getElementById('mSearch').value;
+  mxMulti=document.getElementById('multiOnly').checked;
+  renderMx();
+}
+
+function showPop(nodeId, colKey, nodeName, colLabel) {
+  const row=mxData.find(r=>r.node.id===nodeId);
+  if(!row)return;
+  const ms=row.maps[colKey];
+  document.getElementById('popTitle').textContent=nodeName;
+  document.getElementById('popSub').textContent=`Mapping naar ${colLabel}`;
+  document.getElementById('popBody').innerHTML=ms.map(m=>{
+    const tn=nodeMap[m.target], vn=m.via?nodeMap[m.via]:null;
+    return `<div class="pop-row">
+      <span class="pop-key">Relatie</span><strong>${m.relation}</strong> <span style="color:#a0aec0;font-size:10px">(${m.hop===1?'direct':'2-hop'})</span>
+      <span class="pop-key" style="margin-top:6px">Doel-individual</span>${tn?tn.label:m.target}<br><span style="color:#a0aec0;font-size:10px">${m.target}</span>
+      ${m.via?`<span class="pop-key" style="margin-top:4px">Via</span>${vn?vn.label:m.via}`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('popOv').classList.add('show');
+}
+
+function closePop(e) {
+  if(!e||e.target===document.getElementById('popOv')||e.target.classList.contains('pop-close'))
+    document.getElementById('popOv').classList.remove('show');
+}
+
+function exportCSV() {
+  const hdr=['BIO ID','Label',...MCOLS.map(c=>c.label)].join(';');
+  const rows=mxData.map(r=>[
+    r.node.id,
+    `"${r.node.label.replace(/"/g,'""')}"`,
+    ...MCOLS.map(c=>r.maps[c.key].length?'1':'0')
+  ].join(';'));
+  const blob=new Blob(['\ufeff'+[hdr,...rows].join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='grc-crosswalk-bio.csv';
+  a.click();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// 6. TAB 3 — VERKENNER
+// ══════════════════════════════════════════════════════════════════
+let cyExp=null;
+const expNodes=new Set();
+const MAX_N=60;
+
+function nsz(id){ return Math.max(24,Math.min(48,24+(degrees[id]||0)*0.5)); }
+
+function cy3Styles() {
+  const ns=Object.entries(LAAG).map(([l,c])=>({
+    selector:`node[laag = ${l}]`, style:{'background-color':c.color}
+  }));
+  return [
+    { selector:'node', style:{
+      'width':'data(size)','height':'data(size)','label':'data(label)',
+      'color':'#2d3748','font-size':10,'text-valign':'bottom','text-halign':'center',
+      'text-margin-y':3,'text-wrap':'ellipsis','text-max-width':80,
+      'border-width':1.5,'border-color':'rgba(0,0,0,.1)',
+      'text-outline-width':2,'text-outline-color':'#fafbff',
+    }},
+    { selector:'node.start', style:{'border-width':3,'border-color':'#1e3a5f','font-size':11,'font-weight':'bold'}},
+    { selector:'node:selected', style:{'border-width':2.5,'border-color':'#2563eb'}},
+    { selector:'edge', style:{
+      'curve-style':'bezier','line-color':'#cbd5e0','target-arrow-color':'#cbd5e0',
+      'target-arrow-shape':'triangle','arrow-scale':0.6,'opacity':0.55,
+      'label':'data(relation)','font-size':8,'color':'#94a3b8',
+      'text-outline-color':'#fafbff','text-outline-width':1.5,'text-rotation':'autorotate',
+    }},
+    ...ns,
+  ];
+}
+
+function initExp() {
+  cyExp=cytoscape({
+    container:document.getElementById('cy3'),
+    elements:[],
+    style:cy3Styles(),
+    minZoom:0.08, maxZoom:8, wheelSensitivity:0.25,
+  });
+
+  let lastTap=0;
+  cyExp.on('tap','node',function(e){
+    const now=Date.now(), nd=e.target;
+    if(now-lastTap<300){ cyExp.fit(nd.closedNeighborhood(),80); lastTap=0; return; }
+    lastTap=now;
+    showExpDet(nd.data());
+    if(expNodes.size<MAX_N) expandNode(nd.id(), true);
+  });
+
+  cyExp.on('cxttap','node',function(e){
+    const id=e.target.id();
+    clearCy(); loadEgo(id);
+  });
+
+  const tt=document.getElementById('tooltip');
+  cyExp.on('mouseover','node',function(e){
+    const d=e.target.data();
+    tt.innerHTML=`<strong>${d.label}</strong><br><span style="color:#718096">${d.type||''}</span>`;
+    tt.style.display='block';
+  });
+  cyExp.on('mousemove','node',function(e){
+    tt.style.left=(e.originalEvent.clientX+12)+'px';
+    tt.style.top=(e.originalEvent.clientY-6)+'px';
+  });
+  cyExp.on('mouseout','node',function(){ tt.style.display='none'; });
+}
+
+function addN(nd,isStart){
+  if(expNodes.has(nd.id)||expNodes.size>=MAX_N)return;
+  expNodes.add(nd.id);
+  cyExp.add({data:{
+    id:nd.id, label:nd.label, label_en:nd.label_en, type:nd.type,
+    laag:nd.laag, laag_naam:nd.laag_naam, namespace:nd.namespace,
+    uri:nd.uri, size:nsz(nd.id),
+  }, classes:isStart?'start':''});
+}
+
+function addE(e,uid){
+  if(!expNodes.has(e.source)||!expNodes.has(e.target))return;
+  const eid='ee'+uid;
+  if(cyExp.$id(eid).length)return;
+  cyExp.add({data:{id:eid,source:e.source,target:e.target,relation:e.relation,category:e.category}});
+}
+
+function loadEgo(nodeId){
+  const nd=nodeMap[nodeId]; if(!nd)return;
+  document.getElementById('empty3').style.display='none';
+  addN(nd,true);
+  const outs=(outAdj[nodeId]||[]).slice(0,30);
+  const ins=(inAdj[nodeId]||[]).slice(0,20);
+  [...outs].forEach((e,i)=>{ const p=nodeMap[e.target]; if(p){addN(p,false); addE(e,i);} });
+  [...ins].forEach((e,i)=>{ const p=nodeMap[e.source]; if(p){addN(p,false); addE({source:e.source,target:nodeId,relation:e.relation,category:e.category},1000+i);} });
+  runLayout(); updN();
+}
+
+function expandNode(nodeId, runLay){
+  (outAdj[nodeId]||[]).slice(0,15).forEach((e,i)=>{ const p=nodeMap[e.target]; if(p){addN(p,false); addE(e,2000+i);} });
+  (inAdj[nodeId]||[]).slice(0,10).forEach((e,i)=>{ const p=nodeMap[e.source]; if(p){addN(p,false); addE({source:e.source,target:nodeId,relation:e.relation,category:e.category},3000+i);} });
+  if(runLay) runLayout(); updN();
+}
+
+function runLayout(){
+  const n=cyExp.nodes().length;
+  cyExp.layout(n<=15
+    ? {name:'concentric',concentric:nd=>(degrees[nd.id()]||0),levelWidth:()=>2,padding:50,animate:false}
+    : {name:'cose',animate:false,randomize:true,nodeRepulsion:()=>8000,idealEdgeLength:()=>80,numIter:300}
+  ).run();
+}
+
+function clearCy(){
+  if(cyExp) cyExp.elements().remove();
+  expNodes.clear();
+  document.getElementById('empty3').style.display='';
+  document.getElementById('expDet').classList.remove('open');
+  updN();
+}
+
+function updN(){ document.getElementById('nCount').textContent=expNodes.size+' nodes'; }
+
+// Autocomplete
+let acT;
+function onExpSearch(v){
+  clearTimeout(acT);
+  const ac=document.getElementById('acList');
+  if(!v.trim()){ac.style.display='none';return;}
+  acT=setTimeout(()=>{
+    const q=v.toLowerCase();
+    const ms=DATA.nodes.filter(n=>n.label.toLowerCase().includes(q)||n.id.toLowerCase().includes(q)).slice(0,12);
+    if(!ms.length){ac.style.display='none';return;}
+    ac.innerHTML=ms.map(n=>{
+      const c=LAAG[n.laag]||LAAG[9];
+      return `<div class="ac-it" onclick="pickAC('${n.id.replace(/'/g,"\\'")}')">
+        <div class="ac-nm">${n.label}</div>
+        <div class="ac-mt"><span style="color:${c.color};font-weight:600">${n.laag_naam}</span> · ${n.type}</div>
+      </div>`;
+    }).join('');
+    ac.style.display='block';
+  },120);
+}
+
+function pickAC(id){
+  document.getElementById('acList').style.display='none';
+  document.getElementById('expSearch').value='';
+  if(!cyExp) initExp();
+  loadEgo(id);
+}
+
+document.addEventListener('click',e=>{ if(!e.target.closest('.sw')) document.getElementById('acList').style.display='none'; });
+
+// Explorer detail panel
+function showExpDet(d){
+  document.getElementById('expDet').classList.add('open');
+  const cfg=LAAG[d.laag]||LAAG[9];
+  const outs=DATA.edges.filter(e=>e.source===d.id);
+  const ins=DATA.edges.filter(e=>e.target===d.id);
+
+  const grps={};
+  outs.forEach(e=>{ if(!grps[e.category])grps[e.category]=[]; grps[e.category].push(e); });
+
+  const relH=Object.entries(grps).map(([cat,edges])=>{
+    const chips=edges.slice(0,8).map(e=>{
+      const p=nodeMap[e.target];
+      return `<span class="rchip" onclick="pickAC('${e.target.replace(/'/g,"\\'")}')">
+        ${p?p.label.substring(0,28):e.target}
+      </span>`;
+    }).join('')+(edges.length>8?`<span class="rchip" style="background:#f0f2f5;color:#718096">+${edges.length-8}</span>`:'');
+    return `<div style="margin-bottom:8px"><div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">${cat}</div>${chips}</div>`;
+  }).join('');
+
+  document.getElementById('expDetBody').innerHTML=`
+    <h3>${d.label}</h3>
+    ${d.label_en&&d.label_en!==d.label?`<div class="ed-en">${d.label_en}</div>`:''}
+    <span class="ed-badge" style="background:${cfg.color}22;color:${cfg.color};border:1px solid ${cfg.color}44">L${d.laag}: ${d.laag_naam}</span>
+    <span class="ed-badge" style="background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe">${d.type||'Individual'}</span>
+    <div class="ed-sec">
+      <h4>Details</h4>
+      <div class="ed-row"><span class="ed-key">Namespace: </span>${d.namespace||'—'}</div>
+      <div class="ed-row"><span class="ed-key">Connecties: </span>${degrees[d.id]||0} (${outs.length}↑ ${ins.length}↓)</div>
+      <div class="ed-row" style="word-break:break-all;color:#2563eb;font-size:10px">${d.uri||''}</div>
+    </div>
+    ${relH?`<div class="ed-sec"><h4>Relaties (${outs.length})</h4>${relH}</div>`:''}
+    <button class="nav-cw" onclick="switchTab('tab2',document.querySelector('[data-tab=tab2]'));setTimeout(()=>{document.getElementById('mSearch').value='${d.label.replace(/'/g,"\\'").substring(0,30)}';filterMx();},200)">
+      ⇄ Bekijk in Wet ↔ Control matrix
+    </button>`;
+}
+
+function closeExpDet(){
+  document.getElementById('expDet').classList.remove('open');
+}
+
+// ── Shared tooltip helpers ──
+function tt(e,msg){ const t=document.getElementById('tooltip'); t.innerHTML=msg; t.style.display='block'; t.style.left=(e.clientX+12)+'px'; t.style.top=(e.clientY-6)+'px'; }
+function th(){ document.getElementById('tooltip').style.display='none'; }
+
+// ══════════════════════════════════════════════════════════════════
+// 7. BOOT
+// ══════════════════════════════════════════════════════════════════
+buildMxData();
+initTab1();
+</script>
+</body>
+</html>

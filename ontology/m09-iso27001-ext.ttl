@@ -1,0 +1,717 @@
+@prefix fw:      <https://grc.example.org/framework/> .
+@prefix ctrl:    <https://grc.example.org/control/> .
+@prefix risk:    <https://grc.example.org/risk/> .
+@prefix roles:   <https://grc.example.org/roles/> .
+@prefix compl:   <https://grc.example.org/compliance/> .
+@prefix isms:    <https://grc.example.org/isms/> .
+@prefix biz:     <https://grc.example.org/business/> .
+@prefix bio:     <https://grc.example.org/bio/> .
+@prefix ext:     <https://grc.example.org/extended/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix csf:     <https://grc.example.org/csf/> .
+
+# =============================================================================
+# GRC Ontologie — Module M9: ISO 27001:2022 Extended
+# Versie: 4.0.0-alpha | Datum: 2026-03-19 | Profiel: OWL 2 DL
+# =============================================================================
+
+<https://grc.example.org/ontology/m09-iso27001-ext>
+    rdf:type owl:Ontology ;
+    rdfs:label "GRC Ontologie Module M9 — ISO 27001:2022 Extended"@nl ;
+    rdfs:label "GRC Ontology Module M9 — ISO 27001:2022 Extended"@en ;
+    owl:imports <https://grc.example.org/ontology/> .
+
+# === M9 UITGEBREID — ISO/IEC 27001:2022 (41 clausules) ===
+
+# ═══════════════════════════════════════════════════════════════
+# MODULE M9 (uitgebreid) — ISO/IEC 27001:2022 alle clausules 4-10
+# 42 genummerde clausules incl. alle sub-subclauses
+# ═══════════════════════════════════════════════════════════════
+
+ext:ISO27001_4 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Context van de organisatie"@nl ;
+    rdfs:label "Understanding the Context of the Organization"@en ;
+    ext:clauseNumber "4" ;
+    compl:requirementText "De organisatie bepaalt externe en interne kwesties die relevant zijn voor haar doel en die van invloed zijn op haar ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_4_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Inzicht in de organisatie en haar context"@nl ;
+    rdfs:label "Understanding the organization and its context"@en ;
+    ext:clauseNumber "4.1" ;
+    compl:requirementText "De organisatie bepaalt externe en interne kwesties die relevant zijn voor haar doel en die van invloed zijn op haar vermogen het beoogde resultaat van haar ISMS te bereiken."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_4_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Inzicht in de behoeften en verwachtingen van belanghebbenden"@nl ;
+    rdfs:label "Understanding needs and expectations of interested parties"@en ;
+    ext:clauseNumber "4.2" ;
+    compl:requirementText "De organisatie bepaalt de relevante belanghebbenden die relevant zijn voor het ISMS en hun relevante eisen, inclusief wettelijke en regelgevende eisen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_4_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Toepassingsgebied van het ISMS bepalen"@nl ;
+    rdfs:label "Determining the scope of the ISMS"@en ;
+    ext:clauseNumber "4.3" ;
+    compl:requirementText "De organisatie bepaalt de grenzen en toepasselijkheid van het ISMS om de reikwijdte ervan vast te stellen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_4_4 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Informatiebeveiligingsbeheersysteem"@nl ;
+    rdfs:label "Information security management system"@en ;
+    ext:clauseNumber "4.4" ;
+    compl:requirementText "De organisatie zet een ISMS op, implementeert, onderhoudt en verbetert dit voortdurend conform de eisen van deze norm."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_5 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Leiderschap"@nl ;
+    rdfs:label "Leadership"@en ;
+    ext:clauseNumber "5" ;
+    compl:requirementText "Het topmanagement toont leiderschap en betrokkenheid bij het ISMS door middel van beleid, rollen en verantwoordelijkheden."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_5_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Leiderschap en betrokkenheid"@nl ;
+    rdfs:label "Leadership and commitment"@en ;
+    ext:clauseNumber "5.1" ;
+    compl:requirementText "Het topmanagement geeft blijk van leiderschap en betrokkenheid met betrekking tot het ISMS door een IB-beleid vast te stellen en middelen beschikbaar te stellen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_5_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Beleid"@nl ;
+    rdfs:label "Policy"@en ;
+    ext:clauseNumber "5.2" ;
+    compl:requirementText "Het topmanagement stelt een informatiebeveiligingsbeleid vast dat past bij het doel van de organisatie en IB-doelstellingen bevat of een kader biedt voor het vaststellen daarvan."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_5_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Rollen, verantwoordelijkheden en bevoegdheden in de organisatie"@nl ;
+    rdfs:label "Organizational roles, responsibilities and authorities"@en ;
+    ext:clauseNumber "5.3" ;
+    compl:requirementText "Het topmanagement wijst relevante rollen toe en communiceert verantwoordelijkheden en bevoegdheden voor rollen die relevant zijn voor informatiebeveiliging."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Planning"@nl ;
+    rdfs:label "Planning"@en ;
+    ext:clauseNumber "6" ;
+    compl:requirementText "De organisatie neemt maatregelen voor risicos en kansen en stelt informatiebeveiligingsdoelstellingen vast."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Maatregelen voor risicos en kansen"@nl ;
+    rdfs:label "Actions to address risks and opportunities"@en ;
+    ext:clauseNumber "6.1" ;
+    compl:requirementText "Bij het plannen van het ISMS houdt de organisatie rekening met kwesties en eisen en bepaalt risicos en kansen die moeten worden behandeld."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6_1_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Algemeen"@nl ;
+    rdfs:label "General"@en ;
+    ext:clauseNumber "6.1.1" ;
+    compl:requirementText "De organisatie bepaalt de risicos en kansen die bij het plannen van het ISMS moeten worden behandeld om te waarborgen dat het ISMS de beoogde resultaten kan bereiken."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6_1_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Beoordeling van informatiebeveiligingsrisicos"@nl ;
+    rdfs:label "Information security risk assessment"@en ;
+    ext:clauseNumber "6.1.2" ;
+    compl:requirementText "De organisatie definieert en past een risicobeoordelingsproces toe dat criteria voor aanvaardbaarheid en uitvoering van risicobeoordelingen omvat."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6_1_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Behandeling van informatiebeveiligingsrisicos"@nl ;
+    rdfs:label "Information security risk treatment"@en ;
+    ext:clauseNumber "6.1.3" ;
+    compl:requirementText "De organisatie definieert en past een risicobehandelingsproces toe, selecteert maatregelen en stelt een Verklaring van Toepasselijkheid op."@nl ;
+    rdfs:comment
+        "ISO 27001 cl. 6.1.3 vereist dat de organisatie de noodzakelijke beheersmaatregelen (bepaald via risicobeoordeling) vergelijkt met de beheersmaatregelen in Bijlage A, om te verifiëren dat geen noodzakelijke maatregelen over het hoofd zijn gezien. Bijlage A bevat dezelfde 93 controls als ISO 27002:2022."@nl ,
+        "ISO 27001 cl. 6.1.3 requires the organisation to compare the necessary controls (determined through risk assessment) with the controls in Annex A, to verify that no necessary controls have been overlooked. Annex A contains the same 93 controls as ISO 27002:2022."@en ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Informatiebeveiligingsdoelstellingen en planning om deze te bereiken"@nl ;
+    rdfs:label "Information security objectives and planning to achieve them"@en ;
+    ext:clauseNumber "6.2" ;
+    compl:requirementText "De organisatie stelt informatiebeveiligingsdoelstellingen vast voor relevante functies en niveaus en bepaalt hoe resultaten worden beoordeeld."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_6_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Planning van wijzigingen"@nl ;
+    rdfs:label "Planning of changes"@en ;
+    ext:clauseNumber "6.3" ;
+    compl:requirementText "Als de organisatie wijzigingen in het ISMS noodzakelijk acht, worden deze op een geplande manier uitgevoerd."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Ondersteuning"@nl ;
+    rdfs:label "Support"@en ;
+    ext:clauseNumber "7" ;
+    compl:requirementText "De organisatie stelt de benodigde middelen, competentie, bewustzijn, communicatie en gedocumenteerde informatie beschikbaar."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Middelen"@nl ;
+    rdfs:label "Resources"@en ;
+    ext:clauseNumber "7.1" ;
+    compl:requirementText "De organisatie bepaalt en stelt de benodigde middelen beschikbaar voor het opzetten, implementeren, onderhouden en voortdurend verbeteren van het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Competentie"@nl ;
+    rdfs:label "Competence"@en ;
+    ext:clauseNumber "7.2" ;
+    compl:requirementText "De organisatie bepaalt de noodzakelijke competentie van personen die werk uitvoeren dat van invloed is op de prestaties van informatiebeveiliging."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Bewustzijn"@nl ;
+    rdfs:label "Awareness"@en ;
+    ext:clauseNumber "7.3" ;
+    compl:requirementText "Personen die werkzaam zijn onder het gezag van de organisatie zijn bewust van het IB-beleid, hun bijdrage aan de doeltreffendheid en de gevolgen van niet-naleving."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_4 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Communicatie"@nl ;
+    rdfs:label "Communication"@en ;
+    ext:clauseNumber "7.4" ;
+    compl:requirementText "De organisatie bepaalt de noodzaak voor interne en externe communicatie die relevant is voor het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_5 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Gedocumenteerde informatie"@nl ;
+    rdfs:label "Documented information"@en ;
+    ext:clauseNumber "7.5" ;
+    compl:requirementText "Het ISMS bevat gedocumenteerde informatie vereist door deze norm en noodzakelijk voor de doeltreffendheid van het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_5_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Algemeen"@nl ;
+    rdfs:label "General"@en ;
+    ext:clauseNumber "7.5.1" ;
+    compl:requirementText "Het ISMS van de organisatie bevat alle gedocumenteerde informatie vereist door deze norm en noodzakelijk geacht door de organisatie voor de doeltreffendheid van het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_5_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Aanmaken en bijwerken"@nl ;
+    rdfs:label "Creating and updating"@en ;
+    ext:clauseNumber "7.5.2" ;
+    compl:requirementText "Bij het aanmaken en bijwerken van gedocumenteerde informatie zorgt de organisatie voor passende identificatie, beschrijving, format en media, en beoordeling en goedkeuring."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_7_5_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Beheersing van gedocumenteerde informatie"@nl ;
+    rdfs:label "Control of documented information"@en ;
+    ext:clauseNumber "7.5.3" ;
+    compl:requirementText "Gedocumenteerde informatie vereist door het ISMS en door deze norm wordt beheerd om beschikbaarheid, geschiktheid en adequate bescherming te waarborgen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_8 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Uitvoering"@nl ;
+    rdfs:label "Operation"@en ;
+    ext:clauseNumber "8" ;
+    compl:requirementText "De organisatie plant, implementeert, beheerst en beoordeelt de processen nodig om aan de eisen te voldoen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_8_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Operationele planning en beheersing"@nl ;
+    rdfs:label "Operational planning and control"@en ;
+    ext:clauseNumber "8.1" ;
+    compl:requirementText "De organisatie plant, implementeert, beheerst en beoordeelt de processen die nodig zijn om aan eisen te voldoen, ook bij uitbestede processen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_8_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Beoordeling van informatiebeveiligingsrisicos"@nl ;
+    rdfs:label "Information security risk assessment"@en ;
+    ext:clauseNumber "8.2" ;
+    compl:requirementText "De organisatie voert risicobeoordelingen uit met geplande tussenpozen of bij significante voorgestelde of plaatsgevonden wijzigingen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_8_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Behandeling van informatiebeveiligingsrisicos"@nl ;
+    rdfs:label "Information security risk treatment"@en ;
+    ext:clauseNumber "8.3" ;
+    compl:requirementText "De organisatie implementeert het plan voor behandeling van informatiebeveiligingsrisicos en bewaart de gedocumenteerde informatie hierover."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Prestatie-evaluatie"@nl ;
+    rdfs:label "Performance evaluation"@en ;
+    ext:clauseNumber "9" ;
+    compl:requirementText "De organisatie bewaakt, meet, analyseert en evalueert de informatiebeveiliging en het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Bewaking, meting, analyse en evaluatie"@nl ;
+    rdfs:label "Monitoring, measurement, analysis and evaluation"@en ;
+    ext:clauseNumber "9.1" ;
+    compl:requirementText "De organisatie bepaalt wat bewaakt en gemeten moet worden inclusief processen en beheersmaatregelen voor informatiebeveiliging."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Interne audit"@nl ;
+    rdfs:label "Internal audit"@en ;
+    ext:clauseNumber "9.2" ;
+    compl:requirementText "De organisatie voert met geplande tussenpozen interne audits uit om vast te stellen of het ISMS conform is en doeltreffend wordt geimplementeerd."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_2_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Algemeen"@nl ;
+    rdfs:label "General"@en ;
+    ext:clauseNumber "9.2.1" ;
+    compl:requirementText "De organisatie voert met geplande tussenpozen interne audits uit om informatie te verkrijgen over conformiteit en doeltreffende implementatie."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_2_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Auditprogramma"@nl ;
+    rdfs:label "Internal audit programme"@en ;
+    ext:clauseNumber "9.2.2" ;
+    compl:requirementText "De organisatie plant, stelt vast, implementeert en onderhoudt een of meer auditprogrammas inclusief frequentie, methoden, verantwoordelijkheden en planning."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Directiebeoordeling"@nl ;
+    rdfs:label "Management review"@en ;
+    ext:clauseNumber "9.3" ;
+    compl:requirementText "Het topmanagement beoordeelt het ISMS van de organisatie met geplande tussenpozen om de voortdurende geschiktheid, toereikendheid en doeltreffendheid te waarborgen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_3_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Algemeen"@nl ;
+    rdfs:label "General"@en ;
+    ext:clauseNumber "9.3.1" ;
+    compl:requirementText "Het topmanagement beoordeelt het ISMS van de organisatie met geplande tussenpozen."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_3_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Informatie voor de directiebeoordeling"@nl ;
+    rdfs:label "Management review input"@en ;
+    ext:clauseNumber "9.3.2" ;
+    compl:requirementText "De directiebeoordeling omvat informatie over de status van acties, wijzigingen in externe en interne kwesties, feedback over prestaties en mogelijkheden voor verbetering."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_9_3_3 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Resultaten van de directiebeoordeling"@nl ;
+    rdfs:label "Management review results"@en ;
+    ext:clauseNumber "9.3.3" ;
+    compl:requirementText "De resultaten van de directiebeoordeling omvatten beslissingen over verbetermogelijkheden en eventuele wijzigingen in het ISMS inclusief gedocumenteerde informatie."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_10 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Verbetering"@nl ;
+    rdfs:label "Improvement"@en ;
+    ext:clauseNumber "10" ;
+    compl:requirementText "De organisatie verbetert voortdurend de geschiktheid, toereikendheid en doeltreffendheid van het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_10_1 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Voortdurende verbetering"@nl ;
+    rdfs:label "Continual improvement"@en ;
+    ext:clauseNumber "10.1" ;
+    compl:requirementText "De organisatie verbetert voortdurend de geschiktheid, toereikendheid en doeltreffendheid van het ISMS."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+ext:ISO27001_10_2 rdf:type ext:ISMSRequirement , owl:NamedIndividual ;
+    rdfs:label "Afwijking en corrigerende maatregel"@nl ;
+    rdfs:label "Nonconformity and corrective action"@en ;
+    ext:clauseNumber "10.2" ;
+    compl:requirementText "Als er een afwijking optreedt reageert de organisatie hierop en neemt corrigerende maatregelen om herhaling te voorkomen en bewaart gedocumenteerde informatie."@nl ;
+    compl:derivedFrom fw:ISO_IEC_27001_2022 .
+
+# ISO 27001 clausules -> ISO 27002 implementatiekoppelingen
+
+ext:ISO27001_6_1_2 ext:implementedBy ctrl:ISO27002_5_07 , ctrl:ISO27002_5_09 .
+
+ext:ISO27001_6_1_3 ext:implementedBy ctrl:ISO27002_5_01 , ctrl:ISO27002_5_19 .
+
+ext:ISO27001_7_2 ext:implementedBy ctrl:ISO27002_6_03 .
+
+ext:ISO27001_7_3 ext:implementedBy ctrl:ISO27002_6_03 .
+
+ext:ISO27001_7_5_2 ext:implementedBy ctrl:ISO27002_5_33 .
+
+ext:ISO27001_8_1 ext:implementedBy ctrl:ISO27002_5_02 , ctrl:ISO27002_5_37 .
+
+ext:ISO27001_8_2 ext:implementedBy ctrl:ISO27002_5_07 , ctrl:ISO27002_5_08 .
+
+ext:ISO27001_9_1 ext:implementedBy ctrl:ISO27002_5_35 , ctrl:ISO27002_5_36 .
+
+ext:ISO27001_9_2 ext:implementedBy ctrl:ISO27002_5_35 .
+
+ext:ISO27001_9_2_2 ext:implementedBy ctrl:ISO27002_5_35 .
+
+ext:ISO27001_9_3 ext:implementedBy ctrl:ISO27002_5_35 .
+
+ext:ISO27001_10_2 ext:implementedBy ctrl:ISO27002_5_27 .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# =============================================================================
+# Harmonized Structure alignment (GAP 1, toegevoegd 2026-03-26)
+# =============================================================================
+
+# --- v4.3.1 / H18: TBox + individuals (GO masterchat 20 april 2026) -----------
+
+ext:HSClause rdf:type owl:Class ;
+    rdfs:subClassOf ext:FrameworkComponent ;
+    rdfs:label "Harmonized Structure-clausule"@nl ;
+    rdfs:label "Harmonized Structure clause"@en ;
+    rdfs:comment "Clausule uit Annex SL §4–§10 die als harmoniserende structuur fungeert tussen ISO-managementsysteemnormen (ISO 27001, ISO 22301, en toekomstig 42001, 9001)."@nl ;
+    rdfs:comment "Clause from Annex SL §4–§10 that serves as a harmonising structure across ISO management system standards (ISO 27001, ISO 22301, and prospectively 42001, 9001)."@en .
+
+ext:alignsWithHSClause rdf:type owl:ObjectProperty ;
+    rdfs:domain ext:ISMSRequirement ;
+    rdfs:range ext:HSClause ;
+    rdfs:label "sluit aan bij HS-clausule"@nl ;
+    rdfs:label "aligns with HS clause"@en ;
+    rdfs:comment "Koppelt een ISMS-vereiste (bijv. een ISO 27001-clausule) aan de Annex SL Harmonized Structure-clausule waaraan deze inhoudelijk is uitgelijnd."@nl ;
+    rdfs:comment "Links an ISMS requirement (e.g. an ISO 27001 clause) to the Annex SL Harmonized Structure clause it is substantively aligned with."@en .
+
+ext:HSClause_4_Context rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Context van de organisatie"@nl ;
+    rdfs:label "Context of the organization"@en .
+
+ext:HSClause_5_Leadership rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Leiderschap"@nl ;
+    rdfs:label "Leadership"@en .
+
+ext:HSClause_6_Planning rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Planning"@nl ;
+    rdfs:label "Planning"@en .
+
+ext:HSClause_7_Support rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Ondersteuning"@nl ;
+    rdfs:label "Support"@en .
+
+ext:HSClause_8_Operation rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Uitvoering"@nl ;
+    rdfs:label "Operation"@en .
+
+ext:HSClause_9_PerformanceEvaluation rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Prestatie-evaluatie"@nl ;
+    rdfs:label "Performance evaluation"@en .
+
+ext:HSClause_10_Improvement rdf:type ext:HSClause , owl:NamedIndividual ;
+    rdfs:label "Verbetering"@nl ;
+    rdfs:label "Improvement"@en .
+
+# --- Alignment-asserties (bestaand sinds v4.0) --------------------------------
+
+ext:ISO27001_4 ext:alignsWithHSClause ext:HSClause_4_Context .
+ext:ISO27001_4_1 ext:alignsWithHSClause ext:HSClause_4_Context .
+ext:ISO27001_4_2 ext:alignsWithHSClause ext:HSClause_4_Context .
+ext:ISO27001_4_3 ext:alignsWithHSClause ext:HSClause_4_Context .
+ext:ISO27001_4_4 ext:alignsWithHSClause ext:HSClause_4_Context .
+
+ext:ISO27001_5 ext:alignsWithHSClause ext:HSClause_5_Leadership .
+ext:ISO27001_5_1 ext:alignsWithHSClause ext:HSClause_5_Leadership .
+ext:ISO27001_5_2 ext:alignsWithHSClause ext:HSClause_5_Leadership .
+ext:ISO27001_5_3 ext:alignsWithHSClause ext:HSClause_5_Leadership .
+
+ext:ISO27001_6 ext:alignsWithHSClause ext:HSClause_6_Planning .
+ext:ISO27001_6_1 ext:alignsWithHSClause ext:HSClause_6_Planning .
+ext:ISO27001_6_1_1 ext:alignsWithHSClause ext:HSClause_6_Planning .
+ext:ISO27001_6_1_2 ext:alignsWithHSClause ext:HSClause_6_Planning .
+ext:ISO27001_6_1_3 ext:alignsWithHSClause ext:HSClause_6_Planning .
+ext:ISO27001_6_2 ext:alignsWithHSClause ext:HSClause_6_Planning .
+ext:ISO27001_6_3 ext:alignsWithHSClause ext:HSClause_6_Planning .
+
+ext:ISO27001_7 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_1 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_2 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_3 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_4 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_5 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_5_1 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_5_2 ext:alignsWithHSClause ext:HSClause_7_Support .
+ext:ISO27001_7_5_3 ext:alignsWithHSClause ext:HSClause_7_Support .
+
+ext:ISO27001_8 ext:alignsWithHSClause ext:HSClause_8_Operation .
+ext:ISO27001_8_1 ext:alignsWithHSClause ext:HSClause_8_Operation .
+ext:ISO27001_8_2 ext:alignsWithHSClause ext:HSClause_8_Operation .
+ext:ISO27001_8_3 ext:alignsWithHSClause ext:HSClause_8_Operation .
+
+ext:ISO27001_9 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_1 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_2 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_2_1 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_2_2 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_3 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_3_1 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_3_2 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+ext:ISO27001_9_3_3 ext:alignsWithHSClause ext:HSClause_9_PerformanceEvaluation .
+
+ext:ISO27001_10 ext:alignsWithHSClause ext:HSClause_10_Improvement .
+ext:ISO27001_10_1 ext:alignsWithHSClause ext:HSClause_10_Improvement .
+ext:ISO27001_10_2 ext:alignsWithHSClause ext:HSClause_10_Improvement .
+
+# =============================================================================
+# v4.5.0 Fase 3 — Stap 6: SKOS-mappings ISO/IEC 27001:2022 Mandatory Clause → CSF 2.0
+# Datum: 2026-05-19
+# Bron: NIST CSF 2.0 Reference Tool export csf2.xlsx (gegenereerd 2026-05-19)
+#       Bron-attribuering: ext:Attr_NIST_CSF_2_0_Reference_Tool_2026 (Public Domain)
+# Match-type: skos:closeMatch (Aanpassing 2 — uniform; geen relationship-types in bron)
+# Patroon: csf:<CSFComponent> skos:closeMatch ext:ISO27001_<X>[_<Y>[_<Z>]]
+# =============================================================================
+# Bron-attribuering via blok-comment (consistent met v4.4.0 Stap 5 + v4.5.0 Stap 5).
+# Geen per-triple ext:sourceAttribution-link.
+#
+# Aantal unieke (csf,target)-paren in dit blok: 117
+# Verdeling CSF-niveau: F=9, C=25, S=83
+
+
+# --- 117 skos:closeMatch (gegroepeerd per CSF-subject) ---
+
+csf:DE_CM_03 skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:DE_ContinuousMonitoring skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:GOVERN skos:closeMatch
+        ext:ISO27001_6_1 ,
+        ext:ISO27001_8_1 ,
+        ext:ISO27001_8_2 ,
+        ext:ISO27001_8_3 .
+
+csf:GV_CybersecuritySupplyChainRiskManagement skos:closeMatch
+        ext:ISO27001_8_1 .
+
+csf:GV_OC_01 skos:closeMatch
+        ext:ISO27001_4_1 ,
+        ext:ISO27001_6_1 ,
+        ext:ISO27001_8_1 ,
+        ext:ISO27001_8_2 ,
+        ext:ISO27001_8_3 .
+
+csf:GV_OC_02 skos:closeMatch
+        ext:ISO27001_4_1 ,
+        ext:ISO27001_4_2 ,
+        ext:ISO27001_4_4 ,
+        ext:ISO27001_6_1 ,
+        ext:ISO27001_8_1 ,
+        ext:ISO27001_8_2 ,
+        ext:ISO27001_8_3 .
+
+csf:GV_OC_03 skos:closeMatch
+        ext:ISO27001_4_2 .
+
+csf:GV_OC_04 skos:closeMatch
+        ext:ISO27001_4_2 .
+
+csf:GV_OV_01 skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:GV_OV_02 skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:GV_OV_03 skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:GV_OrganizationalContext skos:closeMatch
+        ext:ISO27001_4_2 ,
+        ext:ISO27001_4_4 ,
+        ext:ISO27001_6_1 ,
+        ext:ISO27001_8_1 ,
+        ext:ISO27001_8_2 ,
+        ext:ISO27001_8_3 .
+
+csf:GV_Oversight skos:closeMatch
+        ext:ISO27001_10_2 ,
+        ext:ISO27001_8_1 ,
+        ext:ISO27001_8_2 ,
+        ext:ISO27001_8_3 ,
+        ext:ISO27001_9_1 .
+
+csf:GV_PO_01 skos:closeMatch
+        ext:ISO27001_5_2 .
+
+csf:GV_PO_02 skos:closeMatch
+        ext:ISO27001_5_2 .
+
+csf:GV_Policy skos:closeMatch
+        ext:ISO27001_5_2 .
+
+csf:GV_RM_01 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 .
+
+csf:GV_RM_02 skos:closeMatch
+        ext:ISO27001_6_1_2 .
+
+csf:GV_RM_03 skos:closeMatch
+        ext:ISO27001_6_1_3 .
+
+csf:GV_RM_04 skos:closeMatch
+        ext:ISO27001_6_1_3 .
+
+csf:GV_RM_05 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_3 .
+
+csf:GV_RM_06 skos:closeMatch
+        ext:ISO27001_6_1_2 .
+
+csf:GV_RR_01 skos:closeMatch
+        ext:ISO27001_7_2 .
+
+csf:GV_RR_02 skos:closeMatch
+        ext:ISO27001_7_2 .
+
+csf:GV_RR_04 skos:closeMatch
+        ext:ISO27001_7_3 .
+
+csf:GV_RiskManagementStrategy skos:closeMatch
+        ext:ISO27001_6_1 .
+
+csf:GV_RolesResponsibilitiesAndAuthorities skos:closeMatch
+        ext:ISO27001_5_3 .
+
+csf:GV_SC_01 skos:closeMatch
+        ext:ISO27001_8_1 .
+
+csf:GV_SC_02 skos:closeMatch
+        ext:ISO27001_5_3 .
+
+csf:GV_SC_03 skos:closeMatch
+        ext:ISO27001_8_1 .
+
+csf:GV_SC_04 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:GV_SC_05 skos:closeMatch
+        ext:ISO27001_4_2 .
+
+csf:GV_SC_06 skos:closeMatch
+        ext:ISO27001_4_2 .
+
+csf:GV_SC_07 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:GV_SC_09 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 .
+
+csf:GV_SC_10 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:IDENTIFY skos:closeMatch
+        ext:ISO27001_10_2 ,
+        ext:ISO27001_8_1 ,
+        ext:ISO27001_8_2 ,
+        ext:ISO27001_8_3 .
+
+csf:ID_IM_01 skos:closeMatch
+        ext:ISO27001_10_1 ,
+        ext:ISO27001_10_2 ,
+        ext:ISO27001_9_2 .
+
+csf:ID_IM_02 skos:closeMatch
+        ext:ISO27001_10_1 ,
+        ext:ISO27001_10_2 ,
+        ext:ISO27001_9_2 ,
+        ext:ISO27001_9_3 .
+
+csf:ID_IM_03 skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:ID_IM_04 skos:closeMatch
+        ext:ISO27001_9_1 .
+
+csf:ID_Improvement skos:closeMatch
+        ext:ISO27001_10_1 ,
+        ext:ISO27001_10_2 .
+
+csf:ID_RA_03 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:ID_RA_04 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:ID_RA_05 skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:ID_RA_07 skos:closeMatch
+        ext:ISO27001_6_1_3 .
+
+csf:ID_RA_08 skos:closeMatch
+        ext:ISO27001_6_1_2 .
+
+csf:ID_RiskAssessment skos:closeMatch
+        ext:ISO27001_6_1_1 ,
+        ext:ISO27001_6_1_2 ,
+        ext:ISO27001_6_1_3 .
+
+csf:PROTECT skos:closeMatch
+        ext:ISO27001_8_3 .
+
+csf:PR_AT_01 skos:closeMatch
+        ext:ISO27001_7_3 .
+
+csf:PR_AT_02 skos:closeMatch
+        ext:ISO27001_7_3 .
+
+csf:PR_AwarenessAndTraining skos:closeMatch
+        ext:ISO27001_7_3 .
+
+csf:PR_DS_01 skos:closeMatch
+        ext:ISO27001_4_2 ,
+        ext:ISO27001_5_2 .
+
+csf:PR_DS_02 skos:closeMatch
+        ext:ISO27001_4_2 ,
+        ext:ISO27001_5_2 .
+
+csf:PR_DS_10 skos:closeMatch
+        ext:ISO27001_4_2 ,
+        ext:ISO27001_5_2 .
+
+csf:PR_DataSecurity skos:closeMatch
+        ext:ISO27001_6_1_1 .
+
+csf:PR_IR_03 skos:closeMatch
+        ext:ISO27001_4_2 ,
+        ext:ISO27001_6_1_1 .
+
+csf:PR_PS_01 skos:closeMatch
+        ext:ISO27001_9_3 .
+
+csf:PR_PlatformSecurity skos:closeMatch
+        ext:ISO27001_8_1 .
+
+csf:RC_CO_03 skos:closeMatch
+        ext:ISO27001_7_4 .
+
+csf:RC_CO_04 skos:closeMatch
+        ext:ISO27001_7_4 .
+
+csf:RC_IncidentRecoveryCommunication skos:closeMatch
+        ext:ISO27001_8_1 .
+
+csf:RC_RP_04 skos:closeMatch
+        ext:ISO27001_8_1 .
+
+csf:RS_CO_02 skos:closeMatch
+        ext:ISO27001_7_4 .
+
+csf:RS_CO_03 skos:closeMatch
+        ext:ISO27001_7_4 .

@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GRC Dashboard v3.0 — Rijksoverheidsorganisatie</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/sql-wasm.js"></script>
+<style>
+:root{
+  --bg:#0a0e14;--bg1:#111720;--bg2:#161d28;--bg3:#1c2535;--bg4:#24303f;
+  --border:#2a3a4e;--border2:#354d65;
+  --blue:#0f62fe;--blue-lt:#4589ff;--blue-dim:#0043ce;
+  --cyan:#1192e8;--cyan-lt:#33b1ff;--teal:#007d79;
+  --green:#198038;--green-lt:#24a148;--green-br:#42be65;
+  --yellow:#b28600;--yellow-lt:#f1c21b;
+  --orange:#ba4e00;--orange-lt:#ff832b;
+  --red:#a2191f;--red-lt:#da1e28;--red-br:#fa4d56;
+  --purple:#6929c4;--purple-lt:#a56eff;
+  --text:#f2f4f8;--text2:#c1c7cd;--text3:#878d96;--text4:#4d5358;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--serif:'IBM Plex Serif',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.hdr{background:var(--bg1);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;padding:0 24px;gap:14px;position:sticky;top:0;z-index:200}
+.hdr-logo{width:30px;height:30px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.hdr-org{font-family:var(--serif);font-size:15px;font-weight:600}
+.hdr-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.hdr-right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.hdr-kv-val{font-family:var(--mono);font-size:11px;color:var(--cyan-lt);text-align:right}
+.hdr-kv-lbl{font-size:9px;color:var(--text4);text-align:right}
+.hdr-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid var(--border2);border-radius:3px;font-size:11px;color:var(--text2);cursor:pointer;background:var(--bg3);white-space:nowrap;transition:.15s}
+.hdr-btn:hover{border-color:var(--cyan-lt);color:var(--cyan-lt)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green-br);margin-right:4px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.nav{background:var(--bg1);border-bottom:1px solid var(--border);padding:0 24px;display:flex;overflow-x:auto;position:sticky;top:52px;z-index:190}
+.ntab{padding:11px 18px;cursor:pointer;border-bottom:2px solid transparent;font-size:13px;font-weight:500;color:var(--text3);white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:7px}
+.ntab:hover{color:var(--text);background:var(--bg2)}
+.ntab.active{color:var(--cyan-lt);border-bottom-color:var(--cyan-lt)}
+.nbadge{background:var(--red-lt);color:#fff;border-radius:8px;padding:0 5px;font-size:9px;font-family:var(--mono);font-weight:700}
+.main{padding:18px 24px;max-width:1580px;margin:0 auto}
+.tab{display:none}.tab.active{display:block}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:16px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px}
+.chd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.cttl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
+.cact{font-size:11px;color:var(--cyan-lt);cursor:pointer;padding:2px 8px;border:1px solid var(--border2);border-radius:3px;white-space:nowrap;transition:.15s}
+.cact:hover{background:var(--bg3)}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;position:relative;overflow:hidden}
+.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ac,var(--blue))}
+.sv{font-family:var(--mono);font-size:26px;font-weight:600;line-height:1}
+.sl{font-size:11px;color:var(--text3);margin-top:4px}
+.ss{font-family:var(--mono);font-size:10px;color:var(--text4);margin-top:4px}
+.strd{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:10px}
+.up{color:var(--green-br)}.dn{color:var(--red-br)}.neu{color:var(--text3)}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:var(--bg3);padding:6px 9px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);border-bottom:1px solid var(--border)}
+.tbl td{padding:6px 9px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr.clickable:hover td{background:rgba(51,177,255,.04);cursor:pointer}
+.tscroll{overflow-y:auto;max-height:380px}
+.txscroll{overflow-x:auto}
+.b{display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;font-family:var(--mono);white-space:nowrap}
+.bg{background:rgba(66,190,101,.12);color:var(--green-br);border:1px solid rgba(66,190,101,.25)}
+.by{background:rgba(241,194,27,.10);color:var(--yellow-lt);border:1px solid rgba(241,194,27,.22)}
+.bo{background:rgba(255,131,43,.10);color:var(--orange-lt);border:1px solid rgba(255,131,43,.22)}
+.br{background:rgba(250,77,86,.12);color:var(--red-br);border:1px solid rgba(250,77,86,.25)}
+.bb{background:rgba(69,137,255,.12);color:var(--blue-lt);border:1px solid rgba(69,137,255,.25)}
+.bc{background:rgba(51,177,255,.10);color:var(--cyan-lt);border:1px solid rgba(51,177,255,.22)}
+.bp{background:rgba(165,110,255,.10);color:var(--purple-lt);border:1px solid rgba(165,110,255,.22)}
+.bz{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.pw{background:var(--bg3);border-radius:3px;height:5px;overflow:hidden}
+.pb{height:5px;border-radius:3px;transition:width .4s}
+.alert{border-radius:5px;padding:9px 13px;font-size:11px;margin-bottom:13px;display:flex;gap:9px;line-height:1.5}
+.aw{background:rgba(241,194,27,.08);border:1px solid rgba(241,194,27,.25);color:var(--yellow-lt)}
+.ae{background:rgba(250,77,86,.08);border:1px solid rgba(250,77,86,.25);color:var(--red-br)}
+.ai{background:rgba(51,177,255,.07);border:1px solid rgba(51,177,255,.22);color:var(--cyan-lt)}
+.inav{display:flex;gap:1px;margin-bottom:14px;border-bottom:1px solid var(--border)}
+.itab{padding:8px 14px;cursor:pointer;font-size:12px;color:var(--text3);border-bottom:2px solid transparent;transition:.15s;margin-bottom:-1px;white-space:nowrap}
+.itab:hover{color:var(--text)}
+.itab.active{color:var(--cyan-lt);border-bottom-color:var(--cyan-lt)}
+.ipanel{display:none}.ipanel.active{display:block}
+.hm{display:grid;grid-template-columns:38px repeat(5,1fr);gap:3px;font-size:10px;margin-top:6px}
+.hmcell{aspect-ratio:1.4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;font-family:var(--mono);font-size:11px;font-weight:600;transition:.15s}
+.hmcell:hover{filter:brightness(1.3);border-color:rgba(255,255,255,.2)!important}
+.hmlbl{color:var(--text4);font-size:9px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
+.hmaxl{color:var(--text4);font-size:9px;text-align:center}
+.rr{background:rgba(250,77,86,.15);color:var(--red-br);border:1px solid rgba(250,77,86,.3);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.ra{background:rgba(241,194,27,.15);color:var(--yellow-lt);border:1px solid rgba(241,194,27,.3);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.rc{background:rgba(51,177,255,.12);color:var(--cyan-lt);border:1px solid rgba(51,177,255,.25);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.ri{background:rgba(66,190,101,.12);color:var(--green-br);border:1px solid rgba(66,190,101,.25);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
+.owl{background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:12px;margin-top:10px;font-size:11px}
+.owlttl{font-family:var(--mono);font-size:10px;color:var(--purple-lt);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
+.owlrow{display:flex;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.owlk{color:var(--text3);min-width:115px;flex-shrink:0}
+.owlv{color:var(--cyan-lt);font-family:var(--mono)}
+.sparql{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:9px;margin-top:9px;font-family:var(--mono);font-size:10px;color:var(--green-br);white-space:pre;overflow-x:auto;position:relative;line-height:1.6}
+.cpbtn{position:absolute;top:5px;right:5px;background:var(--bg3);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:2px 7px;font-size:9px;cursor:pointer;transition:.15s}
+.cpbtn:hover{color:var(--cyan-lt);border-color:var(--cyan-lt)}
+.fwgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.fwcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:9px 11px;cursor:pointer;transition:.15s}
+.fwcard:hover,.fwcard.sel{background:var(--bg4);border-color:var(--cyan-lt)}
+.fwcard.sel .fwname{color:var(--cyan-lt)}
+.fwname{font-size:11px;font-weight:600;margin-bottom:2px}
+.fwmeta{font-size:10px;color:var(--text3)}
+.fwdot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;flex-shrink:0}
+.pdca{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.pq{border-radius:6px;padding:12px;border-left:3px solid}
+.pp{background:rgba(31,98,254,.07);border-color:var(--blue-lt)}
+.pd{background:rgba(25,128,56,.07);border-color:var(--green-br)}
+.pc{background:rgba(178,134,0,.07);border-color:var(--yellow-lt)}
+.pa{background:rgba(186,78,0,.07);border-color:var(--orange-lt)}
+.plbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.pitem{display:flex;gap:5px;font-size:11px;color:var(--text2);line-height:1.7}
+.pitem::before{content:'▸';font-size:8px;color:var(--text4);margin-top:3px;flex-shrink:0}
+.tl{padding-left:18px;position:relative}
+.tl::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--border2)}
+.tlitem{position:relative;margin-bottom:11px}
+.tldot{position:absolute;left:-16px;top:5px;width:9px;height:9px;border-radius:50%;border:2px solid var(--bg2)}
+.tlbox{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px 11px}
+.tldate{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.tltitle{font-size:12px;font-weight:500;margin:2px 0 1px}
+.chip{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:1px 6px;font-family:var(--mono);font-size:9px;color:var(--text3)}
+.expbtn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--border2);border-radius:3px;font-size:11px;color:var(--text2);cursor:pointer;background:var(--bg3)}
+.expbtn:hover{border-color:var(--cyan-lt);color:var(--cyan-lt)}
+canvas{max-height:250px}
+.mb14{margin-bottom:14px}
+.divider{height:1px;background:var(--border);margin:14px 0}
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--bg4);border:1px solid var(--border2);padding:3px 8px;border-radius:3px;font-size:10px;white-space:nowrap;z-index:300;pointer-events:none}
+.section-hd{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+/* ── SEARCH/FILTER BAR ── */
+.sfbar{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.sfbar input,.sfbar select{background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:3px;padding:5px 9px;font-size:12px;font-family:var(--sans);outline:none;transition:.15s}
+.sfbar input{flex:1;min-width:180px}
+.sfbar select{min-width:130px}
+.sfbar input:focus,.sfbar select:focus{border-color:var(--cyan-lt)}
+.sfbar input::placeholder{color:var(--text4)}
+.sfcnt{font-family:var(--mono);font-size:10px;color:var(--text4);white-space:nowrap}
+/* ── MODAL ── */
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(3px);z-index:500;align-items:center;justify-content:center}
+#modal-overlay.open{display:flex}
+#modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;width:min(680px,95vw);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+#modal-header{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+#modal-title{font-family:var(--serif);font-size:16px;font-weight:600}
+#modal-close{cursor:pointer;color:var(--text3);font-size:18px;line-height:1;padding:2px 6px;border-radius:3px;transition:.15s}
+#modal-close:hover{color:var(--text);background:var(--bg3)}
+#modal-body{padding:16px 20px;overflow-y:auto;flex:1}
+#modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;gap:8px}
+#modal-del-btn{color:var(--red-br);border:1px solid rgba(250,77,86,.3);background:rgba(250,77,86,.06);border-radius:3px;padding:6px 14px;font-size:12px;cursor:pointer;transition:.15s}
+#modal-del-btn:hover{background:rgba(250,77,86,.15)}
+.modal-actions{display:flex;gap:8px}
+.btn-cancel{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:7px 16px;font-size:12px;cursor:pointer;transition:.15s}
+.btn-cancel:hover{border-color:var(--cyan-lt);color:var(--cyan-lt)}
+.btn-save{background:var(--blue);border:1px solid var(--blue);color:#fff;border-radius:3px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.btn-save:hover{background:var(--blue-lt)}
+/* Form fields */
+.frow{margin-bottom:13px}
+.frow label{display:block;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.frow input,.frow select,.frow textarea{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:3px;padding:7px 10px;font-size:12px;font-family:var(--sans);outline:none;transition:.15s}
+.frow textarea{resize:vertical;min-height:70px;font-family:var(--mono);font-size:11px}
+.frow input:focus,.frow select:focus,.frow textarea:focus{border-color:var(--cyan-lt)}
+.frow input.err,.frow select.err{border-color:var(--red-br)}
+.frow .ferr{font-size:10px;color:var(--red-br);margin-top:3px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* ── TOAST ── */
+#toast-stack{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:600;pointer-events:none}
+.toast{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;padding:10px 16px;font-size:12px;display:flex;align-items:center;gap:9px;min-width:240px;max-width:380px;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:slideIn .2s ease;pointer-events:all}
+.toast.ok{border-color:rgba(66,190,101,.4);background:rgba(66,190,101,.07)}
+.toast.err{border-color:rgba(250,77,86,.4);background:rgba(250,77,86,.07)}
+.toast.info{border-color:rgba(51,177,255,.3);background:rgba(51,177,255,.05)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideOut{to{transform:translateX(110%);opacity:0}}
+/* ── LOADER ── */
+#db-loader{display:none;position:fixed;inset:0;background:var(--bg);z-index:700;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+#db-loader.on{display:flex}
+.loader-spin{width:40px;height:40px;border:3px solid var(--border2);border-top-color:var(--cyan-lt);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-txt{font-family:var(--mono);font-size:12px;color:var(--text3)}
+/* ── MISC ── */
+.empty-row td{color:var(--text4);font-style:italic;text-align:center;padding:20px!important}
+.ttl-out{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px;font-family:var(--mono);font-size:10px;color:var(--green-br);white-space:pre;overflow-x:auto;margin-top:8px;position:relative}
+.db-badge{font-family:var(--mono);font-size:10px;color:var(--text4);display:flex;align-items:center;gap:6px}
+.db-badge .dot{width:5px;height:5px;flex-shrink:0}
+</style>
+</head>
+<body>
+<!-- LOADER -->
+<div id="db-loader" class="on">
+  <div class="hdr-logo" style="width:50px;height:50px;font-size:24px">🛡️</div>
+  <div class="loader-spin"></div>
+  <div class="loader-txt" id="loader-msg">Database initialiseren...</div>
+</div>
+
+<!-- TOAST STACK -->
+<div id="toast-stack"></div>
+
+<!-- MODAL OVERLAY -->
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div id="modal-box">
+    <div id="modal-header">
+      <div id="modal-title">—</div>
+      <div id="modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div id="modal-body"></div>
+    <div id="modal-footer">
+      <button id="modal-del-btn" onclick="modalDelete()" style="display:none">🗑 Verwijder</button>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Annuleren</button>
+        <button class="btn-save" onclick="saveModal()">Opslaan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-logo">🛡️</div>
+  <div>
+    <div class="hdr-org">GRC Dashboard — Rijksoverheidsorganisatie</div>
+    <div class="hdr-sub">Governance · Risk · Compliance · ISMS · v3.0 Database</div>
+  </div>
+  <div class="hdr-right">
+    <div class="db-badge"><span class="dot" id="db-dot" style="background:var(--text4)"></span><span id="db-status">Laden...</span></div>
+    <button class="hdr-btn" onclick="exportDB()" data-tip="Sla database op als .db-bestand">↓ DB Export</button>
+    <label class="hdr-btn" data-tip="Laad eerder opgeslagen database">↑ DB Import <input type="file" accept=".db" style="display:none" onchange="importDB(this.files[0])"></label>
+    <div><div class="hdr-kv-val" id="hdr-date">—</div><div class="hdr-kv-lbl">Datum · <span id="save-ind" style="color:var(--text4)">●</span> Opgeslagen</div></div>
+  </div>
+</div>
+
+<!-- MAIN NAV -->
+<div class="nav">
+  <div class="ntab active" onclick="goTab(event,'overzicht')">◈ Overzicht</div>
+  <div class="ntab" onclick="goTab(event,'governance')">⬡ Governance</div>
+  <div class="ntab" onclick="goTab(event,'risk')">◬ Risk <span class="nbadge" id="risk-badge">—</span></div>
+  <div class="ntab" onclick="goTab(event,'compliance')">◫ Compliance</div>
+  <div class="ntab" onclick="goTab(event,'isms')">◉ ISMS</div>
+</div>
+
+<div class="main">
+
+<!-- ═══ TAB: OVERZICHT ═══ -->
+<div id="tab-overzicht" class="tab active">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--cyan-lt)"><div class="sv" id="kpi-controls">—</div><div class="sl">Totaal controls actief</div><div class="ss" id="kpi-controls-sub">ISO + BIO + NIST</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="sv" id="kpi-compliance">—</div><div class="sl">Compliance score</div><div class="ss" id="kpi-comp-sub">volledig geïmplementeerd</div></div>
+    <div class="stat" style="--ac:var(--red-br)"><div class="sv" id="kpi-risicos">—</div><div class="sl">Openstaande hoog-risico's</div><div class="ss">Score ≥ 12 · Open status</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv" id="kpi-deadline">—</div><div class="sl">Volgende deadline</div><div class="ss" id="kpi-deadline-sub">—</div></div>
+  </div>
+  <div class="g4" style="margin-bottom:16px">
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv" id="kpi-rollen">—</div><div class="sl">Rollen bezet</div><div class="ss">% ingevuld</div></div>
+    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv" id="kpi-docs">—</div><div class="sl">Documenten actueel</div><div class="ss">Review niet verlopen</div></div>
+    <div class="stat" style="--ac:var(--orange-lt)"><div class="sv" id="kpi-findings">—</div><div class="sl">Open auditbevindingen</div><div class="ss">Major NC / Minor NC</div></div>
+    <div class="stat" style="--ac:var(--teal)"><div class="sv" id="kpi-kal">—</div><div class="sl">Kalenderitems < 30d</div><div class="ss">Dringende acties</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="chd"><span class="cttl">Paneel A — Internationale Normen</span><span class="chip">Selecteer voor details</span></div>
+      <div class="fwgrid" id="fw-intl">
+        <div class="fwcard" onclick="selFW(this,'iso27001')"><span class="fwdot" style="background:var(--purple-lt)"></span><div class="fwname">ISO/IEC 27001:2022</div><div class="fwmeta">ISMS-norm · 41 clausules</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso27002')"><span class="fwdot" style="background:var(--blue-lt)"></span><div class="fwname">ISO/IEC 27002:2022</div><div class="fwmeta">Controls · 93 controls</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso27005')"><span class="fwdot" style="background:var(--cyan-lt)"></span><div class="fwname">ISO/IEC 27005:2024</div><div class="fwmeta">IB-risicobeheer · NEN</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso31000')"><span class="fwdot" style="background:var(--teal)"></span><div class="fwname">ISO 31000:2018</div><div class="fwmeta">Risicobeheer · NEN</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso22301')"><span class="fwdot" style="background:var(--green-br)"></span><div class="fwname">ISO 22301:2019</div><div class="fwmeta">BCM · 17 clausules</div></div>
+        <div class="fwcard" onclick="selFW(this,'iso22313')"><span class="fwdot" style="background:var(--green-lt)"></span><div class="fwname">ISO 22313:2020</div><div class="fwmeta">BCM-implementatie</div></div>
+        <div class="fwcard" onclick="selFW(this,'nist80053')"><span class="fwdot" style="background:var(--blue)"></span><div class="fwname">NIST SP 800-53 R5</div><div class="fwmeta">20 families · 104 controls</div></div>
+        <div class="fwcard" onclick="selFW(this,'nist80039')"><span class="fwdot" style="background:var(--blue-dim)"></span><div class="fwname">NIST SP 800-39</div><div class="fwmeta">Organisatie risicobeheer</div></div>
+        <div class="fwcard" onclick="selFW(this,'cobit')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">COBIT 2019</div><div class="fwmeta">IT Governance · ISACA</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">Paneel B — Wet- en Regelgeving</span><span class="chip">Selecteer voor details</span></div>
+      <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">Nationale Rijksregelgeving</div>
+      <div class="fwgrid" style="margin-bottom:10px">
+        <div class="fwcard" onclick="selFW(this,'vir2007')"><span class="fwdot" style="background:var(--yellow-lt)"></span><div class="fwname">VIR 2007</div><div class="fwmeta">Rijksdienst IB · BZK</div></div>
+        <div class="fwcard" onclick="selFW(this,'virbi2025')"><span class="fwdot" style="background:var(--yellow-lt)"></span><div class="fwname">VIRBI 2025</div><div class="fwmeta">Bijzondere informatie</div></div>
+        <div class="fwcard" onclick="selFW(this,'bva2021')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">Besluit BVA 2021</div><div class="fwmeta">BVA/BVC-stelsel</div></div>
+        <div class="fwcard" onclick="selFW(this,'cio2026')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">Besluit CIO 2026</div><div class="fwmeta">CIO-stelsel Rijksdienst</div></div>
+        <div class="fwcard" onclick="selFW(this,'bio20')"><span class="fwdot" style="background:var(--red-br)"></span><div class="fwname">BIO 2.0 v1.3</div><div class="fwmeta">Baseline IB Overheid</div></div>
+        <div class="fwcard" onclick="selFW(this,'cbw')"><span class="fwdot" style="background:var(--red-lt)"></span><div class="fwname">Cyber Beveiligingswet</div><div class="fwmeta">NIS2-implementatie NL</div></div>
+      </div>
+      <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">EU-regelgeving</div>
+      <div class="fwgrid">
+        <div class="fwcard" onclick="selFW(this,'nis2')"><span class="fwdot" style="background:var(--blue-lt)"></span><div class="fwname">NIS2 2022/2555</div><div class="fwmeta">Netwerk- en IB</div></div>
+        <div class="fwcard" onclick="selFW(this,'dora')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">DORA 2022/2554</div><div class="fwmeta">Digitale weerbaarheid</div></div>
+        <div class="fwcard" onclick="selFW(this,'oj2024')"><span class="fwdot" style="background:var(--cyan-lt)"></span><div class="fwname">EU OJ 2024/269</div><div class="fwmeta">Uitvoeringsverordening</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="fw-infocard" class="card mb14" style="display:none">
+    <div class="chd"><span class="cttl" id="fwic-title">Framework details</span><span class="cact" onclick="document.getElementById('fw-infocard').style.display='none'">✕ Sluiten</span></div>
+    <div class="g4 mb14" id="fwic-meta"></div>
+    <div id="fwic-owl" class="owl"></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="chd"><span class="cttl">Controls per framework</span></div><canvas id="c-fw-dist"></canvas></div>
+    <div class="card"><div class="chd"><span class="cttl">Compliance-status overzicht</span></div><canvas id="c-comp-ov"></canvas></div>
+  </div>
+</div>
+
+<!-- ═══ TAB: GOVERNANCE ═══ -->
+<div id="tab-governance" class="tab">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv" id="gov-kpi-docs">—</div><div class="sl">Beleidsdocumenten</div><div class="ss" id="gov-kpi-docs-sub">actueel / verlopen</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="sv" id="gov-kpi-rollen">—</div><div class="sl">Rollen bezet</div><div class="ss">% ingevuld</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv">2026-10</div><div class="sl">Directiebeoordeling</div><div class="ss">ISO 27001 cl.9.3 — gepland</div></div>
+    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv">2 / 4</div><div class="sl">PDCA-fasen volwassen</div><div class="ss">Plan ✅ Do ✅ Check ⚠️ Act ⚠️</div></div>
+  </div>
+  <div class="inav">
+    <div class="itab active" onclick="iTab(event,'gov-rollen')">Rollen &amp; RACI</div>
+    <div class="itab" onclick="iTab(event,'gov-struct')">Organisatiestructuur</div>
+    <div class="itab" onclick="iTab(event,'gov-docs')">Documenthiërarchie</div>
+    <div class="itab" onclick="iTab(event,'gov-fw')">Governance per framework</div>
+  </div>
+
+  <div id="gov-rollen" class="ipanel active">
+    <div class="alert ai">ℹ️ <div><b>Grondslag:</b> Besluit BVA-stelsel 2021 art.6 (BVC) · Besluit CIO-stelsel 2026 (CIO/CISO) · VIR 2007 art.3–5 (BVA). <b>Let op:</b> BVC = BVA-stelsel | CISO = CIO-stelsel — aparte stelsels.</div></div>
+    <div class="g2 mb14">
+      <div class="card">
+        <div class="chd">
+          <span class="cttl">GRC-rollen register</span>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <span class="expbtn" onclick="exportCSV('rollen')">↓ CSV</span>
+            <span class="cact" onclick="modalRol()">+ Nieuwe rol</span>
+          </div>
+        </div>
+        <div class="sfbar">
+          <input type="text" placeholder="🔍 Zoek functienaam, grondslag..." id="sf-rollen" oninput="renderRollen()">
+          <select id="sf-rollen-stelsel" onchange="renderRollen()"><option value="">Alle stelsels</option><option>Bestuur</option><option>CIO-stelsel</option><option>BVA-stelsel</option><option>Privacy</option><option>Operationeel</option><option>Audit</option></select>
+          <span class="sfcnt" id="sf-rollen-cnt"></span>
+        </div>
+        <div class="tscroll"><table class="tbl"><thead><tr><th>Rol-ID</th><th>Functie</th><th>Stelsel</th><th>NL-wet</th><th>Grondslag</th><th>Bezet door</th><th>Bezet sinds</th></tr></thead><tbody id="rollen-tb"></tbody></table></div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">Rol-detail — BVC (Beveiligingscoördinator)</span></div>
+        <div class="owl" style="margin-top:0">
+          <div class="owlttl">🦉 Ontologie-lens M4 — roles:BVC</div>
+          <div class="owlrow"><span class="owlk">OWL-klasse</span><span class="owlv">roles:BVC</span></div>
+          <div class="owlrow"><span class="owlk">rdfs:subClassOf</span><span class="owlv">roles:SecurityOfficer</span></div>
+          <div class="owlrow"><span class="owlk">Grondslag</span><span class="owlv">Besluit BVA-stelsel 2021, art.6</span></div>
+          <div class="owlrow"><span class="owlk">Stelsel</span><span class="owlv" style="color:var(--yellow-lt)">BVA-stelsel ≠ CIO-stelsel</span></div>
+          <div class="owlrow"><span class="owlk">Rapportage</span><span class="owlv">→ BVA (functioneel) · Dienstonderdeel (hiërarchisch)</span></div>
+          <div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>PREFIX roles: &lt;https://grc.organisatie.nl/ontology/roles#&gt;
+SELECT ?rol ?naam ?grondslag WHERE {
+  ?rol a roles:BVARole ;
+       rdfs:label ?naam ;
+       roles:hasLegalBasis ?grondslag .
+  FILTER(LANG(?naam)="nl")
+} ORDER BY ?naam</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">RACI-matrix</span><span class="chip">R=Responsible A=Accountable C=Consulted I=Informed</span></div>
+      <div class="txscroll"><table class="tbl" id="raci-tbl"><thead><tr><th style="min-width:200px">Activiteit</th><th>SG/DG</th><th>CIO</th><th>CISO</th><th>BVA</th><th>BVC</th><th>FG</th><th>ISSO</th><th>Audit</th></tr></thead><tbody id="raci-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="gov-struct" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Governance-niveaus</span><span class="chip">COBIT 2019 · ISO 27001:2022 cl.5</span></div>
+        <div id="gov-model"></div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">Ontologie-lens — M4 Roles Module</span></div>
+        <div class="owl" style="margin-top:0">
+          <div class="owlttl">🦉 M4 — roles: namespace</div>
+          <div class="owlrow"><span class="owlk">Kernklassen</span><span class="owlv">roles:Actor · roles:Person · roles:OrganisationalUnit</span></div>
+          <div class="owlrow"><span class="owlk">RACI-properties</span><span class="owlv">isResponsibleFor · isAccountableFor · isConsultedFor · isInformedAbout</span></div>
+          <div class="owlrow"><span class="owlk">Grondslag</span><span class="owlv">ISO 27001:2022 cl.5.3 · Besluit CIO/BVA-stelsel</span></div>
+          <div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>PREFIX roles: &lt;https://grc.organisatie.nl/ontology/roles#&gt;
+SELECT ?rol ?naam ?rapportage WHERE {
+  ?rol a roles:GRCRole ;
+       rdfs:label ?naam ;
+       roles:rapportsTo ?rapportage .
+  FILTER(LANG(?naam)="nl")
+} ORDER BY ?naam</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="gov-docs" class="ipanel">
+    <div id="docs-alert"></div>
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">ISMS-documenthiërarchie</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="exportCSV('documenten')">↓ CSV</span>
+          <span class="cact" onclick="modalDocument()">+ Nieuw document</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek documenttitel..." id="sf-docs" oninput="renderDocs()">
+        <select id="sf-docs-niv" onchange="renderDocs()"><option value="">Alle niveaus</option><option>Beleid</option><option>Procedure</option><option>Werkinstructie</option><option>Registratie</option></select>
+        <span class="sfcnt" id="sf-docs-cnt"></span>
+      </div>
+      <div class="tscroll"><table class="tbl"><thead><tr><th>ID</th><th>Niveau</th><th>Titel</th><th>Versie</th><th>Goedgekeurd</th><th>Review</th><th>Eigenaar</th><th>Status</th></tr></thead><tbody id="docs-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="gov-fw" class="ipanel">
+    <div class="card">
+      <div class="chd"><span class="cttl">Governance-controls per framework</span></div>
+      <table class="tbl"><thead><tr><th>Framework</th><th>Controls / artikelen</th><th>Kernverplichting</th><th>Verantw. rol</th></tr></thead><tbody>
+        <tr><td><span class="b bp">BIO 2.0</span></td><td>5.01–5.04</td><td>IB-beleid, rollen, management, functiescheiding</td><td>SG/DG + BVA</td></tr>
+        <tr><td><span class="b bb">ISO 27001</span></td><td>cl.5 (5.1–5.3)</td><td>Leiderschap, beleid, rollen &amp; bevoegdheden</td><td>Topmanagement</td></tr>
+        <tr><td><span class="b bc">NIS2</span></td><td>Art.20</td><td>Bestuursorgaan keurt beveiligingsmaatregelen goed</td><td>SG/DG</td></tr>
+        <tr><td><span class="b bo">DORA</span></td><td>Art.5</td><td>ICT-governancekader</td><td>CIO/CISO</td></tr>
+        <tr><td><span class="b bg">COBIT 2019</span></td><td>EDM01–EDM05</td><td>Governance-kader t/m stakeholdertransparantie</td><td>SG/DG + CIO</td></tr>
+        <tr><td><span class="b by">NIST 800-39</span></td><td>§2 (Tier 1)</td><td>Organisatieniveau risicobeheer</td><td>CIO/CISO/BVA</td></tr>
+        <tr><td><span class="b bz">VIR 2007</span></td><td>Art.3–5</td><td>Verantwoordelijkheid SG, BVA-stelsel</td><td>SG + BVA</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB: RISK ═══ -->
+<div id="tab-risk" class="tab">
+  <div class="inav">
+    <div class="itab active" onclick="iTab(event,'risk-ctx')">Risicocontext</div>
+    <div class="itab" onclick="iTab(event,'risk-reg')">Risicoregister</div>
+    <div class="itab" onclick="iTab(event,'risk-hm')">Heatmap</div>
+    <div class="itab" onclick="iTab(event,'risk-owl')">Ontologie-lens</div>
+  </div>
+
+  <div id="risk-ctx" class="ipanel active">
+    <div class="alert ai">ℹ️ <div><b>TBB = Te Beschermen Belangen</b> (Vertrouwelijkheid · Integriteit · Beschikbaarheid) — BIO 2.0 classificatieprincipe. BBN-niveaus zijn historische BIO 1.x verwijzingen.</div></div>
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Risicobereidheid per dimensie</span><span class="chip">Bewerkbaar</span></div>
+        <table class="tbl"><thead><tr><th>Dimensie</th><th>TBB</th><th>Bereidheid</th><th>Drempelwaarde</th></tr></thead><tbody>
+          <tr><td>Financieel</td><td><span class="b bc">V+B</span></td><td><span class="b by">Laag</span></td><td>€ 50.000</td></tr>
+          <tr><td>Operationeel</td><td><span class="b bc">I+B</span></td><td><span class="b by">Laag</span></td><td>RTO &lt; 4u</td></tr>
+          <tr><td>Reputationeel</td><td><span class="b bc">V+I</span></td><td><span class="b br">Zeer laag</span></td><td>0 openbaar incidenten</td></tr>
+          <tr><td>Juridisch/Compliance</td><td><span class="b bc">V</span></td><td><span class="b br">Nul</span></td><td>0 overtredingen</td></tr>
+          <tr><td>Veiligheid personeel</td><td><span class="b bc">V+I+B</span></td><td><span class="b br">Nul</span></td><td>0 veiligheidsincidenten</td></tr>
+        </tbody></table>
+        <div style="margin-top:10px;font-size:10px;color:var(--text3)">V=Vertrouwelijkheid · I=Integriteit · B=Beschikbaarheid (ISO 27005:2024 §8.3)</div>
+      </div>
+      <div class="card"><div class="chd"><span class="cttl">Risicobereidheid radar</span></div><canvas id="c-radar"></canvas></div>
+    </div>
+  </div>
+
+  <div id="risk-reg" class="ipanel">
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">Risicoregister</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="exportCSV('risicos')">↓ CSV</span>
+          <span class="expbtn" onclick="exportTTLRegister()">↓ Turtle</span>
+          <span class="cact" onclick="modalRisico()">+ Nieuw risico</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek omschrijving, asset, eigenaar..." id="sf-risicos" oninput="renderRisicos()">
+        <select id="sf-risicos-status" onchange="renderRisicos()"><option value="">Alle statussen</option><option>Open</option><option>In behandeling</option><option>Gesloten</option></select>
+        <select id="sf-risicos-beh" onchange="renderRisicos()"><option value="">Alle behandelingen</option><option>Mitigeren</option><option>Accepteren</option><option>Vermijden</option><option>Overdragen</option></select>
+        <span class="sfcnt" id="sf-risicos-cnt"></span>
+      </div>
+      <div class="tscroll" style="max-height:440px"><table class="tbl"><thead><tr><th>ID</th><th>Omschrijving</th><th>TBB</th><th>Asset</th><th>K</th><th>I</th><th>Bruto</th><th>Behandeling</th><th>Netto</th><th>Eigenaar</th><th>Status</th><th>Review</th></tr></thead><tbody id="risk-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="risk-hm" class="ipanel">
+    <div class="g21">
+      <div class="card">
+        <div class="chd"><span class="cttl">Risicoheatmap 5×5 (K×I)</span><span class="chip">Klik cel voor risico's</span></div>
+        <div id="heatmap-wrap"></div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl" id="hm-detail-ttl">Geselecteerde cel</span></div>
+        <div id="hm-detail"><div style="color:var(--text4);font-size:11px;padding:16px 0">Klik op een cel in de heatmap</div></div>
+        <div style="margin-top:14px"><div class="chd" style="margin-bottom:8px"><span class="cttl">Behandelingsverdeling</span></div><canvas id="c-treat"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="risk-owl" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Risk-module M3 — Klasse-hiërarchie</span></div>
+        <div class="owl" style="margin-top:0">
+          <div class="owlttl">🦉 M3 — risk: namespace</div>
+          <div class="owlrow"><span class="owlk">Kernklassen</span><span class="owlv">risk:Risk · risk:Threat · risk:Vulnerability · risk:Asset</span></div>
+          <div class="owlrow"><span class="owlk">Kans/Impact</span><span class="owlv">risk:Likelihood · risk:Impact (1–5 per TBB)</span></div>
+          <div class="owlrow"><span class="owlk">Behandeling</span><span class="owlv">risk:RiskTreatment (Mitigeer/Accept/Vermijd/Overdraag)</span></div>
+          <div class="owlrow"><span class="owlk">Object props</span><span class="owlv">threatens · exploits · affects · mitigatedBy · ownedBy</span></div>
+          <div class="owlrow"><span class="owlk">TBB-koppeling</span><span class="owlv">risk:affectsTBB (V / I / B)</span></div>
+          <div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>PREFIX risk: &lt;https://grc.organisatie.nl/ontology/risk#&gt;
+SELECT ?r ?titel ?score ?behandeling WHERE {
+  ?r a risk:InformationSecurityRisk ;
+     risk:hasRiskTitle ?titel ;
+     risk:hasInherentRiskScore ?score ;
+     risk:hasRiskTreatment ?behandeling .
+  FILTER(LANG(?titel)="nl")
+} ORDER BY DESC(?score)</div>
+        </div>
+        <div style="margin-top:12px" id="risk-ttl-out"></div>
+      </div>
+      <div class="card">
+        <div class="chd"><span class="cttl">Framework-koppelingen risicobeheer</span></div>
+        <table class="tbl"><thead><tr><th>Framework</th><th>Risico-eisen</th><th>OWL-koppeling</th></tr></thead><tbody>
+          <tr><td><span class="b bb">ISO 27005:2024</span></td><td>§8 Risicobeoordelingsproces</td><td style="font-family:var(--mono);font-size:10px">compl:derivedFrom fw:ISO_27005_2024</td></tr>
+          <tr><td><span class="b bc">ISO 31000:2018</span></td><td>§6 Risicobeheersproces</td><td style="font-family:var(--mono);font-size:10px">compl:derivedFrom fw:ISO_31000_2018</td></tr>
+          <tr><td><span class="b by">NIST 800-30 R1</span></td><td>§3 Risicobeoordelingsproces</td><td style="font-family:var(--mono);font-size:10px">compl:derivedFrom fw:NIST_SP_800_30</td></tr>
+          <tr><td><span class="b br">NIS2 Art.21(a)</span></td><td>Risicobeheer cyberbeveiliging</td><td style="font-family:var(--mono);font-size:10px">compl:satisfiedBy ctrl:ISO27002_5_07</td></tr>
+          <tr><td><span class="b bp">BIO 2.0 5.07</span></td><td>Dreigingsanalyse (TBB-basis)</td><td style="font-family:var(--mono);font-size:10px">bio:correspondsToISO ctrl:ISO27002_5_07</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB: COMPLIANCE ═══ -->
+<div id="tab-compliance" class="tab">
+  <div class="inav">
+    <div class="itab active" onclick="iTab(event,'comp-ov')">Overzicht</div>
+    <div class="itab" onclick="iTab(event,'comp-soa')">SoA</div>
+    <div class="itab" onclick="iTab(event,'comp-ctrl')">Beheersmaatregelen</div>
+    <div class="itab" onclick="iTab(event,'comp-audit')">Audit &amp; Bevindingen</div>
+    <div class="itab" onclick="iTab(event,'comp-kal')">Compliancekalender</div>
+  </div>
+
+  <div id="comp-ov" class="ipanel active">
+    <div class="g4">
+      <div class="stat" style="--ac:var(--purple-lt)"><div class="sv" id="comp-iso-cnt">—</div><div class="sl">ISO 27002 controls</div><div class="ss">in SoA opgenomen</div></div>
+      <div class="stat" style="--ac:var(--blue-lt)"><div class="sv" id="comp-bio-cnt">—</div><div class="sl">BIO 2.0 controls</div><div class="ss">geregistreerd</div></div>
+      <div class="stat" style="--ac:var(--red-br)"><div class="sv" id="comp-nist-cnt">—</div><div class="sl">NIST controls</div><div class="ss">geregistreerd</div></div>
+      <div class="stat" style="--ac:var(--orange-lt)"><div class="sv" id="comp-pct">—</div><div class="sl">Volledig geïmpl.</div><div class="ss">van toepasselijke controls</div></div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Status per framework</span></div>
+        <table class="tbl"><thead><tr><th>Framework</th><th>Verplichtingen</th><th>Volledig</th><th>Gedeeltelijk</th><th>Niet gestart</th><th>Deadline</th></tr></thead>
+        <tbody id="comp-fw-tb">
+          <tr><td><span class="b bb">ISO 27001</span></td><td>41</td><td><span class="b bg">13</span></td><td><span class="b by">22</span></td><td><span class="b br">6</span></td><td>2026-12</td></tr>
+          <tr><td><span class="b bp">BIO 2.0</span></td><td>93</td><td><span class="b bg">61</span></td><td><span class="b by">24</span></td><td><span class="b br">8</span></td><td>2026-06</td></tr>
+          <tr><td><span class="b bc">NIS2</span></td><td>17</td><td><span class="b bg">9</span></td><td><span class="b by">6</span></td><td><span class="b br">2</span></td><td>2026-04</td></tr>
+          <tr><td><span class="b bo">DORA</span></td><td>14</td><td><span class="b bg">5</span></td><td><span class="b by">7</span></td><td><span class="b br">2</span></td><td>Continu</td></tr>
+          <tr><td><span class="b bg">ISO 22301</span></td><td>17</td><td><span class="b bg">8</span></td><td><span class="b by">7</span></td><td><span class="b br">2</span></td><td>2026-09</td></tr>
+        </tbody></table>
+      </div>
+      <div class="card"><div class="chd"><span class="cttl">Implementatiestatus totaal</span></div><canvas id="c-comp-impl"></canvas></div>
+    </div>
+  </div>
+
+  <div id="comp-soa" class="ipanel">
+    <div class="alert aw">⚠️ <b>5.24 Incidentbeheer</b> — nog niet gestart. NIS2 Art.23 vereist 72-uurs meldplicht. Directe actie vereist.</div>
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">Statement of Applicability — ISO/IEC 27002:2022</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="exportSOACSV()">↓ CSV</span>
+          <span class="cact" onclick="modalControl()">+ Nieuw control</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek control, titel, motivering..." id="sf-soa" oninput="renderSoA()">
+        <select id="sf-soa-status" onchange="renderSoA()"><option value="">Alle statussen</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option></select>
+        <select id="sf-soa-fw" onchange="renderSoA()"><option value="">Alle frameworks</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option></select>
+        <span class="sfcnt" id="sf-soa-cnt"></span>
+      </div>
+      <div class="tscroll" style="max-height:480px"><table class="tbl"><thead><tr><th>Control</th><th>Titel</th><th>Framework</th><th>Status</th><th>NIS2</th><th>DORA</th><th>BIO</th><th>Motivering</th><th>Eigenaar</th></tr></thead><tbody id="soa-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="comp-ctrl" class="ipanel">
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">Beheersmaatregelen-register</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="exportCSV('controls')">↓ CSV</span>
+          <span class="cact" onclick="modalControl()">+ Nieuw control</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek ID, titel, eigenaar..." id="sf-ctrl" oninput="renderControls()">
+        <select id="sf-ctrl-fw" onchange="renderControls()"><option value="">Alle frameworks</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option></select>
+        <select id="sf-ctrl-status" onchange="renderControls()"><option value="">Alle statussen</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option></select>
+        <span class="sfcnt" id="sf-ctrl-cnt"></span>
+      </div>
+      <div class="tscroll" style="max-height:440px"><table class="tbl"><thead><tr><th>Control-nr</th><th>Framework</th><th>Titel</th><th>Status</th><th>Eigenaar</th><th>NIS2</th><th>Notitie</th></tr></thead><tbody id="ctrl-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="comp-audit" class="ipanel">
+    <div class="g2">
+      <div class="card">
+        <div class="chd"><span class="cttl">Auditregister</span></div>
+        <table class="tbl"><thead><tr><th>ID</th><th>Type</th><th>Datum</th><th>Scope</th><th>Status</th></tr></thead><tbody>
+          <tr><td><span class="chip">AUD-2025-01</span></td><td>Intern</td><td>2025-10-15</td><td>ISMS volledig</td><td><span class="b bg">Afgesloten</span></td></tr>
+          <tr><td><span class="chip">AUD-2026-01</span></td><td>Intern</td><td>2026-09-30</td><td>ISO 27001 cl.9.2</td><td><span class="b by">Gepland</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <div class="chd">
+          <span class="cttl">Auditbevindingen</span>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <span class="expbtn" onclick="exportCSV('audit_bevindingen')">↓ CSV</span>
+            <span class="cact" onclick="modalBevinding()">+ Bevinding</span>
+          </div>
+        </div>
+        <div class="sfbar">
+          <input type="text" placeholder="🔍 Zoek bevinding..." id="sf-findings" oninput="renderFindings()">
+          <select id="sf-findings-status" onchange="renderFindings()"><option value="">Alle</option><option>Open</option><option>In behandeling</option><option>Gesloten</option></select>
+          <span class="sfcnt" id="sf-findings-cnt"></span>
+        </div>
+        <table class="tbl"><thead><tr><th>ID</th><th>Type</th><th>Omschrijving</th><th>Control</th><th>Eigenaar</th><th>Deadline</th><th>Voortgang</th><th>Status</th></tr></thead><tbody id="findings-tb"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div id="comp-kal" class="ipanel">
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">Compliancekalender 2026–2028</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="expIcal()">↓ iCal</span>
+          <span class="cact" onclick="modalKalender()">+ Activiteit</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek activiteit, grondslag..." id="sf-kal" oninput="renderKalender()">
+        <select id="sf-kal-status" onchange="renderKalender()"><option value="">Alle statussen</option><option>Gepland</option><option>Uitgevoerd</option><option>Verlopen</option></select>
+        <span class="sfcnt" id="sf-kal-cnt"></span>
+      </div>
+      <div class="tl" id="kal-tl"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB: ISMS ═══ -->
+<div id="tab-isms" class="tab">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv">Vastgesteld</div><div class="sl">ISMS-scope</div><div class="ss">Volledige organisatie · cl.4.3</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="sv">Do</div><div class="sl">Huidige PDCA-fase</div><div class="ss">Operationele beheersing actief</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv">2026-09</div><div class="sl">Volgende interne audit</div><div class="ss">ISO 27001 cl.9.2</div></div>
+    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv" id="isms-soa-cnt">—</div><div class="sl">SoA controls opgenomen</div><div class="ss">Annex A controls</div></div>
+  </div>
+  <div class="pdca">
+    <div class="pq pp">
+      <div class="plbl" style="color:var(--blue-lt)">📋 Plan — Clausules 4–6</div>
+      <div class="pitem">cl.4.1–4.4 Context en scope bepalen</div>
+      <div class="pitem">cl.5.1–5.3 Leiderschap en beleid</div>
+      <div class="pitem">cl.6.1.1 Risico's en kansen (TBB-basis)</div>
+      <div class="pitem">cl.6.1.2 Risicobeoordeling (ISO 27005)</div>
+      <div class="pitem">cl.6.1.3 Risicobehandeling + SoA</div>
+      <div class="pitem">cl.6.2 IB-doelstellingen</div>
+    </div>
+    <div class="pq pd">
+      <div class="plbl" style="color:var(--green-br)">⚙️ Do — Clausules 7–8</div>
+      <div class="pitem">cl.7.1–7.2 Middelen en competentie</div>
+      <div class="pitem">cl.7.3 Bewustzijn (NIS2 Art.21h)</div>
+      <div class="pitem">cl.7.4–7.5.3 Comm. en documentbeheer</div>
+      <div class="pitem">cl.8.1 Operationele beheersing</div>
+      <div class="pitem">cl.8.2 Risicobeoordeling (uitvoering)</div>
+    </div>
+    <div class="pq pc">
+      <div class="plbl" style="color:var(--yellow-lt)">🔍 Check — Clausule 9</div>
+      <div class="pitem">cl.9.1 KRI's en KPI's monitoren</div>
+      <div class="pitem">cl.9.2.1–9.2.2 Auditprogramma</div>
+      <div class="pitem">cl.9.3.1–9.3.3 Directiebeoordeling</div>
+      <div class="pitem">BIO 5.35–5.36 Onafh. beoordeling</div>
+    </div>
+    <div class="pq pa">
+      <div class="plbl" style="color:var(--orange-lt)">🔄 Act — Clausule 10</div>
+      <div class="pitem">cl.10.1 Voortdurende verbetering</div>
+      <div class="pitem">cl.10.2 NC-register (ISO 27002 5.27)</div>
+      <div class="pitem">Corrigerende maatregelen bewaken</div>
+      <div class="pitem">PDCA-cyclus heraanvangen</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="chd"><span class="cttl">ISMS-scope en context</span><span class="chip">cl.4.3</span></div>
+      <table class="tbl"><thead><tr><th>Aspect</th><th>Omschrijving</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Organisatorische grens</td><td>Volledige ministerie/dienst</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Geografische grens</td><td>Alle locaties Nederland</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Technologische grens</td><td>Alle ICT-systemen en -diensten</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Uitsluitingen</td><td>Geen uitsluitingen van toepassing</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Externe partijen</td><td>Leveranciers conform SLA/DPA</td><td><span class="b by">⚠</span></td></tr>
+        <tr><td>Toepasselijke wetgeving</td><td>BIO 2.0 · NIS2/CBW · AVG · VIR 2007</td><td><span class="b bg">✓</span></td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">KRI's en KPI's</span></div>
+      <canvas id="c-kri" style="max-height:160px"></canvas>
+      <table class="tbl" style="margin-top:12px"><thead><tr><th>Indicator</th><th>Doel</th><th>Actueel</th><th>Status</th></tr></thead>
+      <tbody id="kri-tb"></tbody></table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="chd">
+      <span class="cttl">NC-register en corrigerende maatregelen</span>
+      <div style="display:flex;gap:7px"><span class="cact" onclick="modalBevinding()">+ NC toevoegen</span></div>
+    </div>
+    <table class="tbl"><thead><tr><th>NC-ID</th><th>Bevinding</th><th>Clausule</th><th>Ernst</th><th>Corr. maatregel</th><th>Eigenaar</th><th>Deadline</th><th>Voortgang</th></tr></thead>
+    <tbody id="nc-tb"></tbody></table>
+  </div>
+</div>
+
+</div><!-- /main -->
+<script>
+'use strict';
+// ═══════════════════════════════════════════════════════════
+// GRC DASHBOARD v3.0 — SQL.js Database Engine
+// Rijksoverheidsorganisatie · Intern gebruik
+// ═══════════════════════════════════════════════════════════
+
+let db, SQL_ENGINE, charts = {}, modalState = {};
+
+// ─── SCHEMA velddefinities ───────────────────────────────
+const SCHEMA = {
+  risicos:{ zoekKolommen:['omschrijving','dreigingsbron','asset','eigenaar','notitie'] },
+  controls:{ zoekKolommen:['control_nr','titel','eigenaar_rol','eigenaar_naam','notitie','nis2_ref'] },
+  rollen:{ zoekKolommen:['id','functienaam','stelsel','grondslag','bezet_door_naam','bezet_door_email'] },
+  documenten:{ zoekKolommen:['id','titel','eigenaar_rol','eigenaar_naam','notitie'] },
+  audit_bevindingen:{ zoekKolommen:['id','omschrijving','control_id','eigenaar','corrigerende_maatregel'] },
+  kalender:{ zoekKolommen:['titel','grondslag','eigenaar','notitie'] },
+};
+
+// ─── HELPERS ─────────────────────────────────────────────
+function q(id){ return document.getElementById(id); }
+function qs(sel){ return document.querySelector(sel); }
+function sqlOne(sql, params=[]){
+  try{ const r=db.exec(sql,params); return r[0]?.values[0]||null; }catch(e){ return null; }
+}
+function sqlAll(sql, params=[]){
+  try{ const r=db.exec(sql,params); return r[0]||{columns:[],values:[]}; }catch(e){ return {columns:[],values:[]}; }
+}
+function sqlRun(sql, params=[]){
+  try{ db.run(sql,params); return true; }catch(e){ console.error(e); return false; }
+}
+function esc(s){ return s==null?'':(s+'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function download(name, content, mime='text/plain'){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime}));
+  a.download=name; a.click();
+}
+
+// ─── TOAST ───────────────────────────────────────────────
+function toast(msg, type='ok'){
+  const s=q('toast-stack'), d=document.createElement('div');
+  d.className=`toast ${type}`;
+  d.innerHTML=`<span style="font-size:15px">${type==='ok'?'✓':type==='err'?'✕':'ℹ'}</span><span>${msg}</span>`;
+  s.appendChild(d);
+  setTimeout(()=>{ d.style.animation='slideOut .3s ease forwards'; setTimeout(()=>d.remove(),300); },3000);
+}
+
+// ─── LOADER ──────────────────────────────────────────────
+function toonLoader(msg='Laden...'){ q('db-loader').classList.add('on'); q('loader-msg').textContent=msg; }
+function verbergLoader(){ q('db-loader').classList.remove('on'); }
+
+// ─── NAVIGATION ──────────────────────────────────────────
+function goTab(e,id){
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  q('tab-'+id).classList.add('active');
+}
+function iTab(e,id){
+  const parent=e.currentTarget.parentElement;
+  parent.querySelectorAll('.itab').forEach(t=>t.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  const panel=e.currentTarget.closest('.tab')||document.body;
+  panel.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('active'));
+  q(id)?.classList.add('active');
+}
+
+// ─── FRAMEWORK META (unchanged from v2) ──────────────────
+const FW_META = {
+  iso27001:{naam:'ISO/IEC 27001:2022',versie:'2022',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (v.w.b. certificering)',mod:'M9',kl:'fw:Standard',ctrl:'41 clausules',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?cl ?titel WHERE {\n  ?c a ext:ISMSRequirement ;\n     ext:clauseNumber ?cl ;\n     rdfs:label ?titel .\n  FILTER(LANG(?titel)="nl")\n} ORDER BY ?cl`},
+  iso27002:{naam:'ISO/IEC 27002:2022',versie:'2022',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M2',kl:'fw:Standard',ctrl:'93 controls',sp:`PREFIX ctrl: <https://grc.organisatie.nl/ontology/control#>\nSELECT ?id ?titel ?domein WHERE {\n  ?c a ctrl:Control ;\n     ctrl:hasControlID ?id ;\n     rdfs:label ?titel ;\n     ctrl:hasControlDomain ?domein .\n  FILTER(LANG(?titel)="nl")\n}`},
+  bio20:{naam:'BIO 2.0 v1.3',versie:'v1.3 (5 mrt 2026)',org:'CISO Rijk / BZK',jur:'Nederland – Rijksdienst',bind:'Verplicht voor rijksdienst',mod:'M8',kl:'fw:NLGovernmentBaseline',ctrl:'93 controls + 148 maatregelen',sp:`PREFIX bio: <https://grc.organisatie.nl/ontology/bio#>\nSELECT ?nr ?label ?soort WHERE {\n  ?c a bio:BIOControl ;\n     bio:bioControlNummer ?nr ;\n     rdfs:label ?label ;\n     bio:hasControlType ?soort .\n  FILTER(LANG(?label)="nl")\n} ORDER BY ?nr`},
+  nis2:{naam:'NIS2 Richtlijn 2022/2555',versie:'2022/2555',org:'EU – geïmpl. via CBW',jur:'EU (NL: Cyber Beveiligingswet)',bind:'Verplicht voor essentiële entiteiten',mod:'M5+M10',kl:'fw:EUDirective',ctrl:'17 artikelen (Art.18–24)',sp:`PREFIX compl: <https://grc.organisatie.nl/ontology/compliance#>\nSELECT ?art ?tekst ?maatregel WHERE {\n  ?art a compl:ComplianceRequirement ;\n       compl:requirementText ?tekst ;\n       compl:satisfiedBy ?maatregel .\n  FILTER(CONTAINS(STR(?art),"NIS2"))\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY ?art`},
+  dora:{naam:'DORA 2022/2554',versie:'2022/2554',org:'EU – rechtstreeks werkend',jur:'EU (financiële entiteiten)',bind:'Verplicht voor financiële entiteiten',mod:'M12',kl:'fw:EURegulation',ctrl:'14 artikelen (Art.5–19)',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?art ?tekst WHERE {\n  ?req a ext:DORARequirement ;\n       ext:articleNumber ?art ;\n       compl:requirementText ?tekst .\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY xsd:integer(?art)`},
+  vir2007:{naam:'VIR 2007',versie:'2007',org:'BZK / Rijksdienst',jur:'Nederland – Rijksdienst',bind:'Verplicht voor rijksdienst',mod:'M1',kl:'fw:NLRegulation',ctrl:'Art. 3–9'},
+  virbi2025:{naam:'VIRBI 2025',versie:'2025',org:'BZK / Rijksdienst',jur:'Nederland – Bijzondere informatie',bind:'Verplicht voor rijksdienst',mod:'M1',kl:'fw:NLRegulation',ctrl:'Art. 1–15'},
+  bva2021:{naam:'Besluit BVA-stelsel 2021',versie:'2021',org:'BZK / Rijksdienst',jur:'Nederland',bind:'Verplicht voor rijksdienst',mod:'M4',kl:'fw:NLGovernanceDecree',ctrl:'Art. 1–12 (incl. art.6 BVC)'},
+  cio2026:{naam:'Besluit CIO-stelsel 2026',versie:'2026',org:'BZK / Rijksdienst',jur:'Nederland',bind:'Verplicht voor rijksdienst',mod:'M4',kl:'fw:NLGovernanceDecree',ctrl:'Art. 1–10'},
+  cbw:{naam:'Cyber Beveiligingswet',versie:'2024',org:'BZK – NIS2-implementatie',jur:'Nederland',bind:'Verplicht – essentiële entiteiten',mod:'M5',kl:'fw:NLLaw',ctrl:'NIS2 Art.18–24 NL-implementatie'},
+  nist80053:{naam:'NIST SP 800-53 Rev.5',versie:'Rev.5',org:'NIST / USA',jur:'Internationaal (VS-overheid)',bind:'Vrijwillig (best practice)',mod:'M11',kl:'fw:NISTPublication',ctrl:'20 families · 104 controls',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?fam ?ctrl ?label WHERE {\n  ?c a ext:NISTControl ;\n     ext:controlFamilyCode ?fam ;\n     rdfs:label ?label .\n  FILTER(LANG(?label)="nl")\n} ORDER BY ?fam`},
+  nist80039:{naam:'NIST SP 800-39',versie:'2011',org:'NIST / USA',jur:'Internationaal',bind:'Vrijwillig',mod:'M1',kl:'fw:NISTPublication',ctrl:'3-tier model'},
+  cobit:{naam:'COBIT 2019',versie:'2019',org:'ISACA',jur:'Internationaal',bind:'Vrijwillig',mod:'M1',kl:'fw:GovernanceFramework',ctrl:'40 objectives'},
+  iso27005:{naam:'ISO/IEC 27005:2024',versie:'2024',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig',mod:'M3',kl:'fw:Standard',ctrl:'§8 Risicobeoordelingsproces'},
+  iso31000:{naam:'ISO 31000:2018',versie:'2018',org:'ISO → NEN',jur:'Internationaal',bind:'Vrijwillig',mod:'M3',kl:'fw:Standard',ctrl:'§6 Risicobeheersproces'},
+  iso22301:{naam:'ISO 22301:2019',versie:'2019',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig',mod:'M13',kl:'fw:Standard',ctrl:'17 clausules (§4–10)'},
+  iso22313:{naam:'ISO 22313:2020',versie:'2020',org:'ISO → NEN',jur:'Internationaal',bind:'Vrijwillig',mod:'M1',kl:'fw:Standard',ctrl:'Implementatiegids 22301'},
+  oj2024:{naam:'EU OJ 2024/269',versie:'2024/269',org:'Europese Commissie',jur:'EU',bind:'Verplicht',mod:'M5',kl:'fw:EUImplementingRegulation',ctrl:'NIS2 uitvoeringsbepalingen'},
+};
+
+function selFW(el,key){
+  document.querySelectorAll('.fwcard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const m=FW_META[key]; if(!m) return;
+  const ic=q('fw-infocard'); ic.style.display='block';
+  q('fwic-title').textContent=m.naam;
+  const cols=[
+    {l:'Versie',v:m.versie||'—'},{l:'Uitgevende instantie',v:m.org||'—'},
+    {l:'Jurisdictie',v:m.jur||'—'},{l:'Bindend',v:m.bind||'—'},
+    {l:'Ontologie-module',v:m.mod||'—'},{l:'OWL-klasse',v:m.kl||'—'},
+    {l:'Controls/artikelen',v:m.ctrl||'—'}
+  ];
+  q('fwic-meta').innerHTML=cols.map(c=>`<div class="stat" style="--ac:var(--border2)"><div class="sv" style="font-size:14px">${esc(c.v)}</div><div class="sl">${esc(c.l)}</div></div>`).join('');
+  q('fwic-owl').innerHTML=`<div class="owlttl">🦉 Ontologie-lens — ${esc(m.kl||'—')}</div>`+
+    (m.sp?`<div class="sparql"><span class="cpbtn" onclick="cp(this)">Kopieer</span>${esc(m.sp)}</div>`:'<div style="color:var(--text4);font-size:11px">Geen SPARQL-voorbeeld voor dit kaderwerk.</div>');
+}
+
+function cp(btn){
+  const t=btn.parentElement.textContent.replace('Kopieer','').trim();
+  navigator.clipboard?.writeText(t).then(()=>{btn.textContent='✓ Gekopieerd';setTimeout(()=>btn.textContent='Kopieer',1500)});
+}
+
+// ═══════════════════════════════════════════════════════════
+// DATABASE — INIT, TABELLEN, SEED
+// ═══════════════════════════════════════════════════════════
+function maakTabellen(){
+  const ddl = [
+    `CREATE TABLE IF NOT EXISTS frameworks(id TEXT PRIMARY KEY,naam TEXT NOT NULL,versie TEXT,uitgevende_instantie TEXT,jurisdictie TEXT,bindend INTEGER DEFAULT 0,owl_klasse TEXT,module TEXT,toepasselijk INTEGER DEFAULT 1,notitie TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')),gewijzigd_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS controls(id TEXT PRIMARY KEY,framework_id TEXT,control_nr TEXT NOT NULL,titel TEXT NOT NULL,domein TEXT,beschrijving TEXT,toepasselijk INTEGER DEFAULT 1,uitsluitingsmotivering TEXT,implementatiestatus TEXT,eigenaar_rol TEXT,eigenaar_naam TEXT,documentatie TEXT,notitie TEXT,nis2_ref TEXT,dora_ref TEXT,bio_ref TEXT,nist_ref TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')),gewijzigd_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS risicos(id TEXT PRIMARY KEY,omschrijving TEXT NOT NULL,dreigingsbron TEXT,kwetsbaarheid TEXT,asset TEXT,tbb TEXT,kans INTEGER,impact INTEGER,behandeling TEXT,netto_score INTEGER,eigenaar TEXT,status TEXT DEFAULT 'Open',reviewdatum TEXT,notitie TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')),gewijzigd_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS risico_controls(risico_id TEXT,control_id TEXT,PRIMARY KEY(risico_id,control_id))`,
+    `CREATE TABLE IF NOT EXISTS rollen(id TEXT PRIMARY KEY,functienaam TEXT NOT NULL,stelsel TEXT,wettelijk_verplicht INTEGER DEFAULT 0,grondslag TEXT,bezet_door_naam TEXT,bezet_door_email TEXT,bezet_sinds TEXT,rapporteert_aan TEXT,owl_klasse TEXT,notitie TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS documenten(id TEXT PRIMARY KEY,niveau TEXT,titel TEXT NOT NULL,versie TEXT,goedkeuringsdatum TEXT,reviewdatum TEXT,eigenaar_rol TEXT,eigenaar_naam TEXT,status TEXT DEFAULT 'Actueel',locatie TEXT,notitie TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS audit_bevindingen(id TEXT PRIMARY KEY,audit_datum TEXT,type TEXT,omschrijving TEXT NOT NULL,control_id TEXT,ernst TEXT,eigenaar TEXT,deadline TEXT,corrigerende_maatregel TEXT,voortgang INTEGER DEFAULT 0,status TEXT DEFAULT 'Open',notitie TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS kalender(id TEXT PRIMARY KEY,titel TEXT NOT NULL,grondslag TEXT,deadline TEXT NOT NULL,frequentie TEXT,eigenaar TEXT,status TEXT DEFAULT 'Gepland',herinnering_dagen INTEGER DEFAULT 30,notitie TEXT,aangemaakt_op TEXT DEFAULT(datetime('now')))`,
+    `CREATE TABLE IF NOT EXISTS audit_trail(id INTEGER PRIMARY KEY AUTOINCREMENT,tabel TEXT,record_id TEXT,actie TEXT,oud_veld TEXT,nieuw_veld TEXT,tijdstip TEXT DEFAULT(datetime('now')))`,
+  ];
+  ddl.forEach(s=>sqlRun(s));
+}
+
+function laadSeedData(){
+  // frameworks
+  [
+    ['ISO-27001-2022','ISO/IEC 27001:2022','2022','ISO/IEC → NEN','Internationaal',0,'fw:Standard','M9'],
+    ['ISO-27002-2022','ISO/IEC 27002:2022','2022','ISO/IEC → NEN','Internationaal',0,'fw:Standard','M2'],
+    ['ISO-27005-2024','ISO/IEC 27005:2024','2024','ISO/IEC → NEN','Internationaal',0,'fw:Standard','M3'],
+    ['ISO-31000-2018','ISO 31000:2018','2018','ISO → NEN','Internationaal',0,'fw:Standard','M3'],
+    ['ISO-22301-2019','ISO 22301:2019','2019','ISO/IEC → NEN','Internationaal',0,'fw:Standard','M13'],
+    ['BIO-2.0','BIO 2.0 v1.3','v1.3','CISO Rijk / BZK','Nederland',1,'fw:GovernmentBaseline','M8'],
+    ['NIS2','NIS2 Richtlijn 2022/2555','2022/2555','EU','EU',1,'fw:EUDirective','M10'],
+    ['DORA','DORA 2022/2554','2022/2554','EU','EU',1,'fw:EURegulation','M12'],
+    ['NIST-800-53-R5','NIST SP 800-53 Rev.5','Rev.5','NIST','Internationaal',0,'fw:NISTPublication','M11'],
+    ['VIR-2007','VIR 2007','2007','BZK','Nederland',1,'fw:NLRegulation','M1'],
+    ['VIRBI-2025','VIRBI 2025','2025','BZK','Nederland',1,'fw:NLRegulation','M1'],
+    ['BVA-2021','Besluit BVA-stelsel 2021','2021','BZK','Nederland',1,'fw:NLGovernanceDecree','M4'],
+    ['CIO-2026','Besluit CIO-stelsel 2026','2026','BZK','Nederland',1,'fw:NLGovernanceDecree','M4'],
+    ['CBW','Cyber Beveiligingswet','2024','BZK','Nederland',1,'fw:NLLaw','M5'],
+    ['COBIT-2019','COBIT 2019','2019','ISACA','Internationaal',0,'fw:GovernanceFramework','M1'],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO frameworks(id,naam,versie,uitgevende_instantie,jurisdictie,bindend,owl_klasse,module)VALUES(?,?,?,?,?,?,?,?)`,[...r]));
+
+  // controls (SoA data)
+  [
+    ['ISO-5.01','ISO-27002-2022','5.01','Beleidsregels voor IB','Org.','',1,'','Gedeeltelijk','CIO','','','','21(a)','','✓',''],
+    ['ISO-5.07','ISO-27002-2022','5.07','Dreigingsanalyse','Org.','',1,'','Gedeeltelijk','CISO','','','','21(a)','Art.8','✓',''],
+    ['ISO-5.09','ISO-27002-2022','5.09','Asset inventarisatie','Org.','',1,'','Gedeeltelijk','ISSO','','','','','Art.8','✓',''],
+    ['ISO-5.15','ISO-27002-2022','5.15','Toegangsbeveiliging','Org.','',1,'','Volledig','ISSO','','','','21(j)','Art.9','✓',''],
+    ['ISO-5.16','ISO-27002-2022','5.16','Identiteitsbeheer','Org.','',1,'','Gedeeltelijk','ISSO','','','','21(j)','','✓',''],
+    ['ISO-5.19','ISO-27002-2022','5.19','Leveranciersbeveiliging','Org.','',1,'','In uitvoering','CM-ICT','','','','21(d)','Art.5','✓',''],
+    ['ISO-5.24','ISO-27002-2022','5.24','Incidentbeheer plan','Org.','',1,'','Niet gestart','BVC','','','','Art.23','Art.17','✓','⚠ Prioriteit NIS2'],
+    ['ISO-5.29','ISO-27002-2022','5.29','IB bij verstoringen','Org.','',1,'','Gedeeltelijk','BVA','','','','21(c)','Art.11','✓',''],
+    ['ISO-5.35','ISO-27002-2022','5.35','Onafh. beoordeling IB','Org.','',1,'','Gedeeltelijk','Audit','','','','21(g)','','✓',''],
+    ['ISO-6.03','ISO-27002-2022','6.03','Bewustzijn en training','Mens','',1,'','Gedeeltelijk','CISO','','','','21(h)','','✓',''],
+    ['ISO-7.01','ISO-27002-2022','7.01','Fysieke beveiligingszones','Fysiek','',1,'','Volledig','BVC','','','','','','✓',''],
+    ['ISO-8.05','ISO-27002-2022','8.05','Beveiligde authenticatie','Tech','',1,'','Gedeeltelijk','ISSO','','','','21(j)','Art.9','✓','MFA vereist'],
+    ['ISO-8.07','ISO-27002-2022','8.07','Bescherming malware','Tech','',1,'','Volledig','ISSO','','','','21(e)','Art.9','✓',''],
+    ['ISO-8.08','ISO-27002-2022','8.08','Kwetsbaarheidsbeheer','Tech','',1,'','In uitvoering','ISSO','','','','21(f)','Art.9','✓','Patch-management'],
+    ['ISO-8.13','ISO-27002-2022','8.13','Back-up van informatie','Tech','',1,'','Volledig','ISSO','','','','21(c)','Art.12','✓','BCM-verplichting'],
+    ['BIO-5.01','BIO-2.0','5.01','Beleidsregels voor IB (BIO)','Org.','',1,'','Gedeeltelijk','CIO','','','','','','',''],
+    ['BIO-5.07','BIO-2.0','5.07','Dreigingsanalyse (BIO)','Org.','',1,'','In uitvoering','CISO','','','','','','',''],
+    ['BIO-8.07','BIO-2.0','8.07','Bescherming malware (BIO)','Tech','',1,'','Volledig','ISSO','','','','','','',''],
+    ['BIO-8.13','BIO-2.0','8.13','Back-up (BIO)','Tech','',1,'','Volledig','ISSO','','','','','','',''],
+    ['NIST-AC-2','NIST-800-53-R5','AC-2','Account Management','AC','',1,'','Gedeeltelijk','ISSO','','','','','','',''],
+    ['NIST-IR-4','NIST-800-53-R5','IR-4','Incident Handling','IR','',1,'','Niet gestart','BVC','','','','','','',''],
+    ['NIST-SC-7','NIST-800-53-R5','SC-7','Boundary Protection','SC','',1,'','Volledig','ISSO','','','','','','',''],
+    ['NIST-SI-3','NIST-800-53-R5','SI-3','Malicious Code Protection','SI','',1,'','Volledig','ISSO','','','','','','',''],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO controls(id,framework_id,control_nr,titel,domein,beschrijving,toepasselijk,uitsluitingsmotivering,implementatiestatus,eigenaar_rol,eigenaar_naam,documentatie,notitie,nis2_ref,dora_ref,bio_ref,nist_ref)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,[...r]));
+
+  // risicos
+  [
+    ['R_001','Ongeautoriseerde toegang tot gevoelige systemen','Insider threat / externe aanval','Zwak toegangsbeheer','IAM-systeem','V+I',4,5,'Mitigeren',8,'','Open','2026-06-30',''],
+    ['R_002','Ransomware-aanval op kritieke systemen','Cybercriminelen','Verouderde software','Primaire systemen','B+I',3,4,'Mitigeren',6,'','In behandeling','2026-04-30',''],
+    ['R_003','Datalekken via leveranciers','Onzorgvuldig leveranciersbeheer','Onvoldoende contractbeheersing','Persoonsgegevens','V',3,4,'Overdragen',6,'','Open','2026-05-31',''],
+    ['R_004','Uitval kritieke ICT-systemen','Technisch falen / calamiteit','Single point of failure','Primaire systemen','B',3,4,'Mitigeren',4,'','In behandeling','2026-04-30',''],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO risicos(id,omschrijving,dreigingsbron,kwetsbaarheid,asset,tbb,kans,impact,behandeling,netto_score,eigenaar,status,reviewdatum,notitie)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,[...r]));
+
+  // risico_controls
+  [['R_001','ISO-8.05'],['R_001','ISO-5.15'],['R_002','ISO-8.07'],['R_002','ISO-8.13'],
+   ['R_003','ISO-5.19'],['R_004','ISO-5.29'],['R_004','ISO-8.13']
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO risico_controls VALUES(?,?)`,[...r]));
+
+  // rollen
+  [
+    ['SG/DG','Secretaris-Generaal / DG','Bestuur',1,'AMvB organisatiedecreet','','','','','roles:SG'],
+    ['CIO','Chief Information Officer','CIO-stelsel',1,'Besluit CIO-stelsel 2026, art.3','','','','SG/DG','roles:CIO'],
+    ['CISO','Chief Information Security Officer','CIO-stelsel',1,'Besluit CIO-stelsel 2026, art.4','','','','CIO','roles:CISO'],
+    ['CDO','Chief Data Officer','CIO-stelsel',0,'Besluit CIO-stelsel 2026, art.5','','','','CIO','roles:CDO'],
+    ['BVA','Beveiligingsautoriteit','BVA-stelsel',1,'Besluit BVA-stelsel 2021, art.3','','','','SG/DG','roles:BVA'],
+    ['BVC','Beveiligingscoördinator','BVA-stelsel',1,'Besluit BVA-stelsel 2021, art.6','','','','BVA','roles:BVC'],
+    ['FG','Functionaris Gegevensbescherming','Privacy',1,'AVG art.37','','','','SG/DG','roles:FG'],
+    ['ISSO','Informatiebeveiligingsfunctionaris','Operationeel',0,'BIO 2.0 5.02','','','','CISO','roles:ISSO'],
+    ['Audit','Auditdienst Rijk','Audit',1,'Comptabiliteitswet art.66','','','','SG/DG','roles:Audit'],
+    ['CM-ICT','Contractmanager ICT','Operationeel',0,'BIO 5.19–5.22','','','','CIO','roles:ContractManager'],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO rollen(id,functienaam,stelsel,wettelijk_verplicht,grondslag,bezet_door_naam,bezet_door_email,bezet_sinds,rapporteert_aan,owl_klasse)VALUES(?,?,?,?,?,?,?,?,?,?)`,[...r]));
+
+  // documenten
+  [
+    ['POL-01','Beleid','Informatiebeveiligingsbeleid','2.1','2024-03-01','2026-03-25','CIO','','Actueel','SharePoint/IB',''],
+    ['POL-02','Beleid','Risicobeleid ISMS','1.3','2025-01-15','2027-01-15','CISO','','Actueel','SharePoint/IB',''],
+    ['POL-03','Beleid','Classificatiebeleid informatie','1.0','2025-06-01','2027-06-01','CDO','','Actueel','SharePoint/IB',''],
+    ['SOP-01','Procedure','Incidentrespons-procedure','3.2','2025-09-01','2026-09-01','BVC','','Actueel','SharePoint/IB',''],
+    ['SOP-02','Procedure','Access management-procedure','2.0','2025-04-01','2026-04-01','ISSO','','Actueel','SharePoint/IB',''],
+    ['SOP-03','Procedure','BIA-procedure','1.1','2025-11-01','2026-11-01','BVA','','Actueel','SharePoint/IB',''],
+    ['REG-01','Registratie','Risicoregister','—','Continu','Continu','CISO','','Actueel','GRC Dashboard',''],
+    ['REG-02','Registratie','Statement of Applicability (SoA)','1.4','2026-01-01','2026-12-31','CISO','','Actueel','GRC Dashboard',''],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO documenten(id,niveau,titel,versie,goedkeuringsdatum,reviewdatum,eigenaar_rol,eigenaar_naam,status,locatie,notitie)VALUES(?,?,?,?,?,?,?,?,?,?,?)`,[...r]));
+
+  // audit_bevindingen
+  [
+    ['NC-2025-01','2025-10-15','Minor NC','SoA niet volledig gedocumenteerd voor cl.5.24','ISO-5.24','','','2026-04-30','SoA incidentbeheer opstellen',0,'Open',''],
+    ['NC-2025-02','2025-10-15','Observatie','Patch-management proces niet formeel vastgelegd','ISO-8.08','','','2026-06-30','Procedure opstellen en goedkeuren',40,'In behandeling',''],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO audit_bevindingen(id,audit_datum,type,omschrijving,control_id,ernst,eigenaar,deadline,corrigerende_maatregel,voortgang,status,notitie)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,[...r]));
+
+  // kalender
+  [
+    ['KAL-01','Jaarlijkse ISMS risicobeoordeling','ISO 27001 cl.8.2','2026-03-31','Jaarlijks','CISO','Gepland',30,''],
+    ['KAL-02','NIS2 Art.23 meldoefening (72u)','NIS2 Art.23','2026-04-30','Jaarlijks','BVC','Gepland',30,''],
+    ['KAL-03','BIO 2.0 gap-analyse update','BIO 5.01.02','2026-06-30','Halfjaarlijks','ISSO','Gepland',14,''],
+    ['KAL-04','Interne ISMS audit','ISO 27001 cl.9.2.2','2026-09-30','Jaarlijks','Audit','Gepland',30,''],
+    ['KAL-05','DORA ICT-risicobeoordeling','DORA Art.6','2026-09-30','Jaarlijks','CIO','Gepland',30,''],
+    ['KAL-06','Directiebeoordeling ISMS','ISO 27001 cl.9.3','2026-10-31','Jaarlijks','CIO','Gepland',45,''],
+    ['KAL-07','BIO 2.0 zelfevaluatie','BIO 5.36.01','2026-11-30','Jaarlijks','BVA','Gepland',30,''],
+    ['KAL-08','SoA update en beoordeling','ISO 27001 cl.6.1.3','2026-12-15','Jaarlijks','CISO','Gepland',30,''],
+    ['KAL-09','Compliancerapportage bestuur','VIR 2007 art.5','2026-12-31','Jaarlijks','BVA/CIO','Gepland',30,''],
+    ['KAL-10','VIRBI art.10 evaluatie','VIRBI 2025 art.10','2028-12-31','3-jaarlijks','BVA','Gepland',60,''],
+  ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO kalender(id,titel,grondslag,deadline,frequentie,eigenaar,status,herinnering_dagen,notitie)VALUES(?,?,?,?,?,?,?,?,?)`,[...r]));
+}
+
+// ─── PERSISTENTIE ─────────────────────────────────────────
+function autoSave(){
+  try{
+    const data=db.export();
+    // Chunk base64 to avoid stack overflow on large DBs
+    let b64='';
+    const chunkSize=8192;
+    for(let i=0;i<data.length;i+=chunkSize){
+      b64+=btoa(String.fromCharCode(...data.subarray(i,i+chunkSize)));
+    }
+    localStorage.setItem('grc_db_v3',b64);
+    const ind=q('save-ind');
+    if(ind){ind.style.color='var(--green-br)';setTimeout(()=>ind.style.color='var(--text4)',1200);}
+  }catch(e){console.warn('AutoSave:',e);}
+}
+function loadFromStorage(){
+  try{
+    const b64=localStorage.getItem('grc_db_v3');
+    if(!b64) return false;
+    const bin=atob(b64);
+    const arr=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+    db=new SQL_ENGINE.Database(arr);
+    return true;
+  }catch(e){ console.warn('Load from storage:',e); return false; }
+}
+function exportDB(){
+  try{
+    const data=db.export();
+    const blob=new Blob([data],{type:'application/octet-stream'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=`grc-database-${new Date().toISOString().slice(0,10)}.db`;
+    a.click();
+    toast('Database geëxporteerd ✓','ok');
+  }catch(e){ toast('Export mislukt: '+e.message,'err'); }
+}
+function importDB(file){
+  if(!file) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const arr=new Uint8Array(e.target.result);
+      db=new SQL_ENGINE.Database(arr);
+      renderAll(); updateKPIs();
+      toast('Database geladen: '+file.name,'ok');
+    }catch(err){ toast('Import mislukt: '+err.message,'err'); }
+  };
+  r.readAsArrayBuffer(file);
+}
+
+// ─── AUDIT TRAIL ──────────────────────────────────────────
+function auditTrail(tabel,id,actie,oud,nieuw){
+  sqlRun(`INSERT INTO audit_trail(tabel,record_id,actie,oud_veld,nieuw_veld)VALUES(?,?,?,?,?)`,
+    [tabel,id,actie,JSON.stringify(oud),JSON.stringify(nieuw)]);
+}
+
+// ─── BADGE HELPERS ────────────────────────────────────────
+function statusBadge(s){
+  const m={'Volledig':'bg','Gedeeltelijk':'by','In uitvoering':'bo','Niet gestart':'br','N.v.t.':'bz','Open':'br','Gesloten':'bg','In behandeling':'by','Gepland':'bc','Uitgevoerd':'bg','Verlopen':'br','Actueel':'bg','Verlopen doc':'br'};
+  return `<span class="b ${m[s]||'bz'}">${esc(s||'—')}</span>`;
+}
+function tbbBadge(t){ return t?`<span class="b bc">${esc(t)}</span>`:'—'; }
+function wetBadge(w){ return w?`<span class="b bg">✓ Wet</span>`:`<span class="b bz">—</span>`; }
+function raciCell(r){
+  const m={'R':'rr','A':'ra','C':'rc','I':'ri'};
+  return r&&m[r]?`<span class="${m[r]}">${r}</span>`:`<span style="color:var(--text4)">—</span>`;
+}
+function scoreBadge(s){
+  const n=parseInt(s)||0;
+  const cls=n>=16?'br':n>=9?'bo':n>=4?'by':'bg';
+  return `<span class="b ${cls}">${n}</span>`;
+}
+function docStatusBadge(reviewdatum){
+  if(!reviewdatum||reviewdatum==='Continu') return statusBadge('Actueel');
+  const d=new Date(reviewdatum), now=new Date();
+  if(d<now) return statusBadge('Verlopen');
+  const diff=(d-now)/(1000*86400);
+  if(diff<60) return `<span class="b by">Binnenkort</span>`;
+  return statusBadge('Actueel');
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER FUNCTIES
+// ═══════════════════════════════════════════════════════════
+function renderAll(){
+  updateKPIs();
+  renderRollen();
+  renderRaci();
+  renderGovModel();
+  renderDocs();
+  renderRisicos();
+  renderHeatmap();
+  renderSoA();
+  renderControls();
+  renderFindings();
+  renderKalender();
+  renderNC();
+  renderCharts();
+}
+
+// ─── KPIs ─────────────────────────────────────────────────
+function updateKPIs(){
+  // Controls actief
+  const totCtrl=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1`);
+  q('kpi-controls').textContent=totCtrl?totCtrl[0]:'—';
+  const isoC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1`);
+  const bioC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1`);
+  const nistC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1`);
+  q('kpi-controls-sub').textContent=`ISO ${isoC?isoC[0]:0} · BIO ${bioC?bioC[0]:0} · NIST ${nistC?nistC[0]:0}`;
+
+  // Compliance %
+  const pct=sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`);
+  q('kpi-compliance').textContent=(pct&&pct[0]!=null?pct[0]+'%':'—');
+  const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1`);
+  q('kpi-comp-sub').textContent=`${vol?vol[0]:0} van ${totCtrl?totCtrl[0]:0} volledig`;
+
+  // Risico's hoog open
+  const hr=sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`);
+  q('kpi-risicos').textContent=hr?hr[0]:'0';
+
+  // Deadline
+  const nd=sqlOne(`SELECT titel,deadline FROM kalender WHERE deadline>=date('now') ORDER BY deadline ASC LIMIT 1`);
+  if(nd){ q('kpi-deadline').textContent=nd[1]; q('kpi-deadline-sub').textContent=nd[0].substring(0,32); }
+  else { q('kpi-deadline').textContent='—'; }
+
+  // Rollen bezet %
+  const rolPct=sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen`);
+  q('kpi-rollen').textContent=(rolPct&&rolPct[0]!=null?rolPct[0]+'%':'—');
+
+  // Docs actueel
+  const totDoc=sqlOne(`SELECT COUNT(*) FROM documenten`);
+  q('kpi-docs').textContent=totDoc?totDoc[0]:'—';
+  q('gov-kpi-docs').textContent=totDoc?totDoc[0]:'—';
+
+  // Findings open
+  const opFi=sqlOne(`SELECT COUNT(*) FROM audit_bevindingen WHERE status='Open'`);
+  q('kpi-findings').textContent=opFi?opFi[0]:'0';
+
+  // Kalender <30d
+  const kal30=sqlOne(`SELECT COUNT(*) FROM kalender WHERE deadline>=date('now') AND julianday(deadline)-julianday('now')<=30`);
+  q('kpi-kal').textContent=kal30?kal30[0]:'0';
+
+  // Governance panel
+  const rolTot=sqlOne(`SELECT COUNT(*) FROM rollen`);
+  q('gov-kpi-rollen').textContent=(rolPct&&rolPct[0]!=null?rolPct[0]+'%':'—');
+
+  // ISMS SoA count
+  const soaCnt=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1`);
+  q('isms-soa-cnt').textContent=soaCnt?soaCnt[0]:'—';
+
+  // Compliance tab stats
+  q('comp-iso-cnt').textContent=isoC?isoC[0]:'—';
+  q('comp-bio-cnt').textContent=bioC?bioC[0]:'—';
+  q('comp-nist-cnt').textContent=nistC?nistC[0]:'—';
+  q('comp-pct').textContent=(pct&&pct[0]!=null?pct[0]+'%':'—');
+
+  // Badge
+  const riskBadge=sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open'`);
+  q('risk-badge').textContent=riskBadge?riskBadge[0]:'0';
+}
+
+// ─── ROLLEN ───────────────────────────────────────────────
+function renderRollen(){
+  const zoek=(q('sf-rollen')?.value||'').trim();
+  const stelsel=q('sf-rollen-stelsel')?.value||'';
+  let sql=`SELECT id,functienaam,stelsel,wettelijk_verplicht,grondslag,bezet_door_naam,bezet_door_email,bezet_sinds FROM rollen WHERE 1=1`;
+  const params=[];
+  if(stelsel){ sql+=` AND stelsel=?`; params.push(stelsel); }
+  if(zoek){ sql+=` AND (id LIKE ? OR functienaam LIKE ? OR grondslag LIKE ? OR bezet_door_naam LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t,t); }
+  sql+=` ORDER BY stelsel,id`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM rollen`);
+  if(q('sf-rollen-cnt')) q('sf-rollen-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tb=q('rollen-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="7">Nog geen rollen geregistreerd</td></tr>`; return; }
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalRol('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[0])}</span></td>
+    <td>${esc(r[1])}</td>
+    <td><span class="b bz">${esc(r[2])}</span></td>
+    <td>${wetBadge(r[3])}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[4])}</td>
+    <td>${r[5]?`<span class="b bg">✓ ${esc(r[5])}</span>`:'<span style="color:var(--text4);font-style:italic">Onbezet</span>'}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[7]||'—')}</td>
+  </tr>`).join('');
+  q('gov-kpi-rollen').textContent=(sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen`)||['—'])[0]+'%';
+}
+
+// ─── RACI ─────────────────────────────────────────────────
+const RACI_DATA=[
+  {act:'IB-beleid vaststellen',r:['A','C','R','C','I','I','I','I']},
+  {act:'Risicobeoordeling uitvoeren',r:['A','C','R','R','R','I','C','I']},
+  {act:'SoA opstellen',r:['A','C','R','I','C','I','C','I']},
+  {act:'Interne audit uitvoeren',r:['A','I','C','I','I','I','I','R']},
+  {act:'Incidentrespons leiden',r:['I','I','A','R','R','I','R','I']},
+  {act:'BVC-coördinatie dienstonderdeel',r:['I','I','C','A','R','I','I','I']},
+  {act:'Leveranciersbeheersing',r:['I','A','C','I','I','I','R','C']},
+  {act:'Bewustzijnsprogramma',r:['I','I','A','I','R','I','R','I']},
+  {act:'Directiebeoordeling ISMS',r:['R','C','R','C','I','I','I','C']},
+  {act:'Privacy Impact Assessment',r:['I','I','C','I','I','R','C','I']},
+];
+function renderRaci(){
+  q('raci-tb').innerHTML=RACI_DATA.map(row=>`<tr>
+    <td>${esc(row.act)}</td>
+    ${row.r.map(v=>`<td style="text-align:center">${raciCell(v)}</td>`).join('')}
+  </tr>`).join('');
+}
+
+// ─── GOV MODEL ────────────────────────────────────────────
+const GOV_LEVELS=[
+  {n:'Strategisch',c:'var(--cyan-lt)',rollen:'SG/DG · Ministerraad',docs:'Strategisch IB-kader · Organisatiebeleid',iso:'cl.5.1',cobit:'EDM01–05'},
+  {n:'Tactisch',c:'var(--blue-lt)',rollen:'CIO · CISO · BVA · FG',docs:'IB-beleid · Risicobeleid · SoA',iso:'cl.5.2–5.3, 6',cobit:'APO12–13'},
+  {n:'Operationeel',c:'var(--yellow-lt)',rollen:'BVC · ISSO · CDO',docs:'Procedures · Werkinstructies',iso:'cl.8',cobit:'DSS05–06'},
+  {n:'Uitvoering',c:'var(--green-br)',rollen:'Systeemeigenaren · Gebruikers · Leveranciers',docs:'Registraties · Logs · Incidentrapportages',iso:'cl.8.1',cobit:'MEA01'},
+];
+function renderGovModel(){
+  q('gov-model').innerHTML=GOV_LEVELS.map(g=>`
+    <div style="border:1px solid var(--border);border-left:3px solid ${g.c};border-radius:4px;padding:9px 12px;margin-bottom:7px;background:var(--bg3)">
+      <div style="font-weight:600;font-size:12px;color:${g.c};margin-bottom:4px">${esc(g.n)}</div>
+      <div style="font-size:11px;color:var(--text2)"><b>Rollen:</b> ${esc(g.rollen)}</div>
+      <div style="font-size:11px;color:var(--text3)"><b>Documenten:</b> ${esc(g.docs)}</div>
+      <div style="font-size:10px;color:var(--text4);margin-top:3px">ISO ${esc(g.iso)} · COBIT ${esc(g.cobit)}</div>
+    </div>`).join('');
+}
+
+// ─── DOCUMENTEN ───────────────────────────────────────────
+function renderDocs(){
+  const zoek=(q('sf-docs')?.value||'').trim();
+  const niv=q('sf-docs-niv')?.value||'';
+  let sql=`SELECT id,niveau,titel,versie,goedkeuringsdatum,reviewdatum,eigenaar_rol,status FROM documenten WHERE 1=1`;
+  const params=[];
+  if(niv){ sql+=` AND niveau=?`; params.push(niv); }
+  if(zoek){ sql+=` AND (id LIKE ? OR titel LIKE ? OR eigenaar_rol LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t); }
+  sql+=` ORDER BY niveau,id`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM documenten`);
+  if(q('sf-docs-cnt')) q('sf-docs-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tb=q('docs-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="8">Nog geen documenten geregistreerd</td></tr>`; return; }
+  // Alert for expired docs
+  const exp=sqlOne(`SELECT COUNT(*) FROM documenten WHERE reviewdatum NOT IN ('Continu','—','') AND reviewdatum < date('now')`);
+  const da=q('docs-alert');
+  if(da) da.innerHTML=exp&&exp[0]>0?`<div class="alert ae">⚠ ${exp[0]} document(en) hebben verlopen reviewdatum. Klik rij om bij te werken.</div>`:'';
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalDocument('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[0])}</span></td>
+    <td><span class="b bp">${esc(r[1])}</span></td>
+    <td>${esc(r[2])}</td>
+    <td style="font-family:var(--mono);font-size:11px">${esc(r[3])}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[4])}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[5])}</td>
+    <td><span class="chip">${esc(r[6])}</span></td>
+    <td>${docStatusBadge(r[5])}</td>
+  </tr>`).join('');
+}
+
+// ─── RISICO'S ─────────────────────────────────────────────
+function renderRisicos(){
+  const zoek=(q('sf-risicos')?.value||'').trim();
+  const status=q('sf-risicos-status')?.value||'';
+  const beh=q('sf-risicos-beh')?.value||'';
+  let sql=`SELECT id,omschrijving,tbb,asset,kans,impact,kans*impact AS bruto,behandeling,netto_score,eigenaar,status,reviewdatum FROM risicos WHERE 1=1`;
+  const params=[];
+  if(status){ sql+=` AND status=?`; params.push(status); }
+  if(beh){ sql+=` AND behandeling=?`; params.push(beh); }
+  if(zoek){ sql+=` AND (omschrijving LIKE ? OR asset LIKE ? OR eigenaar LIKE ? OR dreigingsbron LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t,t); }
+  sql+=` ORDER BY kans*impact DESC,id`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM risicos`);
+  if(q('sf-risicos-cnt')) q('sf-risicos-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tb=q('risk-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="12">Nog geen risico's geregistreerd</td></tr>`; return; }
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalRisico('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[0])}</span></td>
+    <td style="max-width:220px">${esc(r[1])}</td>
+    <td>${tbbBadge(r[2])}</td>
+    <td style="font-size:11px">${esc(r[3])}</td>
+    <td style="text-align:center;font-family:var(--mono)">${r[4]}</td>
+    <td style="text-align:center;font-family:var(--mono)">${r[5]}</td>
+    <td style="text-align:center">${scoreBadge(r[6])}</td>
+    <td><span class="b bz">${esc(r[7])}</span></td>
+    <td style="text-align:center;font-family:var(--mono);color:var(--text3)">${r[8]||'—'}</td>
+    <td style="font-size:11px">${r[9]?esc(r[9]):'<span style="color:var(--text4);font-style:italic">Onbezet</span>'}</td>
+    <td>${statusBadge(r[10])}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[11]||'—')}</td>
+  </tr>`).join('');
+  q('risk-badge').textContent=sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open'`)?.[0]||'0';
+}
+
+// ─── HEATMAP ──────────────────────────────────────────────
+function renderHeatmap(){
+  const res=sqlAll(`SELECT kans,impact,id FROM risicos WHERE status!='Gesloten' ORDER BY kans,impact`);
+  const cells={};
+  res.values.forEach(r=>{ const k=`${r[0]}_${r[1]}`; cells[k]=(cells[k]||[]).concat(r[2]); });
+  const score=(k,i)=>k*i;
+  const color=s=>s>=16?'rgba(250,77,86,.6)':s>=12?'rgba(255,131,43,.5)':s>=6?'rgba(241,194,27,.4)':s>=3?'rgba(66,190,101,.3)':'rgba(17,146,232,.25)';
+  let html=`<div class="hm">
+    <div></div>${[1,2,3,4,5].map(i=>`<div class="hmaxl">K=${i}</div>`).join('')}`;
+  for(let imp=5;imp>=1;imp--){
+    html+=`<div class="hmlbl">I=${imp}</div>`;
+    for(let k=1;k<=5;k++){
+      const key=`${k}_${imp}`, list=cells[key]||[], s=score(k,imp);
+      html+=`<div class="hmcell" style="background:${color(s)};border-color:${list.length?'rgba(255,255,255,.3)':'transparent'}"
+        onclick="hmClick(${k},${imp})" data-tip="K${k}×I${imp}=Score ${s}">
+        ${list.length?`<span>${list.length}</span>`:''}
+        <span style="font-size:9px;opacity:.7">${s}</span>
+      </div>`;
+    }
+  }
+  html+='</div>';
+  q('heatmap-wrap').innerHTML=html;
+}
+function hmClick(k,i){
+  const res=sqlAll(`SELECT id,omschrijving,behandeling,status FROM risicos WHERE kans=? AND impact=?`,[k,i]);
+  q('hm-detail-ttl').textContent=`K=${k} × I=${i} — Score ${k*i}`;
+  if(!res.values.length){ q('hm-detail').innerHTML=`<div style="color:var(--text4);font-size:11px;padding:8px 0">Geen risico's in deze cel</div>`; return; }
+  q('hm-detail').innerHTML=`<table class="tbl"><thead><tr><th>ID</th><th>Omschrijving</th><th>Behandeling</th><th>Status</th></tr></thead><tbody>${
+    res.values.map(r=>`<tr class="clickable" onclick="modalRisico('${esc(r[0])}')"><td><span class="chip">${esc(r[0])}</span></td><td style="font-size:11px">${esc(r[1])}</td><td><span class="b bz">${esc(r[2])}</span></td><td>${statusBadge(r[3])}</td></tr>`).join('')
+  }</tbody></table>`;
+}
+
+// ─── SoA ──────────────────────────────────────────────────
+function renderSoA(){
+  const zoek=(q('sf-soa')?.value||'').trim();
+  const status=q('sf-soa-status')?.value||'';
+  const fw=q('sf-soa-fw')?.value||'';
+  let sql=`SELECT c.id,c.control_nr,c.titel,f.naam,c.implementatiestatus,c.nis2_ref,c.dora_ref,c.bio_ref,c.notitie,c.eigenaar_rol FROM controls c LEFT JOIN frameworks f ON c.framework_id=f.id WHERE c.toepasselijk=1`;
+  const params=[];
+  if(status){ sql+=` AND c.implementatiestatus=?`; params.push(status); }
+  if(fw){ sql+=` AND c.framework_id LIKE ?`; params.push(fw+'%'); }
+  if(zoek){ sql+=` AND (c.control_nr LIKE ? OR c.titel LIKE ? OR c.notitie LIKE ? OR c.nis2_ref LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t,t); }
+  sql+=` ORDER BY c.framework_id,c.control_nr`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1`);
+  if(q('sf-soa-cnt')) q('sf-soa-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tb=q('soa-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="9">Geen controls gevonden</td></tr>`; return; }
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalControl('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[1])}</span></td>
+    <td>${esc(r[2])}</td>
+    <td style="font-size:10px">${esc(r[3]||'—')}</td>
+    <td>${statusBadge(r[4])}</td>
+    <td style="font-family:var(--mono);font-size:10px">${esc(r[5]||'—')}</td>
+    <td style="font-family:var(--mono);font-size:10px">${esc(r[6]||'—')}</td>
+    <td style="text-align:center">${r[7]?`<span class="b bg">✓</span>`:'—'}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[8]||'—')}</td>
+    <td><span class="chip">${esc(r[9]||'—')}</span></td>
+  </tr>`).join('');
+}
+
+// ─── CONTROLS ─────────────────────────────────────────────
+function renderControls(){
+  const zoek=(q('sf-ctrl')?.value||'').trim();
+  const fw=q('sf-ctrl-fw')?.value||'';
+  const status=q('sf-ctrl-status')?.value||'';
+  let sql=`SELECT c.id,c.control_nr,c.framework_id,c.titel,c.implementatiestatus,c.eigenaar_rol,c.nis2_ref,c.notitie FROM controls c WHERE 1=1`;
+  const params=[];
+  if(fw){ sql+=` AND c.framework_id LIKE ?`; params.push(fw+'%'); }
+  if(status){ sql+=` AND c.implementatiestatus=?`; params.push(status); }
+  if(zoek){ sql+=` AND (c.control_nr LIKE ? OR c.titel LIKE ? OR c.eigenaar_rol LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t); }
+  sql+=` ORDER BY c.framework_id,c.control_nr`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM controls`);
+  if(q('sf-ctrl-cnt')) q('sf-ctrl-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tb=q('ctrl-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="7">Geen controls gevonden</td></tr>`; return; }
+  const fwColor={'ISO-27002-2022':'bb','BIO-2.0':'bp','NIST-800-53-R5':'bc'};
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalControl('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[1])}</span></td>
+    <td><span class="b ${fwColor[r[2]]||'bz'}" style="font-size:9px">${esc((r[2]||'').replace('ISO-27002-2022','ISO').replace('BIO-2.0','BIO').replace('NIST-800-53-R5','NIST'))}</span></td>
+    <td>${esc(r[3])}</td>
+    <td>${statusBadge(r[4])}</td>
+    <td><span class="chip">${esc(r[5]||'—')}</span></td>
+    <td style="font-family:var(--mono);font-size:10px">${esc(r[6]||'—')}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[7]||'—')}</td>
+  </tr>`).join('');
+}
+
+// ─── FINDINGS ─────────────────────────────────────────────
+function renderFindings(){
+  const zoek=(q('sf-findings')?.value||'').trim();
+  const status=q('sf-findings-status')?.value||'';
+  let sql=`SELECT id,type,omschrijving,control_id,eigenaar,deadline,voortgang,status FROM audit_bevindingen WHERE 1=1`;
+  const params=[];
+  if(status){ sql+=` AND status=?`; params.push(status); }
+  if(zoek){ sql+=` AND (omschrijving LIKE ? OR id LIKE ? OR eigenaar LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t); }
+  sql+=` ORDER BY deadline ASC`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM audit_bevindingen`);
+  if(q('sf-findings-cnt')) q('sf-findings-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tb=q('findings-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="8">Geen bevindingen geregistreerd</td></tr>`; return; }
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalBevinding('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[0])}</span></td>
+    <td>${statusBadge(r[1])}</td>
+    <td style="max-width:200px;font-size:11px">${esc(r[2])}</td>
+    <td style="font-family:var(--mono);font-size:10px">${esc(r[3]||'—')}</td>
+    <td>${r[4]?esc(r[4]):'<span style="color:var(--text4);font-style:italic">Onbezet</span>'}</td>
+    <td style="font-size:11px">${esc(r[5]||'—')}</td>
+    <td><div class="pw" style="width:80px"><div class="pb" style="width:${r[6]||0}%;background:${(r[6]||0)>=80?'var(--green-br)':(r[6]||0)>=40?'var(--yellow-lt)':'var(--orange-lt)'}"></div></div><span style="font-family:var(--mono);font-size:10px;margin-left:5px">${r[6]||0}%</span></td>
+    <td>${statusBadge(r[7])}</td>
+  </tr>`).join('');
+}
+
+// ─── KALENDER ─────────────────────────────────────────────
+function renderKalender(){
+  const zoek=(q('sf-kal')?.value||'').trim();
+  const status=q('sf-kal-status')?.value||'';
+  let sql=`SELECT id,titel,grondslag,deadline,frequentie,eigenaar,status FROM kalender WHERE 1=1`;
+  const params=[];
+  if(status){ sql+=` AND status=?`; params.push(status); }
+  if(zoek){ sql+=` AND (titel LIKE ? OR grondslag LIKE ? OR eigenaar LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t); }
+  sql+=` ORDER BY deadline ASC`;
+  const res=sqlAll(sql,params);
+  const tot=sqlOne(`SELECT COUNT(*) FROM kalender`);
+  if(q('sf-kal-cnt')) q('sf-kal-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tl=q('kal-tl');
+  if(!res.values.length){ tl.innerHTML=`<div style="color:var(--text4);font-style:italic;padding:16px 0">Geen kalenderitems</div>`; return; }
+  const today=new Date();
+  tl.innerHTML=res.values.map(r=>{
+    const dd=r[3]?new Date(r[3]):null;
+    const diff=dd?Math.round((dd-today)/86400000):999;
+    const dot=diff<0?'var(--red-br)':diff<=30?'var(--yellow-lt)':diff<=90?'var(--orange-lt)':'var(--green-br)';
+    const urgency=diff<0?'<span class="b br">Verlopen</span>':diff<=30?`<span class="b by">${diff}d</span>`:diff<=90?`<span class="b bo">${diff}d</span>`:`<span class="b bg">${diff}d</span>`;
+    return `<div class="tlitem">
+      <div class="tldot" style="background:${dot}"></div>
+      <div class="tlbox" onclick="modalKalender('${esc(r[0])}');" style="cursor:pointer">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+          <div class="tldate">${esc(r[3])} ${urgency}</div>
+          <div style="display:flex;gap:6px">${statusBadge(r[6])}<span class="chip">${esc(r[4]||'—')}</span></div>
+        </div>
+        <div class="tltitle">${esc(r[1])}</div>
+        <div class="tldesc">${esc(r[2]||'—')} · Eigenaar: ${esc(r[5]||'—')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── NC REGISTER (ISMS tab) ───────────────────────────────
+function renderNC(){
+  const res=sqlAll(`SELECT id,omschrijving,control_id,type,corrigerende_maatregel,eigenaar,deadline,voortgang FROM audit_bevindingen ORDER BY deadline ASC`);
+  const tb=q('nc-tb');
+  if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="8">Geen nonconformiteiten geregistreerd</td></tr>`; return; }
+  tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalBevinding('${esc(r[0])}')">
+    <td><span class="chip">${esc(r[0])}</span></td>
+    <td style="font-size:11px">${esc(r[1])}</td>
+    <td style="font-family:var(--mono);font-size:10px">${esc(r[2]||'—')}</td>
+    <td>${statusBadge(r[3])}</td>
+    <td style="font-size:11px;color:var(--text3)">${esc(r[4]||'—')}</td>
+    <td>${r[5]?esc(r[5]):'<span style="color:var(--text4);font-style:italic">Onbezet</span>'}</td>
+    <td style="font-size:11px">${esc(r[6]||'—')}</td>
+    <td><div class="pw" style="width:80px;display:inline-block"><div class="pb" style="width:${r[7]||0}%;background:var(--green-br)"></div></div><span style="font-family:var(--mono);font-size:10px;margin-left:5px">${r[7]||0}%</span></td>
+  </tr>`).join('');
+  // KRI table
+  const kris=[
+    {n:'MTTR Incidenten',doel:'<4u',actueel:'6.2u',ok:false},
+    {n:'Patch compliance',doel:'>95%',actueel:'89%',ok:false},
+    {n:'Bewustzijn training',doel:'>90%',actueel:'94%',ok:true},
+    {n:'Open risico\'s (hoog)',doel:'<3',actueel:String(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0),ok:parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)<3},
+    {n:'SoA implementatie',doel:'>80%',actueel:(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`)?.[0]||0)+'%',ok:parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`)?.[0]||0)>80},
+  ];
+  q('kri-tb').innerHTML=kris.map(k=>`<tr><td>${k.n}</td><td style="font-family:var(--mono)">${k.doel}</td><td style="font-family:var(--mono)">${k.actueel}</td><td>${k.ok?`<span class="b bg">✓ OK</span>`:`<span class="b br">⚠ Alert</span>`}</td></tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════════════════════
+function mkChart(id,type,data,options={}){
+  if(charts[id]){ charts[id].destroy(); }
+  const el=q(id); if(!el) return;
+  charts[id]=new Chart(el,{type,data,options:{...{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#c1c7cd',font:{family:'IBM Plex Mono',size:10}}}}},color:'#c1c7cd',...options}});
+}
+
+function renderCharts(){
+  const iso=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1`)?.[0]||0;
+  const bio=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1`)?.[0]||0;
+  const nist=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1`)?.[0]||0;
+  mkChart('c-fw-dist','doughnut',{labels:['ISO 27002','BIO 2.0','NIST 800-53'],datasets:[{data:[iso,bio,nist],backgroundColor:['rgba(165,110,255,.7)','rgba(250,77,86,.6)','rgba(69,137,255,.7)'],borderColor:['#a56eff','#fa4d56','#4589ff'],borderWidth:1}]});
+
+  const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1`)?.[0]||0;
+  const ged=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Gedeeltelijk' AND toepasselijk=1`)?.[0]||0;
+  const uit=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='In uitvoering' AND toepasselijk=1`)?.[0]||0;
+  const ngs=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Niet gestart' AND toepasselijk=1`)?.[0]||0;
+  mkChart('c-comp-ov','doughnut',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderWidth:1}]});
+  mkChart('c-comp-impl','bar',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderRadius:3}]},{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
+
+  mkChart('c-radar','radar',{labels:['Financieel','Operationeel','Reputationeel','Juridisch','Veiligheid'],datasets:[{label:'Risicobereidheid',data:[2,2,1,1,1],backgroundColor:'rgba(51,177,255,.15)',borderColor:'var(--cyan-lt)',pointBackgroundColor:'var(--cyan-lt)'},{label:'Huidig risico',data:[3,4,3,2,1],backgroundColor:'rgba(250,77,86,.12)',borderColor:'var(--red-br)',pointBackgroundColor:'var(--red-br)'}]},{scales:{r:{ticks:{color:'#878d96',backdropColor:'transparent'},grid:{color:'rgba(255,255,255,.08)'},angleLines:{color:'rgba(255,255,255,.1)'},pointLabels:{color:'#c1c7cd',font:{size:10}}}}});
+
+  const beh=sqlAll(`SELECT behandeling,COUNT(*) FROM risicos WHERE status!='Gesloten' GROUP BY behandeling`);
+  mkChart('c-treat','doughnut',{labels:beh.values.map(r=>r[0]||'Onbekend'),datasets:[{data:beh.values.map(r=>r[1]),backgroundColor:['rgba(51,177,255,.7)','rgba(66,190,101,.7)','rgba(250,77,86,.7)','rgba(255,131,43,.7)'],borderWidth:1}]});
+
+  mkChart('c-kri','bar',{labels:['MTTR','Patch','Bewustzijn','High Risk','SoA impl.'],datasets:[{label:'Actueel',data:[62,89,94,parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)*10,parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`)?.[0]||0)],backgroundColor:'rgba(51,177,255,.5)',borderColor:'var(--cyan-lt)',borderWidth:1,borderRadius:3},{label:'Doel',data:[80,95,90,20,80],type:'line',borderColor:'var(--green-br)',borderDash:[4,4],pointRadius:3,fill:false}]},{plugins:{legend:{display:true}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
+}
+
+// ═══════════════════════════════════════════════════════════
+// MODAL SYSTEEM
+// ═══════════════════════════════════════════════════════════
+function buildForm(fields, record={}){
+  return fields.map(f=>{
+    const val=record[f.key]!==undefined?record[f.key]:'';
+    const id='mf_'+f.key;
+    let inp='';
+    if(f.type==='select'){
+      inp=`<select id="${id}" ${f.required?'required':''}><option value="">— selecteer —</option>${f.options.map(o=>`<option value="${esc(o)}" ${val==o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+    } else if(f.type==='textarea'){
+      inp=`<textarea id="${id}" rows="3" ${f.required?'required':''}>${esc(val)}</textarea>`;
+    } else {
+      inp=`<input type="${f.type||'text'}" id="${id}" value="${esc(val)}" ${f.required?'required':''} ${f.placeholder?`placeholder="${esc(f.placeholder)}"`:''}/>`;
+    }
+    return `<div class="frow"><label for="${id}">${esc(f.label)}${f.required?' <span style="color:var(--red-br)">*</span>':''}</label>${inp}</div>`;
+  }).join('');
+}
+
+function openModal(config){
+  modalState=config;
+  q('modal-title').textContent=config.title;
+  q('modal-body').innerHTML=config.html||buildForm(config.fields||[],config.record||{});
+  q('modal-del-btn').style.display=config.record&&config.record.id?'inline-flex':'none';
+  q('modal-overlay').classList.add('open');
+}
+function closeModal(){ q('modal-overlay').classList.remove('open'); modalState={}; }
+function getFormData(fields){
+  const d={};
+  fields.forEach(f=>{ const el=q('mf_'+f.key); if(el) d[f.key]=el.value.trim(); });
+  return d;
+}
+
+function saveModal(){
+  if(!modalState.table) return closeModal();
+  const fields=modalState.fields||[];
+  const data=getFormData(fields);
+  // Validate required
+  let ok=true;
+  fields.filter(f=>f.required).forEach(f=>{
+    const el=q('mf_'+f.key);
+    if(!data[f.key]){ el?.classList.add('err'); ok=false; }
+    else el?.classList.remove('err');
+  });
+  if(!ok){ toast('Vul alle verplichte velden in','err'); return; }
+
+  const isNew=!modalState.record?.id;
+  const id=data.id||modalState.record?.id||newId(modalState.table);
+  data.id=id;
+
+  // Build INSERT OR REPLACE
+  const cols=Object.keys(data);
+  const vals=Object.values(data);
+  const sql=`INSERT OR REPLACE INTO ${modalState.table}(${cols.join(',')}) VALUES(${cols.map(()=>'?').join(',')})`;
+  if(sqlRun(sql,vals)){
+    auditTrail(modalState.table,id,isNew?'INSERT':'UPDATE',modalState.record||null,data);
+    autoSave();
+    closeModal();
+    toast(`${isNew?'Aangemaakt':'Bijgewerkt'}: ${id}`,'ok');
+    renderAll();
+  } else { toast('Opslaan mislukt — zie console','err'); }
+}
+
+function modalDelete(){
+  if(!modalState.table||!modalState.record?.id) return;
+  if(!confirm(`Verwijder ${modalState.record.id} definitief?`)) return;
+  if(sqlRun(`DELETE FROM ${modalState.table} WHERE id=?`,[modalState.record.id])){
+    auditTrail(modalState.table,modalState.record.id,'DELETE',modalState.record,null);
+    autoSave();
+    closeModal();
+    toast(`Verwijderd: ${modalState.record.id}`,'info');
+    renderAll();
+  }
+}
+
+function newId(table){
+  const prefix={'risicos':'R','controls':'CTRL','rollen':'ROL','documenten':'DOC','audit_bevindingen':'NC','kalender':'KAL'}[table]||'REC';
+  const res=sqlOne(`SELECT COUNT(*) FROM ${table}`);
+  return `${prefix}_${String((res?res[0]:0)+1).padStart(3,'0')}`;
+}
+
+// ─── Entiteits-modals ─────────────────────────────────────
+function modalRisico(id){
+  const rec=id?sqlAll(`SELECT id,omschrijving,dreigingsbron,kwetsbaarheid,asset,tbb,kans,impact,behandeling,netto_score,eigenaar,status,reviewdatum,notitie FROM risicos WHERE id=?`,[id]):null;
+  const r=rec&&rec.values[0]?Object.fromEntries(rec.columns.map((c,i)=>[c,rec.values[0][i]])):null;
+  openModal({table:'risicos',title:r?`Risico bewerken — ${id}`:'Nieuw risico',record:r,
+    fields:[
+      {key:'id',label:'Risico-ID',required:true,placeholder:'bijv. R_005'},
+      {key:'omschrijving',label:'Omschrijving',required:true,type:'textarea'},
+      {key:'dreigingsbron',label:'Dreigingsbron'},
+      {key:'kwetsbaarheid',label:'Kwetsbaarheid'},
+      {key:'asset',label:'Bedreigd asset'},
+      {key:'tbb',label:'TBB (V/I/B)',placeholder:'bijv. V+I'},
+      {key:'kans',label:'Kans (1–5)',type:'number',required:true},
+      {key:'impact',label:'Impact (1–5)',type:'number',required:true},
+      {key:'behandeling',label:'Behandeling',type:'select',options:['Mitigeren','Accepteren','Vermijden','Overdragen'],required:true},
+      {key:'netto_score',label:'Nettoscore na behandeling',type:'number'},
+      {key:'eigenaar',label:'Risico-eigenaar'},
+      {key:'status',label:'Status',type:'select',options:['Open','In behandeling','Gesloten'],required:true},
+      {key:'reviewdatum',label:'Reviewdatum',type:'date'},
+      {key:'notitie',label:'Notitie',type:'textarea'},
+    ]
+  });
+}
+
+function modalControl(id){
+  const rec=id?sqlAll(`SELECT id,framework_id,control_nr,titel,domein,beschrijving,toepasselijk,implementatiestatus,eigenaar_rol,eigenaar_naam,nis2_ref,dora_ref,bio_ref,notitie FROM controls WHERE id=?`,[id]):null;
+  const r=rec&&rec.values[0]?Object.fromEntries(rec.columns.map((c,i)=>[c,rec.values[0][i]])):null;
+  const fwList=sqlAll(`SELECT id FROM frameworks ORDER BY id`).values.map(v=>v[0]);
+  openModal({table:'controls',title:r?`Control bewerken — ${id}`:'Nieuw control',record:r,
+    fields:[
+      {key:'id',label:'Control-ID',required:true,placeholder:'bijv. ISO-5.30'},
+      {key:'framework_id',label:'Framework',type:'select',options:fwList,required:true},
+      {key:'control_nr',label:'Control-nummer',required:true,placeholder:'bijv. 5.30'},
+      {key:'titel',label:'Titel',required:true},
+      {key:'domein',label:'Domein',type:'select',options:['Org.','Mens','Fysiek','Tech','—']},
+      {key:'implementatiestatus',label:'Implementatiestatus',type:'select',options:['Niet gestart','In uitvoering','Gedeeltelijk','Volledig','N.v.t.'],required:true},
+      {key:'eigenaar_rol',label:'Eigenaar (rol)',placeholder:'bijv. CISO'},
+      {key:'eigenaar_naam',label:'Eigenaar (naam)'},
+      {key:'nis2_ref',label:'NIS2-referentie',placeholder:'bijv. Art.21(a)'},
+      {key:'dora_ref',label:'DORA-referentie'},
+      {key:'bio_ref',label:'BIO 2.0-referentie'},
+      {key:'toepasselijk',label:'Toepasselijk',type:'select',options:['1','0'],required:true},
+      {key:'notitie',label:'Motivering / notitie',type:'textarea'},
+    ]
+  });
+}
+
+function modalRol(id){
+  const rec=id?sqlAll(`SELECT id,functienaam,stelsel,wettelijk_verplicht,grondslag,bezet_door_naam,bezet_door_email,bezet_sinds,rapporteert_aan,notitie FROM rollen WHERE id=?`,[id]):null;
+  const r=rec&&rec.values[0]?Object.fromEntries(rec.columns.map((c,i)=>[c,rec.values[0][i]])):null;
+  openModal({table:'rollen',title:r?`Rol bewerken — ${id}`:'Nieuwe rol',record:r,
+    fields:[
+      {key:'id',label:'Rol-ID',required:true,placeholder:'bijv. CISO'},
+      {key:'functienaam',label:'Functienaam',required:true},
+      {key:'stelsel',label:'Stelsel',type:'select',options:['Bestuur','CIO-stelsel','BVA-stelsel','Privacy','Operationeel','Audit','—']},
+      {key:'wettelijk_verplicht',label:'Wettelijk verplicht',type:'select',options:['1','0']},
+      {key:'grondslag',label:'Wettelijke grondslag'},
+      {key:'bezet_door_naam',label:'Bezet door (naam)'},
+      {key:'bezet_door_email',label:'Bezet door (e-mail)',type:'email'},
+      {key:'bezet_sinds',label:'Bezet sinds',type:'date'},
+      {key:'rapporteert_aan',label:'Rapporteert aan',placeholder:'bijv. CIO'},
+      {key:'notitie',label:'Notitie',type:'textarea'},
+    ]
+  });
+}
+
+function modalDocument(id){
+  const rec=id?sqlAll(`SELECT id,niveau,titel,versie,goedkeuringsdatum,reviewdatum,eigenaar_rol,eigenaar_naam,status,locatie,notitie FROM documenten WHERE id=?`,[id]):null;
+  const r=rec&&rec.values[0]?Object.fromEntries(rec.columns.map((c,i)=>[c,rec.values[0][i]])):null;
+  openModal({table:'documenten',title:r?`Document bewerken — ${id}`:'Nieuw document',record:r,
+    fields:[
+      {key:'id',label:'Document-ID',required:true,placeholder:'bijv. POL-04'},
+      {key:'niveau',label:'Niveau',type:'select',options:['Beleid','Procedure','Werkinstructie','Registratie'],required:true},
+      {key:'titel',label:'Titel',required:true},
+      {key:'versie',label:'Versie',placeholder:'bijv. 1.0'},
+      {key:'goedkeuringsdatum',label:'Goedkeuringsdatum',type:'date'},
+      {key:'reviewdatum',label:'Reviewdatum',type:'date'},
+      {key:'eigenaar_rol',label:'Eigenaar (rol)',placeholder:'bijv. CISO'},
+      {key:'eigenaar_naam',label:'Eigenaar (naam)'},
+      {key:'status',label:'Status',type:'select',options:['Actueel','In review','Ingetrokken']},
+      {key:'locatie',label:'Opslaglocatie',placeholder:'bijv. SharePoint/IB'},
+      {key:'notitie',label:'Notitie',type:'textarea'},
+    ]
+  });
+}
+
+function modalBevinding(id){
+  const rec=id?sqlAll(`SELECT id,audit_datum,type,omschrijving,control_id,eigenaar,deadline,corrigerende_maatregel,voortgang,status,notitie FROM audit_bevindingen WHERE id=?`,[id]):null;
+  const r=rec&&rec.values[0]?Object.fromEntries(rec.columns.map((c,i)=>[c,rec.values[0][i]])):null;
+  openModal({table:'audit_bevindingen',title:r?`Bevinding bewerken — ${id}`:'Nieuwe bevinding / NC',record:r,
+    fields:[
+      {key:'id',label:'Bevinding-ID',required:true,placeholder:'bijv. NC-2026-01'},
+      {key:'type',label:'Type',type:'select',options:['Major NC','Minor NC','Observatie','Positief'],required:true},
+      {key:'omschrijving',label:'Omschrijving',required:true,type:'textarea'},
+      {key:'audit_datum',label:'Auditdatum',type:'date'},
+      {key:'control_id',label:'Gerelateerd control-ID',placeholder:'bijv. ISO-5.24'},
+      {key:'eigenaar',label:'Eigenaar'},
+      {key:'deadline',label:'Deadline corrigerende maatregel',type:'date'},
+      {key:'corrigerende_maatregel',label:'Corrigerende maatregel',type:'textarea'},
+      {key:'voortgang',label:'Voortgang (%)',type:'number',placeholder:'0–100'},
+      {key:'status',label:'Status',type:'select',options:['Open','In behandeling','Gesloten'],required:true},
+      {key:'notitie',label:'Notitie',type:'textarea'},
+    ]
+  });
+}
+
+function modalKalender(id){
+  const rec=id?sqlAll(`SELECT id,titel,grondslag,deadline,frequentie,eigenaar,status,herinnering_dagen,notitie FROM kalender WHERE id=?`,[id]):null;
+  const r=rec&&rec.values[0]?Object.fromEntries(rec.columns.map((c,i)=>[c,rec.values[0][i]])):null;
+  openModal({table:'kalender',title:r?`Kalenderitem bewerken — ${id}`:'Nieuw kalenderitem',record:r,
+    fields:[
+      {key:'id',label:'Activiteit-ID',required:true,placeholder:'bijv. KAL-11'},
+      {key:'titel',label:'Activiteit',required:true},
+      {key:'grondslag',label:'Wettelijke grondslag / clausule',placeholder:'bijv. ISO 27001 cl.9.2'},
+      {key:'deadline',label:'Deadline',type:'date',required:true},
+      {key:'frequentie',label:'Frequentie',type:'select',options:['Eenmalig','Maandelijks','Kwartaal','Halfjaarlijks','Jaarlijks','2-jaarlijks','3-jaarlijks']},
+      {key:'eigenaar',label:'Eigenaar',placeholder:'bijv. CISO'},
+      {key:'status',label:'Status',type:'select',options:['Gepland','Uitgevoerd','Verlopen'],required:true},
+      {key:'herinnering_dagen',label:'Herinnering (dagen voor deadline)',type:'number',placeholder:'30'},
+      {key:'notitie',label:'Notitie',type:'textarea'},
+    ]
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPORT FUNCTIES
+// ═══════════════════════════════════════════════════════════
+function exportCSV(tabel){
+  const res=sqlAll(`SELECT * FROM ${tabel}`);
+  if(!res.columns.length){ toast('Geen data om te exporteren','info'); return; }
+  const rows=[res.columns.join(','),...res.values.map(r=>r.map(v=>`"${String(v==null?'':v).replace(/"/g,'""')}"`).join(','))].join('\n');
+  download(`${tabel}-${new Date().toISOString().slice(0,10)}.csv`,rows,'text/csv');
+  toast(`${tabel}.csv gedownload`,'ok');
+}
+
+function exportSOACSV(){
+  const res=sqlAll(`SELECT c.control_nr,c.titel,f.naam as framework,c.implementatiestatus,c.nis2_ref,c.dora_ref,c.bio_ref,c.eigenaar_rol,c.notitie FROM controls c LEFT JOIN frameworks f ON c.framework_id=f.id WHERE c.toepasselijk=1 ORDER BY c.framework_id,c.control_nr`);
+  if(!res.columns.length){ toast('Geen SoA-data','info'); return; }
+  const rows=[res.columns.join(','),...res.values.map(r=>r.map(v=>`"${String(v==null?'':v).replace(/"/g,'""')}"`).join(','))].join('\n');
+  download(`SoA-export-${new Date().toISOString().slice(0,10)}.csv`,rows,'text/csv');
+  toast('SoA geëxporteerd','ok');
+}
+
+function exportTTLRegister(){
+  const res=sqlAll(`SELECT id,omschrijving,dreigingsbron,asset,tbb,kans,impact,behandeling,netto_score,eigenaar,status FROM risicos ORDER BY id`);
+  if(!res.values.length){ toast('Geen risico\'s om te exporteren','info'); return; }
+  const prefixes=`@prefix risk: <https://grc.organisatie.nl/ontology/risk#> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n`;
+  const ttl=res.values.map(r=>{
+    const [id,omschr,drei,asset,tbb,kans,impact,beh,netto,eig,status]=r;
+    return `risk:${id} a risk:InformationSecurityRisk ;\n`+
+      `  rdfs:label "${(omschr||'').replace(/"/g,"'")}"@nl ;\n`+
+      `  risk:dreigingsbron "${(drei||'').replace(/"/g,"'")}"@nl ;\n`+
+      `  risk:affectsAsset "${(asset||'').replace(/"/g,"'")}"@nl ;\n`+
+      `  risk:affectsTBB "${tbb||''}"^^xsd:string ;\n`+
+      `  risk:hasLikelihood ${kans||0}^^xsd:integer ;\n`+
+      `  risk:hasImpact ${impact||0}^^xsd:integer ;\n`+
+      `  risk:hasInherentRiskScore ${(kans||0)*(impact||0)}^^xsd:integer ;\n`+
+      (beh?`  risk:hasRiskTreatment risk:${beh.replace(/\s/g,'_')} ;\n`:'')+
+      (netto!=null?`  risk:hasResidualRiskScore ${netto}^^xsd:integer ;\n`:'')+
+      (eig?`  risk:ownedBy "${(eig||'').replace(/"/g,"'")}"@nl ;\n`:'')+
+      `  risk:hasStatus "${status||'Open'}"^^xsd:string .\n`;
+  }).join('\n');
+  download(`risicos-abox-${new Date().toISOString().slice(0,10)}.ttl`,prefixes+'\n'+ttl,'text/turtle');
+  toast('Turtle ABox-export gedownload','ok');
+}
+
+// ─── iCAL ─────────────────────────────────────────────────
+function expIcal(){
+  const res=sqlAll(`SELECT titel,grondslag,deadline,eigenaar FROM kalender WHERE deadline>=date('now') ORDER BY deadline`);
+  if(!res.values.length){ toast('Geen toekomstige kalenderitems','info'); return; }
+  const now=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  let cal=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//GRC Dashboard//NL\nCALSCALE:GREGORIAN\n`;
+  res.values.forEach(r=>{
+    const dt=(r[2]||'').replace(/-/g,'');
+    cal+=`BEGIN:VEVENT\nDTSTAMP:${now}\nUID:grc-${dt}-${Math.random().toString(36).slice(2)}@grc.organisatie.nl\nDTSTART;VALUE=DATE:${dt}\nSUMMARY:${(r[0]||'').replace(/[\\,;]/g,'\\$&')}\nDESCRIPTION:${(r[1]||'').replace(/[\\,;]/g,'\\$&')}\nORGANIZER:${r[3]||'GRC'}\nEND:VEVENT\n`;
+  });
+  cal+='END:VCALENDAR';
+  download(`grc-kalender-${new Date().toISOString().slice(0,10)}.ics`,cal,'text/calendar');
+  toast('iCal-export gedownload','ok');
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+async function initApp(){
+  toonLoader('sql.js WASM laden...');
+  try{
+    SQL_ENGINE=await initSqlJs({ locateFile:f=>`https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${f}` });
+    q('loader-msg').textContent='Database initialiseren...';
+    const herstel=loadFromStorage();
+    if(!herstel){
+      db=new SQL_ENGINE.Database();
+      maakTabellen();
+      laadSeedData();
+      toast('Nieuwe database aangemaakt met seeddata','ok');
+    } else {
+      toast('Database geladen uit opslag','ok');
+    }
+    q('db-dot').style.background='var(--green-br)';
+    q('db-status').textContent='DB actief · SQLite via sql.js';
+    q('hdr-date').textContent=new Date().toLocaleDateString('nl-NL',{day:'2-digit',month:'long',year:'numeric'});
+    verbergLoader();
+    renderAll();
+    setInterval(autoSave,30000);
+  } catch(e){
+    verbergLoader();
+    q('db-dot').style.background='var(--red-br)';
+    q('db-status').textContent='DB fout';
+    toast('Database-initialisatie mislukt: '+e.message,'err');
+    console.error('initApp error:',e);
+  }
+}
+document.addEventListener('DOMContentLoaded',initApp);
+</script>
+</body>
+</html>
