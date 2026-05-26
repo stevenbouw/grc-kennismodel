@@ -92,5 +92,6 @@ Bij elke nieuwe sprint:
 
 - [[brain__concepts__canonical-metrics]] — overkoepelende meetmethode
 - [[brain__architecture__H21_implicit-individuals]] — onderliggende vraag over hoeveel individuals impliciet zouden zijn
+- [[brain__concepts__skos-export-filter]] — verwante Class-vs-Individual-onderscheiding in dashboard-export-laag (v4.6.0)
 
 — Einde NamedIndividual-telmethode.

@@ -3,7 +3,7 @@ type: index
 id: concept-register
 title: Concept-register — Domein-glossary GRC Kennismodel
 status: living
-date: 2026-05-21
+date: 2026-05-26
 ---
 
 # Concept-register — Domein-glossary
@@ -27,6 +27,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | [[brain__concepts__meeliftregel-edit-scope]] | D6-onderscheid edit-scope versus bestand-scope | D6, scope-discipline |
 | [[brain__concepts__cross-bron-overlap]] | SKOS-kwaliteits-indicator: 2+ onafhankelijke bronnen, zelfde mapping | provenance, sources |
 | [[brain__concepts__parallelle-maturity-clusters]] *(iteratie 11)* ✨ | **biz vs isms maturity-clusters — twee parallelle modellen, niet samenvoegen** | v4.6.0, M06, M07 |
+| [[brain__concepts__skos-export-filter]] *(v4.6.0)* ✨ | **Ontologie-laag (1.798) vs dashboard-laag (1.759) — twee meet-conventies, beide kloppen** | canonical-metrics, namedindividual-telmethode |
 
 ## Clusters
 
@@ -46,6 +47,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 - gesplitste-shacl-validatie
 - canonical-metrics
 - namedindividual-telmethode
+- **skos-export-filter (v4.6.0)** ✨
 
 ### Werk-discipline
 - scope-discipline
@@ -68,6 +70,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | meeliftregel-edit-scope | D6 | scope-discipline |
 | cross-bron-overlap | (geen directe D — emergente kwaliteits-indicator) | provenance |
 | **parallelle-maturity-clusters** | **(geen directe D — V1-architectuur-uitkomst)** | **D9 (twee gelijkwaardige clusters)** |
+| **skos-export-filter** | **(geen directe D — measurement-conventie-verfijning)** | **D1, D4, D11 (alle getoetst, geen schending)** |
 
 ## Cross-references naar sprints waar concepten zijn ontstaan / verfijnd
 
@@ -86,6 +89,7 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | meeliftregel-edit-scope | v4.1.0-alpha + v1.7 + v4.5.0 + **v4.6.0 symmetrische uitbreiding** | Formele vastlegging + concrete toepassingen |
 | cross-bron-overlap | v4.5.0 (S5 ∩ S6 = 105) | Concept ontstaan uit observatie |
 | **parallelle-maturity-clusters** | **v4.6.0 (V1-uitkomst Optie B)** | **Concept ontstaan uit Fase 4 V1-evaluatie** |
+| **skos-export-filter** | **v4.6.0 (tech-inspectie 39 tripels)** | **Concept ontstaan uit ontologie-laag vs dashboard-laag meet-discrepantie** |
 
 ## Concepts versus workflows
 
