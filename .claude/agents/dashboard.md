@@ -137,7 +137,7 @@ Oude scripts behouden voor reproduceerbaarheid van oudere data-exports. Niet ove
 
 ```
 dashboard/grc-data-v4_X_Y.json      # Cytoscape-compatible nodes + edges
-dashboard/grc-data-v4_X_Y.js        # JS-wrapper: const grcData = {...}
+dashboard/grc-data-v4_X_Y.js        # JS-wrapper: window.GRC_DATA = {...} (build_grc_explorer_v3.py produceert deze uppercase+underscore-naam; HTML-shells consumeren window.GRC_DATA)
 dashboard/grc-explorer-v4_X_Y.html  # HTML-shell die .js inlaadt
 ```
 
@@ -163,14 +163,18 @@ Documenteer in patchnotitie welke vier blokken zijn aangepast.
 
 ### SKOS-kwaliteitsanalyse-conventies
 
-Bij analyse-rapport (zoals v4.6.0): vaste sectie-structuur:
+Bij analyse-rapport (zoals v4.6.0): vaste C1-C5-sectie-structuur:
 
-- §1 Mappings-overzicht (totaal, per match-type, per source/target framework)
-- §2 Categorie-distributie (exactMatch / closeMatch / relatedMatch / narrowMatch / broadMatch)
-- §3 Top-N problematische mappings (eenrichting, dangling target, etc.)
-- §4 Cross-bron-overlap-analyse
-- §5 Aandachtspunten voor masterchat-review
-- §6 Concrete fix-voorstellen (per finding: optie A/B/C)
+- **Managementsamenvatting** (kop)
+- **C1 — Match-type verdeling** (exactMatch / closeMatch / broadMatch / narrowMatch / relatedMatch tellingen)
+- **C2 — Namespace-paar matrix** (welke namespace-paren hebben SKOS-mappings, met tellingen)
+- **C3 — Frameworks zonder uitgaande SKOS** (lijst frameworks met nul outbound SKOS-mappings)
+- **C4 — Cross-bron overlap detectie** (overlappende concepten tussen verschillende bron-frameworks)
+- **C5 — Concentratie-detectie** (welke concepten/frameworks zijn over-/underrepresented in SKOS-mappings)
+- **Aanbevelingen** (VERPLICHT slot — concrete acties + kandidaat-H-items)
+- **Kanttekeningen** (optioneel slot — methodologische beperkingen of caveats)
+
+Toon: feitelijk rapportage-register; tellen via SPARQL-queries, niet grep.
 
 ### Patchnotitie-export-conventies
 
@@ -183,6 +187,14 @@ Per release: `output/reports/patchnotitie-export-v4_X_Y.md` met:
 - Build-script-impact (welke parser-blokken aangepast)
 - HTML/JS-impact (welke UI-elementen nieuw of gewijzigd)
 - Smoke-test-resultaat
+
+### Hash-bestand-padding-conventie
+
+Paden in `file_hashes_dashboard_v[VERSIE].txt` MOETEN repo-root-relatief zijn met directory-prefix, niet basename-only.
+
+Voorbeeld: `dashboard/grc-data-v4_6_0.json` niet `grc-data-v4_6_0.json`.
+
+Bestaande v4.6.0-hash-bestand wordt retroactief NIET aangepast (low impact); conventie geldt vanaf volgende dashboard-sprint.
 
 ## Scope-pauze-route
 
