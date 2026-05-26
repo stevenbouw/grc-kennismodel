@@ -34,6 +34,7 @@ Sprint-protocollen zijn **niet-onderhandelbaar** voor alle subagents (zie CLAUDE
 | 11 | Brain-vault-update verplicht na minor-release | Brein | v1.8 | Verplicht |
 | 12 | Instructie-consistentie code-block vs toelichting | (Masterchat-discipline) | v1.9 | Verplicht |
 | 13 | Bron-typo-beleid patroon-criterium | Tech | v1.9 | Verplicht |
+| 14 | Pre-push disclosure-check | Alle (subagent + Steven) | iteratie 12 | Verplicht |
 | **GR** | Property-semantiek-discipline | Alle (gedragsregel) | v1.9 | Verplicht |
 
 ---
@@ -358,6 +359,46 @@ Patroon: **bron-getrouwheid op semantisch-kritische velden** (target-IRIs, nivea
 
 ---
 
+## 14. Pre-push disclosure-check (iteratie 12)
+
+**Trigger:** Vóór `git commit` + push van documenten met chat-historie, subagent-output, of inhoud die ooit door een claude.ai-chat is gegaan.
+
+**Subagent:** Alle (Tech / Brein / Dashboard) — en Steven als finale lezer vóór push.
+
+**Procedure:**
+
+1. Vóór commit van een nieuw document: **scan op confidentieel-categorieën** —
+   - Organisatie-naam (NOOIT in repo — altijd "de organisatie" of "Rijksoverheidsorganisatie")
+   - Persoonsnamen anders dan Steven Bouwmeester (publieke projecteigenaar)
+   - Lokale paden met identificerende inhoud (`/Users/<naam>/`, organisatie-interne shares)
+   - IP-adressen, hostnames, internet-domeinen van de organisatie
+   - Credentials, API-tokens, PAT's, wachtwoorden
+   - E-mail-domeinen van de organisatie
+   - TLD's die naar specifieke organisatie verwijzen
+2. Scan-aanpak — twee niveaus, afhankelijk van bron:
+   - **Subagent-output** (Tech/Brein/Dashboard zelf gegenereerd): grep-vóór-commit verplicht
+   - **Documenten uit claude.ai-chats** (handover-rapporten, sprint-instructies met chat-context, sessie-rapporten): MCP-tool `grc-kennismodel:run_secret_scanning` aanroepen indien beschikbaar; anders handmatige grep
+3. Bij twijfel: **niet committen** — eerst aan Steven voorleggen
+4. Geldt voor alle output-locaties: `output/reports/`, `docs/handovers/`, `docs/instructies/`, `brain/**`, root-bestanden
+
+**Output:** Stille pass = geen vondst, push toegestaan. Bij vondst: redactie of weglating vóór commit.
+
+**Escalatie:** Bij vondst van identificeerbare organisatie-data in al-gepushte content: contact Steven voor `git filter-branch` of vergelijkbare history-rewrite. Niet zelf retroactief proberen op te lossen.
+
+**Reikwijdte:**
+
+- Geldt **vanaf nu** (iteratie 12 polish-mini-sprint, 26 mei 2026); geen retroactieve toepassing op reeds-gepushte handover-rapporten (die zijn geverifieerd schoon)
+- Geldt **voor nieuwe** documenten en updates van bestaande documenten
+- Niet uitgebreid naar geautomatiseerde pre-commit-hooks of CI-scans — die zijn toekomst-overweging, geen H-item nodig nu
+
+**Toepassings-bewijs:** twee voorbarig-push-incidenten als aanleiding —
+- PAT-blunder voorgaande sessie (token kortstondig in commit gezien)
+- Handover-rapporten ongetoetst gepusht in Fase 0 (achteraf schoon, maar zonder pre-push-discipline)
+
+Het protocol is preventief — niet alle disclosure-incidenten zijn even ernstig, maar de discipline om vóór elke push expliciet te scannen voorkomt herhaling.
+
+---
+
 ## GR — Property-semantiek-discipline (gedragsregel, v1.9)
 
 **Trigger:** Modellering van rollen of relaties tussen frameworks/individuals.
@@ -528,9 +569,10 @@ Per stap:
 | Datum | Versie | Wijziging |
 |---|---|---|
 | 2026-05-22 | 1.0 | Initiële versie. Geporteerd uit projectinstructie v1.9 §"Sprint-protocollen" + brain__workflow__sprint-protocollen.md. Aangepast voor subagent-context met Trigger/Procedure/Output/Escalatie-structuur per protocol. Toevoeging §15 Scope-pauze-escalatie-route specifiek voor Claude Code, §16 Sample-first-discipline (afgeleid uit sprint-praktijk), §17 File-back-verwijzing, §18 Output-conventies. |
+| 2026-05-26 | 1.1 | Toevoeging Protocol 14 — Pre-push disclosure-check (iteratie 12 polish-mini-sprint). Aanleiding: PAT-blunder voorgaande sessie + handovers ongetoetst gepusht. Reikwijdte: alle subagents + Steven, vóór elke push van documenten met chat-historie of subagent-output. Niet retroactief. |
 
 ---
 
-**Einde sprint-protocollen v1.0.**
+**Einde sprint-protocollen v1.1.**
 
 *Bij twijfel over toepasselijkheid van protocol: scope-pauze met vraag aan masterchat is altijd legitiem.*

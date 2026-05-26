@@ -80,10 +80,15 @@ Hash-mismatch = input-corpus is veranderd. Acceptabel alleen met expliciete mast
 
 Bij context-limiet in een tech-chat: migratierapport opstellen vóór nieuwe chat gestart wordt. Voorbeeld: `migratierapport-technisch-v4_3_3.md` brieft opvolger over staat, conventies, en volgende sprint.
 
+## Pre-push disclosure-check (iteratie 12)
+
+Vóór elke push van release-artefacten naar GitHub geldt sinds 26 mei 2026 Protocol 14 (Pre-push disclosure-check). Scan op organisatie-naam, persoonsnamen, lokale paden, IP-adressen, credentials, e-mail-domeinen en TLD's vóór `git commit`. Geldt nadrukkelijk voor patch-rapporten en handover-documenten die uit chat-context komen. Volledige procedure: `docs/sprint-protocols.md` §14.
+
 ## Cross-references
 
 - [[brain__concepts__canonical-metrics]] — meetmethode-discipline
 - [[brain__concepts__gesplitste-shacl-validatie]] — SHACL-validatie-mechanisme
 - [[brain__workflow__scope-discipline]] — pauzes documenteren in patch-rapport
+- [[brain__workflow__sprint-protocollen]] — incl. Protocol 14 pre-push disclosure-check
 
 — Einde opleveringsprotocol.
