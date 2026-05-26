@@ -1,0 +1,86 @@
+# =============================================================================
+# diff-2-edge-cases.ttl — patch v4.6.1 edge-case-varianten T1-023 + T1-021
+# =============================================================================
+#
+# Patch-type:  predicate-mutatie skos:exactMatch → skos:broadMatch (variant)
+# Target file: ontology/m10-nis2-ext.ttl
+# Scope:       2 edge-case-paren waarop Tech géén voorstel doet conform
+#              sprint-instructie §4.3 — uitsluitend voorbereidende patch zodat
+#              masterchat-keuze achteraf eenvoudig toepasbaar is.
+#
+# Status:      ONDER MASTERCHAT-NEN-TOETS — niet automatisch toepassen.
+#              Toepassen alleen na expliciete Steven/masterchat-besluit per paar.
+#
+# Beslis-context (zie t1-stap4-rapport-v4_6_0.md §3):
+#   T1-023 (ctrl:ISO27002_8_24 → NIS2_Art21_h) — Cryptografie
+#     - 28-set: 1↔1 op subject- en object-zijde
+#     - 121-set NIS2_h heeft 6 andere ctrl:-mappings (closeMatch/relatedMatch/broadMatch)
+#     - ENISA TIG regel 285 disclaimer geldt categorisch
+#     - Open: bilaterale containment scope ISO27002:2022 §8.24 vs NIS2_h
+#
+#   T1-021 (ctrl:ISO27002_8_05 → NIS2_Art21_j) — MFA + secured-comm
+#     - 28-set: 1↔1
+#     - 121-set NIS2_j heeft 7+ andere ctrl:-mappings
+#     - ENISA TIG regel 285 disclaimer geldt categorisch
+#     - Subject 8_05 heeft tevens al skos:broadMatch compl:NIS2_Art21_h
+#       (geen collision op subject-zijde — andere object)
+#     - Open: dekt ISO27002:2022 §8.05 ook secured-communications-elementen
+#       die NIS2_j voorbij authentication adresseert?
+#
+# Drie mogelijke uitkomsten per paar (masterchat-keuze):
+#   (i)  Toepassen broadMatch — pro-broadMatch-argumentatie prevaleert
+#   (ii) Behoud exactMatch — bilaterale containment bevestigd door NEN-tekst
+#   (iii) closeMatch — partiële overlap, scope-richting niet eenduidig
+#
+# Toepassings-instructies (alleen bij masterchat-akkoord op variant (i)):
+#
+# Voor T1-023 — vervang in m10-nis2-ext.ttl rond regel 534:
+#     ctrl:ISO27002_8_24
+#         skos:exactMatch compl:NIS2_Art21_h .
+# door
+#     ctrl:ISO27002_8_24
+#         skos:broadMatch compl:NIS2_Art21_h .
+#
+# Voor T1-021 — vervang in m10-nis2-ext.ttl rond regel 453:
+#     ctrl:ISO27002_8_05
+#         skos:exactMatch compl:NIS2_Art21_j ;
+#         skos:broadMatch compl:NIS2_Art21_h .
+# door
+#     ctrl:ISO27002_8_05
+#         skos:broadMatch compl:NIS2_Art21_j ;
+#         skos:broadMatch compl:NIS2_Art21_h .
+#   (let op: object NIS2_Art21_h blijft broadMatch; object NIS2_Art21_j muteert)
+#
+# Verwachte effecten bij scenario C (beide toegepast):
+#   - 2× skos:exactMatch verwijderd
+#   - 2× skos:broadMatch toegevoegd
+#   - Triple-totaal pre-inference ongewijzigd
+#   - SHACL ongewijzigd
+#   - Subject 8_05: behoud bestaande broadMatch op NIS2_h (geen duplicaat)
+#
+# =============================================================================
+# Paar 1 — T1-023: Cryptografie
+# =============================================================================
+# Subject:  ctrl:ISO27002_8_24  ("Gebruik van cryptografie")
+# Object:   compl:NIS2_Art21_h  ("Cryptografie en encryptie")
+# Cluster:  h (1↔1 in 28-set)
+# Variant:  broadMatch (alternatief: behoud exactMatch of closeMatch)
+
+# T1-023  ctrl:ISO27002_8_24  →  compl:NIS2_Art21_h   [edge-case — variant broadMatch]
+
+# =============================================================================
+# Paar 2 — T1-021: MFA + secured-communications
+# =============================================================================
+# Subject:  ctrl:ISO27002_8_05  ("Beveiligde authenticatie")
+# Object:   compl:NIS2_Art21_j  ("Multi-factor authenticatie en continue authenticatie")
+# Cluster:  j (1↔1 in 28-set)
+# Variant:  broadMatch (alternatief: behoud exactMatch of closeMatch)
+# Noot:     subject heeft naast deze triple óók een skos:broadMatch op NIS2_Art21_h
+#           — niet wijzigen.
+
+# T1-021  ctrl:ISO27002_8_05  →  compl:NIS2_Art21_j   [edge-case — variant broadMatch]
+
+# =============================================================================
+# Totaal: 2 predicate-mutaties (variant — onder masterchat-NEN-toets).
+# Separaat toepasbaar: 0, 1 of 2 kunnen geaccepteerd worden.
+# =============================================================================

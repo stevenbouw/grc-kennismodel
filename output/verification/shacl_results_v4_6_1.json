@@ -1,0 +1,16 @@
+{
+  "run1_none": {
+    "conforms": true,
+    "violations": 0,
+    "violations_per_shape": {}
+  },
+  "run2_owlrl": {
+    "conforms": false,
+    "violations_total": 290,
+    "violations_per_shape": {
+      "https://grc.example.org/control/ISO27002NamingShape": 93,
+      "https://grc.example.org/asset/NamespaceShape": 104,
+      "https://grc.example.org/bio/ISO27002NamingShape": 93
+    }
+  }
+}

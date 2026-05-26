@@ -1,0 +1,92 @@
+# =============================================================================
+# diff-26-broadMatch.ttl — patch v4.6.1 zekere 26 SKOS-herclassificaties
+# =============================================================================
+#
+# Patch-type:  predicate-mutatie skos:exactMatch → skos:broadMatch
+# Target file: ontology/m10-nis2-ext.ttl
+# Scope:       26 van 28 ctrl:ISO27002_* → compl:NIS2_Art21_* paren
+#              (5 pilot-paren Stap 3 + 21 cluster-overerving/representant Stap 4)
+# Excluded:    T1-023 (ctrl:ISO27002_8_24 → NIS2_Art21_h) en
+#              T1-021 (ctrl:ISO27002_8_05 → NIS2_Art21_j) — edge-cases die
+#              masterchat-NEN-toets vereisen, in apart diff-2-edge-cases.ttl
+#
+# Bron:        T1 Stap 3 pilot-rapport + T1 Stap 4-rapport
+# Bewijs:      CBW-Excel "Mapping Uitvoeringsverordening" (reproductie ENISA TIG
+#              v1.0, juni 2025) — autoritatieve mapping-bron, evidence-niveau 1,
+#              met ENISA-disclaimer (TIG regel 285) "mapping should not be
+#              interpreted as a measure of equivalency".
+# D-conform:   D4 (SKOS lichtere relatie verdedigbaar; exactMatch niet-D4-conform
+#              wegens ENISA-disclaimer + cluster-cardinaliteit-failure C2 +
+#              C1/C3-partial-failures volgens UV-Annex-decompositie).
+#
+# Toepassings-instructie (manueel of via sed/python):
+#   Voor elk paar hieronder: vervang in m10-nis2-ext.ttl de regel
+#     "    skos:exactMatch compl:NIS2_Art21_X [punt|;]"
+#   door
+#     "    skos:broadMatch compl:NIS2_Art21_X [punt|;]"
+#   waar X de letter is genoemd onder "Object".
+#
+# Geen andere wijzigingen aan m10-nis2-ext.ttl. Witregels, comments, andere
+# triples (closeMatch/relatedMatch/broadMatch/exactMatch op andere objecten)
+# blijven ongewijzigd.
+#
+# Verwachte effect:
+#   - 26× skos:exactMatch verwijderd (ctrl:→compl:NIS2_Art21_X)
+#   - 26× skos:broadMatch toegevoegd (zelfde subject/object)
+#   - Triple-totaal pre-inference ongewijzigd (predicate-mutatie)
+#   - SHACL-validatie ongewijzigd (geen shape valideert op deze paren)
+#
+# Cluster a (1×) — NIS2 art.21(2)(a) Risicoanalyse + beleidsregels
+# -----------------------------------------------------------------------------
+# T1-001  ctrl:ISO27002_5_01  →  compl:NIS2_Art21_a   [pilot — broadMatch]
+
+# Cluster b (4×) — NIS2 art.21(2)(b) Incidentbehandeling
+# -----------------------------------------------------------------------------
+# T1-010  ctrl:ISO27002_5_24  →  compl:NIS2_Art21_b   [pilot — broadMatch]
+# T1-011  ctrl:ISO27002_5_25  →  compl:NIS2_Art21_b   [cluster — broadMatch]
+# T1-012  ctrl:ISO27002_5_26  →  compl:NIS2_Art21_b   [cluster — broadMatch]
+# T1-013  ctrl:ISO27002_5_27  →  compl:NIS2_Art21_b   [cluster — broadMatch]
+
+# Cluster c (3×) — NIS2 art.21(2)(c) Continuïteit + back-up
+# -----------------------------------------------------------------------------
+# T1-014  ctrl:ISO27002_5_29  →  compl:NIS2_Art21_c   [representant — broadMatch]
+# T1-015  ctrl:ISO27002_5_30  →  compl:NIS2_Art21_c   [cluster — broadMatch]
+# T1-022  ctrl:ISO27002_8_13  →  compl:NIS2_Art21_c   [cluster — broadMatch]
+
+# Cluster d (4×) — NIS2 art.21(2)(d) Toeleveringsketen
+# -----------------------------------------------------------------------------
+# T1-006  ctrl:ISO27002_5_19  →  compl:NIS2_Art21_d   [representant — broadMatch]
+# T1-007  ctrl:ISO27002_5_20  →  compl:NIS2_Art21_d   [cluster — broadMatch]
+# T1-008  ctrl:ISO27002_5_21  →  compl:NIS2_Art21_d   [cluster — broadMatch]
+# T1-009  ctrl:ISO27002_5_22  →  compl:NIS2_Art21_d   [cluster — broadMatch]
+
+# Cluster e (5×) — NIS2 art.21(2)(e) Verwerving/ontwikkeling
+# -----------------------------------------------------------------------------
+# T1-024  ctrl:ISO27002_8_25  →  compl:NIS2_Art21_e   [pilot — broadMatch]
+# T1-025  ctrl:ISO27002_8_26  →  compl:NIS2_Art21_e   [cluster — broadMatch]
+# T1-026  ctrl:ISO27002_8_27  →  compl:NIS2_Art21_e   [cluster — broadMatch]
+# T1-027  ctrl:ISO27002_8_28  →  compl:NIS2_Art21_e   [cluster — broadMatch]
+# T1-028  ctrl:ISO27002_8_29  →  compl:NIS2_Art21_e   [cluster — broadMatch]
+
+# Cluster f (2×) — NIS2 art.21(2)(f) Doeltreffendheid
+# -----------------------------------------------------------------------------
+# T1-016  ctrl:ISO27002_5_35  →  compl:NIS2_Art21_f   [representant — broadMatch]
+# T1-017  ctrl:ISO27002_5_36  →  compl:NIS2_Art21_f   [cluster — broadMatch]
+
+# Cluster g (1×) — NIS2 art.21(2)(g) Cyberhygiëne + opleiding
+# -----------------------------------------------------------------------------
+# T1-020  ctrl:ISO27002_6_03  →  compl:NIS2_Art21_g   [pilot — broadMatch]
+
+# Cluster i (6×) — NIS2 art.21(2)(i) Personeel + toegang + activa
+# -----------------------------------------------------------------------------
+# T1-002  ctrl:ISO27002_5_09  →  compl:NIS2_Art21_i   [pilot — broadMatch]
+# T1-003  ctrl:ISO27002_5_15  →  compl:NIS2_Art21_i   [cluster — broadMatch]
+# T1-004  ctrl:ISO27002_5_16  →  compl:NIS2_Art21_i   [cluster — broadMatch]
+# T1-005  ctrl:ISO27002_5_18  →  compl:NIS2_Art21_i   [cluster — broadMatch]
+# T1-018  ctrl:ISO27002_6_01  →  compl:NIS2_Art21_i   [cluster — broadMatch]
+# T1-019  ctrl:ISO27002_6_02  →  compl:NIS2_Art21_i   [cluster — broadMatch]
+
+# =============================================================================
+# Totaal: 26 predicate-mutaties.
+# Niet in deze diff: T1-023 (h) en T1-021 (j) — zie diff-2-edge-cases.ttl.
+# =============================================================================
