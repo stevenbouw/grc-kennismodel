@@ -479,6 +479,12 @@ for prop_uri, prop_label in discovered_props.items():
         if not (isinstance(s, URIRef) and isinstance(o, URIRef)): continue
         sid = make_id(str(s))
         oid = make_id(str(o))
+        # Endpoint-validatie: edges met >=1 TBox-endpoint (owl:Class etc.) worden
+        # bewust uitgesloten. build_v3 exporteert alleen ABox-individuen als nodes
+        # (zie SCHEMA_TYPES-filter regel 77-86). Gevolg v4.6.0: 39 van de 1.798
+        # SKOS-mappings ontbreken in de export (1.798 - 1.759 = 39). Concentratie:
+        # m03-risk (15), m18-assets (14), m07-business (10). Architectureel correct
+        # — zie output/reports/skos-edge-discrepantie-v4_6_0.md voor root-cause.
         if sid not in node_ids or oid not in node_ids: continue
         key = (sid, oid, prop_uri)
         if key in seen_edges: continue

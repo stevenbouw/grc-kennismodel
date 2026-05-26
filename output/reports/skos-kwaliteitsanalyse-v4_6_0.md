@@ -112,7 +112,9 @@ Geen onverwachte concentraties. Alle drie zijn verklaard door de architectuur of
 
 ## Kanttekening bij 1.759 vs 1.798 SKOS-edges in export
 
-De build-script-export toont 1.759 SKOS-edges (individual-niveau). De 39 overige mappings betreffen class-niveau-SKOS (tussen OWL Classes, niet Individuals) — zelfde patroon als v4.3.x (gedocumenteerd in export-rapport v4.3.0). Geen nieuwe anomalie.
+De build-script-export toont 1.759 SKOS-edges (individual-niveau). De 39 overige mappings betreffen SKOS-mappings met minstens één `owl:Class`-endpoint — zelfde patroon als v4.3.x (gedocumenteerd in export-rapport v4.3.0). Geen nieuwe anomalie.
+
+**Precisering 26 mei 2026** — root-cause-analyse `output/reports/skos-edge-discrepantie-v4_6_0.md` lokaliseert de 39 verlies-tripels exact: m03-risk (15), m18-assets (14), m07-business (10). Filter-attributie: 32 hebben een `owl:Class`-subject met Individual-object; 7 hebben een Concept-subject (TBB) met `owl:Class`-object. Geen tripel heeft beide endpoints als Class. Architectureel correct gevolg van `SCHEMA_TYPES`-filter in `build_grc_explorer_v3.py` (regel 77-86 + 482) — de explorer toont alleen ABox-individuen.
 
 ---
 
