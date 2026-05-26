@@ -39,3 +39,8 @@ output/tmp/
 # Geheim
 .env.local
 secrets.json
+
+# Defensief — voor het geval licentie-bronnen ooit per ongeluk in repo komen
+sources-licensed/
+licensed-sources/
+*licensed*/
