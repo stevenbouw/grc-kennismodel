@@ -1,0 +1,112 @@
+======================================================================
+apply_patch_v4_6_2.py — modus: DRY-RUN
+======================================================================
+Bron: output/analysis/t2-cluster-*.json
+Doel TTL: ontology/m10-nis2-ext.ttl
+
+Patch-vereiste mutaties totaal: 65
+  Pilot-paren in mutatie-set:    4
+  Uitzondering-flag (review):    10
+
+Per mutatie-richting:
+  upgrade                 :  33
+  downgrade               :  32
+
+Per cluster:
+  compl:NIS2_Art21_a:   8
+  compl:NIS2_Art21_b:   4
+  compl:NIS2_Art21_c:   4
+  compl:NIS2_Art21_d:   2
+  compl:NIS2_Art21_e:  10
+  compl:NIS2_Art21_f:   3
+  compl:NIS2_Art21_g:   5
+  compl:NIS2_Art21_h:   3
+  compl:NIS2_Art21_i:  20
+  compl:NIS2_Art21_j:   6
+
+Pre-patch m10 skos-predicate counts (model-breed in m10):
+  skos:exactMatch    :   0
+  skos:closeMatch    :  32
+  skos:broadMatch    :  53
+  skos:narrowMatch   :   0
+  skos:relatedMatch  :  33
+
+Mutatie-toepassing-detail:
+  OK  [cluster-a]        ctrl:ISO27002_5_02        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [T2-S03]           ctrl:ISO27002_5_03        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [cluster-a]        ctrl:ISO27002_5_04        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [T2-S05]           ctrl:ISO27002_5_05        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [cluster-a]        ctrl:ISO27002_5_06        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [cluster-a]        ctrl:ISO27002_5_31        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [cluster-a]        ctrl:ISO27002_5_35        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [cluster-a]        ctrl:ISO27002_5_36        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_a
+  OK  [cluster-b]        ctrl:ISO27002_5_07        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_b
+  OK  [T2-S02]           ctrl:ISO27002_5_28        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_b
+  OK  [cluster-b]        ctrl:ISO27002_6_08        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_b
+  OK  [cluster-b]        ctrl:ISO27002_8_08        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_b
+  OK  [cluster-c]        ctrl:ISO27002_5_24        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_c
+  OK  [cluster-c]        ctrl:ISO27002_7_11        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_c
+  OK  [cluster-c]        ctrl:ISO27002_8_14        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_c
+  OK  [cluster-c]        ctrl:ISO27002_8_31        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_c
+  OK  [cluster-d]        ctrl:ISO27002_5_23        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_d
+  OK  [cluster-d]        ctrl:ISO27002_5_31        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_d
+  OK  [cluster-e]        ctrl:ISO27002_7_12        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_7_13        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_04        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_09        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_17        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_18        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_19        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_30        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_32        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-e]        ctrl:ISO27002_8_33        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_e
+  OK  [cluster-f]        ctrl:ISO27002_5_04        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_f
+  OK  [cluster-f]        ctrl:ISO27002_8_15        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_f
+  OK  [cluster-f]        ctrl:ISO27002_8_34        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_f
+  OK  [cluster-g]        ctrl:ISO27002_5_04        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_g
+  OK  [cluster-g]        ctrl:ISO27002_6_04        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_g
+  OK  [cluster-g]        ctrl:ISO27002_6_08        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_g
+  OK  [cluster-g]        ctrl:ISO27002_7_07        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_g
+  OK  [cluster-g]        ctrl:ISO27002_8_23        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_g
+  OK  [cluster-h]        ctrl:ISO27002_5_14        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_h
+  OK  [cluster-h]        ctrl:ISO27002_8_03        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_h
+  OK  [cluster-h]        ctrl:ISO27002_8_11        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_h
+  OK  [cluster-i]        ctrl:ISO27002_5_02        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_5_03        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_5_10        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_5_11        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_5_17        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_5_33        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_5_34        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_6_05        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_6_07        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_01        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_02        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_03        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_06        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_08        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_09        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_7_14        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_8_02        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_8_03        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_8_10        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [cluster-i]        ctrl:ISO27002_8_12        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_i
+  OK  [T2-S07-alt]       ctrl:ISO27002_5_15        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_j
+  OK  [cluster-j]        ctrl:ISO27002_5_16        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_j
+  OK  [cluster-j]        ctrl:ISO27002_5_17        skos:closeMatch      -> skos:broadMatch      compl:NIS2_Art21_j
+  OK  [cluster-j]        ctrl:ISO27002_5_32        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_j
+  OK  [cluster-j]        ctrl:ISO27002_8_03        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_j
+  OK  [cluster-j]        ctrl:ISO27002_8_22        skos:relatedMatch    -> skos:broadMatch      compl:NIS2_Art21_j
+
+Toegepast: 65 / 65
+
+Post-patch m10 skos-predicate counts (verwacht):
+  skos:exactMatch    :   0  (Δ 0)
+  skos:closeMatch    :   0  (Δ -32)
+  skos:broadMatch    : 118  (Δ +65)
+  skos:narrowMatch   :   0  (Δ 0)
+  skos:relatedMatch  :   0  (Δ -33)
+
+DRY-RUN voltooid. Geen file-mutatie uitgevoerd.
+Voor productie-toepassing (Stap 4 na masterchat-GO):
+    python3 output/scripts/apply_patch_v4_6_2.py --apply

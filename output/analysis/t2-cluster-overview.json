@@ -1,0 +1,147 @@
+{
+  "source_ttl": "ontology/m10-nis2-ext.ttl",
+  "total_pairs_m10": 118,
+  "cluster_target_predicate_all": "skos:broadMatch",
+  "rationale_all": "Alle 10 NIS2-art.21-letter-clusters zijn veel<->1 object-clusters; Protocol v1.2 §3.1 rij 6 levert deterministisch skos:broadMatch als cluster-doel-predicate (structureel feit uit C2-cardinaliteit, geen voorspelling van Stap 3-uitkomst).",
+  "clusters": {
+    "compl:NIS2_Art21_a": {
+      "cluster_size": 12,
+      "counts": {
+        "total": 12,
+        "behoud": 4,
+        "downgrade": 4,
+        "upgrade": 4,
+        "richtings_correctie": 0,
+        "patch_required": 8,
+        "exception_flags": 3,
+        "pilot_pairs": 3
+      }
+    },
+    "compl:NIS2_Art21_b": {
+      "cluster_size": 10,
+      "counts": {
+        "total": 10,
+        "behoud": 6,
+        "downgrade": 2,
+        "upgrade": 2,
+        "richtings_correctie": 0,
+        "patch_required": 4,
+        "exception_flags": 0,
+        "pilot_pairs": 1
+      }
+    },
+    "compl:NIS2_Art21_c": {
+      "cluster_size": 8,
+      "counts": {
+        "total": 8,
+        "behoud": 4,
+        "downgrade": 2,
+        "upgrade": 2,
+        "richtings_correctie": 0,
+        "patch_required": 4,
+        "exception_flags": 0,
+        "pilot_pairs": 1
+      }
+    },
+    "compl:NIS2_Art21_d": {
+      "cluster_size": 7,
+      "counts": {
+        "total": 7,
+        "behoud": 5,
+        "downgrade": 1,
+        "upgrade": 1,
+        "richtings_correctie": 0,
+        "patch_required": 2,
+        "exception_flags": 0,
+        "pilot_pairs": 0
+      }
+    },
+    "compl:NIS2_Art21_e": {
+      "cluster_size": 17,
+      "counts": {
+        "total": 17,
+        "behoud": 7,
+        "downgrade": 4,
+        "upgrade": 6,
+        "richtings_correctie": 0,
+        "patch_required": 10,
+        "exception_flags": 0,
+        "pilot_pairs": 1
+      }
+    },
+    "compl:NIS2_Art21_f": {
+      "cluster_size": 7,
+      "counts": {
+        "total": 7,
+        "behoud": 4,
+        "downgrade": 1,
+        "upgrade": 2,
+        "richtings_correctie": 0,
+        "patch_required": 3,
+        "exception_flags": 1,
+        "pilot_pairs": 0
+      }
+    },
+    "compl:NIS2_Art21_g": {
+      "cluster_size": 9,
+      "counts": {
+        "total": 9,
+        "behoud": 4,
+        "downgrade": 3,
+        "upgrade": 2,
+        "richtings_correctie": 0,
+        "patch_required": 5,
+        "exception_flags": 1,
+        "pilot_pairs": 0
+      }
+    },
+    "compl:NIS2_Art21_h": {
+      "cluster_size": 7,
+      "counts": {
+        "total": 7,
+        "behoud": 4,
+        "downgrade": 1,
+        "upgrade": 2,
+        "richtings_correctie": 0,
+        "patch_required": 3,
+        "exception_flags": 1,
+        "pilot_pairs": 0
+      }
+    },
+    "compl:NIS2_Art21_i": {
+      "cluster_size": 32,
+      "counts": {
+        "total": 32,
+        "behoud": 12,
+        "downgrade": 11,
+        "upgrade": 9,
+        "richtings_correctie": 0,
+        "patch_required": 20,
+        "exception_flags": 3,
+        "pilot_pairs": 1
+      }
+    },
+    "compl:NIS2_Art21_j": {
+      "cluster_size": 9,
+      "counts": {
+        "total": 9,
+        "behoud": 3,
+        "downgrade": 3,
+        "upgrade": 3,
+        "richtings_correctie": 0,
+        "patch_required": 6,
+        "exception_flags": 1,
+        "pilot_pairs": 1
+      }
+    }
+  },
+  "totals": {
+    "behoud": 53,
+    "downgrade": 32,
+    "upgrade": 33,
+    "richtings_correctie": 0,
+    "patch_required": 65,
+    "exception_flags": 10,
+    "pilot_pairs": 8
+  }
+}
