@@ -14,7 +14,7 @@ Karpathy-stijl digital brain + ontologie-werkfolder voor het GRC Kennismodel-pro
 - **Docs** — sprint-instructies, sprint-protocollen, handovers, migratie-roadmap
 
 **Huidige ontologie-baseline:** v4.6.0 (Fase 4 — M15-ENSIA + Volwassenheidsmodel), opgeleverd 21 mei 2026.
-**Actuele projectinstructie:** `projectinstructie-v1.9.md` (in PK, niet in deze repo om licentie-redenen — zie sectie "Externe bronnen").
+**Actuele projectinstructie:** `docs/projectinstructie-v1_10.md` (27 mei 2026). Eerdere versies (`v1_8`, `v1_9`) blijven beschikbaar in `docs/` als historische referentie.
 
 ## Karpathy-pattern toepassing
 
@@ -252,7 +252,6 @@ Beide Tier 2-skills te evalueren wanneer eerste post-migratie-sprint (v4.7.0) is
 | Categorie | Locatie | Reden |
 |---|---|---|
 | NEN-restrictief (ISO 27001/27002/27005/31000/22301/22313) | claude.ai PK | Licentie verbiedt git-publicatie |
-| Projectinstructie v1.9 | claude.ai PK | Autoritatief document; sync via PK |
 | Patch-rapporten (historisch) | claude.ai PK + `output/reports/` (per release) | Historisch + actueel beide beschikbaar |
 | Brain-vault-uploads pre-migratie | claude.ai PK | Migratie-bron — read-only referentie |
 
@@ -289,5 +288,6 @@ Dit document wijzigt alleen bij wijzigingen in repo-structuur, subagent-architec
 | 2026-05-22 | 1.2 | Vijf toevoegingen na pre-migratie-check: (1) Karpathy drie-lagen-pattern + "compile once, keep current"-framing; (2) Operations-sectie met Ingest/Query/Lint/File-back; (3) File-back-discipline expliciet; (4) Optional tooling-sectie; (5) Skills-ecosystem-positionering met Tier 1+2 post-migratie kandidaten. Tech+Dashboard-subagent-configs incorporeren Karpathy LLM coding-principes (multica-ai). |
 | 2026-05-22 | 1.3 | Repo-structuur-update na Steven's structuur-aanmaak: `dashboard/` als toplevel toegevoegd; `output/reports/` + `output/verification/` sub-structuur; `sources/` sub-folders expliciet getoond (adr-norea/ensia/eu-recht/nl-recht/nist/overheid); `docs/migratie-roadmap.md` op toplevel (niet in handovers); macOS-Finder-note over `.claude/` punt-prefix. |
 | 2026-05-26 | 1.4 | Iteratie 12 polish-mini-sprint: nieuwe korte sectie "Dashboard-productlijnen (Spoor A vs Spoor B)" tussen repo-structuur en brain-vault-organisatie. Verwijst naar nieuw concept-bestand `brain__concepts__dashboard-productlijnen.md` voor detail. Geen wijziging aan andere secties. |
+| 2026-05-27 | 1.5 | Projectinstructie-referenties bijgewerkt na v1.10-publicatie (27 mei 2026): "Actuele projectinstructie"-regel verwijst naar `docs/projectinstructie-v1_10.md` (was v1.9 in PK); rij "Projectinstructie v1.9" verwijderd uit Externe bronnen-tabel (projectinstructie staat sinds v1.8 in `docs/`, niet meer extern). |
 
 — Einde CLAUDE.md
