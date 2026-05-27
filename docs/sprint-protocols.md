@@ -1,7 +1,7 @@
 # Sprint-protocollen — Werkwijze voor subagents in Claude Code
 
-**Versie:** 1.2
-**Datum:** 26 mei 2026
+**Versie:** 1.3
+**Datum:** 27 mei 2026
 **Doelpubliek:** Tech-subagent, Brein-subagent, Dashboard-subagent
 **Verhouding tot projectinstructie:** dit document is de **porteerbare uitvoerings-gerichte versie** van projectinstructie v1.9 §"Sprint-protocollen". De projectinstructie blijft autoritatief; dit document is praktisch werkmateriaal voor subagent-context. Bij conflict: projectinstructie prevaleert.
 
@@ -37,7 +37,7 @@ Sprint-protocollen zijn **niet-onderhandelbaar** voor alle subagents (zie CLAUDE
 | 14 | Pre-push disclosure-check | Alle (subagent + Steven) | iteratie 12 | Verplicht |
 | **15** | **Tech levert werkbare applier (niet alleen specificatie)** | **Tech** | **iteratie 13 (T1 §8 leerpunt 5)** | **Verplicht** |
 | **16** | **Lokatie verificatie-scripts expliciet in patch-rapport** | **Tech** | **iteratie 13 (T1 §8 leerpunt 6)** | **Verplicht** |
-| **17** | **NEN-werkverdeling Tech↔Masterchat** | **Tech + Masterchat** | **iteratie 13 (T1 §8 leerpunt 4)** | **Verplicht** |
+| **17** | **NEN-werkverdeling met Tech-autonomie** | **Tech (autonoom); Masterchat alleen bij edge-cases** | **iteratie 13 (T1 §8 leerpunt 4); herzien 27 mei 2026** | **Verplicht** |
 | **GR** | Property-semantiek-discipline | Alle (gedragsregel) | v1.9 | Verplicht |
 
 ---
@@ -456,33 +456,50 @@ Concrete eisen:
 
 ---
 
-## 17. NEN-werkverdeling Tech ↔ Masterchat (iteratie 13)
+## 17. NEN-werkverdeling met Tech-autonomie (iteratie 13; herzien 27 mei 2026)
 
-**Trigger:** Sprints die NEN-restrictieve bronnen vereisen voor inhoudelijke toetsing (ISO 27002, ISO 27001, ISO 27005, ISO 31000, ISO 22301, ISO 22313, ISO 42001 en latere NEN-uitgaven).
+*Herzien 27 mei 2026 na koers-correctie lokale NEN-toegang voor Tech.*
 
-**Subagent:** Tech (structurele analyse) + Masterchat (NEN-tekst-toetsing).
+Tech-subagent in Claude Code heeft toegang tot lokale NEN-bronnen in `/Users/stevenbouwmeester/grc-sources-licensed/`:
 
-**Procedure:**
+- ISO 27002:2022
+- ISO 27001:2022
+- ISO 27005:2024
+- ISO 31000:2018
+- ISO 22301:2019
+- ISO 22313:2020
 
-NEN-restrictieve bronnen mogen niet in de repo (licentie); ze staan uitsluitend in claude.ai PK. Tech-subagent kan deze bronnen niet zelf raadplegen. Werkverdeling:
+Bij sprints die NEN-restrictieve bronnen vereisen voor inhoudelijke toetsing: **Tech voert volledige beoordeling autonoom uit** via lokale bron-toegang, inclusief NEN-tekst-lezing voor C1 (definitionele overlap), C3 (inclusie-richting), en evidence-niveau-3-onderbouwing. Masterchat-judgement is alleen vereist voor:
 
-- **Tech levert structurele analyse:** ABox-extractie, label-vergelijking, cardinaliteit, UV-decompositie, label-overlap, cluster-statistieken
-- **Masterchat verzorgt NEN-tekst-toetsing** via project knowledge: bilaterale containment, definitie-vergelijking, edge-case-judgement
+- Cross-bron-interpretatie (meerdere bronnen tegenspreken elkaar)
+- Bron-tekst die meerduidig is en geen eenduidige lezing toelaat
+- C1-C3-toets die ook na NEN-tekst-lezing sluitend ambigu blijft
+- Cluster-uitzondering waarvoor bewijslast te zwak is voor Tech-autonomie
 
-Bij twijfelgevallen formuleert Tech een specifieke NEN-PK-vraag in **tabel-format** met:
+**Parafrase-discipline (verplicht):** Tech mag NEN-tekst lezen voor toetsing, maar **mag onder geen beding NEN-tekst-fragmenten verbatim opnemen** in rapport-output, commit-messages, Turtle-files, code-comments, of geautomatiseerde output. Toegestaan: parafrase + clausule-verwijzing (bv. "ISO 27002:2022 §8.24 dekt beleid + procedures + sleutelbeheer + gebruik"). Niet toegestaan: letterlijke citaten >10 woorden.
 
-1. Specifieke ISO-clause (subject) — bv. "ISO27002:2022 §8.05"
-2. Specifieke andere-bron-tekst (object) — bv. "NIS2 art.21 lid 2 onder j"
-3. Tech-positie pro-X / pro-Y (twee-zijdige analyse, geen Tech-voorstel)
-4. Vraag aan masterchat (precieze formulering)
+**Twee-zijdige analyse-format voor masterchat-escalatie** (verplicht wanneer escalatie wel nodig is):
 
-Masterchat beantwoordt via NEN-PK-citaten in vervolg-instructie.
+Tech levert beide kanten van de mogelijke beoordeling vóór masterchat-judgement:
 
-**Output:** Tabel-formaat NEN-PK-vraag in tussenrapport of edge-case-sectie van patch-rapport.
+```
+[Paar-ID] — masterchat-judgement-vraag:
 
-**Escalatie:** Bij ontoegankelijkheid NEN-bron in PK of bij conflict tussen Tech-extractie en NEN-tekst: scope-pauze + verzoek aan Steven om bron-bevestiging.
+Pro-[predicate A]-onderbouwing:
+- argument 1
+- argument 2
+- evidence-verwijzing
 
-**Toepassings-bewijs:** T1-sprint Stap 5 — twee edge-cases (T1-021 ISO27002 §8.05 ↔ NIS2 art.21 j; T1-023 ISO27002 §8.24 ↔ NIS2 art.21 h) via NEN-PK-toets opgelost. Tech leverde twee-zijdige analyse, masterchat citeerde ISO 27002:2022-tekst uit PK, beslissing beide → broadMatch. Werkflow-patroon bewezen werkbaar; geformaliseerd als Protocol 17.
+Pro-[predicate B]-onderbouwing:
+- argument 1
+- argument 2
+- evidence-verwijzing
+
+Tech-positie: [voorkeur of "geen voorkeur"]
+Vraag aan masterchat: [specifieke vraag, niet algemeen]
+```
+
+Pre-push disclosure-check (Protocol 14) wordt v1.1 uitgebreid met NEN-tekst-fragment-detectie als vijfde categorie — zie protocol-bestand voor detail.
 
 ---
 
@@ -658,9 +675,10 @@ Per stap:
 | 2026-05-22 | 1.0 | Initiële versie. Geporteerd uit projectinstructie v1.9 §"Sprint-protocollen" + brain__workflow__sprint-protocollen.md. Aangepast voor subagent-context met Trigger/Procedure/Output/Escalatie-structuur per protocol. Toevoeging §15 Scope-pauze-escalatie-route specifiek voor Claude Code, §16 Sample-first-discipline (afgeleid uit sprint-praktijk), §17 File-back-verwijzing, §18 Output-conventies. |
 | 2026-05-26 | 1.1 | Toevoeging Protocol 14 — Pre-push disclosure-check (iteratie 12 polish-mini-sprint). Aanleiding: PAT-blunder voorgaande sessie + handovers ongetoetst gepusht. Reikwijdte: alle subagents + Steven, vóór elke push van documenten met chat-historie of subagent-output. Niet retroactief. |
 | 2026-05-26 | 1.2 | Toevoeging drie protocollen 15-17 uit T1-leerpunten (iteratie 13 Brein-cyclus). Protocol 15: Tech levert werkbare applier (niet alleen specificatie) — bron T1 §8 leerpunt 5 (tooling-incident applier). Protocol 16: Lokatie verificatie-scripts expliciet in patch-rapport — bron T1 §8 leerpunt 6 (pad-inconsistentie). Protocol 17: NEN-werkverdeling Tech↔Masterchat — bron T1 §8 leerpunt 4 (eerste productie-toepassing). |
+| 2026-05-27 | 1.3 | Protocol 17 herzien na koers-correctie lokale NEN-toegang. Tech-autonomie omhoog; masterchat-escalatie alleen bij edge-cases. Parafrase-discipline + twee-zijdige analyse-format toegevoegd. Overzichtstabel-rij voor Protocol 17 bijgewerkt (titel + uitvoerend + status-veld). |
 
 ---
 
-**Einde sprint-protocollen v1.2.**
+**Einde sprint-protocollen v1.3.**
 
 *Bij twijfel over toepasselijkheid van protocol: scope-pauze met vraag aan masterchat is altijd legitiem.*
