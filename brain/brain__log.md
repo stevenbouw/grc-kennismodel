@@ -2,12 +2,103 @@
 type: log
 title: GRC Kennismodel Brain — Chronologisch logboek
 status: living
-date: 2026-05-26
+date: 2026-05-27
 ---
 
 # GRC Kennismodel Brain — Chronologisch logboek
 
 Per Karpathy's pattern: chronologisch operationeel record. Append-only. **Nieuwste entry bovenaan.**
+
+---
+
+## 2026-05-27 — Iteratie 14: post-T2-Brein-cyclus (T2-sprint + Protocol v1.3-draft + H36 m10-component closed + H41 nieuw + cluster-discipline-bewijslast-concept)
+
+**Derde post-migratie Brein-cyclus** uitgevoerd via brein-subagent in Claude Code. Administratieve nasleep van T2-sprint (SKOS-bidirectional-audit m10, patch v4.6.2, opgeleverd 27 mei 2026 dezelfde dag) + projectinstructie v1.10 + Protocol v1.3-draft. T2 is **tweede post-migratie productie-sprint** en eerste sprint die Protocol v1.2 bidirectional in productie heeft toegepast.
+
+**Karakter:** uitsluitend administratieve verwerking van besluiten die in T2 al waren genomen (Tech-uitvoering volledig autonoom via Protocol 17 v1.3 NEN-Tech-autonomie + masterchat-protocol-vaststelling + Steven-patch-toepassing). Geen architectuur-wijzigingen autonoom door Brein; alleen status-mutaties + nieuwe H-registratie per masterchat-besluit projectinstructie v1.10. 12 bestanden geraakt: 3 nieuw + 9 update.
+
+**WP1 — T2-sprint registreren:**
+
+- [[brain__sprints__T2-skos-bidirectional-audit-m10]] *(nieuw)* — Tweede post-migratie productie-sprint. Scope: 118 m10 ctrl→compl-paren over 10 NIS2-art.21-letter-clusters (m14-deferral per Optie C). Vier-stappen-uitvoering: pre-sprint-inventarisatie (149 → 118 m10 + 31 m14-deferral) → pilot 8 paren over 10 clusters → pre-Stap-4 errata-correctie (helper-script-classificatie autoritatief) → Stap 3 hoofd-uitvoering 110 paren (alle 10 clusters → broadMatch) → Stap 4 productie-patch v4.6.2 (65 mutaties = 32 downgrade + 33 upgrade, 13/13 GO-criteria groen). Sprint-multiplier 2,32× t.o.v. T1. Cross-refs: D4 + D4.1, H36, H39, H41, Protocol v1.0/v1.2/v1.3, bidirectional-audit-symmetrie, cluster-discipline-bewijslast.
+- [[brain__sprints__sprint-register]] *(update)* — T2-rij toegevoegd als active; T1 verschoven naar superseded. v4.6.2 baseline-metrics-blok geheel (predicate-substitutie: closeMatch −32, broadMatch +65, relatedMatch −33; SKOS-totaal 1.798 ongewijzigd). Multiplier-tabel uitgebreid met T1 + T2-rijen (beide 0× — kwaliteits-sprints; T2-mutatie-multiplier 2,32× t.o.v. T1). Geplande-sprints-tabel: T2 vervangen door m14-T-sprint. D-cross-reference-tabel: T2-rij D4.1-cluster-niveau-toepassings-precedent.
+
+**WP2 — D04-decision: D4.1-toepassings-precedent uitbreiden:**
+
+- [[brain__decisions__D04_skos-cross-framework]] *(update)* — D4.1-toepassings-precedent uitgebreid van paar-niveau (T1) naar cluster-niveau (T2, 118 paren over 10 m10-clusters). Bij homogene cluster-bron-stack volstaat één D4.1-bevestiging per cluster. Heterogene clusters vereisen per-paar-toets. D4-tekst zelf onveranderd; alleen precedent-uitbreiding gedocumenteerd. Status-historie-rij toegevoegd. related-frontmatter uitgebreid met T2, H41, cluster-discipline-bewijslast.
+
+**WP3 — H-items bijwerken:**
+
+- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] *(update)* — Status closed (iteratie 13) → **active (m10 closed, m14 open subtask)** (iteratie 14). T2 voltooide m10-scope volledig (cumulatief 93 m10-paren via T1+T2); m14 (31 compl→ctrl-paren in `m14-avg-gdpr.ttl`, omgekeerde modelleringsconventie) blijft open subtask voor toekomstige T-sprint. T2-uitkomst-sectie toegevoegd met 65 mutaties + 10/10 cluster-convergentie + 0 NEN-uitzonderingen. Architectuur-impact-tabel uitgebreid (D4 + D4.1, H39, H41, methode-protocol, cluster-discipline-bewijslast). Status-historie-rij toegevoegd. related-frontmatter uitgebreid met T2, H41, cluster-discipline-bewijslast.
+- [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] *(update)* — Status onveranderd (parked). Versterking T2-sectie toegevoegd: T2 bevestigt SHACL-blinde-vlek op 118-paren-schaal; 65 SKOS-predicate-mutaties → Δ SHACL = 0 in alle drie metingen (SECTIE A / B / COMBINED). Trigger-relevantie verder verhoogd. Status-historie-rij toegevoegd.
+- [[brain__architecture__H41_skos-axioma-set-handling]] *(nieuw)* — Nieuw geregistreerd parked H-item per masterchat-besluit projectinstructie v1.10. T1-werkflow-leerpunt (zonder H-registratie) wordt geactiveerde H-item door T2-empirisch bewijs: post-OWL-RL Δ-triples = 0 ondanks 65 SKOS-predicate-mutaties. `owlrl`-package laadt in canonieke configuratie geen SKOS-axiomas (S46-symmetrie, S47-transitiviteit). Confidence high op feitelijke vaststelling; toekomstige beslissing wel/niet activeren blijft open. Trigger: substantiële SKOS-mapping-uitbreiding waar symmetrie/transitiviteit auditief relevant wordt. Cross-refs: H37 (open-ontologies-MCP), H38 (HermiT-equivalentie), H39 (SHACL-uitsplitsing), Protocol v1.3 §12.
+- [[brain__architecture__H-register]] *(update)* — Status-overzicht: nieuwe categorie "Active (gedeeltelijk closed)" met H36; Parked-aantal 6 → 7 (H41 toegevoegd); Resolved 5 → 4 (H36 weer uit resolved). Active-tabel + Parked-tabel + iteratie-14-status-mutaties-sectie + H-items-per-D-decision-tabel allemaal bijgewerkt. Reikwijdte-vermelding bij H36-status-correctie expliciet opgenomen.
+
+**WP4 — Concepts bijwerken + nieuw concept:**
+
+- [[brain__concepts__skos-beoordelings-protocol]] *(update)* — Versie-evolutie expliciet: v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 DRAFT. Sectie "T2-toepassing — 65 bidirectional mutaties over 10 clusters" toegevoegd. Nieuwe sub-sectie "Bidirectional-audit-symmetrie" als sub-aspect Protocol v1.2 §3.1-§3.2 met sterkte-ordening-tabel + mutatie-richting-classificatie + T2-empirisch bewijs (Brein-keuze B: sub-sectie i.p.v. apart concept-bestand — zie motivering). Protocol-versie-roadmap uitgebreid met zeven v1.3-verfijningen + v1.3-werkflow-discipline §10.2-§10.5 als gedragsregel in projectinstructie v1.10. T3 + m14-relevantie-tabel uitgebreid met nieuwe kandidaten. Cross-refs naar H41 + cluster-discipline-bewijslast toegevoegd.
+- [[brain__concepts__mapping-bron-disclaimer-effect]] *(update)* — Nieuwe sectie "D4.1-toepassing op cluster-niveau — T2" toegevoegd. Bron-erf-relatie ENISA TIG R285 + CBW-Mapping-UV R3 expliciet als één-context-keten erkend. Reikwijdte-beperking (homogene vs heterogene clusters) gedocumenteerd. Status-historie-rij voor T2-cluster-niveau-toepassings-precedent toegevoegd. Cross-refs naar T2 + cluster-discipline-bewijslast toegevoegd.
+- [[brain__concepts__cluster-discipline-bewijslast]] *(nieuw, confidence high)* — Bewijslast-asymmetrie voor uitzonderingen binnen veel↔1-clusters. Drie scenario's: sterker mapping (streng bewijs vereist via bilaterale containment), zwakker mapping (streng bewijs vereist via C3-falen), behoud cluster-default (geen aanvullende bewijslast). T2-empirisch bewijs: 10 heuristiek-flags op 6 cluster-leden → 0 succesvolle uitzonderingen. Cluster-cardinaliteit als structurele blokkade voor sterker mapping. Heuristiek-screening als prioriteits-mechanisme (niet beslis-mechanisme). Werkflow-discipline rond bewijslast in zes stappen. Cross-refs naar D4 + D4.1, T1, T2, skos-beoordelings-protocol, mapping-bron-disclaimer-effect.
+- [[brain__concepts__concept-register]] *(update)* — Twee bestaande concept-rijen bijgewerkt voor T2-update (skos-beoordelings-protocol + mapping-bron-disclaimer-effect); één nieuwe rij toegevoegd (cluster-discipline-bewijslast). Cluster-sectie "SKOS-kwaliteits-methode" uitgebreid van T1-cluster naar T1+T2-cluster. D-cross-reference-tabel + sprint-cross-reference-tabel bijgewerkt.
+
+**WP5 — Log + Index:**
+
+- [[brain__log]] *(deze entry)* — nieuwste entry bovenaan, iteratie 14.
+- [[brain__index]] *(update)* — vault-staat-tabel rij iteratie 14 toegevoegd; baseline van v4.6.1 → v4.6.2; status-overzicht-ontologie ververst; cross-ref-overzicht uitgebreid met T2 + H41 + cluster-discipline-bewijslast.
+
+**Motivering Brein-keuze A vs B voor bidirectional-audit-symmetrie:**
+
+Briefing §1.4 vroeg om Brein-autonome keuze tussen (A) apart concept-bestand `brain__concepts__bidirectional-audit-symmetrie.md` of (B) sub-sectie in `brain__concepts__skos-beoordelings-protocol.md`. **Gekozen: B (sub-sectie).** Motivering:
+
+- Bidirectional-audit-symmetrie is een methodisch sub-aspect van het SKOS-beoordelings-protocol, niet een eigenstandig concept-domein
+- Het concept "skos-beoordelings-protocol" is reeds een methode-concept; symmetrie hoort daarbij (Protocol v1.2 §3.1 + §3.2)
+- Cluster-discipline-bewijslast komt al apart in nieuw concept; twee parallel nieuwe concepten voor één T2-cluster zou de concept-vault uithollen
+- Scope-passend voor T2 (één bewijscluster: 32 downgrade + 33 upgrade)
+- Bij uitbreiding naar meerdere modules of bron-contexten kan dit alsnog uitgesplitst (toekomst-trigger documenteerd in concept)
+
+**File-count iteratie 14:**
+
+| WP | Nieuw | Update | Totaal |
+|---|---:|---:|---:|
+| WP1 T2-sprint | 1 | 1 (sprint-register) | 2 |
+| WP2 D04 | 0 | 1 (D04) | 1 |
+| WP3 H-items | 1 (H41) | 3 (H36, H39, H-register) | 4 |
+| WP4 concepts | 1 (cluster-discipline-bewijslast) | 3 (skos-protocol, mapping-bron-disclaimer, concept-register) | 4 |
+| WP5 log + index | 0 | 2 (log + index) | 2 |
+| **Totaal** | **3** | **10** | **13** |
+
+**Cross-referentie-verificatie (Brein-discipline):**
+
+- [[brain__sprints__T2-skos-bidirectional-audit-m10]]: related-frontmatter wijst naar T1, D04, H36, H39, H41 (nieuw, geen forward-rot), skos-beoordelings-protocol, mapping-bron-disclaimer-effect, cluster-discipline-bewijslast (nieuw, geen forward-rot). Alle targets aanwezig in vault na iteratie 14.
+- [[brain__architecture__H41_skos-axioma-set-handling]]: related-frontmatter wijst naar owl-rl-reasoning (bestaat), canonical-metrics (bestaat), skos-beoordelings-protocol (bestaat), T1, T2 (nieuw), D04 (bestaat). Cross-refs naar H37 + H38 + H39 expliciet in body-tekst.
+- [[brain__concepts__cluster-discipline-bewijslast]]: related-frontmatter wijst naar skos-beoordelings-protocol, mapping-bron-disclaimer-effect, D04, T1, T2 — alle aanwezig. body-tekst-cross-refs consistent.
+- D04: related-frontmatter uitgebreid met T2 + H41 + cluster-discipline-bewijslast — alle aanwezig na iteratie 14.
+- H36: related-frontmatter uitgebreid met T2 + H41 + cluster-discipline-bewijslast — alle aanwezig.
+- H39: related-frontmatter uitgebreid met T2 — aanwezig.
+- skos-beoordelings-protocol: related-frontmatter uitgebreid met T2 + H41 + cluster-discipline-bewijslast — alle aanwezig.
+- mapping-bron-disclaimer-effect: related-frontmatter uitgebreid met T2 + cluster-discipline-bewijslast — alle aanwezig.
+- H-register: H36 expliciet in Active (gedeeltelijk closed)-tabel + iteratie-14-status-mutaties-sectie; H41 in Parked-tabel + iteratie-14-status-mutaties-sectie; H-items-per-D-decision-tabel H36 + H41 onder D4.
+- sprint-register: T2-rij in major-milestones (active) + detail-tabel + v4.6.2 baseline-metrics-blok + multiplier-tabel + D-cross-reference-tabel + geplande-sprints-tabel allen consistent.
+- concept-register: drie nieuwe entry-rijen + SKOS-kwaliteits-methode-cluster bijgewerkt + D-cross-references + sprint-cross-references.
+
+**Pre-push disclosure-check (Protocol 14, 5 categorieën):**
+
+- (1) Organisatie-naam: niet genoemd in enige nieuw of geüpdatet bestand. "De organisatie" of "Rijksoverheidsorganisatie" niet eens gebruikt.
+- (2) Persoonsnamen: alleen Steven Bouwmeester (publieke projecteigenaar). Geen andere namen.
+- (3) Lokale paden: alleen `/Users/stevenbouwmeester/grc-kennismodel/` (project) en `/Users/stevenbouwmeester/grc-sources-licensed/` (NEN-licentie) — beide in T2-rapporten gerefereerd, hier overgenomen voor ISO-bron-verwijzing.
+- (4) Credentials / TLD / e-mail: geen.
+- (5) NEN-tekst-fragmenten >10 woorden: geen verbatim ISO/NEN-tekst opgenomen in brain-bestanden. Verwijzingen naar ISO 27002:2022 §-clausules (bv. §5.2, §5.4, §5.30, §5.36, §6.5, §8.3, §8.24) zijn parafrases of pure clausule-referenties zonder citaat. Strikt gehandhaafd vanwege risico-vermelding in briefing §3.
+
+**Open punten voor masterchat (niet door Brein opgepakt):**
+
+1. **Protocol v1.3-vaststelling** — DRAFT-status; vaststelling pending bij eerstvolgende sprint-scoping (T3 of m14)
+2. **m14-T-sprint-scope** — open subtask van H36; verse masterchat-sessie nodig voor scope-bepaling incl. AVG-cross-walk-bron-upload-keuze
+3. **T3-scope-bepaling** — andere SKOS-mapping-clusters (cross-bron-overlap-105, m11, m17, m09)
+4. **D4-aanvulling-overweging confidence-verhoging** — verhoging naar high vereist tweede onafhankelijke bron-bevestiging (NIST OLIR of ISO Annex F-tekstverificatie)
+5. **Locatie Spoor B-prototype `grc-dashboard-v3-2.html`** — open sinds iteratie 12; niet in deze cyclus opgepakt conform briefing §5
+
+**Karakter-bevestiging:** geen architectuurbeslissingen autonoom genomen; H41-registratie volgt masterchat-besluit (projectinstructie v1.10); H36-status-revisie volgt T2-scope-realiteit; geen D-decision-tekst-wijzigingen (alleen toepassings-precedent); geen Protocol v1.3-tekst-wijziging (DRAFT, vaststelling pending); geen ontologie-impact; geen autonome commits. Discipline-conform briefing §0-§7.
+
+**Volgende:** Steven inspecteert WP1-WP5 en commit handmatig (per WP of cumulatief — voorstel staat in eindrapport-output). Daarna Protocol v1.3-vaststelling of m14-T-sprint-scoping of T3-scope-bepaling in verse masterchat-sessie.
 
 ---
 

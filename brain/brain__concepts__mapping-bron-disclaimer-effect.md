@@ -2,15 +2,19 @@
 type: concept
 title: Mapping-bron-disclaimer-effect — non-equivalence-claims in autoritatieve cross-norm-mappings
 status: living
-date: 2026-05-26
+date: 2026-05-27
 related:
   - D04_skos-cross-framework
   - T1_skos-kwaliteitsanalyse-fase-1
+  - T2-skos-bidirectional-audit-m10
   - skos-beoordelings-protocol
+  - cluster-discipline-bewijslast
   - cross-bron-overlap
 sources:
   - t1-eindrapport-v4_6_1
   - t1-pilot-rapport-stap3-v4_6_0
+  - patch-rapport-v4_6_2
+  - t2-stap3-eindrapport
 chat-sources: []
 confidence: medium
 ---
@@ -82,6 +86,21 @@ Volledige tekst: [[brain__decisions__D04_skos-cross-framework]] §D4.1. Concept 
 
 Status-verschuiving voor dit concept: van "open patroon-overweging" naar "formeel patroon onder D4.1". Verdere confidence-verhoging naar **high** vereist nog steeds tweede onafhankelijke bron-bevestiging (NIST OLIR of ISO Annex F-tekstverificatie) — D4.1-formalisatie is voldoende grond om het patroon vast te leggen, maar valideert generaliseerbaarheid nog niet empirisch.
 
+## D4.1-toepassing op cluster-niveau — T2 (27-05-2026)
+
+T2-sprint heeft D4.1-toepassing geoperationaliseerd op **cluster-niveau** voor 118 m10-paren over 10 NIS2-art.21-letter-clusters (per patch-rapport v4.6.2 §1 + Stap 3-eindrapport §6.6):
+
+> Wanneer alle cluster-leden dezelfde bron-stack delen (homogene clusters), volstaat **één D4.1-bevestiging per cluster** — niet per-paar-werk. Voor heterogene clusters (mix van bronnen) blijft per-paar-toets vereist.
+
+**T2-empirie:**
+- Alle 10 m10-clusters deelden één D4.1-context: ENISA TIG R285 + CBW-Mapping-UV R3-erf (T1-bekend, pre-sprint-inventarisatie §5)
+- Per-paar-D4.1-check op cluster-niveau = **één bevestiging per cluster, niet 11,8 keer per cluster** — efficiëntiewinst t.o.v. naïeve per-paar-aanpak
+- 0 NEN-aantoonbare uitzonderingen op 10 heuristiek-flags (zie [[brain__concepts__cluster-discipline-bewijslast]])
+
+**Bron-erf-relatie ENISA TIG R285 + CBW-Mapping-UV R3:** CBW-Excel "Mapping Uitvoeringsverordening" R3 verwijst expliciet naar ENISA TIG-disclaimer. T2 bevestigde dat één cluster-context-bewijs op deze keten volstaat voor alle cluster-leden binnen één m10-cluster. **Reikwijdte-beperking:** geldt alleen bij homogene cluster-bron-stack; heterogene clusters (toekomstig m14-sprint AVG-cross-walk, cross-bron-overlap-sprint) vereisen per-paar-D4.1-toets.
+
+Operationele consequentie voor toekomstige T-sprints: vóór cluster-niveau-D4.1-toepassing eerst bron-stack-homogeniteit verifiëren als pre-cluster-stap.
+
 ## Confidence-status
 
 **Medium**, niet hoog. Reden:
@@ -102,12 +121,15 @@ Verhoging naar **high confidence** vereist:
 |---|---|---|
 | 2026-05-26 | living (confidence medium) | Concept ontstaan uit T1-sprint §6 + §8 leerpunt 2. Eerste bewijs-cluster: ENISA TIG regel 285. Generaliseerbaarheid vermoed maar niet 2+ keer bewezen |
 | 2026-05-27 | living | D4.1 vastgesteld in D-register. Concept-status verschuift van "open patroon-overweging" naar "formeel patroon onder D4.1". Confidence blijft medium tot tweede onafhankelijke bron-bevestiging. |
+| 2026-05-27 | living | D4.1-toepassings-precedent op cluster-niveau gedocumenteerd na T2-sprint. Bij homogene cluster-bron-stack volstaat één D4.1-bevestiging per cluster (T2: 10× toegepast, 0 uitzonderingen). Bron-erf ENISA TIG R285 + CBW-Mapping-UV R3 expliciet als één-context-keten erkend. Confidence blijft medium (toepassings-precedent vergroot niet de generaliseerbaarheids-empirie naar andere bronnen). |
 
 ## Cross-references
 
 - [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — sprint waarin patroon voor het eerst werd vastgesteld
-- [[brain__concepts__skos-beoordelings-protocol]] — methode-concept waarin C4-bron-bewijs-criterium dit effect zou moeten meewegen
-- [[brain__decisions__D04_skos-cross-framework]] — formele beslissing — zie §D4.1 voor de disclaimer-handling-regel (vastgesteld 27-05-2026)
+- [[brain__sprints__T2-skos-bidirectional-audit-m10]] — sprint waarin D4.1-cluster-niveau-toepassings-precedent is gedocumenteerd
+- [[brain__concepts__skos-beoordelings-protocol]] — methode-concept waarin D4.1-vooraf-check is opgenomen (Protocol v1.2/v1.3 §2.0)
+- [[brain__concepts__cluster-discipline-bewijslast]] — bewijslast-asymmetrie bij cluster-uitzonderingen (raakt D4.1-toepassings-reikwijdte)
+- [[brain__decisions__D04_skos-cross-framework]] — formele beslissing — zie §D4.1 voor de disclaimer-handling-regel (vastgesteld 27-05-2026) + cluster-niveau-toepassings-precedent
 - [[brain__decisions__D-register]] — register-vermelding D4 incl. D4.1
 - [[brain__concepts__cross-bron-overlap]] — gerelateerd kwaliteits-indicator-concept (S5 ∩ S6 = 105 mappings uit v4.5.0)
 - [[brain__sources__cbw-excel]] — bron-bestand waarvia ENISA TIG-mapping in T1 toegankelijk werd

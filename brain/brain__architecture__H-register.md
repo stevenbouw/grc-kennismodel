@@ -3,7 +3,7 @@ type: index
 id: H-register
 title: H-register — Architectuur-vragen (open / parked / resolved / future)
 status: living
-date: 2026-05-26
+date: 2026-05-27
 ---
 
 # H-register — Architectuur-vragen
@@ -15,13 +15,16 @@ H-items zijn geregistreerde architectuur-vragen, beslis-punten of onderwerpen di
 | Categorie | Aantal | H-items |
 |---|---:|---|
 | Open | 6 | H25, H26, H27, H33, H34, H35 |
-| Parked | 6 | H15, H21, **H37, H38, H39, H40** |
+| Active (gedeeltelijk closed) | 1 | **H36** *(iteratie 14 — m10 closed via T1+T2; m14 open subtask)* |
+| Parked | 7 | H15, H21, H37, H38, H39, H40, **H41** *(iteratie 14)* |
 | Future-consideration | 3 | H29, H30, H31 |
 | Newly registered v4.4.0 | 1 | H32 |
-| Resolved | 5 | H9, H10, H18, H22, **H36** *(iteratie 13 — afgehandeld via T1)* |
+| Resolved | 4 | H9, H10, H18, H22 |
 | Unknown / not yet documented | 3 | H16, H17, H23 |
 
-**Totaal**: 6 open + 6 parked + 3 future + 1 v4.4.0-asymmetrie + 5 resolved (genoemd) + 3 unknown.
+**Totaal**: 6 open + 1 active-partial + 7 parked + 3 future + 1 v4.4.0-asymmetrie + 4 resolved (genoemd) + 3 unknown.
+
+**Iteratie 14-mutatie:** H36 verschoof van "closed" (iteratie 13) terug naar "active (m10 closed, m14 open subtask)" omdat T2-sprint de scope verbreedde van 28 exactMatch-paren naar volledig m10-cluster (118 paren). T2 voltooide m10; m14-subtask (31 compl→ctrl-paren) is op masterchat-besluit afgesplitst naar toekomstige T-sprint. Tegelijkertijd is H41 nieuw geregistreerd (parked) op basis van T2-empirisch bewijs voor SKOS-axioma-set-handling onder OWL-RL.
 
 ## Open items — vereisen GRC-inhoudelijke analyse of trigger-criterium
 
@@ -35,6 +38,12 @@ H-items zijn geregistreerde architectuur-vragen, beslis-punten of onderwerpen di
 | H34 | m11 enhancement-modellering (17 unique enhancements in Stap 6) | Onveranderd — Trigger: SP 800-53-gebruik met enhancement-audit |
 | H35 | Cbb 5.28-typo-interpretatie (sheet 8 UV 10.4) | Onveranderd — Confidence: medium; Trigger: bron-correctie of latere sprint |
 
+## Active (gedeeltelijk closed)
+
+| H | Onderwerp | Detail |
+|---|---|---|
+| **H36** *(iteratie 14)* | **ctrl→compl SKOS-mappings audit — m10-component closed via T1+T2 (93 paren); m14-subtask open (31 paren)** | [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] |
+
 ## Parked items
 
 | H | Onderwerp | Detail |
@@ -43,8 +52,9 @@ H-items zijn geregistreerde architectuur-vragen, beslis-punten of onderwerpen di
 | H21 | 421 implicit individuals (consistentie-keuze) | [[brain__architecture__H21_implicit-individuals]] |
 | **H37** *(iteratie 12)* | **open-ontologies MCP-server als rdflib-alternatief** | [[brain__architecture__H37_open-ontologies-mcp]] |
 | **H38** *(iteratie 12)* | **OWL RL vs HermiT equivalentie niet geverifieerd sinds v4.0.0** | [[brain__architecture__H38_owlrl-vs-hermit-equivalentie]] |
-| **H39** *(iteratie 12, versterkt iteratie 13)* | **290 SHACL RUN 2 false-positives niet individueel uitgesplitst — T1 bevestigt blinde vlek op ctrl:↔compl:** | [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] |
+| **H39** *(iteratie 12, versterkt iteratie 13+14)* | **290 SHACL RUN 2 false-positives niet individueel uitgesplitst — T1+T2 bevestigen blinde vlek op ctrl:↔compl: (28 + 118 paren)** | [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] |
 | **H40** *(iteratie 12)* | **Dashboard-explorer-UI rendert <10% van JSON-velden** | [[brain__architecture__H40_dashboard-ui-renderdekking]] |
+| **H41** *(iteratie 14)* | **SKOS-axioma-set-handling onder OWL-RL — skos:S46 + S47 niet geladen; T2 levert productie-schaal empirisch bewijs (Δ post-OWL-RL = 0 op 65 SKOS-mutaties)** | [[brain__architecture__H41_skos-axioma-set-handling]] |
 
 ## Future-consideration
 
@@ -89,7 +99,17 @@ Vijf items komen voort uit het sessie-rapport v2.0 (H36) plus de twee Fase 0 han
 | **H36** | parked → **closed** — 28× exactMatch → broadMatch via patch v4.6.1; methode-protocol v1.0 vastgesteld | [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] |
 | **H39** | parked (versterkt) — T1-Vraag D bevestigt SHACL-blinde vlek op ctrl:↔compl:-paren | T1-pre-sprint-inventarisatie + [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] |
 
-**Kandidaat-H41 NIET geregistreerd:** SKOS-axioma-set / `skos:S46` symmetrie-afwezigheid (owlrl-package laadt geen SKOS-axiomas). Status: T1-werkflow-leerpunt. Trigger voor latere herregistratie: overstap-besluit owlrl-incl-SKOS-axioma-reasoning.
+**Kandidaat-H41 NIET geregistreerd (iteratie 13):** SKOS-axioma-set / `skos:S46` symmetrie-afwezigheid (owlrl-package laadt geen SKOS-axiomas). Status: T1-werkflow-leerpunt. Trigger voor latere herregistratie: overstap-besluit owlrl-incl-SKOS-axioma-reasoning.
+
+## Status-mutaties in iteratie 14 (post-T2) ✨
+
+| H | Mutatie | Bron |
+|---|---|---|
+| **H36** | closed → **active (m10 closed, m14 open subtask)** — T2 voltooide m10-scope volledig (cumulatief 93 m10-paren via T1+T2); m14 (31 compl→ctrl-paren) blijft open subtask voor toekomstige T-sprint | [[brain__sprints__T2-skos-bidirectional-audit-m10]] |
+| **H39** | parked (versterkt T2) — T2 bevestigt SHACL-blinde-vlek op 118-paren-schaal (per patch-rapport v4.6.2 §7.3). Δ SHACL = 0 in alle drie metingen | [[brain__sprints__T2-skos-bidirectional-audit-m10]] + patch-rapport v4.6.2 |
+| **H41** *(nieuw)* | **parked** — SKOS-axioma-set-handling onder OWL-RL formeel geregistreerd. T1-kandidaat-overweging wordt geactiveerde H-item door T2-empirisch bewijs (Δ post-OWL-RL = 0 op 65 SKOS-mutaties) + masterchat-besluit per projectinstructie v1.10 | [[brain__sprints__T2-skos-bidirectional-audit-m10]] + projectinstructie v1.10 |
+
+**Reikwijdte-vermelding:** H36-status-revisie (closed → active) reflecteert dat T1-sprint slechts één deelscope van H36 afhandelde (28 exactMatch-paren). T2 maakte expliciet dat H36 als geheel breder is dan oorspronkelijk geregistreerd; m14-subtask geeft H-item een levende status totdat AVG-cross-walk-sprint H36 volledig sluit.
 
 ## Spoor B automatisch geparkeerd
 
@@ -112,7 +132,8 @@ ABox-lege schalen wachten op organisatie-data:
 | H10 | resolved tijdens v4.0.0 modulaire split |
 | H18 | IRI-afwijking + nieuwe klasse — scope-completion v4.3.1 |
 | H22 | gerelateerd aan v4.3.1 patch-bump |
-| **H36** *(iteratie 13)* | **28 ctrl→compl exactMatch-pairs — afgehandeld via T1-sprint: 28× herclassificatie exactMatch → broadMatch, patch v4.6.1. Methode-protocol v1.0 als bijproduct. Bestand behouden met status closed: [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]]** |
+
+**H36 status-correctie iteratie 14:** H36 was in iteratie 13 als resolved opgenomen; iteratie 14 verschuift terug naar "active (m10 closed, m14 open subtask)" omdat T2 scope-breedte zichtbaar maakte (m14-component nog niet behandeld). Zie active-tabel hierboven.
 
 ## Unknown
 
@@ -125,15 +146,15 @@ ABox-lege schalen wachten op organisatie-data:
 | D / cluster | H-items |
 |---|---|
 | D1 | **H38** *(reasoner-keuze binnen D1, geen D1-wijziging)* |
-| D4 | ~~H36~~ *(afgehandeld iteratie 13 — closed)* |
+| D4 | **H36** *(m10 closed via T1+T2; m14 open subtask)*, **H41** *(SKOS-axioma-set-handling, geparkeerd iteratie 14)* |
 | D5 | (geen open H-items) |
 | D11 | (geen open H-items) |
 | D12 | H25, H26, H27, H32 |
 | D9 | (architectuur-test gebruikt door H29/H30/H31 future-consideration) |
 | **(M11-cluster)** | **H33, H34** *(geen directe D, maar M11-module-betrokken)* |
 | **(M21-bron-cluster)** | **H35** *(bron-interpretatie, kandidaat voor latere correctie)* |
-| **(toolchain-cluster)** | **H37, H38** *(rdflib + reasoner-evaluatie-vragen)* |
-| **(validatie-cluster)** | **H39** *(SHACL false-positive-uitsplitsing, versterkt door T1)* |
+| **(toolchain-cluster)** | **H37, H38, H41** *(rdflib + reasoner-evaluatie + SKOS-axioma-set)* |
+| **(validatie-cluster)** | **H39** *(SHACL false-positive-uitsplitsing, versterkt door T1+T2)* |
 | **(dashboard-cluster)** | **H40** *(grc-explorer-render-dekking, Spoor A)* |
 
 ## Cross-references

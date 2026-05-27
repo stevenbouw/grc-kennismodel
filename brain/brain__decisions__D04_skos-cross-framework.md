@@ -11,11 +11,15 @@ related:
   - D11_sameAs-asset-convergentie
   - mapping-bron-disclaimer-effect
   - skos-beoordelings-protocol
+  - cluster-discipline-bewijslast
   - H36_skos-exactmatch-ctrl-compl-audit
+  - H41_skos-axioma-set-handling
   - T1_skos-kwaliteitsanalyse-fase-1
+  - T2-skos-bidirectional-audit-m10
 sources:
   - projectinstructie-v1.6
   - projectinstructie-v1_9
+  - projectinstructie-v1_10
 chat-sources:
   - https://claude.ai/chat/76420a5b-11ac-4f22-af7a-5e2404201bdd
 confidence: high
@@ -84,12 +88,31 @@ Wanneer een autoritatieve mapping-bron tussen frameworks (bv. ENISA TIG, NIST OL
 
 T1-sprint (26 mei 2026) — H36-cluster (28 ctrl:↔compl: SKOS-exactMatch-paren). ENISA TIG v1.0 bleek autoritatieve evidence-niveau-1-bron voor de 28 paren, maar regel 285 ondergroef de equivalence-claim categorisch. Resultaat: alle 28 paren herclassificatie naar `skos:broadMatch`. T1-eindrapport §6 + §8 leerpunt 2 leverde de aanbeveling tot D4-aanvulling.
 
+### Toepassings-precedent — uitbreiding naar cluster-niveau (T2, 27 mei 2026)
+
+T2-sprint heeft D4.1-toepassing op **cluster-niveau** geoperationaliseerd voor 118 m10-paren over 10 NIS2-art.21-letter-clusters. Toepassings-regel (per patch-rapport v4.6.2 §1 + Stap 3-rapport §6.6):
+
+> Wanneer alle cluster-leden dezelfde bron-stack delen (homogene clusters), volstaat **één D4.1-bevestiging per cluster** — niet per-paar-werk. Voor heterogene clusters (mix van bronnen) blijft per-paar-toets vereist.
+
+T2-empirisch bewijs:
+- Alle 10 m10-clusters deelden één D4.1-context: ENISA TIG R285 + CBW-Mapping-UV R3-erf (T1-bekend, pre-sprint-inventarisatie §5)
+- Per-paar-D4.1-check op cluster-niveau = één bevestiging per cluster, niet 11,8 keer per cluster (efficiëntiewinst t.o.v. naïeve per-paar-aanpak)
+- Cluster-doel-predicate `broadMatch` per cluster bevestigd; alle 65 mutaties (32 downgrade + 33 upgrade) volgen bidirectional uit cluster-discipline (Protocol v1.2 §3.1 rij 6)
+- 0 NEN-aantoonbare uitzonderingen op 10 heuristiek-flags (zie [[brain__concepts__cluster-discipline-bewijslast]])
+
+**Reikwijdte-vermelding:** cluster-niveau-toepassing geldt alleen bij homogene clusters (bron-stack-identiek over alle cluster-leden). Bij heterogene clusters (toekomstig m14-sprint, cross-bron-overlap-sprint) blijft per-paar-D4.1-toets de werkbasis.
+
+Zie [[brain__sprints__T2-skos-bidirectional-audit-m10]] voor sprint-context.
+
 ## Hangt samen met
 
 - [[brain__concepts__mapping-bron-disclaimer-effect]] — concept-beschrijving van het generaliseerbare patroon
-- [[brain__concepts__skos-beoordelings-protocol]] — operationele methode voor SKOS-predicate-keuze (C1-C4)
-- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] — afgehandelde aanleiding (T1)
-- [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — bron-sprint
+- [[brain__concepts__skos-beoordelings-protocol]] — operationele methode voor SKOS-predicate-keuze (C1-C4 + bidirectional-symmetrie)
+- [[brain__concepts__cluster-discipline-bewijslast]] — bewijslast-asymmetrie bij cluster-uitzonderingen
+- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] — afgehandelde aanleiding (T1) + m10-component closed via T2
+- [[brain__architecture__H41_skos-axioma-set-handling]] — gerelateerd architectuur-item (geparkeerd post-T2)
+- [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — bron-sprint D4.1-vaststelling
+- [[brain__sprints__T2-skos-bidirectional-audit-m10]] — bron-sprint cluster-niveau-toepassings-precedent
 - [[brain__decisions__D05_sameAs-strikt-ctrl-bio]] — complementaire keuze: `owl:sameAs` voor strikte identiteit (ctrl:↔bio:)
 - [[brain__decisions__D11_sameAs-asset-convergentie]] — idem voor asset-laag
 
@@ -99,5 +122,6 @@ T1-sprint (26 mei 2026) — H36-cluster (28 ctrl:↔compl: SKOS-exactMatch-paren
 |---|---|---|
 | ±2026-03 | active | Vaststelling (datum reconstructie) |
 | 2026-05-27 | active | D4.1 toegevoegd: disclaimer-handling bij autoritatieve mapping-bronnen. Aanleiding T1-sprint (ENISA TIG regel 285). Reikwijdte: blokkeert `skos:exactMatch` alleen; close/related/broad/narrow blijven valide. Geen retroactieve audit (Optie A) — geldt vanaf vaststelling. |
+| 2026-05-27 | active | D4.1-toepassings-precedent uitgebreid naar cluster-niveau na T2-sprint (118 paren over 10 m10-clusters). Bij homogene cluster-bron-stack volstaat één D4.1-bevestiging per cluster; heterogene clusters vereisen per-paar-toets. D4-tekst zelf onveranderd; alleen precedent-uitbreiding gedocumenteerd. |
 
 — Einde D04.

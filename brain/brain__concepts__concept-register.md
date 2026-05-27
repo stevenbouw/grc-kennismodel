@@ -3,7 +3,7 @@ type: index
 id: concept-register
 title: Concept-register — Domein-glossary GRC Kennismodel
 status: living
-date: 2026-05-26
+date: 2026-05-27
 ---
 
 # Concept-register — Domein-glossary
@@ -29,8 +29,9 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | [[brain__concepts__parallelle-maturity-clusters]] *(iteratie 11)* ✨ | **biz vs isms maturity-clusters — twee parallelle modellen, niet samenvoegen** | v4.6.0, M06, M07 |
 | [[brain__concepts__skos-export-filter]] *(v4.6.0)* ✨ | **Ontologie-laag (1.798) vs dashboard-laag (1.759) — twee meet-conventies, beide kloppen** | canonical-metrics, namedindividual-telmethode |
 | [[brain__concepts__dashboard-productlijnen]] *(iteratie 12)* ✨ | **Spoor A explorer (ontologie-graaf) vs Spoor B dashboard (operationeel) — twee productlijnen, niet vermengen** | H40, skos-export-filter, CLAUDE.md Spoor B-overweging |
-| [[brain__concepts__skos-beoordelings-protocol]] *(iteratie 13)* ✨ | **Herbruikbare methode voor per-paar SKOS-match-type-evaluatie — vier criteria + beslis-tabel + evidence-hiërarchie + cluster-discipline** | D4, T1, H36, mapping-bron-disclaimer-effect |
-| [[brain__concepts__mapping-bron-disclaimer-effect]] *(iteratie 13)* ✨ | **Autoritatieve mapping-bronnen met non-equivalence-disclaimer ondergraven `skos:exactMatch` zelfs bij sluitende C1-C3** | D4 (aanvulling-overweging), T1, skos-beoordelings-protocol |
+| [[brain__concepts__skos-beoordelings-protocol]] *(iteratie 13, T2-update iteratie 14)* ✨ | **Bidirectional methode voor SKOS-match-type-evaluatie — vier criteria + predicate-doel-tabel + sterkte-ordening + cluster-discipline + bidirectional-audit-symmetrie. v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 DRAFT** | D4 + D4.1, T1, T2, H36, H41, mapping-bron-disclaimer-effect, cluster-discipline-bewijslast |
+| [[brain__concepts__mapping-bron-disclaimer-effect]] *(iteratie 13, T2-update iteratie 14)* ✨ | **Autoritatieve mapping-bronnen met non-equivalence-disclaimer ondergraven `skos:exactMatch` zelfs bij sluitende C1-C3 — D4.1-toepassing op cluster-niveau bij homogene bron-stack (T2-precedent)** | D4 + D4.1, T1, T2, skos-beoordelings-protocol, cluster-discipline-bewijslast |
+| [[brain__concepts__cluster-discipline-bewijslast]] *(iteratie 14)* ✨ | **Bewijslast-asymmetrie voor uitzonderingen binnen veel↔1-clusters — sterker mapping én zwakker mapping vereisen streng NEN-bewijs; cluster-default geen aanvullende bewijslast. T2-empirie: 0/10 succesvolle heuristiek-flag-uitzonderingen** | D4 + D4.1, T1, T2, skos-beoordelings-protocol, mapping-bron-disclaimer-effect |
 
 ## Clusters
 
@@ -59,9 +60,10 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 ### Product-scope-discipline
 - **dashboard-productlijnen (iteratie 12)** ✨ — Spoor A explorer vs Spoor B dashboard, niet vermengen
 
-### SKOS-kwaliteits-methode (T1-cluster)
-- **skos-beoordelings-protocol (iteratie 13)** ✨ — herbruikbare methode voor per-paar match-type-evaluatie
-- **mapping-bron-disclaimer-effect (iteratie 13)** ✨ — autoritatieve mapping-bron met non-equivalence-disclaimer ondergraaft `exactMatch`
+### SKOS-kwaliteits-methode (T1+T2-cluster)
+- **skos-beoordelings-protocol (iteratie 13, T2-update iteratie 14)** ✨ — bidirectional methode voor match-type-evaluatie; v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 DRAFT
+- **mapping-bron-disclaimer-effect (iteratie 13, T2-update iteratie 14)** ✨ — autoritatieve mapping-bron met non-equivalence-disclaimer ondergraaft `exactMatch`; D4.1-cluster-niveau-toepassing bij homogene bron-stack
+- **cluster-discipline-bewijslast (iteratie 14)** ✨ — bewijslast-asymmetrie voor cluster-uitzonderingen; T2-empirisch bewijs 0/10 succesvolle uitzonderingen
 
 ## Cross-references naar D-decisions
 
@@ -82,8 +84,9 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | **parallelle-maturity-clusters** | **(geen directe D — V1-architectuur-uitkomst)** | **D9 (twee gelijkwaardige clusters)** |
 | **skos-export-filter** | **(geen directe D — measurement-conventie-verfijning)** | **D1, D4, D11 (alle getoetst, geen schending)** |
 | **dashboard-productlijnen** | **(geen directe D — product-scope-onderscheid)** | **(geen — productlijn-scheiding raakt geen D-decision direct)** |
-| **skos-beoordelings-protocol** | **D4** | **(geen andere — opereert binnen D4)** |
-| **mapping-bron-disclaimer-effect** | **D4 (aanvulling-overweging open)** | **(geen — kandidaat-D4-aanvulling, niet uitgevoerd nu)** |
+| **skos-beoordelings-protocol** | **D4 + D4.1** | **(geen andere — opereert binnen D4 + D4.1; T2-cluster-niveau-precedent)** |
+| **mapping-bron-disclaimer-effect** | **D4.1 (formeel sinds 27 mei 2026)** | **(D4.1-toepassings-precedent cluster-niveau via T2)** |
+| **cluster-discipline-bewijslast** | **(geen directe D — methode-bewijslast-aspect)** | **D4 + D4.1 (operationeel binnen cluster-discipline §3.3)** |
 
 ## Cross-references naar sprints waar concepten zijn ontstaan / verfijnd
 
@@ -104,8 +107,9 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | **parallelle-maturity-clusters** | **v4.6.0 (V1-uitkomst Optie B)** | **Concept ontstaan uit Fase 4 V1-evaluatie** |
 | **skos-export-filter** | **v4.6.0 (tech-inspectie 39 tripels)** | **Concept ontstaan uit ontologie-laag vs dashboard-laag meet-discrepantie** |
 | **dashboard-productlijnen** | **iteratie 12 (post-v4.6.0 polish-mini-sprint)** | **Concept ontstaan uit sessie-rapport v2.0 §2.1 + §9.2** |
-| **skos-beoordelings-protocol** | **T1 (v4.6.1, 26 mei 2026)** | **Methode-concept vastgesteld in Stap 2 + in productie gevalideerd op 28 paren** |
-| **mapping-bron-disclaimer-effect** | **T1 (v4.6.1, 26 mei 2026)** | **Concept ontstaan uit T1 §6 + §8 leerpunt 2 (ENISA TIG regel 285)** |
+| **skos-beoordelings-protocol** | **T1 (v4.6.1, 26 mei 2026) + T2 (v4.6.2, 27 mei 2026)** | **Methode-concept vastgesteld in T1 Stap 2 (v1.0); v1.2 in T2 in productie gevalideerd op 118 paren over 10 clusters; v1.3 DRAFT opgeleverd post-T2** |
+| **mapping-bron-disclaimer-effect** | **T1 (v4.6.1, 26 mei 2026) + T2 (v4.6.2, 27 mei 2026)** | **Concept ontstaan uit T1 §6 + §8 leerpunt 2 (ENISA TIG regel 285); D4.1 vastgesteld 27 mei 2026; T2-cluster-niveau-toepassings-precedent** |
+| **cluster-discipline-bewijslast** | **T2 (v4.6.2, 27 mei 2026)** | **Concept ontstaan uit T2 Stap 3-leerpunt §6.5 + patch-rapport §6.3; empirisch gevalideerd via 0/10 succesvolle heuristiek-flag-uitzonderingen** |
 
 ## Concepts versus workflows
 
