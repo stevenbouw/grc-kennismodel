@@ -66,13 +66,21 @@ Het mapping-bron-disclaimer-effect raakt direct aan C4 (bron-bewijs) in [[brain_
 
 Voor protocol-v1.1-overweging bij T2-start: disclaimer-aanwezigheid expliciet als pre-stap binnen C4-evaluatie opnemen.
 
-## D4-aanvulling-overweging (open)
+## D4-aanvulling — vastgesteld als D4.1 (27-05-2026)
 
-D4 staat momenteel toe wat T1 heeft gedaan (vier match-types, closeMatch default, exactMatch zeldzaam), maar zegt expliciet niets over disclaimer-handling. Voorstel-tekst voor latere overweging — **niet nu uitvoeren**:
+Op 27 mei 2026 heeft masterchat (via mini-revisie) de D4-aanvulling formeel doorgevoerd als sub-regel **D4.1 — Disclaimer-handling bij autoritatieve mapping-bronnen**. D4 zelf is niet geherformuleerd; D4.1 vult D4 aan.
 
-> **D4-aanvulling (potentieel):** wanneer een autoritatieve mapping-bron expliciet equivalence uitsluit (zoals ENISA TIG regel 285), is `skos:exactMatch` niet verdedigbaar zelfs bij volledig sluitende C1-C3-toets. Gebruik `skos:broadMatch` of `skos:closeMatch` afhankelijk van scope-relatie.
+Vastgestelde keuzes:
 
-Dit raakt D4 maar wijzigt het niet — toevoeging is bewustzijn-verbetering. Masterchat-beslissing op moment van T2 of T3.
+| Aspect | Vastgesteld |
+|---|---|
+| Formaliteit | Sub-regel D4.1 onder D4 (geen D4-herformulering) |
+| Reikwijdte | Disclaimer blokkeert alleen `skos:exactMatch`; `closeMatch`/`relatedMatch`/`broadMatch`/`narrowMatch` blijven valide |
+| Retroactiviteit | Geen retroactieve audit; D4.1 geldt vanaf vaststelling. Audit van resterende 18 `skos:exactMatch`-mappings is T2-overweging |
+
+Volledige tekst: [[brain__decisions__D04_skos-cross-framework]] §D4.1. Concept (dit bestand) blijft de generaliseerbare patroon-beschrijving; D4.1 is de formele beslissingsregel.
+
+Status-verschuiving voor dit concept: van "open patroon-overweging" naar "formeel patroon onder D4.1". Verdere confidence-verhoging naar **high** vereist nog steeds tweede onafhankelijke bron-bevestiging (NIST OLIR of ISO Annex F-tekstverificatie) — D4.1-formalisatie is voldoende grond om het patroon vast te leggen, maar valideert generaliseerbaarheid nog niet empirisch.
 
 ## Confidence-status
 
@@ -93,12 +101,14 @@ Verhoging naar **high confidence** vereist:
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | living (confidence medium) | Concept ontstaan uit T1-sprint §6 + §8 leerpunt 2. Eerste bewijs-cluster: ENISA TIG regel 285. Generaliseerbaarheid vermoed maar niet 2+ keer bewezen |
+| 2026-05-27 | living | D4.1 vastgesteld in D-register. Concept-status verschuift van "open patroon-overweging" naar "formeel patroon onder D4.1". Confidence blijft medium tot tweede onafhankelijke bron-bevestiging. |
 
 ## Cross-references
 
 - [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — sprint waarin patroon voor het eerst werd vastgesteld
 - [[brain__concepts__skos-beoordelings-protocol]] — methode-concept waarin C4-bron-bewijs-criterium dit effect zou moeten meewegen
-- [[brain__decisions__D04_skos-cross-framework]] — D-decision waarop disclaimer-handling als aanvulling kandidaat is
+- [[brain__decisions__D04_skos-cross-framework]] — formele beslissing — zie §D4.1 voor de disclaimer-handling-regel (vastgesteld 27-05-2026)
+- [[brain__decisions__D-register]] — register-vermelding D4 incl. D4.1
 - [[brain__concepts__cross-bron-overlap]] — gerelateerd kwaliteits-indicator-concept (S5 ∩ S6 = 105 mappings uit v4.5.0)
 - [[brain__sources__cbw-excel]] — bron-bestand waarvia ENISA TIG-mapping in T1 toegankelijk werd
 

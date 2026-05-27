@@ -17,7 +17,7 @@ Twaalf vastgestelde ontwerpbeslissingen die de architectuur bepalen. Wijzigingen
 | D1 | OWL 2 DL profiel | active | Initieel | [[brain__decisions__D01_owl-2-dl-profiel]] |
 | D2 | Turtle-serialisatie | active | Initieel | [[brain__decisions__D02_turtle-serialisatie]] |
 | D3 | 11 namespaces (csf: toegevoegd v4.5.0) | active | v4.2.0 + v4.5.0 uitbreiding | [[brain__decisions__D03_10-namespaces]] |
-| D4 | SKOS voor cross-framework mappings | active | Initieel | [[brain__decisions__D04_skos-cross-framework-mappings]] |
+| D4 | SKOS voor cross-framework mappings (incl. D4.1 disclaimer-handling, 27-05-2026) | active | Initieel; D4.1 toegevoegd 27-05-2026 | [[brain__decisions__D04_skos-cross-framework]] |
 | D5 | owl:sameAs strikt ctrl:↔bio: (93 asserties) | active | Initieel | [[brain__decisions__D05_sameAs-strikt-ctrl-bio]] |
 | **D6** | **Tweetalige annotaties — meeliftregel + symmetrische vertaling-scope v1.9** | **active** | **v4.1.0 + v1.7 + v1.9 symmetrische uitbreiding** | [[brain__decisions__D06_meeliftregel-tweetalig]] |
 | D7 | BIO 2.0 als twee klassen (BIOControl + OverheidsMaatregel) | active | Initieel | [[brain__decisions__D07_bio2-twee-klassen]] |
@@ -43,6 +43,17 @@ Alle overige D-decisions onveranderd. D5 (93 sameAs) en D11 (5 sameAs) hetzelfde
 Concrete v4.6.0-toepassing: `fw:Logius` NIET als `fw:issuedBy` ENSIA. Bestaande 3 issuers (BZK/DutchCentral, NOREA, VNG) behouden. `fw:isManagedBy` toegevoegd aan overwegingen-pool als toekomstige kandidaat-property.
 
 Niet geformaliseerd als D-decision (te smal). Wel verwerkt in sprint v4.6.0-file en als gedragsregel in projectinstructie v1.9.
+
+## Mini-revisie 27-05-2026 — D4.1 disclaimer-handling
+
+Sub-regel D4.1 toegevoegd onder D4 (geen D4-herformulering). Aanleiding: T1-sprint H36-cluster — ENISA TIG v1.0 regel 285 (categorische non-equivalence-disclaimer) ondergroef `skos:exactMatch` voor alle 28 ctrl:↔compl:-paren ondanks sluitende C1-C3-toets.
+
+D4.1 (samengevat):
+- Disclaimer in autoritatieve mapping-bron blokkeert `skos:exactMatch` (a)
+- `skos:closeMatch` / `relatedMatch` / `broadMatch` / `narrowMatch` blijven valide (b)
+- Geldt vanaf vaststelling; **geen retroactieve audit** van resterende 18 exactMatch-mappings (c). Retroactieve audit blijft T2-overweging.
+
+Volledige uitwerking + bron-voorbeelden: [[brain__decisions__D04_skos-cross-framework]] §D4.1. Concept-onderbouwing: [[brain__concepts__mapping-bron-disclaimer-effect]]. Bij opstellen projectinstructie v1.10: D4.1 in D-decisions-tabel opnemen.
 
 ## Clusters per architectuur-domein
 
