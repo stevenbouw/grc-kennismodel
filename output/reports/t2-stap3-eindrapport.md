@@ -53,8 +53,10 @@ scope: "T2 Stap 3 — hoofd-uitvoering 110 resterende m10-paren via cluster-nive
 | NIS2_i | 32 | 12 | 11 | 9 | 0 | 20 | 3 |
 | NIS2_j | 9 | 3 | 3 | 3 | 0 | 6 | 1 |
 | **Totaal T2 (incl. pilot)** | **118** | **53** | **32** | **33** | **0** | **65** | **10** |
-| Pilot (referentie) | 8 | 4 | 3 | 1 | 0 | 4 | n.v.t. |
-| **Stap 3 resterend** | **110** | **49** | **29** | **32** | **0** | **61** | **10** |
+| Pilot (referentie) | 8 | 4 | 2 | 2 | 0 | 4 | n.v.t. |
+| **Stap 3 resterend** | **110** | **49** | **30** | **31** | **0** | **61** | **10** |
+
+**Pilot-referentie-rij gecorrigeerd 27-05-2026** conform helper-script-classificatie + Protocol v1.2 §3.2. Eerdere cijfers (3 downgrade / 1 upgrade) reflecteerden pilot-rapport-claim; helper-script-cijfers (2 downgrade / 2 upgrade) zijn autoritatief. Zie pilot-rapport errata-blok + §6.3 voor onderbouwing. Patch-totaal (4) en T2-totaal (53/32/33) onveranderd.
 
 Noot bij pilot-referentie: pilot-rapport §1.1 noemde 3 downgrades + 1 upgrade + 4 behoud + 5 patch-vereist (na §4.8-correctie 3+2+3+5). Werkelijkheid op basis van TTL-content + Protocol v1.2 §3.2 sterkte-ordening:
 

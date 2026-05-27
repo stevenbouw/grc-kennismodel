@@ -17,6 +17,30 @@ related:
 scope: "T2 Stap 2 — pilot van 8 m10-paren onder Protocol v1.2 (bidirectional audit-frame B). Cluster-discipline-validatie op compl:NIS2_Art21_a-cluster (3 pilot-paren). Werkflow-leerpunten alle 7 categorieën. Geen ontologie-wijzigingen, geen patches. Steven commit handmatig."
 ---
 
+---
+
+> **ERRATA — toegevoegd 27 mei 2026 na T2 Stap 3-validatie**
+>
+> Tijdens helper-script-validatie in Stap 3 zijn twee classificatie-afwijkingen in dit pilot-rapport vastgesteld. Helper-script-classificatie volgt strikt Protocol v1.2 §3.2 sterkte-ordening en is autoritatief voor T2-patch-uitvoering.
+>
+> | # | Locatie | Pilot-rapport-tekst | Werkelijk (helper-script) |
+> |---|---|---|---|
+> | 1 | §4.3 T2-S03 | Mutatie-richting "downgrade" (relatedMatch → broadMatch) | **upgrade** — `relatedMatch` is per §3.2 zwakker dan `broadMatch` |
+> | 2 | §4.8 T2-S08-alt | Huidige predicate `relatedMatch` + mutatie "upgrade" na §4.8-correctie | Huidige TTL = `broadMatch` (T1-patch v4.6.1 reeds toegepast); mutatie = **behoud** |
+>
+> **Patch-impact onveranderd.** Beide paren convergeren naar `broadMatch` als cluster-doel-predicate. Toepasselijke mutaties in `apply_patch_v4_6_2.py`:
+>
+> - T2-S03: **wel** patch-vereist (relatedMatch → broadMatch, upgrade)
+> - T2-S08-alt: **geen** patch-vereist (al broadMatch, behoud)
+>
+> Gecorrigeerde pilot-distributie: **4 behoud / 2 downgrade / 2 upgrade / 4 patch-vereist** (was vermeld als 3/3/2/5 na §4.8-correctie).
+>
+> Volledige onderbouwing: zie `output/reports/t2-stap3-eindrapport.md` §6.3 (Categorie 3: Protocol-criteria-onduidelijkheden) + §6.4 (Categorie 4: Werkverdeling-momenten).
+>
+> Historische pilot-rapport-tekst hieronder is **niet** herschreven — bewaard als T-historie inclusief werkflow-leerpunten over bottom-up vs top-down rapport-bouw.
+
+---
+
 # T2 Pilot-rapport — 8 paren m10
 
 ## §1. Samenvatting
