@@ -94,7 +94,7 @@ grc-kennismodel/
     └── ensia/                                ← NOREA-handreiking
 ```
 
-**NEN-restrictieve bronnen** (ISO 27001/27002/27005/31000/22301/22313) staan NIET in deze repo. Tech-subagent in Claude Code heeft lokale leestoegang via `user` (binnen Steven's persoonlijke NEN-licentie) — uitsluitend voor parafrase + clausule-verwijzing, geen verbatim-tekst > 10 woorden in repo-output.
+**NEN-restrictieve bronnen** (ISO 27001/27002/27005/31000/22301/22313) staan NIET in deze repo. Tech-subagent in Claude Code heeft lokale leestoegang via `user` (binnen 'user' persoonlijke NEN-licentie) — uitsluitend voor parafrase + clausule-verwijzing, geen verbatim-tekst > 10 woorden in repo-output.
 
 ---
 
@@ -200,7 +200,7 @@ Volledig in `brain/brain__architecture__H-register.md`.
 ## Project-context
 
 - **Opdrachtgever**: Nederlandse Rijksoverheidsorganisatie (interne projectstuur; organisatie-naam niet vermeld per projectinstructie-discipline)
-- **Projecteigenaar**: Steven Bouwmeester, GRC-adviseur in directe ondersteuning van de CISO
+- **Projecteigenaar**: 'user', GRC-ontwerper in directe ondersteuning van de CSO
 - **CSO**: formele project-sponsor
 - **Formele Claude-toestemming**: verkregen 17 maart 2026
 - **PID + CSO-GO architectuurdocument v1.2**: goedgekeurd 13 april 2026
