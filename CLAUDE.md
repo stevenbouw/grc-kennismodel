@@ -67,7 +67,7 @@ grc-kennismodel/
 Twee parallelle dashboard-productlijnen met fundamenteel verschillende doelen:
 
 - **`grc-explorer-*`** (Spoor A) — read-only ontologie-graaf-verkenner; data uit `grc-data-v[X_Y_Z].js`; Cytoscape.js-engine; beweegt mee met ontologie-versie. Actueel: `dashboard/grc-explorer-v4_6_0.html`.
-- **`grc-dashboard-*`** (Spoor B) — operationele werkmap-prototype voor CRUD, audit-trail, kalender, RACI; data uit lokale SQL.js `.db`; Chart.js + SQL.js-engine; eigen versie-track. Actueel: `grc-dashboard-v3-2.html` (lokaal bij Steven, locatie in repo open punt).
+- **`grc-dashboard-*`** (Spoor B) — operationele werkmap-prototype voor CRUD, audit-trail, kalender, RACI; data uit lokale SQL.js `.db`; Chart.js + SQL.js-engine; eigen versie-track. Actueel: `grc-dashboard-v3-2.html` (bewust lokaal bij Steven gehouden, niet in repo; trigger-condities voor heroverweging in concept-bestand).
 
 Niet vermengen in één UI — verschillende doelen, datamodel en engine. Detail + discipline: zie `brain/brain__concepts__dashboard-productlijnen.md`. Scope-afbakening van H40 (UI-renderdekking) betreft uitsluitend Spoor A.
 

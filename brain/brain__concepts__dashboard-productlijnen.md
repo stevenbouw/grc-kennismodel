@@ -64,17 +64,38 @@ Het onderscheid productlijn-A vs productlijn-B sluit aan bij twee andere meet-la
 
 Beide andere onderscheidingen blijven binnen de Spoor A-pijplijn (ontologie → export → render). Het Spoor A vs Spoor B-onderscheid is een **dimensie hoger** — het zijn twee **verschillende producten**, niet twee fasen in één pipeline.
 
-## Open punt — locatie van Spoor B-prototype in repo
+## Locatie-besluit — Spoor B-prototype blijft lokaal
 
-De `grc-dashboard-v3-2.html`-prototype bestaat lokaal bij Steven, maar is op moment van schrijven (26 mei 2026) **niet in deze repo aanwezig**. Drie kandidaat-locaties zijn besproken:
+Op 27 mei 2026 is besloten dat `grc-dashboard-v3-2.html` **lokaal bij Steven blijft staan**, buiten de repo. De drie eerder besproken kandidaat-locaties (eigen GitHub-repo, `sources/spoor-b/`, `dashboard/spoor-b/`) zijn alle drie afgewezen ten gunste van status quo.
 
-| Optie | Voor | Tegen |
+### Motivering
+
+De verwarring die productlijn-scheiding moest oplossen kwam uit informeel naamgebruik ("dashboard" voor twee producten), niet uit fysieke locatie. Naam-discipline (`grc-explorer-*` vs `grc-dashboard-*`) plus dit concept-bestand plus de CLAUDE.md-sectie pakken die verwarring direct aan. Locatie-wijziging zou geen extra waarde toevoegen en wel overhead creëren.
+
+| Argument | Waarom dit doorslag gaf |
+|---|---|
+| Werkt nu zonder problemen | Geen actieve klacht; geen team-collaboration-behoefte |
+| Prototype, geen productie | Versie-tracking via lokale filesystem of lokale git-repo is voldoende voor één-persoon-werk |
+| Risico op data-lekkage | Zelfs met `.gitignore` voor `.db`-bestanden kunnen testdata-screenshots, config-paths of accidentele commits in publieke GitHub-history terechtkomen |
+| Toekomstige migratie sowieso nodig | Bij echte organisatie-data is GitHub-publiek hoe dan ook ongeschikt — dan migratie naar GitLab-on-prem of vergelijkbaar; nu in publiek GitHub zetten zou twee-keer-werk betekenen |
+| Conceptuele zuiverheid | Verschillende locaties (lokaal vs repo) versterkt productlijn-scheiding sterker dan zusterfolders zou doen |
+
+### Trigger-condities voor heroverweging
+
+De keuze "lokaal blijven" is niet permanent. Bij één of meer van onderstaande condities moet de locatie opnieuw worden geëvalueerd:
+
+| # | Trigger-conditie | Vermoedelijke richting |
 |---|---|---|
-| A — Eigen GitHub-repo (`grc-dashboard-spoor-b`) | Strikte scheiding; verschillende versie-tracks | Twee repo's onderhouden; cross-link-werk vergt git-submodule of vergelijkbaar |
-| B — `sources/spoor-b/`-subfolder in deze repo | Eén repo, expliciete Spoor-B-scope-markering | Vermenging met publiek-domein-bronnen (sources/) |
-| C — `dashboard/spoor-b/`-subfolder naast Spoor A | Eén repo, dashboard-cluster | Twee subfolders in dashboard/ met verschillende disciplines |
+| 1 | **Echte organisatie-data in v3-2** (niet meer dummy/test) | Migratie naar GitLab-on-prem of vergelijkbare interne hosting |
+| 2 | **Team-collaboration ontstaat** (meerdere ontwikkelaars/auditors actief in Spoor B) | Repository-toegang nodig; opnieuw evalueren tussen eigen repo en interne hosting |
+| 3 | **Productie-transitie** (Spoor B wordt operationeel-productie i.p.v. prototype) | Andere infrastructuur, versie-discipline, deployment-pipelines vereist; mogelijk eigen repo |
+| 4 | **Geautomatiseerde cross-link** met Spoor A (Spoor B-records actief gekoppeld aan ontologie-IRIs via sync) | Mogelijk eigen repo met submodule of vergelijkbare nabijheid |
 
-**Status:** wacht op masterchat-beslissing. Brein-subagent registreert dit concept zonder eigen voorkeur uit te spreken — beslissing is architectuur, niet administratief.
+Geen van de vier triggers is op moment van schrijven (mei 2026) actief.
+
+### Status
+
+Locatie-vraag **gesloten**. Bij trigger-activatie: nieuwe masterchat-evaluatie nodig; geen automatische actie.
 
 ## Hangt samen met
 
@@ -89,5 +110,6 @@ De `grc-dashboard-v3-2.html`-prototype bestaat lokaal bij Steven, maar is op mom
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | living | Concept geboren uit iteratie 12 polish-mini-sprint. Aanleiding: sessie-rapport v2.0 §2.1 + §9.2 expliciet onderscheid productlijn-A vs productlijn-B. Locatie-vraag Spoor B-prototype expliciet open gelaten voor masterchat-beslissing. |
+| 2026-05-27 | living | Locatie-vraag gesloten: Optie D — Spoor B-prototype blijft lokaal. Vier trigger-condities voor heroverweging vastgelegd. Drie eerder besproken kandidaat-locaties (A/B/C) afgewezen ten gunste van status quo. |
 
 — Einde dashboard-productlijnen.
