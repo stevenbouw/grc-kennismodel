@@ -18,6 +18,12 @@ related:
 scope: "Patch v4.6.3 — T3-sprint SKOS-bidirectional-audit m14. 2 SKOS-predicate-substituties in m14-avg-gdpr.ttl (T3-001 + T3-002, beide compl:AVG_Art5_1f broadMatch → relatedMatch op ctrl:ISO27002_5_01 respectievelijk ctrl:ISO27002_5_12). Cluster-discipline: Art5_1f-cluster (7 leden) wordt homogeen relatedMatch post-patch. Masterchat-besluit Optie C (cross-category-rationale: control ↔ legal-obligation = associatief, niet subsumptief). Geen TBox-wijziging. Geen andere modules dan m14-avg-gdpr.ttl."
 ---
 
+> **Errata 2026-05-28 (post-masterchat-sign-off v4.6.3, Brein-cyclus iteratie 15):**
+>
+> §6.4 confidence-tabel: correctie cumulatief m14 van "26 hoog / 5 middel" naar **27 hoog / 4 middel / 0 laag**. T3-002 verschuift van middel naar **hoog** (analoog T3-001 — masterchat-besluit Optie C heeft de methode-vraag definitief opgelost; geen openstaande methode-twijfel meer per paar). De vier resterende middel-paren zijn: **T3-014, T3-026, T3-028, T3-030**.
+>
+> Surgische correctie conform Protocol v1.3 §10.4 (T-historie bewaard; alleen classificatie-kolommen aangepast). Patch-impact (m14-ttl-state + canonical metrics + SHACL) onveranderd. Per-paar-tabel in T3 Stap 3-eindrapport §6.1 blijft bron-van-waarheid.
+
 # Patch-rapport v4.6.3
 
 ## §0. Versie + metrics-vergelijking
@@ -309,11 +315,11 @@ Volledige tabel: zie T3 Stap 3-eindrapport §6.1. Samenvattend per paar-type:
 
 | Confidence | Aantal | Paren |
 |---|---:|---|
-| Hoog | 26 | 3 pilot (T3-024, T3-008, T3-031) + 23 Stap 3 (alle behalve T3-026 + T3-030) |
-| Middel | 5 | T3-002 (pilot, methode-vraag opgelost door masterchat-besluit), T3-014 (pilot, closeMatch-toets), T3-028 (pilot, scope-asymmetrie), T3-026 (Stap 3, closeMatch-toets analoog T3-014), T3-030 (Stap 3, scope-asymmetrie analoog T3-028) |
+| Hoog | 27 | 4 pilot (T3-024, T3-008, T3-031, T3-002) + 23 Stap 3 (alle behalve T3-026 + T3-030) |
+| Middel | 4 | T3-014 (pilot, closeMatch-toets), T3-028 (pilot, scope-asymmetrie), T3-026 (Stap 3, closeMatch-toets analoog T3-014), T3-030 (Stap 3, scope-asymmetrie analoog T3-028) |
 | Laag | 0 | — |
 
-**Bron-van-waarheid:** T3 Stap 3-eindrapport §6.4 — handmatige telling op per-paar-classificatie. Geen helper-script in T3 gebruikt (handmatige scope).
+**Bron-van-waarheid:** T3 Stap 3-eindrapport §6.1 per-paar-classificatie (Protocol v1.3 §10.4 — per-paar-classificatie autoritatief boven aggregatie-tabellen). Geen helper-script in T3 gebruikt (handmatige scope). T3-002 telt als hoog conform per-paar-classificatie: post-masterchat-besluit Optie C is de methode-vraag opgelost en T3-002-confidence analoog aan T3-001 (zie errata-aantekening bovenaan).
 
 ---
 

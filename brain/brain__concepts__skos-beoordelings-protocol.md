@@ -2,15 +2,17 @@
 type: concept
 title: SKOS-beoordelings-protocol — Methode voor bidirectional match-type-evaluatie
 status: living
-date: 2026-05-27
+date: 2026-05-28
 related:
   - D04_skos-cross-framework
   - T1_skos-kwaliteitsanalyse-fase-1
   - T2-skos-bidirectional-audit-m10
+  - T3-skos-bidirectional-audit-m14
   - H36_skos-exactmatch-ctrl-compl-audit
   - H41_skos-axioma-set-handling
   - mapping-bron-disclaimer-effect
   - cluster-discipline-bewijslast
+  - cross-category-mappings
   - cross-bron-overlap
 sources:
   - skos-beoordelings-protocol-v1_0
@@ -20,6 +22,9 @@ sources:
   - patch-rapport-v4_6_2
   - t2-stap3-eindrapport
   - t2-pilot-rapport
+  - patch-rapport-v4_6_3
+  - t3-pilot-rapport
+  - t3-stap3-eindrapport
 chat-sources: []
 confidence: high
 ---
@@ -35,11 +40,12 @@ Een **herbruikbare methode** om voor SKOS-mapping-paren (`skos:exactMatch`, `sko
 - **v1.0** vastgesteld 26 mei 2026 voor T1-sprint, downgrade-georiënteerd; in productie gevalideerd op 28 `exactMatch`-paren (H36-cluster, allen → broadMatch)
 - **v1.1** DRAFT (downgrade-georiënteerd, nooit operationeel — vervangen door v1.2)
 - **v1.2** vastgesteld 27 mei 2026 voor T2-sprint, bidirectional; in productie gevalideerd op 118 m10-paren over 10 NIS2-clusters (65 mutaties: 32 downgrade + 33 upgrade)
-- **v1.3** DRAFT 27 mei 2026, vaststelling pending bij eerstvolgende sprint-scoping (T3 of m14)
+- **v1.3 DRAFT → FINAL** vastgesteld door masterchat 28 mei 2026 tijdens T3-scoping; in productie gevalideerd op 31 m14-paren over 5 AVG-clusters (2 mutaties cross-category broadMatch → relatedMatch)
+- **v1.3.1** kandidaat-uitbreiding voor formalisering cross-category-mappings-principe (T3-leerpunt — masterchat-werk bij volgende sprint-scoping)
 
 **Onderscheid:**
 
-- **Operationeel document:** `docs/skos-beoordelings-protocol-v1_3.md` (DRAFT) + `docs/skos-beoordelings-protocol-v1_2.md` (T2-autoritatief) — autoritatieve instructie voor Tech-subagent
+- **Operationeel document:** `docs/skos-beoordelings-protocol-v1_3.md` (FINAL) — autoritatieve instructie voor Tech-subagent
 - **Dit concept-bestand:** methode-overzicht + architectuur-context + T-sprint-toepassings-precedenten + roadmap
 
 Bij conflict tussen beide: operationeel document prevaleert.
@@ -153,25 +159,58 @@ zwakste    relatedMatch
 
 **Symmetrie-toepassing buiten T2-context:** symmetrie geldt structureel, ook in toekomstige m14-sprint (compl→ctrl-richting). Asymmetrie zou alleen optreden bij D4.1-disclaimer-toetsing (D4.1 blokkeert alleen `exactMatch`, andere upgrades zijn niet door D4.1 beperkt).
 
+## T3-toepassing — 2 cross-category-mutaties op m14 AVG/GDPR (Protocol v1.3 FINAL)
+
+Protocol v1.3 FINAL (vastgesteld door masterchat 28 mei 2026 tijdens T3-scoping) in productie gevalideerd op 31 m14-paren over 5 AVG-clusters in compl→ctrl-richting. Per patch-rapport v4.6.3 + T3 Stap 3-eindrapport:
+
+| Aspect | Waarde |
+|---|---:|
+| Beoordeelde paren m14 | 31 |
+| Patch-mutaties | 2 (T3-001 + T3-002, beide broadMatch → relatedMatch op Art5_1f-cluster) |
+| Behoud relatedMatch (cross-category-rationale) | 27 |
+| Behoud closeMatch (retrieval-interchangeability-uitzondering) | 2 (T3-014 + T3-026) |
+| Clusters | 5 AVG-subject-clusters (Art5_1f, Art25, Art32, Art33, Art34) |
+| Cluster-convergentie naar narrowMatch | 0/5 (cross-category-rationale blokkeert structureel) |
+| Confidence-distributie | 27 hoog + 4 middel + 0 laag |
+| Evidence-niveau-verdeling | 10 niveau-1 + 7 niveau-2 + 14 niveau-3 (via ISO 27701:2025 Annex D + F twee-staps-keten) |
+| D4.1-disclaimer-status | inactief (bindende T3-steer 1; AVG = publiek EU-recht) |
+
+**Cross-category-rationale als T3-leerpunt** (kandidaat v1.3.1-precedent): wanneer subject en object van een SKOS-mapping in ontologisch verschillende categorieën zitten (bv. control ↔ legal-obligation), is `relatedMatch` de associatieve basislijn. broad/narrowMatch is een categorie-fout in de meeste gevallen omdat operationele implementatie-relatie geen conceptuele subsumptie impliceert. closeMatch-uitzondering op retrieval-interchangeability blijft mogelijk binnen specifieke domeinen.
+
+Concept-niveau verankering: [[brain__concepts__cross-category-mappings]] *(nieuw iteratie 15)* — gemarkeerd als kandidaat v1.3.1-precedent; formalisering in Protocol-tekst is masterchat-werk bij volgende sprint-scoping.
+
+**Bidirectional-audit-symmetrie bevestigd in cross-category-context:** Protocol v1.3 §3.1-§3.2 bleek symmetrisch toepasbaar op m14 compl→ctrl-richting (omgekeerd van m10's ctrl→compl). Pilot detecteerde de SKOS-formal-broadMatch-richtings-anomalie vroegtijdig (richting `A skos:broadMatch B` ≡ B is broader than A — omgekeerd aan modeller-bedoeling); masterchat-besluit Optie C (relatedMatch) opereert symmetrisch en lost richtings-kwestie definitief op zonder cross-category-fout.
+
+**Bindende T3-steers (instructie-vastgesteld, alle 31 paren succesvol):**
+
+1. Geen D4.1-disclaimer-logica (AVG = publiek EU-recht; geen non-equivalence-disclaimer)
+2. Geen cluster-convergentie-aanname (per-paar getoetst; cluster-cardinaliteit informatief)
+3. Semantische basislijn = relatedMatch (voor 23 van 24 niet-closeMatch-paren bevestigd; T3-001 + T3-002 per masterchat-besluit gemuteerd)
+4. Evidence-hantering: niveau-1/2/3-keten als bestaans-bewijs, niet als predicate-type-bewijs
+5. closeMatch-toets expliciet (T3-026; behoud verdedigbaar analoog T3-014)
+
 ## Cluster-discipline-bewijslast — zie eigen concept
 
 De bewijslast-asymmetrie voor cluster-uitzonderingen is operationeel cruciaal voor symmetrische toepassing. Streng bewijs vereist voor zowel sterker- als zwakker-mapping-uitzondering; geen bewijs voor cluster-default. Empirisch gevalideerd in T2: 10 heuristiek-flags, 0 succesvolle uitzonderingen.
 
 Volledige domein-uitleg + drie scenario's: zie [[brain__concepts__cluster-discipline-bewijslast]] *(nieuw iteratie 14)*.
 
-## T3 + m14-relevantie
+## T4 + verdere kandidaten
 
 Protocol is **herbruikbaar** voor andere SKOS-clusters in de 1.798-mappings-totaal:
 
 | Kandidaat | Omvang | Karakteristiek |
 |---|---:|---|
-| m14-AVG/GDPR-cluster | 31 paren (compl→ctrl-richting) | Omgekeerde modelleringsconventie t.o.v. m10; AVG-cross-walk-bron ontbreekt in `sources/`; vereist Protocol-symmetrie-validatie + helper-script-uitbreiding |
+| ~~m14-AVG/GDPR-cluster~~ | ~~31 paren~~ | **afgehandeld in T3 (v4.6.3)** — cross-category-rationale-precedent |
 | Cross-bron-overlap-105-paren (uit v4.5.0) | ~105 paren | Andere bron-context; kwaliteits-indicator (heterogene bron-stack → per-paar-D4.1-toets) |
 | m17 COSO/COBIT-mappings | onbekend | Andere namespaces, andere bron-context |
 | m11 NIST SP 800-53-cluster | onbekend | M11-cluster (H33/H34 trigger-relevant) |
 | m09 ISO 27001-cluster | onbekend | Spoor B-vraag-relevant |
+| m16 VIRBI-mappings | onbekend | Mogelijk cross-category indien VIRBI ↔ control of ↔ legal-obligation |
+| m12 DORA-mappings | onbekend | Mogelijk cross-category indien DORA-obligation ↔ ISO 27002-control |
+| Framework-niveau SKOS (fw:↔fw:) | beperkt | Buiten H36-scope; eigen H-item bij relevant-wording |
 
-**Eerstvolgende keuze:** m14-T-sprint (open subtask van H36) of nieuwe T3-scope-bepaling — masterchat-besluit post-T2.
+**Eerstvolgende keuze:** T4-scope-bepaling in verse masterchat-sessie post-T3 (m14-subtask afgehandeld; H36 fully closed).
 
 ## Protocol-versie-roadmap
 
@@ -179,8 +218,9 @@ Protocol is **herbruikbaar** voor andere SKOS-clusters in de 1.798-mappings-tota
 |---|---|---|
 | v1.0 | superseded | Vier criteria + beslis-tabel + downgrade-georiënteerd. Toegepast in T1 (28 paren). |
 | v1.1 | DRAFT (nooit operationeel) | Downgrade-georiënteerd met C2-cluster-uitbreiding; vervangen door v1.2 vóór T2-start. |
-| v1.2 | autoritatief tijdens T2 | Bidirectional toetsing + §3.1 predicate-doel-tabel + §3.2 sterkte-ordening + §3.3 symmetrische cluster-discipline + §6 sample-keuze + §7 werkverdeling + §10 zeven leerpunten-categorieën. Toegepast in T2 (118 paren over 10 clusters). |
-| **v1.3** | **DRAFT** | Zeven verfijningen t.o.v. v1.2 (zie hieronder). Vaststelling pending bij eerstvolgende sprint-scoping (T3 of m14). |
+| v1.2 | superseded | Bidirectional toetsing + §3.1 predicate-doel-tabel + §3.2 sterkte-ordening + §3.3 symmetrische cluster-discipline + §6 sample-keuze + §7 werkverdeling + §10 zeven leerpunten-categorieën. Toegepast in T2 (118 paren over 10 clusters). |
+| **v1.3 FINAL** | **autoritatief** | Zeven verfijningen t.o.v. v1.2 (zie hieronder). DRAFT → FINAL vastgesteld door masterchat 28 mei 2026 tijdens T3-scoping. Toegepast in T3 (31 paren over 5 AVG-clusters cross-category). |
+| **v1.3.1** | **kandidaat (masterchat-werk)** | Mogelijke aanvulling §3.4 of §3.3-uitbreiding voor cross-category-mappings-principe (T3-leerpunt). Zie [[brain__concepts__cross-category-mappings]]. Formalisering = masterchat-werk bij volgende sprint-scoping; Tech/Brein voert geen autonome Protocol-tekst-wijziging uit. |
 | v2.0 | toekomst | Scope-uitbreiding naar non-SKOS-relaties indien nodig |
 
 **Zeven Protocol v1.3-verfijningen** (per `docs/skos-beoordelings-protocol-v1_3.md` §0 + §13.1):
@@ -195,7 +235,7 @@ Protocol is **herbruikbaar** voor andere SKOS-clusters in de 1.798-mappings-tota
 
 **v1.3-werkflow-discipline §10.2-§10.5** is als gedragsregel opgenomen in **projectinstructie v1.10**. Operationeel relevant voor instructie-schrijvers (interne tabel-consistentie + scope-annotatie verplicht) en Tech-subagent (bottom-up rapport-bouw + helper-script-autoritatief).
 
-v1.3-vaststelling vereist masterchat-besluit bij eerstvolgende sprint-scoping. Tot vaststelling blijft v1.2 autoritatief voor lopende-sprint-context.
+**v1.3 FINAL-vaststelling 28 mei 2026:** masterchat heeft tijdens T3-scoping Protocol v1.3 als FINAL bevestigd, na succesvolle T3-pilot-toepassing (Stap 2). Tijdens T3 ontdekt cross-category-rationale-principe is gedocumenteerd als T3-leerpunt; formele opname in Protocol-tekst (v1.3.1) blijft masterchat-werk bij volgende sprint-scoping.
 
 ## Cross-references naar D-decisions
 
@@ -209,9 +249,9 @@ v1.3-vaststelling vereist masterchat-besluit bij eerstvolgende sprint-scoping. T
 
 | H | Relatie |
 |---|---|
-| [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] | Aanleiding — T1 closed-component, T2 m10-component closed (cumulatief 93 m10-paren); m14-subtask open |
-| [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] | T1+T2 bevestigen SHACL-blinde vlek op ctrl:↔compl:-paren (28 + 118 paren) |
-| [[brain__architecture__H41_skos-axioma-set-handling]] | T2-geactiveerd H-item — Protocol v1.3 §12 noemt H41-kandidaat-status expliciet als out-of-scope voor SKOS-beoordelings-protocol |
+| [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] | Aanleiding — T1 closed-component, T2 m10-component closed; **T3 m14-component closed; H36 fully closed (cumulatief 149 paren)** |
+| [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] | T1+T2+T3 bevestigen SHACL-blinde vlek op ctrl:↔compl:-paren bidirectional (28 + 118 + 31 paren) |
+| [[brain__architecture__H41_skos-axioma-set-handling]] | T2-geactiveerd H-item — T3 levert eerste cross-category-bewijs (informatief). Protocol v1.3 §12 noemt H41-kandidaat-status expliciet als out-of-scope voor SKOS-beoordelings-protocol |
 
 ## Status-historie
 
@@ -219,15 +259,18 @@ v1.3-vaststelling vereist masterchat-besluit bij eerstvolgende sprint-scoping. T
 |---|---|---|
 | 2026-05-26 | living | Concept ontstaan uit T1-sprint Stap 2 — methode-protocol v1.0 vastgesteld; concept beschrijft methode in vault-context |
 | 2026-05-27 | living | T2-toepassings-bewijs toegevoegd (Protocol v1.2 productie op 118 paren over 10 clusters); v1.3-draft-status + zeven verfijningen gedocumenteerd; bidirectional-audit-symmetrie als sub-aspect verankerd; cluster-discipline-bewijslast als apart concept uitgesplitst; v1.3-werkflow-discipline §10.2-§10.5 als gedragsregel in projectinstructie v1.10 |
+| 2026-05-28 | living | T3-toepassings-bewijs toegevoegd (Protocol v1.3 FINAL in productie op 31 m14-paren over 5 AVG-clusters cross-category); v1.3 DRAFT → FINAL door masterchat 28 mei 2026; cross-category-rationale als kandidaat v1.3.1-precedent gedocumenteerd via apart concept; bindende T3-steers (5) gedocumenteerd; T4-kandidaten-tabel bijgewerkt (m14 afgehandeld; m16, m12, framework-niveau bijgevoegd) |
 
 ## Cross-references
 
 - [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — sprint waarin protocol v1.0 is vastgesteld en gevalideerd
 - [[brain__sprints__T2-skos-bidirectional-audit-m10]] — sprint waarin protocol v1.2 in productie is bevestigd en v1.3-draft is opgeleverd
-- [[brain__decisions__D04_skos-cross-framework]] — D4 binnen welks protocol opereert + D4.1-toepassings-precedent op cluster-niveau
-- [[brain__concepts__mapping-bron-disclaimer-effect]] — generaliseerbaar patroon uit T1, geformaliseerd als D4.1, op cluster-niveau toegepast in T2
+- [[brain__sprints__T3-skos-bidirectional-audit-m14]] — sprint waarin protocol v1.3 FINAL in cross-category-context in productie is bevestigd
+- [[brain__decisions__D04_skos-cross-framework]] — D4 binnen welks protocol opereert + D4.1-toepassings-precedent op cluster-niveau + cross-category-rationale-precedent op m14
+- [[brain__concepts__mapping-bron-disclaimer-effect]] — generaliseerbaar patroon uit T1, geformaliseerd als D4.1, op cluster-niveau toegepast in T2 (inactief in T3-context)
 - [[brain__concepts__cluster-discipline-bewijslast]] — bewijslast-asymmetrie voor cluster-uitzonderingen (nieuw iteratie 14)
+- [[brain__concepts__cross-category-mappings]] — cross-category-rationale als T3-precedent (nieuw iteratie 15; kandidaat v1.3.1-precedent)
 - [[brain__concepts__cross-bron-overlap]] — kwaliteits-indicator-concept dat raakt aan evidence-hiërarchie
-- Operationeel document: `docs/skos-beoordelings-protocol-v1_3.md` (DRAFT) + `docs/skos-beoordelings-protocol-v1_2.md` (T2-autoritatief) + `docs/skos-beoordelings-protocol-v1_0.md` (T1-historie)
+- Operationeel document: `docs/skos-beoordelings-protocol-v1_3.md` (FINAL, T3-autoritatief) + `docs/skos-beoordelings-protocol-v1_2.md` (T2-historie) + `docs/skos-beoordelings-protocol-v1_0.md` (T1-historie)
 
 — Einde skos-beoordelings-protocol.

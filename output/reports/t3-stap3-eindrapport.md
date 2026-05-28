@@ -18,6 +18,13 @@ related:
 scope: "T3 Stap 3 — per-paar-beoordeling van 25 resterende m14-paren onder SKOS-protocol v1.3 FINAL + cumulatief 31-paren-m14-overzicht. Inclusief masterchat-besluit-toepassing op T3-001 (broadMatch → relatedMatch, analoog T3-002 pilot) en closeMatch-toets T3-026 analoog T3-014 pilot. Cross-category-rationale (control ↔ legal-obligation = associatief) leidend voor relatedMatch-behoud op niet-closeMatch-paren."
 ---
 
+> **Errata 2026-05-28 (post-masterchat-sign-off v4.6.3, Brein-cyclus iteratie 15):**
+>
+> 1. **§6.3 is verouderde dubbele tabel** (20 hoog / 11 middel — uit eerdere bottom-up draftfase vóór per-paar T3-002-/T3-014-uitkomst was vastgesteld). Telling klopt niet met §6.1 per-paar-classificatie. **§6.4 is de bedoelde cumulatieve confidence-tabel** en is gecorrigeerd naar **27 hoog / 4 middel / 0 laag**. T3-002 verschuift van middel naar **hoog** (analoog T3-001 — masterchat-besluit Optie C heeft de methode-vraag definitief opgelost; geen openstaande methode-twijfel meer per paar). De vier resterende middel-paren zijn: **T3-014, T3-026, T3-028, T3-030**.
+> 2. **§3.1 T3-004 C1-rij** bevatte redactie-restje "5.30 niet relevant" (uit eerdere draft; 5.30 is een ander paar) — verwijderd.
+>
+> Surgische correctie conform Protocol v1.3 §10.4 (T-historie bewaard; alleen classificatie-kolommen + één redactie-restje aangepast; §-detail-tekst niet herschreven). Patch-impact (m14-ttl-state + canonical metrics + SHACL) onveranderd. §6.1 per-paar-tabel blijft bron-van-waarheid.
+
 # T3 Stap 3 — Eindrapport (per-paar-beoordeling 25 resterende paren + cumulatief m14)
 
 > **Methodische notitie:** dit rapport is bottom-up opgebouwd conform Protocol v1.3 §10.2. De per-paar-beoordelingen (§3) zijn als eerste geschreven, gegroepeerd per AVG-cluster om herhaling te beperken. Analyse + cross-category-leerpunt (§4-§5) + cumulatief m14-overzicht (§6) + samenvatting (§1-§2) volgen daaruit.
@@ -162,7 +169,7 @@ Mutatie is directe instructie-uitvoering op masterchat-besluit, niet autonome Te
 | Huidige predicate | `skos:relatedMatch` |
 | Cluster-context | Art5_1f-cluster (7); object-cluster ctrl:8_24 (2: Art5_1f + Art32, homogeen related×2) |
 | D4.1-disclaimer-check | n.v.t. |
-| **C1 (definitioneel)** | **partieel** — Art. 5(1)(f) noemt geen specifiek cryptografische maatregelen, maar verwijst naar passende technische maatregelen voor vertrouwelijkheid; 5.30 niet relevant (overigens: 8.24 dekt cryptografie-gebruik, sleutel-beheer, key-rotatie). Operationele overlap: cryptografie is canoniek mechanisme voor vertrouwelijkheid + integriteit |
+| **C1 (definitioneel)** | **partieel** — Art. 5(1)(f) noemt geen specifiek cryptografische maatregelen, maar verwijst naar passende technische maatregelen voor vertrouwelijkheid; 8.24 dekt cryptografie-gebruik, sleutel-beheer, key-rotatie. Operationele overlap: cryptografie is canoniek mechanisme voor vertrouwelijkheid + integriteit |
 | **C2 (cardinaliteit)** | Subject-cluster 1↔7; object-cluster 2↔1 (homogeen) |
 | **C3 (inclusie)** | **geen subset** — 8.24 is een technische implementatie-maatregel; Art. 5(1)(f) is een principe. Cross-category-rationale geldt |
 | **C4 (bron-evidence)** | **Niveau 2** — keten: ctrl:8.24 → A.3.26 via Annex F.1 ("Use of cryptography") → B.3.26 → Annex D Table D.1: B.3.26 → (32)(1)(a) (geen directe (5)(1)(f)-link voor A.3.26). 27701 koppelt 8.24 expliciet aan Art. 32(1)(a), niet aan Art. 5(1)(f) |
@@ -836,25 +843,29 @@ Niet uitgevoerd in T3. Aanbevolen voor Brein-cyclus post-T3 of v1.3.1-protocol-r
 | AVG_Art34 | 2 | related×2 | related×2 | ongewijzigd homogeen |
 | **Totaal** | **31** | broad×2 / close×2 / related×27 | **close×2 / related×29** | broadMatch geëlimineerd |
 
-### §6.3 Confidence-verdeling cumulatief
+### §6.3 [ERRATA — verouderde dubbele tabel, niet gebruiken; zie §6.4]
+
+> **Errata 28-05-2026:** deze tabel (20/11) is een verouderd overblijfsel uit een eerdere bottom-up draftfase en klopt niet met §6.1 per-paar-classificatie. **Gebruik §6.4** als autoritatieve cumulatieve confidence-tabel.
 
 | Confidence | Pilot (6) | Stap 3 (25) | Cumulatief m14 (31) |
 |---|---:|---:|---:|
-| hoog | 3 | 17 | 20 |
-| middel | 3 | 8 | 11 |
-| laag | 0 | 0 | 0 |
+| ~~hoog~~ | ~~3~~ | ~~17~~ | ~~20~~ |
+| ~~middel~~ | ~~3~~ | ~~8~~ | ~~11~~ |
+| ~~laag~~ | ~~0~~ | ~~0~~ | ~~0~~ |
 
 ### §6.4 Confidence-verdeling cumulatief
 
 | Confidence | Pilot (6) | Stap 3 (25) | Cumulatief m14 (31) |
 |---|---:|---:|---:|
-| hoog | 3 | 23 | 26 |
-| middel | 3 | 2 | 5 |
+| hoog | 4 | 23 | 27 |
+| middel | 2 | 2 | 4 |
 | laag | 0 | 0 | 0 |
 
 **Stap-3-middel-paren:** T3-026 (closeMatch-toets verdedigbaar; niveau-3 evidence; conceptuele basis sterker dan T3-014) + T3-030 (scope-asymmetrie analoog T3-028 — Art34 enger dan 5.26).
 
-**Pilot-middel-paren:** T3-002 (SKOS-richtings-methodevraag — afgehandeld via masterchat-besluit; gemuteerd naar relatedMatch in v4.6.3), T3-014 (closeMatch-toets verdedigbaar; ontbrekende Annex D-link), T3-028 (partieel-sterke C1 maar evidente scope-asymmetrie Art33 enger dan 5.26).
+**Pilot-middel-paren:** T3-014 (closeMatch-toets verdedigbaar; ontbrekende Annex D-link), T3-028 (partieel-sterke C1 maar evidente scope-asymmetrie Art33 enger dan 5.26).
+
+**T3-002 telt als hoog** (errata 28-05-2026): de oorspronkelijke pilot-classificatie middel was gebaseerd op een openstaande SKOS-richtings-methodevraag; deze is door masterchat-besluit Optie C definitief opgelost. Post-besluit is T3-002-confidence analoog aan zuster-paar T3-001 (zie §3.1 + §6.1). Per-paar-classificatie §6.1 is bron-van-waarheid (Protocol v1.3 §10.4).
 
 ### §6.5 Bron-van-waarheid + telling-discipline
 

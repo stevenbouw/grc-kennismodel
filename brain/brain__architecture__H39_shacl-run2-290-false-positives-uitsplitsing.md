@@ -3,17 +3,19 @@ type: architecture
 id: H39
 title: H39 — 290 SHACL RUN 2 false-positives niet individueel uitgesplitst per violation
 status: parked
-date: 2026-05-27
+date: 2026-05-28
 related:
   - gesplitste-shacl-validatie
   - sameAs-discipline
   - T1_skos-kwaliteitsanalyse-fase-1
   - T2-skos-bidirectional-audit-m10
+  - T3-skos-bidirectional-audit-m14
 sources:
   - handover-tech-chat-to-subagent-v4_6_0
   - t1-presprint-inventarisatie-v4_6_0
   - t1-eindrapport-v4_6_1
   - patch-rapport-v4_6_2
+  - patch-rapport-v4_6_3
 chat-sources: []
 confidence: high
 ---
@@ -31,6 +33,12 @@ confidence: high
 > *"Geen shape in `ontology/grc-shacl.ttl` valideert direct op ctrl:↔compl:-mapping-distributie. De 65 SKOS-predicate-substituties raken daarom geen shape — SHACL-uitkomsten zijn structureel ongevoelig voor T2-mutaties. H39 (SHACL-blinde vlek) blijft active geparkeerd voor latere shape-uitbreiding indien gewenst."*
 
 Driemetingen (per patch-rapport v4.6.2 §7.1): SECTIE A = 0, SECTIE B = 0, COMBINED = 290 — Δ = 0 vs v4.6.1-baseline. De 65 mutaties bevestigen empirisch dat SHACL-shapes structureel geen ctrl:↔compl:-mapping-distributie valideren. Trigger-relevantie verder verhoogd (eerder bij T1: 28-paren-schaal; nu bij T2: 118-paren-schaal). Zie [[brain__sprints__T2-skos-bidirectional-audit-m10]] en patch-rapport v4.6.2 §7.
+
+**Versterking T3 (28 mei 2026) — bidirectional vastgesteld:** T3-sprint bevestigt SHACL-blinde-vlek op **compl→ctrl-richting** (m14-AVG/GDPR, 31 paren). Per patch-rapport v4.6.3 §7.3:
+
+> *"Geen shape in `ontology/grc-shacl.ttl` valideert direct op compl:↔ctrl:-mapping-distributie (T1 Vraag D-inventarisatie + T2 §3.2 stop-conditie-analyse + T3 pre-sprint-inventarisatie §8.4). De 2 SKOS-predicate-substituties raken daarom geen shape — SHACL-uitkomsten zijn structureel ongevoelig voor T3-mutaties. H39 blijft active geparkeerd voor latere shape-uitbreiding indien gewenst. T3 bevestigt H39-trigger-relevantie opnieuw voor zowel ctrl→compl (m10) als compl→ctrl (m14)-richting."*
+
+Driemetingen (per patch-rapport v4.6.3 §7.1): SECTIE A = 0, SECTIE B = 0, COMBINED = 290 — Δ = 0 vs v4.6.2-baseline. Blinde-vlek nu **bidirectional vastgesteld** over T1 (28 ctrl→compl) + T2 (118 ctrl→compl) + T3 (31 compl→ctrl) = cumulatief 177 paren-impressies waarvan 0 door enige shape gevalideerd. Trigger-relevantie verder verhoogd. Zie [[brain__sprints__T3-skos-bidirectional-audit-m14]] en patch-rapport v4.6.3 §7.
 
 ## Wat het is
 
@@ -83,5 +91,6 @@ Het derde scenario is de eigenlijke driver — bij sprints die shapes raken (toe
 | 2026-05-26 | parked | Geregistreerd in iteratie 12 polish-mini-sprint, oorspronkelijk uit Fase 0 Tech-handover-rapport als methode-blind-spot sinds v4.3.0 |
 | 2026-05-26 | parked (versterkt) | T1-pre-sprint-inventarisatie Vraag D bevestigt SHACL-blinde vlek op 28 ctrl:↔compl:-paren — predicate-mutatie raakt geen shape. Trigger-relevantie verhoogd voor T2 |
 | 2026-05-27 | parked (versterkt T2) | T2-sprint bevestigt SHACL-blinde-vlek op 118-paren-schaal (per patch-rapport v4.6.2 §7.3). 65 SKOS-predicate-mutaties → Δ SHACL = 0 in alle drie metingen (SECTIE A / B / COMBINED). Trigger-relevantie verder verhoogd |
+| 2026-05-28 | parked (versterkt T3 — bidirectional vastgesteld) | T3-sprint bevestigt SHACL-blinde-vlek op compl→ctrl-richting (m14, 31 paren). 2 SKOS-predicate-mutaties → Δ SHACL = 0 in alle drie metingen. Blinde-vlek nu bidirectional vastgesteld over T1+T2+T3 — eerder eenzijdig ctrl→compl bevestigd, nu ook compl→ctrl bevestigd. Trigger-relevantie verder verhoogd voor latere shape-uitbreiding (indien gewenst, beide mapping-richtingen) |
 
 — Einde H39.

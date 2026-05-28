@@ -3,12 +3,12 @@ type: index
 id: workflow-register
 title: Workflow-register — Werkwijze GRC Kennismodel-project
 status: living
-date: 2026-05-13
+date: 2026-05-28
 ---
 
 # Workflow-register — Werkwijze GRC Kennismodel-project
 
-Overzicht van werkdisciplines en proces-conventies die het project beheersbaar houden. Zes workflow-files in totaal (incl. sprint-protocollen v1.7).
+Overzicht van werkdisciplines en proces-conventies die het project beheersbaar houden. Zeven workflow-files in totaal (incl. sprint-protocollen v1.7 + commit-push-werkverdeling iteratie 15).
 
 ## Snelle navigatie
 
@@ -20,6 +20,7 @@ Overzicht van werkdisciplines en proces-conventies die het project beheersbaar h
 | [[brain__workflow__masterchat-interactie]] | Wat aan Master / wat zelf — grens-discipline | living |
 | [[brain__workflow__opzet-bestaan-werking]] | Drie-niveau-audit-conventie (opzet → bestaan → werking) | living |
 | [[brain__workflow__sprint-protocollen]] *(v1.7)* | Vijf nieuwe sprint-protocollen formeel: pre-sprint-inventarisatie + schema-meta-rapport + bron-verificatie + raming-discipline + patch-rapport §9 | living |
+| [[brain__workflow__commit-push-werkverdeling]] *(iteratie 15)* | Wie commit + pusht naar de repo: masterchat sinds 28-05-2026 autonoom; subagents NOOIT zelfstandig (invariant) | living |
 
 ## Clusters per fase van het werk
 
@@ -39,6 +40,7 @@ Overzicht van werkdisciplines en proces-conventies die het project beheersbaar h
 - [[brain__workflow__opleveringsprotocol]] — release-artefacten
 - [[brain__workflow__opzet-bestaan-werking]] — kwaliteits-niveau-bewijs
 - [[brain__workflow__sprint-protocollen]] — Protocol C (schema-meta-rapport-herziening) + patch-rapport §9
+- [[brain__workflow__commit-push-werkverdeling]] — wie commit + pusht (iteratie 15)
 
 ## v1.7-uitbreiding: vijf nieuwe protocollen
 

@@ -3,18 +3,20 @@ type: architecture
 id: H41
 title: H41 — SKOS-axioma-set-handling onder OWL-RL (S46-symmetrie, S47-transitiviteit niet geïnferreerd)
 status: parked
-date: 2026-05-27
+date: 2026-05-28
 related:
   - owl-rl-reasoning
   - canonical-metrics
   - skos-beoordelings-protocol
   - T1_skos-kwaliteitsanalyse-fase-1
   - T2-skos-bidirectional-audit-m10
+  - T3-skos-bidirectional-audit-m14
   - D04_skos-cross-framework
 sources:
   - t1-eindrapport-v4_6_1
   - patch-rapport-v4_6_1
   - patch-rapport-v4_6_2
+  - patch-rapport-v4_6_3
   - projectinstructie-v1_10
 chat-sources: []
 confidence: high
@@ -40,18 +42,21 @@ T1 markeerde dit reeds als werkflow-leerpunt (zonder H-registratie); T2 leverde 
 
 Effect: SKOS-mappings worden behandeld als asymmetrische, niet-transitieve triples. Audit van SKOS-mapping-correctheid blijft dus per-paar werkbaar, maar SKOS-vocabulaire-eigenschappen die in de formele SKOS-specificatie zijn vastgelegd (W3C SKOS Reference §S46-S47) krijgen geen formele inferentie-status in de canonical metrics + SHACL-validatie van dit project.
 
-## Empirisch bewijs uit T1 + T2
+## Empirisch bewijs uit T1 + T2 + T3
 
 | Sprint | SKOS-mutaties | Triples-Δ pre-inferentie | Triples-Δ post-OWL-RL | Bron |
 |---|---:|---:|---:|---|
 | T1 (v4.6.1) | 28 (`exactMatch` → `broadMatch`) | 0 | 0 | patch-rapport-v4_6_1 §4-5 |
-| **T2 (v4.6.2)** | **65 (32× close→broad + 33× related→broad)** | **0** | **0** | **patch-rapport-v4_6_2 §0.1 + §4.1** |
+| T2 (v4.6.2) | 65 (32× close→broad + 33× related→broad) | 0 | 0 | patch-rapport-v4_6_2 §0.1 + §4.1 |
+| **T3 (v4.6.3)** | **2 (broad→related; cross-category)** | **0** | **0** | **patch-rapport-v4_6_3 §0.1 + §4.1** |
 
 T2 levert sterkste bewijs (per patch-rapport v4.6.2 §4.1):
 
 > *"Post-OWL-RL-inferentie is eveneens stabiel omdat owlrl in deze configuratie geen SKOS-axiomas laadt (skos:S46/S47 e.d. niet geactiveerd; bekende beperking gedocumenteerd in v4.6.1-rapport §5.2). Predicate-naamverandering raakt geen RDFS/OWL-inferentie-pad."*
 
 Bij 65 predicate-substituties — waarvan 32 closeMatch ↔ broadMatch (symmetrie-relevant indien S46-equivalent voor closeMatch wel geladen zou zijn) — blijft post-OWL-RL Δ exact 0. Bevestigt empirisch dat SKOS-axiomas niet geactiveerd zijn in de huidige reasoner-configuratie.
+
+**T3-bevestiging (informatief, status ongewijzigd):** derde sprint-bewijs op kleinere schaal (2 mutaties), maar nu in **cross-category-context** (control ↔ legal-obligation, compl→ctrl-richting in m14) — eerste cross-category-bewijs voor H41. broadMatch→relatedMatch-substituties (waarbij beide predicates symmetrisch zijn onder W3C SKOS-Reference indien S46-equivalenten geladen zouden zijn) leveren Δ post-OWL-RL = 0. Confirmeert H41 over T1+T2+T3 = drie sprint-context-bewijzen (exactMatch-omzetting, close/related/broad bidirectional, broad/related cross-category).
 
 ## Waarom dit een open vraag is
 
@@ -101,6 +106,7 @@ T2-empirisch bewijs (32 closeMatch ↔ broadMatch-mutaties zonder Δ post-OWL-RL
 - T1-eindrapport v4.6.1 §5.2 — eerste expliciete vermelding van SKOS-axioma-set-handling als T1-werkflow-leerpunt
 - Patch-rapport v4.6.1 §5.2 — markering "skos:exactMatch is owl:SymmetricProperty (skos:S46) wordt niet geïnferreerd"
 - Patch-rapport v4.6.2 §4.1 — productie-schaal bevestiging op 65 SKOS-mutaties
+- Patch-rapport v4.6.3 §4.1 — derde sprint-bewijs, eerste cross-category-context (2 mutaties broad→related in compl→ctrl-richting)
 - Projectinstructie v1.10 — formele H41-declaratie + parked-status
 
 ## Hangt samen met
@@ -111,12 +117,14 @@ T2-empirisch bewijs (32 closeMatch ↔ broadMatch-mutaties zonder Δ post-OWL-RL
 - [[brain__decisions__D04_skos-cross-framework]] — D4 vereist SKOS-modellering maar specificeert geen reasoner-configuratie voor SKOS-axiomas
 - [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — eerste markering (zonder registratie)
 - [[brain__sprints__T2-skos-bidirectional-audit-m10]] — productie-schaal bewijs (T2)
+- [[brain__sprints__T3-skos-bidirectional-audit-m14]] — derde sprint-bewijs in cross-category-context (informatief; status ongewijzigd)
 
 ## Status-historie
 
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | (niet geregistreerd) | T1-werkflow-leerpunt — kandidaat-overweging in H36-bestand vermeld, expliciet **NIET** als nieuw H-item geregistreerd; trigger ontbrak |
-| 2026-05-27 | **parked** | Nieuw geregistreerd na T2-sprint; trigger gerechtvaardigd door productie-schaal bewijs (65 mutaties, Δ post-OWL-RL = 0); masterchat-besluit per projectinstructie v1.10 |
+| 2026-05-27 | parked | Nieuw geregistreerd na T2-sprint; trigger gerechtvaardigd door productie-schaal bewijs (65 mutaties, Δ post-OWL-RL = 0); masterchat-besluit per projectinstructie v1.10 |
+| 2026-05-28 | parked (T3-bevestiging informatief) | Derde sprint-bewijs op cross-category-context (2 mutaties broad→related compl→ctrl in m14); Δ post-OWL-RL = 0 bevestigd over drie sprint-contexten; status ongewijzigd (geen masterchat-besluit tot status-revisie of activering) |
 
 — Einde H41.

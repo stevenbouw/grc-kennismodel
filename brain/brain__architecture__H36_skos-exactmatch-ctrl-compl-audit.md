@@ -1,14 +1,16 @@
 ---
 type: architecture
 id: H36
-title: H36 — ctrl→compl SKOS-mappings audit (m10 closed; m14 open subtask)
-status: active
-date: 2026-05-27
+title: H36 — ctrl:↔compl: SKOS-mappings audit (fully closed via T1+T2+T3)
+status: closed
+date: 2026-05-28
 related:
   - v4_6_0_fase-4-ensia-en-volwassenheid
   - T1_skos-kwaliteitsanalyse-fase-1
   - T2-skos-bidirectional-audit-m10
+  - T3-skos-bidirectional-audit-m14
   - skos-beoordelings-protocol
+  - cross-category-mappings
   - mapping-bron-disclaimer-effect
   - cluster-discipline-bewijslast
   - H41_skos-axioma-set-handling
@@ -21,15 +23,17 @@ sources:
   - patch-rapport-v4_6_1
   - patch-rapport-v4_6_2
   - t2-stap3-eindrapport
+  - patch-rapport-v4_6_3
+  - t3-stap3-eindrapport
 chat-sources: []
 confidence: high
 ---
 
-# H36 — ctrl→compl SKOS-mappings audit
+# H36 — ctrl:↔compl: SKOS-mappings audit
 
 ## Status
 
-**Active, met m10-component closed** *(iteratie 14)* — m10-scope volledig afgehandeld via T1-sprint (28 paren) + T2-sprint (65 mutaties op 118 paren over 10 clusters). m14-component (31 compl→ctrl-paren in `m14-avg-gdpr.ttl`, omgekeerde modelleringsconventie) blijft **open subtask** voor toekomstige T-sprint.
+**Fully closed** *(iteratie 15)* — m10-scope volledig afgehandeld via T1-sprint (28 paren) + T2-sprint (65 mutaties op 118 paren over 10 clusters); m14-scope volledig afgehandeld via T3-sprint (2 mutaties op 31 paren over 5 AVG-clusters). H36 als geheel afgesloten — cumulatief **149 ctrl:↔compl:-paren** over T1+T2+T3 beoordeeld onder Protocol v1.0/v1.2/v1.3 FINAL.
 
 **Status-evolutie:**
 
@@ -37,9 +41,10 @@ confidence: high
 |---|---|---|
 | 2026-05-26 (iteratie 12) | parked | 28 ctrl:↔compl: `exactMatch`-paren in m10 |
 | 2026-05-26 (iteratie 13) | closed | T1 voltooide oorspronkelijke H36-scope (28 paren); open uitbreiding naar close/related/broad geregistreerd als T2-scope |
-| **2026-05-27 (iteratie 14)** | **active (m10 closed)** | **T2 voltooide m10-scope volledig (93 m10-paren over T1+T2); m14-subtask resteert** |
+| 2026-05-27 (iteratie 14) | active (m10 closed) | T2 voltooide m10-scope volledig (93 m10-paren over T1+T2); m14-subtask resteert |
+| **2026-05-28 (iteratie 15)** | **fully closed** | **T3 voltooide m14-scope (31 paren over 5 AVG-clusters); H36 als geheel afgesloten** |
 
-Eerder geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12) als parked, met trigger "SKOS-kwaliteitsanalyse-sprint". Trigger vervuld door T1 + T2.
+Eerder geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12) als parked, met trigger "SKOS-kwaliteitsanalyse-sprint". Trigger vervuld door T1 + T2 + T3.
 
 ## Wat het is
 
@@ -116,21 +121,32 @@ T2-sprint heeft de overige m10 ctrl→compl-mappings beoordeeld onder Protocol v
 
 **Methode-protocol-progressie:** v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 (DRAFT, vaststelling pending). Zie [[brain__concepts__skos-beoordelings-protocol]] §Protocol-versie-roadmap.
 
-## Open subtask — m14 compl→ctrl-paren
+## Uitkomst T3-sprint (28 mei 2026) — m14 closed (31 compl→ctrl-paren)
 
-T2-scope per masterchat-besluit **Optie C**: m10-only T2; m14 wordt aparte T-sprint.
+T3-sprint heeft de m14-subtask afgehandeld onder Protocol v1.3 FINAL. Zie [[brain__sprints__T3-skos-bidirectional-audit-m14]] voor sprint-context.
 
-| Aspect | Status |
+| Aspect | Resultaat |
 |---|---|
-| Module | `m14-avg-gdpr.ttl` |
-| Aantal paren | 31 (alle compl→ctrl-richting; 27 relatedMatch + 2 closeMatch + 2 broadMatch — alle in m14-AVG-cluster) |
-| Modelleringsconventie | compl: → ctrl: (omgekeerd t.o.v. m10's ctrl: → compl:) |
-| AVG-cross-walk-bron | Ontbreekt in `sources/` — vereist bron-upload of evidence-niveau-2/3-tolerantie |
-| Protocol-versie bij uitvoering | v1.3 (DRAFT) of v1.4 indien verdere verfijningen vóór m14-start |
-| Symmetrie-toets | Vereist Protocol v1.2/v1.3-symmetrie-validatie op compl→ctrl-richting (mogelijk Protocol-aanvulling nodig) |
-| Helper-script-uitbreiding | Cross-module label-bronnen + m14-specifieke heuristieken nodig |
+| Beoordeelde paren m14 | 31 (volledig — alle compl→ctrl-paren in `m14-avg-gdpr.ttl`) |
+| Patch-mutaties | **2** (T3-001 + T3-002, beide `compl:AVG_Art5_1f skos:broadMatch ctrl:ISO27002_*` → `skos:relatedMatch`; directe instructie-uitvoering masterchat-besluit Optie C op pilot-escalatie) |
+| Behoud relatedMatch (cross-category-rationale) | 27 paren |
+| Behoud closeMatch (retrieval-interchangeability) | 2 paren (T3-014 Art32 → 5.01 + T3-026 Art33 → 5.24) |
+| Confidence per paar | 27 hoog + 4 middel + 0 laag (errata 28-05: T3-002 hoog post-besluit, analoog T3-001) |
+| Evidence-niveau-verdeling | 10 niveau-1 + 7 niveau-2 + 14 niveau-3 (via ISO 27701:2025 Annex D + Annex F twee-staps-keten) |
+| Patch | v4.6.3 toegepast op `m14-avg-gdpr.ttl` (hash `47daeb7e…` → `874565ba…`) |
+| Cross-category-rationale | Cluster-doel-default §3.1 rij 7 (narrowMatch in 1↔veel-subject-cluster) systematisch overstemd door C3-falen op conceptuele subsumptie; control ↔ legal-obligation = associatief, niet subsumptief |
+| D4.1-status | **inactief** in T3 (bindende T3-steer 1; AVG = publiek EU-recht zonder non-equivalence-disclaimer) |
+| closeMatch-uitzondering | Op retrieval-interchangeability binnen governance/policy- respectievelijk incident-planning-domein (T3-014 + T3-026; beide confidence middel; methodologisch consistent toegepast) |
 
-Trigger voor activering: aparte T-sprint-scoping in verse masterchat-sessie post-T2. Niet nu uit te voeren.
+**Cumulatieve scope-completion T1+T2+T3:** 28 + 65 + 2 = **95 mutaties** binnen **149 ctrl:↔compl:-paren beoordeeld** (28 + 118 + 31 = 177; min overlap T1⊂T2 op exactMatch-set zelfde 28; netto unieke paren-volume = 28 + 90 + 31 = 149).
+
+| Module | Richting | Paren | Mutaties | Sprints |
+|---|---|---:|---:|---|
+| m10-nis2-ext | ctrl → compl | 118 (cumulatief T1+T2) | 93 (28 T1 + 65 T2) | T1 (v4.6.1) + T2 (v4.6.2) |
+| m14-avg-gdpr | compl → ctrl | 31 | 2 | T3 (v4.6.3) |
+| **Totaal H36-scope** | **bidirectional** | **149** | **95** | **T1+T2+T3** |
+
+**Methode-protocol-progressie:** v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 DRAFT → **v1.3 FINAL (T3 operationeel; vaststelling 28 mei 2026 door masterchat tijdens T3-scoping)**. Cross-category-rationale = kandidaat v1.3.1-precedent. Zie [[brain__concepts__skos-beoordelings-protocol]] en [[brain__concepts__cross-category-mappings]].
 
 ## Andere m11- en ISO27001-cluster-kandidaten (informatief)
 
@@ -145,11 +161,11 @@ Niet als subtasks van H36 geregistreerd (verschillende modules + verschillende b
 
 | Impact-veld | Resultaat |
 |---|---|
-| D4 + D4.1 | D4 onveranderd; D4.1 toepassings-precedent uitgebreid van paar-niveau (T1) naar cluster-niveau (T2). Zie [[brain__decisions__D04_skos-cross-framework]] §D4.1 |
-| H39 (SHACL-blinde-vlek) | Bevestigd op 118-paren-schaal; trigger-relevantie verder verhoogd |
-| H41 (SKOS-axioma-set) | Nieuw geregistreerd als parked H-item op basis van T2-empirisch bewijs (Δ post-OWL-RL = 0 op 65 mutaties). Zie [[brain__architecture__H41_skos-axioma-set-handling]] |
-| Methode-protocol | v1.2 operationeel bevestigd; v1.3-draft opgeleverd met 7 verfijning-voorstellen |
-| Cluster-discipline-bewijslast | Empirisch gevalideerd via 0/10 succesvolle heuristiek-flag-uitzonderingen. Zie [[brain__concepts__cluster-discipline-bewijslast]] |
+| D4 + D4.1 | D4 onveranderd; D4.1 toepassings-precedent uitgebreid van paar-niveau (T1) naar cluster-niveau (T2). T3 toevoegt: D4.1 inactief in cross-category-context (AVG = publiek EU-recht zonder non-equivalence-disclaimer); cross-category-rationale als nieuwe D4-toepassings-precedent op m14. Zie [[brain__decisions__D04_skos-cross-framework]] §D4.1 + cross-category-rationale-sectie |
+| H39 (SHACL-blinde-vlek) | Bevestigd op 118-paren-schaal in T2 (ctrl→compl); T3 bevestigt op 31-paren-schaal in tegengestelde richting (compl→ctrl) — blinde-vlek nu bidirectional vastgesteld |
+| H41 (SKOS-axioma-set) | Nieuw geregistreerd in T2; T3 levert derde sprint-bewijs Δ post-OWL-RL = 0 op 2 SKOS-mutaties — declared-evidence informatief uitgebreid; status ongewijzigd |
+| Methode-protocol | v1.2 (T2) → v1.3 FINAL (T3 operationeel; masterchat-vastgesteld 28 mei 2026 tijdens T3-scoping). Cross-category-rationale = kandidaat v1.3.1-precedent. Zie [[brain__concepts__cross-category-mappings]] |
+| Cluster-discipline-bewijslast | Empirisch gevalideerd in T2 (0/10 succesvolle heuristiek-flag-uitzonderingen). T3 toont structurele blokkering op cross-category-niveau (0/0 cluster-convergentie naar narrowMatch). Zie [[brain__concepts__cluster-discipline-bewijslast]] + [[brain__concepts__cross-category-mappings]] |
 
 ## Status-historie
 
@@ -157,6 +173,7 @@ Niet als subtasks van H36 geregistreerd (verschillende modules + verschillende b
 |---|---|---|
 | 2026-05-26 | parked | Geregistreerd in iteratie 12 polish-mini-sprint, eerder aangemerkt als "te registreren v1.10" in sessie-rapport v2.0 |
 | 2026-05-26 | closed | Afgehandeld via T1-sprint — 28× exactMatch → broadMatch via patch v4.6.1; methode-protocol v1.0 als bijproduct vastgesteld |
-| 2026-05-27 | **active (m10 closed)** | **T2-sprint voltooit m10-scope volledig (cumulatief 93 m10-paren via T1+T2). m14-subtask (31 compl→ctrl-paren) open voor toekomstige T-sprint. H-item blijft active wegens m14-component; m10-component administratief afgesloten** |
+| 2026-05-27 | active (m10 closed) | T2-sprint voltooit m10-scope volledig (cumulatief 93 m10-paren via T1+T2). m14-subtask (31 compl→ctrl-paren) open voor toekomstige T-sprint. H-item blijft active wegens m14-component; m10-component administratief afgesloten |
+| **2026-05-28** | **fully closed** | **T3-sprint voltooit m14-scope (31 paren over 5 AVG-clusters; 2 mutaties broadMatch → relatedMatch via masterchat-besluit Optie C op pilot-escalatie; 27 behoud relatedMatch + 2 behoud closeMatch op retrieval-interchangeability). H36 als geheel afgesloten; cumulatief 149 ctrl:↔compl:-paren over T1+T2+T3. Cross-category-rationale als T3-leerpunt en kandidaat v1.3.1-precedent gedocumenteerd (formalisering = masterchat-werk)** |
 
 — Einde H36.

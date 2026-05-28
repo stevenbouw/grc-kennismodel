@@ -4,7 +4,7 @@ id: D04
 title: SKOS voor cross-framework mappings
 status: active
 date: 2026-03-01
-last_revised: 2026-05-27
+last_revised: 2026-05-28
 related:
   - D05_sameAs-strikt-ctrl-bio
   - D09_framework-neutraliteit
@@ -12,10 +12,12 @@ related:
   - mapping-bron-disclaimer-effect
   - skos-beoordelings-protocol
   - cluster-discipline-bewijslast
+  - cross-category-mappings
   - H36_skos-exactmatch-ctrl-compl-audit
   - H41_skos-axioma-set-handling
   - T1_skos-kwaliteitsanalyse-fase-1
   - T2-skos-bidirectional-audit-m10
+  - T3-skos-bidirectional-audit-m14
 sources:
   - projectinstructie-v1.6
   - projectinstructie-v1_9
@@ -104,15 +106,39 @@ T2-empirisch bewijs:
 
 Zie [[brain__sprints__T2-skos-bidirectional-audit-m10]] voor sprint-context.
 
+### D4.1 inactief in T3-context — m14 AVG/GDPR (28 mei 2026)
+
+T3-sprint heeft D4.1 als **inactief** vastgesteld voor m14 AVG/GDPR-scope. Bindende T3-steer 1 (instructie-vastgesteld door masterchat): geen D4.1-disclaimer-logica op alle 31 m14-paren. Onderbouwing:
+
+- AVG = publiek EU-recht (geen autoritatieve mapping-bron met non-equivalence-disclaimer in evidence-stack)
+- ISO 27701:2025 Annex D + Annex F = SKOS-mapping-keten zonder D4.1-relevante disclaimer
+- m14 had bij T3-start 0 exactMatch-paren — D4.1 zou semantisch alleen exactMatch-doelvalidatie blokkeren, en die overweging is in T3 niet aan de orde
+
+D4.1-validatie-historie m14-scope toegevoegd als **inactief-precedent**: per-paar-toets niet nodig wanneer D4.1-context structureel ontbreekt (geen autoritatieve mapping-bron met disclaimer in evidence-stack). Zie patch-rapport v4.6.3 §12.
+
+### Cross-category-rationale als toepassings-precedent op m14 (28 mei 2026)
+
+T3-sprint heeft op productie-schaal (31 m14-paren) bewijs geleverd voor een D4-werkings-principe dat T1+T2 niet konden onthullen: **wanneer subject en object van een SKOS-mapping in ontologisch verschillende categorieën zitten (bv. control ↔ legal-obligation), is `relatedMatch` de associatieve basislijn — niet `broad/narrowMatch`.** Operationele werking in T3:
+
+- Cluster-doel-default per Protocol §3.1 rij 7 (narrowMatch in 1↔veel-subject-cluster) wordt op cross-category-niveau systematisch overstemd door C3-falen op conceptuele subsumptie
+- broadMatch is in m14 niet houdbaar in compl→ctrl-richting (SKOS-formal-semantics omgekeerd aan modeller-bedoeling én cross-category-categorie-fout); masterchat-besluit Optie C verschoof beide Art5_1f broadMatch-paren naar relatedMatch
+- closeMatch-uitzondering op retrieval-interchangeability blijft mogelijk (T3-014 + T3-026; beide confidence middel)
+
+D4-validatie-historiek-uitbreiding: T1 (paar-niveau D4.1-vaststelling) → T2 (cluster-niveau D4.1-precedent) → **T3 (cross-category-rationale-precedent; D4.1 inactief)**. Concept-niveau verankering: [[brain__concepts__cross-category-mappings]] *(nieuw iteratie 15)* — gemarkeerd als kandidaat v1.3.1-precedent; formalisering in Protocol-tekst is masterchat-werk bij volgende sprint-scoping (Brein voert geen autonome D4-tekst-wijziging uit; alleen toepassings-precedent vastgelegd).
+
+Zie [[brain__sprints__T3-skos-bidirectional-audit-m14]] voor sprint-context.
+
 ## Hangt samen met
 
 - [[brain__concepts__mapping-bron-disclaimer-effect]] — concept-beschrijving van het generaliseerbare patroon
 - [[brain__concepts__skos-beoordelings-protocol]] — operationele methode voor SKOS-predicate-keuze (C1-C4 + bidirectional-symmetrie)
 - [[brain__concepts__cluster-discipline-bewijslast]] — bewijslast-asymmetrie bij cluster-uitzonderingen
-- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] — afgehandelde aanleiding (T1) + m10-component closed via T2
-- [[brain__architecture__H41_skos-axioma-set-handling]] — gerelateerd architectuur-item (geparkeerd post-T2)
+- [[brain__concepts__cross-category-mappings]] — cross-category-rationale als T3-precedent (control ↔ legal-obligation = associatief)
+- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] — afgehandelde aanleiding (T1) + m10-component closed via T2 + m14-subtask closed via T3 (fully closed)
+- [[brain__architecture__H41_skos-axioma-set-handling]] — gerelateerd architectuur-item (geparkeerd post-T2; T3-bevestiging informatief)
 - [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] — bron-sprint D4.1-vaststelling
 - [[brain__sprints__T2-skos-bidirectional-audit-m10]] — bron-sprint cluster-niveau-toepassings-precedent
+- [[brain__sprints__T3-skos-bidirectional-audit-m14]] — bron-sprint cross-category-rationale-precedent + D4.1-inactief-precedent
 - [[brain__decisions__D05_sameAs-strikt-ctrl-bio]] — complementaire keuze: `owl:sameAs` voor strikte identiteit (ctrl:↔bio:)
 - [[brain__decisions__D11_sameAs-asset-convergentie]] — idem voor asset-laag
 
@@ -123,5 +149,6 @@ Zie [[brain__sprints__T2-skos-bidirectional-audit-m10]] voor sprint-context.
 | ±2026-03 | active | Vaststelling (datum reconstructie) |
 | 2026-05-27 | active | D4.1 toegevoegd: disclaimer-handling bij autoritatieve mapping-bronnen. Aanleiding T1-sprint (ENISA TIG regel 285). Reikwijdte: blokkeert `skos:exactMatch` alleen; close/related/broad/narrow blijven valide. Geen retroactieve audit (Optie A) — geldt vanaf vaststelling. |
 | 2026-05-27 | active | D4.1-toepassings-precedent uitgebreid naar cluster-niveau na T2-sprint (118 paren over 10 m10-clusters). Bij homogene cluster-bron-stack volstaat één D4.1-bevestiging per cluster; heterogene clusters vereisen per-paar-toets. D4-tekst zelf onveranderd; alleen precedent-uitbreiding gedocumenteerd. |
+| 2026-05-28 | active | D4-validatie-historie m14-scope toegevoegd na T3-sprint (31 paren over 5 AVG-clusters). Twee toepassings-precedenten: (a) D4.1 inactief in T3 (bindende T3-steer 1; AVG = publiek EU-recht zonder non-equivalence-disclaimer; 0 exactMatch-doel-overweging); (b) cross-category-rationale als toepassings-precedent (control ↔ legal-obligation = associatief, niet subsumptief; 2 broadMatch-paren → relatedMatch via masterchat-besluit Optie C; closeMatch-uitzondering op retrieval-interchangeability gehandhaafd voor T3-014 + T3-026). D4-tekst zelf onveranderd; alleen precedent-uitbreiding gedocumenteerd. Cross-category-formalisering blijft masterchat-werk (kandidaat v1.3.1-precedent). |
 
 — Einde D04.

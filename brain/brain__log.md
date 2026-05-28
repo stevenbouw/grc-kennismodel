@@ -2,12 +2,129 @@
 type: log
 title: GRC Kennismodel Brain — Chronologisch logboek
 status: living
-date: 2026-05-27
+date: 2026-05-28
 ---
 
 # GRC Kennismodel Brain — Chronologisch logboek
 
 Per Karpathy's pattern: chronologisch operationeel record. Append-only. **Nieuwste entry bovenaan.**
+
+---
+
+## 2026-05-28 — Iteratie 15: post-T3-Brein-cyclus (T3-sprint + Protocol v1.3 FINAL + H36 fully closed + cross-category-mappings-concept + commit-push-werkverdeling-workflow + errata-correctie T3-rapporten)
+
+**Vierde post-migratie Brein-cyclus** uitgevoerd via brein-subagent in Claude Code. Administratieve nasleep van T3-sprint (SKOS-bidirectional-audit m14 AVG/GDPR, patch v4.6.3, opgeleverd 28 mei 2026 dezelfde dag) + masterchat-sign-off op v4.6.3 + werkflow-wijziging commit-push-werkverdeling. T3 is **derde post-migratie productie-sprint** en eerste sprint die Protocol v1.3 FINAL in cross-category-context (control ↔ legal-obligation) heeft toegepast.
+
+**Karakter:** administratieve verwerking van besluiten + errata-correctie. Drie hoofdcomponenten:
+- **Deel A:** surgische errata-correctie op T3-rapport-bestanden (vóór brain-propagatie) — confidence-tellings-discrepantie m14 corrigeren naar 27 hoog / 4 middel / 0 laag; T3-002 = hoog post-besluit (analoog T3-001); §6.3 verouderde dubbele tabel markeren als errata; §3.1 T3-004 redactie-restje opschonen. Bewaart T-historie (Protocol v1.3 §10.4)
+- **Deel B:** brain-vault T3-close + verplichte register-updates
+- **Deel C:** nieuw concept `cross-category-mappings` als T3-empirisch precedent (kandidaat v1.3.1 — formalisering = masterchat-werk, NIET nu)
+- **Deel D:** nieuw workflow-bestand `commit-push-werkverdeling` (werkflow-wijziging 28-05-2026: masterchat-commit-autonomie; subagent-invariant blijft hard)
+
+Geen architectuur-wijzigingen autonoom door Brein; alleen status-mutaties + nieuwe concept- en workflow-registratie per masterchat-besluit op T3-leerpunt + werkflow-wijziging. 14 bestanden geraakt: 3 nieuw + 11 update.
+
+**Deel A — Errata-correctie (surgisch, vóór brain-propagatie):**
+
+- `output/reports/t3-stap3-eindrapport.md` *(update)* — errata-blok bovenaan + §6.3 markeren als verouderde dubbele tabel (~~doorhaling~~) + §6.4 corrigeren (Pilot: 4/2/0; Stap 3: 23/2/0; cumulatief: 27/4/0) + T3-002 hoog post-besluit + §3.1 T3-004 redactie-restje "5.30 niet relevant" verwijderd. T-historie bewaard (Protocol v1.3 §10.4); detail-tekst §-paren niet herschreven. Patch-impact onveranderd
+- `output/reports/patch-rapport-v4_6_3.md` *(update)* — errata-blok bovenaan + §6.4 cumulatieve confidence-tabel gecorrigeerd (26 hoog → 27 hoog; 5 middel → 4 middel; T3-002 niet meer in middel-opsomming). Bron-van-waarheid expliciet aangegeven (§6.1 per-paar-classificatie autoritatief)
+
+**Deel B — Brain-vault T3-close (B1-B12):**
+
+- [[brain__sprints__T3-skos-bidirectional-audit-m14]] *(nieuw)* — Derde post-migratie productie-sprint. Scope: 31 m14 compl→ctrl-paren over 5 AVG-clusters (cross-category control ↔ legal-obligation). Drie-stappen-uitvoering: pre-sprint-inventarisatie + pilot 6 paren (escalatie SKOS-broadMatch-richting → masterchat) + Stap 3 hoofd-uitvoering 25 paren (handmatige scope) + productie-patch v4.6.3 (2 mutaties via masterchat-besluit Optie C; 27 behoud relatedMatch + 2 behoud closeMatch op retrieval-interchangeability). 15/15 GO-criteria groen. Sprint-multiplier 0,03× t.o.v. T2 (smal mutatie-spectrum, breed methodisch leerpunt). Cross-refs: D4 + D4.1-inactief, H36 fully closed, H39 bidirectional, H41 informatief, Protocol v1.0/v1.2/v1.3 FINAL, cross-category-mappings, mapping-bron-disclaimer-effect, cluster-discipline-bewijslast
+- [[brain__sprints__sprint-register]] *(update)* — T3-rij toegevoegd als active; T2 verschoven naar superseded. v4.6.3 baseline-metrics-blok geheel (predicate-substitutie: broadMatch −2, relatedMatch +2; SKOS-totaal 1.798 ongewijzigd). Multiplier-tabel uitgebreid met T3-rij (0× triple-multiplier; 0,03× t.o.v. T2 mutatie-multiplier). D-cross-reference-tabel: T3-rij D4 cross-category-rationale-precedent. Geplande-sprints-tabel: T4-kandidaten + Protocol v1.3.1-Brein-cyclus
+- [[brain__decisions__D04_skos-cross-framework]] *(update)* — D4.1-inactief-in-T3-sectie + cross-category-rationale-toepassings-precedent-sectie toegevoegd. m14-scope toegevoegd aan D4-validatie-historiek. D4-tekst zelf onveranderd; alleen precedent-uitbreiding. related-frontmatter uitgebreid met T3, cross-category-mappings. Status-historie-rij toegevoegd
+- [[brain__architecture__H36_skos-exactmatch-ctrl-compl-audit]] *(update)* — Status active (m10 closed, m14 open subtask) → **fully closed (resolved)**. Title aangepast naar "ctrl:↔compl: SKOS-mappings audit (fully closed via T1+T2+T3)". Status-evolutie-tabel + status-historie-rij. T3-uitkomst-sectie toegevoegd met 2 mutaties + cluster-stand + 0/5 cluster-convergentie + 4 cumulatieve middel-paren. Cumulatief T1+T2+T3 = 95 mutaties op 149 ctrl:↔compl:-paren. Architectuur-impact-tabel uitgebreid (D4 cross-category-rationale, H39 bidirectional, H41 informatief, Protocol v1.3 FINAL, cluster-discipline-bewijslast complementair). related-frontmatter uitgebreid met T3, cross-category-mappings, patch-rapport-v4_6_3, t3-stap3-eindrapport
+- [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] *(update)* — Status onveranderd (parked). Versterking T3-sectie toegevoegd: blinde-vlek nu **bidirectional vastgesteld** over T1+T2+T3 (eerder eenzijdig ctrl→compl; T3 bevestigt compl→ctrl). Status-historie-rij toegevoegd. related-frontmatter uitgebreid met T3
+- [[brain__architecture__H41_skos-axioma-set-handling]] *(update)* — Status onveranderd (parked). Empirisch-bewijs-tabel uitgebreid met T3-rij (2 mutaties broad→related cross-category; Δ post-OWL-RL = 0). T3-bevestiging-paragraaf: derde sprint-bewijs op cross-category-context (eerste cross-category-bewijs voor H41). Status-historie-rij toegevoegd. related-frontmatter uitgebreid met T3
+- [[brain__architecture__H-register]] *(update)* — Status-overzicht: H36 verschuift van "Active (gedeeltelijk closed)" naar "Resolved" (5 totaal). Active-tabel leeggemaakt. Parked-tabel H39 + H41-rijen versterkt voor T3. Iteratie-15-status-mutaties-sectie toegevoegd (H36 fully closed, H39 bidirectional, H41 T3-bevestiging). H-items-per-D-decision-tabel: D4 H36 fully closed
+- [[brain__concepts__skos-beoordelings-protocol]] *(update)* — Versie-evolutie expliciet: v1.0 (T1) → v1.2 (T2) → v1.3 DRAFT (post-T2) → **v1.3 FINAL (T3, vastgesteld masterchat 28 mei 2026)** → v1.3.1 kandidaat-aanvulling cross-category. Nieuwe sectie "T3-toepassing — 2 cross-category-mutaties op m14 AVG/GDPR (Protocol v1.3 FINAL)" toegevoegd. Bindende T3-steers (5) gedocumenteerd. Protocol-versie-roadmap uitgebreid. T4-kandidaten-tabel bijgewerkt (m14 afgehandeld). Cross-refs naar cross-category-mappings + T3 toegevoegd. Status-historie-rij toegevoegd
+- [[brain__concepts__cross-category-mappings]] *(nieuw, kandidaat v1.3.1-precedent, confidence high)* — Cross-category-rationale: wanneer subject en object van een SKOS-mapping ontologisch verschillende categorieën zijn (control ↔ legal-obligation), is `relatedMatch` de associatieve basislijn. broad/narrowMatch is categorie-fout in de meeste gevallen; closeMatch-uitzondering op retrieval-interchangeability; exactMatch structureel uitgesloten. T3-empirisch bewijs: 0/5 cluster-convergentie naar narrowMatch op 31 m14-paren. Distinctie van T2 (m10): m10 = framework-specifieke convergentie (zelfde categorie); m14 = categorie-specifieke non-convergentie. Cluster-discipline-bewijslast complementair (binnen één categorie; cross-category-rationale tussen categorieën). closeMatch-uitzondering-precedent: T3-014 governance/policy + T3-026 incident-planning. Kandidaat-formalisering Protocol v1.3.1 (NIET nu uitvoeren — masterchat-werk). Cross-refs naar D4, T3, skos-beoordelings-protocol, cluster-discipline-bewijslast, mapping-bron-disclaimer-effect, H36
+- [[brain__modules__M14_avg-gdpr]] *(update)* — SKOS-mapping-stand-post-T3-sectie toegevoegd: 2 closeMatch + 0 broadMatch + 29 relatedMatch (eindstand v4.6.3). Per-cluster-stand (5 AVG-clusters) gedocumenteerd. T3-mutaties expliciet (T3-001 + T3-002). Cross-category-rationale als T3-leerpunt gerefereerd. File-hash-mutatie m14-avg-gdpr.ttl v4.6.2 → v4.6.3. Bronlicentie-sectie uitgebreid met evidence-bronnen ISO 27701:2025 + 27002:2022 + AVG EUR-Lex. related-frontmatter geheel uitgebreid (was leeg op SKOS-context); 6 wikilinks. sources-frontmatter toegevoegd
+- [[brain__concepts__concept-register]] *(update)* — Drie bestaande concept-rijen bijgewerkt voor T3-update (skos-beoordelings-protocol naar v1.3 FINAL; mapping-bron-disclaimer-effect met T3-inactief-context; cluster-discipline-bewijslast met T3-complementair-context); één nieuwe rij toegevoegd (cross-category-mappings). Cluster-sectie "SKOS-kwaliteits-methode" uitgebreid van T1+T2-cluster naar T1+T2+T3-cluster. D-cross-reference-tabel + sprint-cross-reference-tabel bijgewerkt
+
+**Deel C — Cross-category-precedent vastleggen:**
+
+Uitgevoerd via [[brain__concepts__cross-category-mappings]] *(nieuw, kandidaat v1.3.1-precedent)*. Concept-bestand markeert expliciet:
+- Status: kandidaat-formalisering voor Protocol v1.3.1
+- Niet uitgevoerd in T3 (Tech-rol-grens)
+- **Niet uitgevoerd in Brein-cyclus iteratie 15** (formalisering blijft masterchat-werk; Brein legt het principe als T3-empirisch precedent vast in vault)
+- Aanbevolen voor masterchat-besluit bij volgende sprint-scoping
+
+**Deel D — Werkflow-wijziging vastleggen:**
+
+- [[brain__workflow__commit-push-werkverdeling]] *(nieuw, confidence high)* — Werkflow-wijziging 28-05-2026: masterchat mag voortaan zelf committen + pushen naar de repo. Vastgesteld door Steven. Onveranderd: subagents (Tech/Brein/Dashboard) committen NOOIT zelfstandig — invariant blijft hard. Onderbouwing invariant (disclosure-discipline, scope-discipline, cross-chat-state, niet-omkeerbare hist). Pending documentatie-bijwerking expliciet genoemd als masterchat-actie bij volgende versie-cut (projectinstructie v1.11 + volgend overdrachtsrapport) — NIET een Brein-taak. Cross-refs naar zes-chat-architectuur, sprint-protocollen, opleveringsprotocol, scope-discipline
+- [[brain__workflow__workflow-register]] *(update)* — Workflow-rij toegevoegd voor commit-push-werkverdeling. Workflow-aantal-totaal: 6 → 7. Post-sprint-cluster aangevuld
+
+**Deel B — Log + Index (afsluiten):**
+
+- [[brain__log]] *(deze entry)* — nieuwste entry bovenaan, iteratie 15
+- [[brain__index]] *(update)* — vault-staat-tabel rij iteratie 15 toegevoegd; baseline van v4.6.2 → v4.6.3; status-overzicht-ontologie ververst; v4.6.3 wijzigingen-blok bijgevoegd; v4.6.2 verschoven naar vorige baseline; H-register-entry-blok bijgewerkt (H36 resolved); cross-ref-overzicht uitgebreid met T3 + cross-category-mappings + commit-push-werkverdeling; volgende-fase-status bijgewerkt naar iteratie 15
+
+**File-count iteratie 15:**
+
+| Onderdeel | Nieuw | Update | Totaal |
+|---|---:|---:|---:|
+| Deel A errata-rapporten | 0 | 2 (t3-stap3-eindrapport + patch-rapport-v4_6_3) | 2 |
+| Deel B T3-sprint | 1 | 1 (sprint-register) | 2 |
+| Deel B D04 | 0 | 1 (D04) | 1 |
+| Deel B H-items | 0 | 4 (H36, H39, H41, H-register) | 4 |
+| Deel B concepts | 0 | 2 (skos-protocol, concept-register) | 2 |
+| Deel B modules | 0 | 1 (M14) | 1 |
+| Deel C cross-category-mappings | 1 | 0 | 1 |
+| Deel D commit-push-werkverdeling | 1 | 1 (workflow-register) | 2 |
+| Deel B log + index | 0 | 2 (log + index) | 2 |
+| **Totaal brain-vault** | **3** | **11** | **14** |
+| Plus errata rapporten | — | 2 | 2 |
+| **Grand total** | **3** | **13** | **16** |
+
+(Bestandstelling brain-vault excl. errata-rapporten — die staan in `output/reports/` en zijn formeel geen vault-bestanden.)
+
+**Cross-referentie-verificatie (Brein-discipline):**
+
+- [[brain__sprints__T3-skos-bidirectional-audit-m14]]: related-frontmatter wijst naar T2, T1, D04, H36, H39, H41 (alle bestaand), skos-beoordelings-protocol (bestaat), cross-category-mappings (nieuw, geen forward-rot), mapping-bron-disclaimer-effect (bestaat), cluster-discipline-bewijslast (bestaat), M14_avg-gdpr (bestaat). Alle targets aanwezig in vault na iteratie 15
+- [[brain__concepts__cross-category-mappings]]: related-frontmatter wijst naar D04, T3, skos-beoordelings-protocol, cluster-discipline-bewijslast, mapping-bron-disclaimer-effect, H36 — alle aanwezig na iteratie 15
+- [[brain__workflow__commit-push-werkverdeling]]: related-frontmatter wijst naar zes-chat-architectuur, sprint-protocollen, opleveringsprotocol, scope-discipline — alle aanwezig
+- D04: related-frontmatter uitgebreid met T3 + cross-category-mappings — alle aanwezig na iteratie 15
+- H36: title + status + related-frontmatter consistent met fully-closed-status; T3 + cross-category-mappings + patch-rapport-v4_6_3 + t3-stap3-eindrapport toegevoegd
+- H39: related-frontmatter uitgebreid met T3 + patch-rapport-v4_6_3 — alle aanwezig
+- H41: related-frontmatter uitgebreid met T3 + patch-rapport-v4_6_3 — alle aanwezig
+- skos-beoordelings-protocol: related-frontmatter uitgebreid met T3 + cross-category-mappings — alle aanwezig
+- M14: related-frontmatter uitgebreid (van 1 naar 6 wikilinks); was zeer minimaal vóór iteratie 15
+- H-register: H36 in Resolved-tabel + iteratie-15-status-mutaties-sectie; H39 + H41 in iteratie-15-mutaties-sectie; H-items-per-D-decision-tabel H36 fully closed onder D4
+- sprint-register: T3-rij in major-milestones (active) + detail-tabel + v4.6.3 baseline-metrics-blok + multiplier-tabel + D-cross-reference-tabel + geplande-sprints-tabel allen consistent
+- concept-register: nieuwe entry-rij (cross-category-mappings) + drie bestaande rijen bijgewerkt + SKOS-kwaliteits-methode-cluster bijgewerkt + D-cross-references + sprint-cross-references
+- workflow-register: nieuwe entry-rij (commit-push-werkverdeling) + post-sprint-cluster aangevuld
+
+**Pre-push disclosure-check (Protocol 14, 5 categorieën) op alle nieuwe/gewijzigde brain-bestanden:**
+
+- (1) **Organisatie-naam:** niet genoemd in enige nieuw of geüpdatet bestand. "De organisatie" of "Rijksoverheidsorganisatie" niet eens gebruikt
+- (2) **Persoonsnamen:** alleen Steven Bouwmeester (publieke projecteigenaar) waar relevant in commit-push-werkverdeling-workflow. Geen andere namen
+- (3) **Lokale paden:** alleen `/Users/stevenbouwmeester/grc-kennismodel/` (project) en `/Users/stevenbouwmeester/grc-sources-licensed/` (NEN-licentie) — referenties via T3-rapporten + M14-bronlicentie-sectie + sprint-bestand. Geen credentials in paden
+- (4) **Credentials / TLD / e-mail-domeinen:** geen
+- (5) **NEN-tekst-fragmenten verbatim >10 woorden:** geen. Alle ISO-citaten zijn parafrase + clausule-verwijzing. Control-name-strings ("Beleidsregels IB", "Use of cryptography", "Plannen incidentbeheer", "Response to information security incidents", "Application security requirements" e.d.) zijn factuele identifier-strings op control-name-niveau, geen guidance- of Control+Purpose-tekst. AVG-artikel-parafrases via m14-rdfs:comment (project-vault, niet NEN-licentie). Strikt gehandhaafd vanwege risico-vermelding in instructie discipline-sectie
+
+**Cross-referentie-integriteits-check uitkomst:**
+
+- Geen dangling wikilinks ontdekt in nieuwe of geüpdatete bestanden
+- Alle nieuwe bestanden (T3-sprint, cross-category-mappings, commit-push-werkverdeling) hebben volledige cross-referenties naar bestaande targets
+- Registers (sprint-register, H-register, concept-register, workflow-register) consistent bijgewerkt met nieuwe entries en status-mutaties
+- Baseline-cijfers M14 SKOS-distributie (2 close / 0 broad / 29 related = 31 totaal) consistent met sprint-bestand + patch-rapport v4.6.3 §0.2
+- Index baseline-metrics v4.6.3 consistent met sprint-register baseline-metrics-blok + patch-rapport v4.6.3 §0.1
+- H36-status-mutatie consistent over H36-bestand, H-register status-overzicht, H-register active-tabel (leeg), H-register resolved-tabel, H-register iteratie-15-status-mutaties-sectie, H-register H-items-per-D-decision-tabel, log-entry, index-entry
+
+**Open punten voor masterchat (niet door Brein opgepakt):**
+
+1. **Protocol v1.3.1-formalisering** — cross-category-mappings-principe expliciet opnemen in `docs/skos-beoordelings-protocol-v1_3_1.md` of als §3.4-aanvulling op v1.3 — masterchat-werk bij volgende sprint-scoping. Brein heeft alleen het empirisch precedent vastgelegd in concept-bestand
+2. **T4-scope-bepaling** — andere SKOS-mapping-clusters (cross-bron-overlap-105, m11, m17, m09, m16 VIRBI, m12 DORA, framework-niveau)
+3. **Projectinstructie v1.11-bijwerking** — commit-push-werkverdeling-update (28-05-2026 masterchat-commit-autonomie) opnemen in §ZEVEN CHATS + gedeelde gedragsregels-sectie
+4. **Volgend overdrachtsrapport** — werkflow-update incorporeren
+5. **Locatie Spoor B-prototype `grc-dashboard-v3-2.html`** — open sinds iteratie 12; niet in deze cyclus opgepakt
+6. **Confidence-verhoging mapping-bron-disclaimer-effect** — vereist tweede onafhankelijke bron-bevestiging
+7. **Dashboard-inhaalslag** — 7 sprints achterstand (parallel, niet-blokkerend)
+
+**Karakter-bevestiging:** geen architectuurbeslissingen autonoom genomen door Brein. H36-status-revisie volgt T3-scope-afsluiting (m14 afgehandeld). H39-versterking volgt T3-empirisch bewijs (bidirectional). H41-T3-bevestiging is informatief (status ongewijzigd; geen masterchat-besluit tot revisie of activering). D4-tekst onveranderd (alleen toepassings-precedent uitgebreid). Cross-category-mappings als concept gemarkeerd als **kandidaat v1.3.1-precedent** — formele protocol-tekst-wijziging is masterchat-werk en NIET door Brein uitgevoerd. Commit-push-werkverdeling-workflow legt vastgestelde werkflow-wijziging vast zonder eigen interpretatie; subagent-invariant blijft hard. Geen ontologie-impact. Geen autonome commits. Errata-correctie is surgisch (T-historie bewaard, §-detail-tekst niet herschreven, patch-impact onveranderd). Discipline-conform instructie-rol-grens (Brein-rol-afbakening + Protocol 11 + Protocol 14 + Protocol v1.3 §10.4).
+
+**Volgende:** Steven inspecteert Deel A errata + Deel B brain-update + Deel C nieuw concept + Deel D nieuw workflow + commit handmatig (per deel of cumulatief — voorstel: één commit per deel of één cumulatieve commit voor brein-cyclus-iteratie-15). Daarna T4-scope-bepaling of Protocol v1.3.1-formalisering in verse masterchat-sessie.
 
 ---
 
