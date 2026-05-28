@@ -4,164 +4,69 @@
 
 ## Wat is dit
 
-Karpathy-stijl digital brain + ontologie-werkfolder voor het GRC Kennismodel-project van de Rijksoverheidsorganisatie. De repo combineert:
+Karpathy-stijl digital brain + ontologie-werkfolder voor het GRC Kennismodel-project. De repo combineert: brain-vault (~101 markdown-bestanden), ontologie-modules (22 .ttl-bestanden, OWL 2 DL), publiek-domein bronnen (NIST / EU-recht / NL-recht / ADR-NOREA / overheid), scripts (canonical metrics + SHACL-validatie), dashboard (grc-explorer + build-pipeline), docs (sprint-instructies + protocollen + handovers + migratie-roadmap).
 
-- **Brain-vault** (~101 markdown-bestanden) — architectuur-beslissingen, sprints, modules, concepts, bronnen, workflows
-- **Ontologie-modules** (22 .ttl-bestanden) — OWL 2 DL formele kennisbasis
-- **Publiek-domein bronnen** — NIST, EU-recht, NL-recht, ADR/NOREA, overheidspublicaties
-- **Scripts** — canonical metrics, SHACL-validatie
-- **Dashboard** — grc-explorer HTML + build-pipeline + JSON-data
-- **Docs** — sprint-instructies, sprint-protocollen, handovers, migratie-roadmap
-
-**Huidige ontologie-baseline:** v4.6.0 (Fase 4 — M15-ENSIA + Volwassenheidsmodel), opgeleverd 21 mei 2026.
+**Huidige ontologie-baseline:** v4.6.3 (T3 m14 AVG/GDPR SKOS-audit, 28 mei 2026).
 **Actuele projectinstructie:** `docs/projectinstructie-v1_10.md` (27 mei 2026). Eerdere versies (`v1_8`, `v1_9`) blijven beschikbaar in `docs/` als historische referentie.
 
-## Karpathy-pattern toepassing
+Kerngedachte (Karpathy LLM-Wiki-pattern): **"compile once, keep current"**. Bronnen worden eenmaal verwerkt naar brain-vault + ontologie; de wiki blijft synchroon met realiteit zonder dat sources telkens herverwerkt worden. Subagents zijn wiki-onderhouders, geen RAG-systemen. Detail + drie-lagen-pattern: zie `.claude/skills/repo-reference/SKILL.md`.
 
-De repo volgt het Karpathy LLM Wiki-patroon ([gist.github.com/karpathy/442a6bf555914893e9891c11519de94f](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), april 2026) met drie lagen:
+## Werk-conventies (always-on invarianten — voor alle subagents)
 
-| Karpathy-laag | Onze invulling |
-|---|---|
-| Raw sources (immutable) | `sources/` (publiek-domein) + claude.ai PK (NEN-restrictief) |
-| The wiki (LLM-maintained) | `brain/` + `ontology/` + `output/` + `dashboard/` |
-| The schema (config) | Dit CLAUDE.md + `docs/sprint-protocols.md` + `.claude/agents/*.md` |
-
-Kerngedachte: **"compile once, keep current"**. Bronnen worden eenmaal verwerkt naar brain-vault + ontologie; de wiki blijft synchroon met realiteit zonder dat sources telkens herverwerkt worden. Subagents zijn wiki-onderhouders, geen RAG-systemen.
-
-## Repo-structuur
-
-```
-grc-kennismodel/
-├── brain/                    ~101 brain__*.md (vault)
-├── ontology/                 22 .ttl-modules v4.6.0
-├── sources/                  publiek-domein bronnen (zie sectie "Externe bronnen")
-│   ├── adr-norea/
-│   ├── ensia/
-│   ├── eu-recht/
-│   ├── nl-recht/
-│   ├── nist/
-│   └── overheid/
-├── dashboard/                grc-explorer HTML + build-pipeline + JSON-data
-│   ├── build_grc_explorer_v3.py
-│   ├── grc-data-v4_6_0.json
-│   ├── grc-data-v4_6_0.js
-│   └── grc-explorer-v4_6_0.html
-├── docs/
-│   ├── sprint-protocols.md       verplichte werkwijze tijdens sprints
-│   ├── migratie-roadmap.md       levend uitvoeringsdocument
-│   ├── instructies/              masterchat → tech-subagent
-│   └── handovers/                master-handover-documenten
-├── scripts/                  canonical metrics + SHACL-validatie + utilities
-├── output/
-│   ├── reports/              patch-rapporten, inventarisaties, tussenrapporten, scope-pauzes, lint-rapporten
-│   └── verification/         canonical_metrics_*.json + shacl_results_*.json + file_hashes_*.txt + bijbehorende Python-scripts
-├── .claude/agents/           drie subagent-configs (Tech, Brein, Dashboard)
-├── CLAUDE.md                 dit document
-└── README.md                 publieke projectbeschrijving
-```
-
-**Let op**: `.claude/` map heeft punt-prefix (Unix-conventie). Op macOS-Finder verborgen tenzij Cmd+Shift+. wordt gedrukt.
-
-## Dashboard-productlijnen (Spoor A vs Spoor B)
-
-Twee parallelle dashboard-productlijnen met fundamenteel verschillende doelen:
-
-- **`grc-explorer-*`** (Spoor A) — read-only ontologie-graaf-verkenner; data uit `grc-data-v[X_Y_Z].js`; Cytoscape.js-engine; beweegt mee met ontologie-versie. Actueel: `dashboard/grc-explorer-v4_6_0.html`.
-- **`grc-dashboard-*`** (Spoor B) — operationele werkmap-prototype voor CRUD, audit-trail, kalender, RACI; data uit lokale SQL.js `.db`; Chart.js + SQL.js-engine; eigen versie-track. Actueel: `grc-dashboard-v3-2.html` (bewust lokaal bij Steven gehouden, niet in repo; trigger-condities voor heroverweging in concept-bestand).
-
-Niet vermengen in één UI — verschillende doelen, datamodel en engine. Detail + discipline: zie `brain/brain__concepts__dashboard-productlijnen.md`. Scope-afbakening van H40 (UI-renderdekking) betreft uitsluitend Spoor A.
-
-## Brain-vault organisatie
-
-Files in `brain/` zijn **flat** met folder-structuur gecodeerd via `__`-separator (compatible met claude.ai Project Knowledge platte filelijst):
-
-| Patroon | Inhoud | Aantal |
-|---|---|---:|
-| `brain__decisions__D{NN}_*.md` | D-decisions (immutable na vaststelling) | 12 + register |
-| `brain__sprints__v{X_Y_Z}_*.md` | Sprint-files (immutable na release) | 14 + register |
-| `brain__architecture__H{NN}_*.md` | H-items (open architectuur-vragen) | 11 + register |
-| `brain__concepts__*.md` | Concepts / domein-glossary | 13 + register |
-| `brain__modules__M{NN}_*.md` | Modules M01-M18 + M21 (living) | 19 + register |
-| `brain__sources__*.md` | Input-bronnen + licentie + parsing-leidraad | 7 + register |
-| `brain__workflow__*.md` | Chat-rollen, scope-discipline, sprint-protocollen | 6 + register |
-| `brain__scope__*.md` | Bewuste uitsluitingen + hardverwijderd | 4 + register |
-
-Plus root-files: `brain__index.md`, `brain__log.md`, `brain__smoke-tests.md`, `brain__archeology-report.md`, `brain__CLAUDE.md` (vault-spec), `brain__obsidian-migration-guide.md`.
-
-Vault-spec voor brain-onderhoud: zie `brain/brain__CLAUDE.md`.
-
-## Werk-conventies (verplicht voor alle subagents)
+Deze zes regels gelden ZONDER UITZONDERING. Niet onderhandelbaar, niet per sprint, niet via subagent-autonomie.
 
 - **Communicatie in het Nederlands** — ontologie-annotaties bilinguaal @nl/@en (D6)
 - **Organisatienaam wordt NOOIT genoemd** — altijd "de organisatie" of "Rijksoverheidsorganisatie"
 - **Framework-neutraal** (D9) — alle frameworks gelijkwaardig; BIO 2.0 alleen als view-keuze in dashboard, niet architecturaal
-- **Scope-discipline** — bij scope-afwijking PAUZE en rapport (Optie A/B/C); niet zelf interpreteren. Zie `docs/sprint-protocols.md` voor exacte triggers
-- **D-decisions zijn immutable** — wijziging vereist masterchat-goedkeuring in claude.ai (via Steven als tussenmens)
+- **NEN-parafrase-discipline** — NEN-tekst NOOIT verbatim in repo / commit / Turtle / rapport-output; alleen parafrase + clausule-verwijzing (Protocol 17)
+- **Status-discipline** — CBW "in voorbereiding", Cbb "concept", overige bronnen status-conform; geen anachronistische status-toekenning
+- **BBN-correctie** — Handreiking BBN-waarden conform actuele canonieke meting (zie `output/verification/canonical_metrics_v*.json`); geen geheugen-tellingen
+- **Subagents committen NOOIT zelfstandig** — Steven inspecteert `git status`/`git diff` en commit handmatig. Codificeerd in `.claude/settings.json` als hard deny op `Bash(git commit:*)` / `Bash(git push:*)`. §0.5-firewall: geen autonome commit-paden, geen green-gate, geen sunset-flag
+
+Plus operationele discipline:
+- **Scope-discipline** — bij scope-afwijking PAUZE + rapport (Optie A/B/C); niet zelf interpreteren. Triggers in `docs/sprint-protocols.md` §15
+- **D-decisions zijn immutable** — wijziging vereist masterchat-goedkeuring in claude.ai (via Steven)
 - **Append-only log** — `brain/brain__log.md` nieuwste entry bovenaan, alleen append nooit edit
-- **Sprint-protocollen verplicht** — alle 12 protocollen + 1 gedragsregel uit `docs/sprint-protocols.md` zijn niet-onderhandelbaar
-- **Bron-attribuering** — bij gebruik externe bronmaterialen: `ext:sourceAttribution` declareren; SHA256 bij snapshot-bronnen
+- **Sprint-protocollen verplicht** — alle protocollen + gedragsregel uit `docs/sprint-protocols.md` zijn niet-onderhandelbaar
+- **Bron-attribuering** — bij externe bronmaterialen: `ext:sourceAttribution` declareren; SHA256 bij snapshot-bronnen
+
+## Dashboard-productlijnen (Spoor A vs Spoor B)
+
+Twee parallelle dashboard-productlijnen met fundamenteel verschillende doelen — niet vermengen in één UI:
+
+- **`grc-explorer-*`** (Spoor A) — read-only ontologie-graaf-verkenner; data uit `grc-data-v[X_Y_Z].js`; Cytoscape.js; beweegt mee met ontologie-versie. Actueel: `dashboard/grc-explorer-v4_6_0.html`.
+- **`grc-dashboard-*`** (Spoor B) — operationele werkmap-prototype (CRUD, audit-trail, kalender, RACI); data uit lokale SQL.js `.db`; Chart.js + SQL.js; eigen versie-track. Actueel: `grc-dashboard-v3-2.html` (bewust lokaal, niet in repo).
+
+Scope-afbakening van H40 (UI-renderdekking) betreft uitsluitend Spoor A. Detail + discipline: `brain/brain__concepts__dashboard-productlijnen.md`.
+
+## Repo-structuur (samenvatting)
+
+| Top-level | Inhoud |
+|---|---|
+| `brain/` | ~101 brain__*.md (vault, flat met `__`-separator-conventie) |
+| `ontology/` | 22 .ttl-modules (huidig: v4.6.3) — TBox + ABox + SHACL-shapes |
+| `sources/` | Publiek-domein bronnen (`adr-norea/`, `ensia/`, `eu-recht/`, `nl-recht/`, `nist/`, `overheid/`) |
+| `dashboard/` | grc-explorer HTML + build-pipeline + JSON/JS-data (Spoor A) |
+| `docs/` | sprint-protocols.md, migratie-roadmap.md, instructies/, handovers/ |
+| `scripts/` | utilities (canonical metrics + SHACL-validatie staan in `output/verification/`) |
+| `output/reports/` | patch-rapporten, inventarisaties, tussenrapporten, scope-pauzes, lint-rapporten |
+| `output/verification/` | `canonical_metrics_v*.{py,json}` + `shacl_split_validate_v*.py` + `shacl_results_v*.json` + `file_hashes_v*.txt` |
+| `.claude/agents/` | drie subagent-configs (tech / brein / dashboard) |
+| `.claude/hooks/` | defensieve hooks (secret-scan, disclosure-check, versie-suffix, sessionstart) |
+| `.claude/skills/` | action + reference skills (canonical-metrics, shacl-split, patch-rapport, ontology-conformance, report-structure, repo-reference) |
+| `.claude/settings.json` | permissions + hooks-config |
+
+Volledig boom-diagram + brain-vault-tabel met aantallen: zie `.claude/skills/repo-reference/SKILL.md` (description-triggered).
 
 ## Hoe te lezen (entry-points)
 
 Bij een nieuwe vraag over het project:
 
-1. **`brain/brain__index.md`** — masteroverzicht en huidige baseline
-2. **`brain/brain__{folder}__-register.md`** — navigatie binnen specifiek domein (decisions/sprints/etc.)
-3. **`brain/brain__log.md`** — chronologische context, laatste sprints
+1. `brain/brain__index.md` — masteroverzicht en huidige baseline
+2. `brain/brain__{folder}__-register.md` — navigatie binnen specifiek domein (decisions / sprints / H-items / concepts / modules / sources / workflow / scope)
+3. `brain/brain__log.md` — chronologische context, laatste sprints
 
-Voor specifieke onderwerpen: zoek op D-nummer, H-nummer, M-nummer, versienummer of framework-naam.
-
-Voor werkwijze: **`docs/sprint-protocols.md`** is autoritatief.
-
-## Operations
-
-Karpathy's drie-operations-pattern (Ingest/Query/Lint), aangevuld met onze File-back-discipline.
-
-### Ingest
-
-Twee paden afhankelijk van scope:
-
-| Pad | Trigger | Workflow |
-|---|---|---|
-| **Sprint-ingest** (groot) | Masterchat-instructie voor sprint-werk | Volledige sprint-cyclus via `docs/sprint-protocols.md`. Per ingest worden 8-15 brain-pagina's geraakt. |
-| **Losse bron-ingest** (klein) | Nieuwe versie bestaande bron (bv. nieuwe ENSIA-handreiking) zonder TBox-impact | Bron in `sources/`; relevant `brain__sources__*.md` bijwerken; eventuele log-entry; geen volledige sprint. Bij twijfel of bron TBox-implicaties heeft: escaleer naar Steven voor masterchat-overleg. |
-
-Bron-typo-beleid (sprint-protocol §1.9): typo's in nieuwe-individu rdfs:label corrigeren; typo's in referentie-targets behouden.
-
-### Query
-
-Wanneer een subagent (Tech/Brein/Dashboard) een vraag krijgt van masterchat (via Steven):
-
-1. Start bij `brain__index.md` voor scope-bepaling
-2. Drill via relevante register (decisions/sprints/H-items/concepts/modules/sources/workflow/scope)
-3. Lees specifieke brain-bestanden
-4. Synthesize antwoord met bron-citaties (welke brain-bestanden gebruikt)
-5. Indien antwoord een blijkend nieuw inzicht oplevert dat algemeen relevant is: zie File-back hieronder
-
-### Lint
-
-Periodieke health-check van brain-vault. Niet sprint-gebonden, maar planbaar (suggestie: na elke 3 minor-releases of bij twijfel over coherentie).
-
-Brein-subagent draait gestructureerde check:
-
-- Contradicties tussen registers (bv. H-register zegt H36 active maar concepts-register noemt het closed)
-- Stale H-items (open >6 maanden zonder trigger-update)
-- Orphan brain-bestanden (geen inbound wikilinks vanuit register)
-- Missing cross-references (D-decision X verwijst niet naar relevante H-items)
-- Outdated baseline-cijfers in modules/sprints na latere correcties
-
-Output: lint-rapport in `output/reports/lint-<datum>.md`. Bevat severity-tiered findings (🔴 errors / 🟡 warnings / 🔵 info) met concrete fix-voorstellen. Masterchat beslist welke fixes uitgevoerd worden.
-
-### File-back
-
-Belangrijke Q&A-inzichten uit masterchat-sessies (claude.ai) of subagent-query's (Claude Code) blijven niet hangen in chat-historie — ze landen terug in de brain-vault als concept-file of H-item.
-
-**Regels:**
-
-- Tech/Brein/Dashboard-subagent kan een **file-back-voorstel** doen ("dit antwoord lijkt nieuw inzicht — concept-file vereist?")
-- File-back wordt nooit autonoom uitgevoerd door subagent — altijd masterchat-besluit via Steven
-- File-back gebeurt typisch tijdens volgende Brein-cyclus (na sprint-afsluiting) of via Brein-tussentijdse activering bij urgentie
-- File-back-criterium: inzicht komt twee of meer keer terug in conversaties zonder centrale documentatie
+Voor specifieke onderwerpen: zoek op D-nummer, H-nummer, M-nummer, versienummer of framework-naam. Voor werkwijze: **`docs/sprint-protocols.md`** is autoritatief. Voor patch-rapport-skelet: skill `/patch-rapport`. Voor canonical metrics + SHACL: skills `/canonical-metrics` + `/shacl-split`.
 
 ## Subagents (drie in deze repo)
 
@@ -173,37 +78,33 @@ Drie chats zijn naar Claude Code gemigreerd; vier blijven in claude.ai.
 | **Brein** | Brain-vault-onderhoud na elke minor-release | `.claude/agents/brein.md` |
 | **Dashboard** | Visualisatie + grc-explorer.html + build-pipeline | `.claude/agents/dashboard.md` |
 
-Aanroepen vanuit Claude Code: `claude --agent tech` of via Task-tool binnen een hoofdsessie.
-
-Tech- en Dashboard-subagent-configs incorporeren expliciet de Karpathy LLM coding-discipline (vier principes uit [github.com/multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)): Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution. Beide chats doen actief code-werk; discipline-laag is daar relevant.
+Aanroepen vanuit Claude Code: `claude --agent tech` of via Task-tool. Tech- en Dashboard-configs incorporeren de Karpathy LLM coding-discipline (Think Before Coding / Simplicity First / Surgical Changes / Goal-Driven Execution).
 
 ### Chats die in claude.ai blijven (geen subagent-config in deze repo)
 
-| Chat | Reden niet migreren |
-|---|---|
-| **Master** | Strategisch sparren past niet in terminal-only Claude Code |
-| **Documentatie** | Tekst-werk past bij conversationele chat |
-| **Analyse** | Incidenteel exploratief werk |
-| **Asset** | Afgerond sinds M18-oplevering (v4.2.0), stand-by |
+- **Master** — strategisch sparren (terminal-only past niet)
+- **Documentatie** — tekst-werk (conversationeel)
+- **Analyse** — incidenteel exploratief
+- **Asset** — afgerond sinds M18-oplevering (v4.2.0), stand-by
 
 Werkproces tussen Claude Code en claude.ai: Steven (projecteigenaar) is tussenmens bij scope-pauzes en architectuur-beslissingen. Subagent escaleert naar Steven; Steven raadpleegt Master-chat in claude.ai; Steven brengt besluit terug.
 
 ## Cross-chat-bewustzijn
 
-De repo is **shared state** tussen alle Claude-sessies (subagents in Claude Code én chats in claude.ai). Werk-wijzigingen worden:
+De repo is shared state tussen alle Claude-sessies (subagents Claude Code én chats claude.ai). Werk-wijzigingen worden:
 
-1. **In de vault/ontology/scripts/dashboard gepersisteerd** (file edits)
-2. **`brain/brain__log.md` ge-update** (nieuwste entry bovenaan; alleen append)
-3. **Via git gecommit** met betekenisvolle commit messages
-4. **Bij sessie-start gelezen** door volgende subagent via `brain__log.md` + relevante registers
+1. In de vault/ontology/scripts/dashboard gepersisteerd (file edits)
+2. `brain/brain__log.md` ge-update (append-only, nieuwste entry bovenaan)
+3. Via git gecommit (Steven handmatig) met betekenisvolle commit messages
+4. Bij sessie-start gelezen door volgende subagent via `brain__log.md` + relevante registers + SessionStart-hook (`.claude/hooks/sessionstart-context.sh`)
 
 Geen externe coördinatie nodig — git history + `brain__log.md` vormen de timeline.
 
-Voor sync met claude.ai PK: zie `docs/migratie-roadmap.md` sectie "Anthropic bug #33875 — mitigatie" (PAT + periodieke export-fallback).
+Voor sync met claude.ai PK: zie `docs/migratie-roadmap.md` sectie "Anthropic bug #33875 — mitigatie".
 
 ## Sprint-werkproces (samenvatting)
 
-Volledige procedure: zie `docs/sprint-protocols.md`. Korte samenvatting voor context:
+Volledige procedure: `docs/sprint-protocols.md`. Korte samenvatting:
 
 1. Masterchat (claude.ai) schrijft sprint-instructie → `docs/instructies/instructie-v4.X.Y.md`
 2. Steven pusht naar GitHub
@@ -214,64 +115,37 @@ Volledige procedure: zie `docs/sprint-protocols.md`. Korte samenvatting voor con
 7. Brein-subagent (Claude Code) doet brain-update post-release
 8. Steven pusht, sync naar PK
 
-Stap 5 is de **scope-pauze-route**. Zie `docs/sprint-protocols.md` voor exacte triggers.
-
-## Skills-ecosystem-positionering
-
-Het Claude-ecosystem heeft vier extension-mechanismen die in deze repo verschillend worden ingezet:
-
-| Mechanisme | Wat | Onze invulling |
-|---|---|---|
-| **CLAUDE.md** | Autoload-context per repo | Dit document + `brain/brain__CLAUDE.md` |
-| **Subagents** | Specialized sub-instances voor task isolation | Tech, Brein, Dashboard (zie `.claude/agents/`) |
-| **Skills** | On-demand workflows (SKILL.md + frontmatter); Claude beslist zelf wanneer aan te roepen | Geen eigen skills nu — externe kandidaten in evaluatie post-migratie (zie hieronder) |
-| **MCP servers** | Externe tools via protocol | Geen actief nu — open-ontologies-MCP onder evaluatie (zie H-register) |
-
-Externe skills/tools onder evaluatie voor post-migratie inzet:
-
-### Tier 1 — GRC-domein
-
-| Bron | Status | Use-case |
-|---|---|---|
-| [Sushegaad/Claude-Skills-Governance-Risk-and-Compliance](https://github.com/Sushegaad/Claude-Skills-Governance-Risk-and-Compliance) | Te evalueren post-migratie | Kennis-injectie tijdens sprint-werk voor ISO 27001, NIST CSF, NIS2, ISO 42001 (M19), DORA, GDPR, ISO 27701 |
-| [GRCEngClub/claude-grc-engineering](https://github.com/GRCEngClub/claude-grc-engineering) | Te evalueren post-migratie | Evidence collection, SCF crosswalks, OSCAL workflows. Past beter bij Spoor B / lab-test-fase |
-
-**Caveat voor Tier 1**: skills zijn niet auditief geverifieerd. NEN-tekst, EU-Publications-Office en NIST.gov blijven autoritatieve bron. Skills dienen als snelle semantische context, niet als bron-vervanger.
-
-### Tier 2 — Ontologie + brain-vault
-
-| Bron | Status | Use-case |
-|---|---|---|
-| [fabio-rovai/open-ontologies (MCP)](https://github.com/fabio-rovai/open-ontologies) | H-item geregistreerd; te evalueren post-migratie | Alternatief voor rdflib+owlrl+pySHACL — Rust binary met Oxigraph + tableaux-reasoner. Sterker dan OWL RL voor OWL 2 DL. Niet vervangen, eerst evalueren |
-| [kfchou/wiki-skills](https://github.com/kfchou/wiki-skills) | Te evalueren post-migratie | Karpathy LLM Wiki pattern voor periodieke brain-vault lint. Aanvulling op sprint-driven Brein-cyclus |
-
-Beide Tier 2-skills te evalueren wanneer eerste post-migratie-sprint (v4.7.0) is voltooid en stabiele werkbasis bestaat.
+Stap 5 is de scope-pauze-route. Triggers in `docs/sprint-protocols.md` §15.
 
 ## Externe bronnen (NIET in deze repo)
 
 | Categorie | Locatie | Reden |
 |---|---|---|
-| NEN-restrictief (ISO 27001/27002/27005/31000/22301/22313) | claude.ai PK | Licentie verbiedt git-publicatie |
+| NEN-restrictief (ISO 27001/27002/27005/31000/22301/22313) | claude.ai PK + `/Users/stevenbouwmeester/grc-sources-licensed/` (lokaal, gitignored) | Licentie verbiedt git-publicatie |
 | Patch-rapporten (historisch) | claude.ai PK + `output/reports/` (per release) | Historisch + actueel beide beschikbaar |
 | Brain-vault-uploads pre-migratie | claude.ai PK | Migratie-bron — read-only referentie |
 
-Subagent moet bij behoefte aan NEN-restrictieve bron **escaleren naar Steven** — niet via web zoeken, niet aannames doen.
+Subagent moet bij behoefte aan NEN-restrictieve bron **escaleren naar Steven** als lokale `grc-sources-licensed/`-toegang niet voldoende is — niet via web zoeken, niet aannames doen.
 
-## Optional tooling
+## Reference (verplaatst naar skills)
 
-Aanbevolen tools voor brain-vault-onderhoud en query — alle optioneel, geen verplichting:
+Het volgende is bewust UIT deze always-on-context gehaald — vraag of lees gericht wanneer relevant:
 
-| Tool | Doel | Wanneer relevant |
-|---|---|---|
-| **Obsidian** | Brain-vault-browsing met graph-view en wikilink-resolutie | Lokaal werken in vault; zie ook `brain/brain__obsidian-migration-guide.md` |
-| **qmd** ([tobi/qmd](https://github.com/tobi/qmd)) | Hybride BM25 + vector search over markdown-vault | Wanneer brain >150 bestanden wordt en `brain__index.md` als entry-point ontoereikend wordt |
-| **Dataview** (Obsidian-plugin) | Frontmatter-queries over brain-vault | Voor cross-cutting overzichten (bv. "alle H-items van status 'open' gesorteerd op datum") |
-| **Mermaid** (in markdown) | Architectuur-diagrammen inline in brain-bestanden | Voor visuele toelichting van complexe relaties tussen modules/decisions |
+- **Karpathy LLM-Wiki drie-lagen-pattern** (raw sources / wiki / schema) — `.claude/skills/repo-reference/SKILL.md`
+- **Volledig repo-boom-diagram met sub-folders** — `.claude/skills/repo-reference/SKILL.md`
+- **Brain-vault organisatie-tabel met patronen + aantallen** — `.claude/skills/repo-reference/SKILL.md`
+- **Operations-pattern Ingest/Query/Lint/File-back-detail** — `.claude/skills/repo-reference/SKILL.md`
+- **Skills-ecosystem-positionering (4 mechanismen + Tier 1/2-tabellen)** — `.claude/skills/repo-reference/SKILL.md`
+- **Optional tooling (Obsidian / qmd / Dataview / Mermaid)** — `.claude/skills/repo-reference/SKILL.md`
 
-Niet aanbevolen voor dit project (afwijkend van Karpathy-pattern):
-- **Obsidian Web Clipper** — wij krijgen bronnen via formele kanalen, geen web-scraping
-- **Marp** — wij maken geen presentaties uit brain-vault
-- **Vector-database voor RAG** — Karpathy-pattern verwerpt RAG; index + register volstaat tot ~500 bestanden
+Path-scoped reference (auto-load bij relevante paden):
+- **D1–D12 + D4.1-conformance-checklist** — `.claude/skills/ontology-conformance/SKILL.md` (`paths: ontology/*.ttl`)
+- **Patch-rapport-skelet + bron-typo-beleid + Protocol v1.3 §10.2-§10.5** — `.claude/skills/report-structure/SKILL.md` (`paths: output/reports/*`)
+
+Action-skills:
+- **`/canonical-metrics`** — canonieke meet-procedure (Tooling-01)
+- **`/shacl-split`** — gesplitste SHACL-validatie A/B/COMBINED (Tooling-01)
+- **`/patch-rapport`** — §0-§15-skelet-generator (Tooling-02)
 
 ## Spoor B-overweging (toekomst)
 
@@ -289,5 +163,6 @@ Dit document wijzigt alleen bij wijzigingen in repo-structuur, subagent-architec
 | 2026-05-22 | 1.3 | Repo-structuur-update na Steven's structuur-aanmaak: `dashboard/` als toplevel toegevoegd; `output/reports/` + `output/verification/` sub-structuur; `sources/` sub-folders expliciet getoond (adr-norea/ensia/eu-recht/nl-recht/nist/overheid); `docs/migratie-roadmap.md` op toplevel (niet in handovers); macOS-Finder-note over `.claude/` punt-prefix. |
 | 2026-05-26 | 1.4 | Iteratie 12 polish-mini-sprint: nieuwe korte sectie "Dashboard-productlijnen (Spoor A vs Spoor B)" tussen repo-structuur en brain-vault-organisatie. Verwijst naar nieuw concept-bestand `brain__concepts__dashboard-productlijnen.md` voor detail. Geen wijziging aan andere secties. |
 | 2026-05-27 | 1.5 | Projectinstructie-referenties bijgewerkt na v1.10-publicatie (27 mei 2026): "Actuele projectinstructie"-regel verwijst naar `docs/projectinstructie-v1_10.md` (was v1.9 in PK); rij "Projectinstructie v1.9" verwijderd uit Externe bronnen-tabel (projectinstructie staat sinds v1.8 in `docs/`, niet meer extern). |
+| 2026-05-28 | 1.6 | Tooling-02 herstructurering — always-on-laag afgeslankt (~293 → ~140 regels). Verplaatst naar `.claude/skills/repo-reference/`: Karpathy drie-lagen-pattern detail, volledige repo-boom, brain-vault-organisatie-tabel met aantallen, Operations Ingest/Query/Lint/File-back detail, skills-ecosystem 4-mechanismen + Tier 1/2-tabellen, optional tooling-lijst. Nieuwe path-scoped skills: `ontology-conformance` (`paths: ontology/*.ttl`) + `report-structure` (`paths: output/reports/*`). Nieuwe action-skill: `/patch-rapport`. Always-on-invarianten samengevoegd tot één expliciete Werk-conventies-sectie incl. "subagents committen NOOIT zelfstandig" (codificering uit Tooling-01). Verplaatst/gebleven-tabel in `output/reports/tooling-02-implementatierapport.md`. Baseline-versie bijgewerkt naar v4.6.3 (T3 m14 AVG/GDPR). |
 
 — Einde CLAUDE.md
