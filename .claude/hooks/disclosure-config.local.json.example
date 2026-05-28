@@ -1,7 +1,15 @@
 {
-  "_description": "Voorbeeld lokale disclosure-config. Hernoem naar disclosure-config.local.json en vul werkelijke waarden in. Lokale entries vervangen versioned entries (geen merge). NIET committen.",
+  "_description": "Voorbeeld lokale disclosure-config. Hernoem naar disclosure-config.local.json (gitignored) en vul met werkelijke waarden. Lokale entries vervangen versioned entries volledig (geen merge), dus alle benodigde velden hieronder zelf invullen. NIET committen.",
+
   "organization_names": ["VoorbeeldOrganisatie", "VBOrg"],
-  "organization_tlds": ["voorbeeld.nl"],
+  "organization_tlds": [],
   "organization_email_domains": ["voorbeeld.nl"],
-  "person_names_to_block": ["Jan Jansen", "Pieter Pieters"]
+  "person_names_to_block": ["Jan Jansen", "Pieter Pieters"],
+
+  "allowed_persons": ["Steven", "Steven Bouwmeester", "Steven Bouw", "steven_bouw"],
+  "allowed_emails": ["steven_bouw@live.nl"],
+  "allowed_local_path_prefixes": [
+    "/Users/stevenbouwmeester/Desktop/grc-kennismodel/",
+    "/Users/stevenbouwmeester/grc-sources-licensed/"
+  ]
 }

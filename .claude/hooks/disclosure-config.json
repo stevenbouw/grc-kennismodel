@@ -1,5 +1,5 @@
 {
-  "_description": "Disclosure-check configuratie voor Protocol 14 categorieën 1-4. Plaats werkelijke organisatie-namen, TLD's en persoonsnamen in disclosure-config.local.json (gitignored). Dit bestand bevat alleen placeholders en allow-listen.",
+  "_description": "Disclosure-check baseline-configuratie voor Protocol 14 categorieën 1-4. Dit versioned bestand bevat ALLEEN lege placeholders + scan-scope. Plaats werkelijke organisatie-namen, persoonsnamen, e-mail-domeinen, allowed-persons, allowed-emails en allowed-local-path-prefixes in disclosure-config.local.json (gitignored). Lokale entries vervangen versioned entries (geen merge). Zie disclosure-config.local.json.example voor de template.",
   "_versioned_safe_to_commit": true,
 
   "organization_names": [],
@@ -7,12 +7,9 @@
   "organization_email_domains": [],
   "person_names_to_block": [],
 
-  "allowed_persons": ["Steven Bouwmeester", "Steven Bouw", "steven_bouw"],
-  "allowed_emails": ["steven_bouw@live.nl"],
-  "allowed_local_path_prefixes": [
-    "/Users/stevenbouwmeester/Desktop/grc-kennismodel/",
-    "/Users/stevenbouwmeester/grc-sources-licensed/"
-  ],
+  "allowed_persons": [],
+  "allowed_emails": [],
+  "allowed_local_path_prefixes": [],
 
   "scan_scopes": {
     "include_extensions": [".md", ".ttl", ".py", ".json", ".txt", ".yml", ".yaml", ".html", ".js", ".rq", ".sh"],
