@@ -114,8 +114,8 @@ compl:AVG_Art34
 # --- Art. 5(1)(f): Integriteit en vertrouwelijkheid ---
 # Breed principe: raakt alle controls die CIA waarborgen
 compl:AVG_Art5_1f
-    skos:broadMatch ctrl:ISO27002_5_01 ;    # Beleidsregels IB
-    skos:broadMatch ctrl:ISO27002_5_12 ;    # Classificeren informatie
+    skos:relatedMatch ctrl:ISO27002_5_01 ;    # Beleidsregels IB
+    skos:relatedMatch ctrl:ISO27002_5_12 ;    # Classificeren informatie
     skos:relatedMatch ctrl:ISO27002_5_15 ;  # Toegangsbeveiliging
     skos:relatedMatch ctrl:ISO27002_8_24 ;  # Cryptografie
     skos:relatedMatch ctrl:ISO27002_8_10 ;  # Wissen van informatie

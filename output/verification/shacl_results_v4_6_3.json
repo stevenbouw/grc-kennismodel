@@ -1,0 +1,63 @@
+{
+  "section_a_none": {
+    "description": "SECTIE A (ctrl/bio ISO27002NamingShape, HandreikingBBNValueShape, asset:NamespaceShape) onder inference='none'",
+    "inference": "none",
+    "shapes": [
+      "https://grc.example.org/asset/NamespaceShape",
+      "https://grc.example.org/bio/ISO27002NamingShape",
+      "https://grc.example.org/control/HandreikingBBNValueShape",
+      "https://grc.example.org/control/ISO27002NamingShape"
+    ],
+    "conforms": true,
+    "violations": 0,
+    "violations_per_shape": {}
+  },
+  "section_b_owlrl": {
+    "description": "SECTIE B (AppliesToAssetTypeRangeShape, BVASymmetryShape, OrphanClassShape) onder inference='owlrl'",
+    "inference": "owlrl",
+    "shapes": [
+      "https://grc.example.org/asset/AppliesToAssetTypeRangeShape",
+      "https://grc.example.org/asset/BVASymmetryShape",
+      "https://grc.example.org/asset/OrphanClassShape"
+    ],
+    "conforms": true,
+    "violations": 0,
+    "violations_per_shape": {}
+  },
+  "combined_owlrl": {
+    "description": "Volledige shapes-set onder inference='owlrl' (T1-precedent RUN 2)",
+    "inference": "owlrl",
+    "shapes": [
+      "https://grc.example.org/asset/AppliesToAssetTypeRangeShape",
+      "https://grc.example.org/asset/BVASymmetryShape",
+      "https://grc.example.org/asset/NamespaceShape",
+      "https://grc.example.org/asset/OrphanClassShape",
+      "https://grc.example.org/bio/ISO27002NamingShape",
+      "https://grc.example.org/control/HandreikingBBNValueShape",
+      "https://grc.example.org/control/ISO27002NamingShape"
+    ],
+    "conforms": false,
+    "violations_total": 290,
+    "violations_per_shape": {
+      "https://grc.example.org/bio/ISO27002NamingShape": 93,
+      "https://grc.example.org/asset/NamespaceShape": 104,
+      "https://grc.example.org/control/ISO27002NamingShape": 93
+    },
+    "baseline_v4_6_2": 290,
+    "delta_vs_v4_6_2": 0
+  },
+  "run1_none": {
+    "conforms": true,
+    "violations": 0,
+    "violations_per_shape": {}
+  },
+  "run2_owlrl": {
+    "conforms": false,
+    "violations_total": 290,
+    "violations_per_shape": {
+      "https://grc.example.org/bio/ISO27002NamingShape": 93,
+      "https://grc.example.org/asset/NamespaceShape": 104,
+      "https://grc.example.org/control/ISO27002NamingShape": 93
+    }
+  }
+}
