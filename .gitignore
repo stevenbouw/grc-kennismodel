@@ -39,6 +39,8 @@ output/tmp/
 # Geheim
 .env.local
 secrets.json
+.claude/hooks/*.local.json
+.claude/settings.local.json
 
 # Defensief — voor het geval licentie-bronnen ooit per ongeluk in repo komen
 sources-licensed/

@@ -1,0 +1,26 @@
+{
+  "_description": "Disclosure-check configuratie voor Protocol 14 categorieën 1-4. Plaats werkelijke organisatie-namen, TLD's en persoonsnamen in disclosure-config.local.json (gitignored). Dit bestand bevat alleen placeholders en allow-listen.",
+  "_versioned_safe_to_commit": true,
+
+  "organization_names": [],
+  "organization_tlds": [],
+  "organization_email_domains": [],
+  "person_names_to_block": [],
+
+  "allowed_persons": ["Steven Bouwmeester", "Steven Bouw", "steven_bouw"],
+  "allowed_emails": ["steven_bouw@live.nl"],
+  "allowed_local_path_prefixes": [
+    "/Users/stevenbouwmeester/Desktop/grc-kennismodel/",
+    "/Users/stevenbouwmeester/grc-sources-licensed/"
+  ],
+
+  "scan_scopes": {
+    "include_extensions": [".md", ".ttl", ".py", ".json", ".txt", ".yml", ".yaml", ".html", ".js", ".rq", ".sh"],
+    "skip_paths": [
+      ".claude/hooks/disclosure-check.py",
+      ".claude/hooks/disclosure-config.json",
+      ".claude/hooks/disclosure-config.local.json",
+      "docs/sprint-protocols.md"
+    ]
+  }
+}
