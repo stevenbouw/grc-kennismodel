@@ -3,7 +3,7 @@
 **Voor:** Tech-subagent in Claude Code — toepassing vanaf T3-sprint of m14-sprint (afhankelijk van masterchat-scope-besluit)
 **Auteur:** Masterchat
 **Datum:** 27 mei 2026
-**Status:** **DRAFT** — vaststelling pending bij eerstvolgende sprint-scoping-sessie
+**Status:** **FINAL** — vastgesteld door masterchat 28 mei 2026 (T3-scoping)
 **Aanleiding:** T2-sprint-leerpunten (pilot-rapport §7.3 + Stap 3-rapport §6 + patch-rapport v4.6.2 §13.3/§13.6) + masterchat-werkflow-leerpunt (patch-rapport §13.2). v1.2 was operationeel autoritatief tijdens T2; v1.3 incorporeert empirische verfijningen.
 **Scope:** SKOS-predicate-keuze-criteria + predicate-doel-tabel + evidence-hiërarchie + twijfelgevallen-procedure + werkverdeling Tech↔Masterchat + werkflow-discipline. Herbruikbaar voor T3+, m14-sprint, en latere SKOS-audit-sprints.
 **Voorgangers:**
@@ -547,9 +547,9 @@ In v1.2 bevatte deze sectie pending-beslis-punten voor T2-scoping. Voor v1.3 wor
 | v1.0 | 26 mei 2026 | final | Steven (T1-scoping) | T1-sprint (28 paren) |
 | v1.1 | 27 mei 2026 | DRAFT — nooit operationeel | n.v.t. | n.v.t. (vervangen door v1.2 in T2-scoping) |
 | v1.2 | 27 mei 2026 | final | Steven (T2-scoping) | T2-sprint (118 paren over 10 clusters) |
-| v1.3 | 27 mei 2026 | **DRAFT** — vaststelling pending | pending | pending |
+| v1.3 | 27 mei 2026 | **final** — vastgesteld 28 mei 2026 | Masterchat (T3-scoping) | T3-sprint (m14, 31 paren) |
 
-**Sign-off-pending bij eerstvolgende sprint-scoping** (T3 of m14-sprint, afhankelijk van masterchat-scope-besluit).
+**Vastgesteld bij T3-scoping** (28 mei 2026, masterchat-besluit; push door masterchat conform werkflow-wijziging 28 mei 2026). v1.2 blijft autoritatief voor T2-historie.
 
 ---
 
@@ -615,4 +615,4 @@ In v1.2 bevatte deze sectie pending-beslis-punten voor T2-scoping. Voor v1.3 wor
 
 ---
 
-*Einde protocol-draft v1.3. Bij vaststelling: protocol gaat naar Tech voor T3+ of m14-sprint-uitvoering. v1.2 blijft autoritatief voor T2-historie; voorgangers blijven beschikbaar voor historische referentie.*
+*Einde protocol v1.3 (FINAL). Protocol gaat naar Tech voor T3-sprint-uitvoering (m14). v1.2 blijft autoritatief voor T2-historie; voorgangers blijven beschikbaar voor historische referentie.*
