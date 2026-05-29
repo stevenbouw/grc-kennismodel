@@ -1,3 +1,4 @@
+
 # Extensie-oppervlakte Claude × Claude Code voor het GRC Kennismodel — 28 mei 2026
 
 **Type:** Uitputtende extensie-oppervlakte-analyse Claude × Claude Code

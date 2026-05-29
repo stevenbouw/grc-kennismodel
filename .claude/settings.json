@@ -1,5 +1,5 @@
 {
-  "$schema": "https://claude.com/schemas/claude-code-settings.json",
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "_description": "Project-level Claude Code-instellingen voor grc-kennismodel. Codificeert Protocol 14 + bestaande rolscheiding als deterministische guardrails. §0.5-firewall: GEEN autonome commit/push; geen green-gate; geen sunset-env-flag. Zie docs/instructies/instructie-tooling-01-guardrails-en-verificatieskills.md voor het volledige kader.",
 
   "permissions": {
