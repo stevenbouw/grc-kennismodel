@@ -827,6 +827,22 @@ function toast(msg, type='ok'){
 // ─── LOADER ──────────────────────────────────────────────
 function toonLoader(msg='Laden...'){ q('db-loader').classList.add('on'); q('loader-msg').textContent=msg; }
 function verbergLoader(){ q('db-loader').classList.remove('on'); }
+// Fix A: zelf-verklarende melding wanneer de WASM-engine niet kan laden (typisch file://-dubbelklik).
+// Geen wijziging aan locateFile/vendoring — alleen betere foutafhandeling. B9-conform: font >=13px, hoog contrast.
+function toonServerInstructie(techDetail){
+  q('db-loader').classList.add('on');
+  const spin=document.querySelector('#db-loader .loader-spin'); if(spin) spin.style.display='none';
+  q('db-dot').style.background='var(--yellow-lt)';
+  q('db-status').textContent='Lokale webserver vereist';
+  q('loader-msg').innerHTML=
+    '<div style="max-width:560px;text-align:center;font-family:var(--sans);color:var(--text2);font-size:14px;line-height:1.6">'
+    +'<div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:10px">Lokale webserver vereist</div>'
+    +'Dit dashboard moet via een lokale webserver geopend worden — de database-engine laadt niet vanaf een bestand (<code style="font-family:var(--mono)">file://</code>).<br>Open een terminal in de <code style="font-family:var(--mono)">dashboard</code>-map en draai:'
+    +'<div style="margin:12px 0;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:13px;color:var(--green-br)">python3 -m http.server 8099</div>'
+    +'Ga daarna naar <span style="font-family:var(--mono);color:var(--cyan-lt)">http://127.0.0.1:8099/grc-dashboard-v3-2.html</span>'
+    +(techDetail?'<div style="margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--text3)">technische melding: '+techDetail+'</div>':'')
+    +'</div>';
+}
 
 // ─── NAVIGATION ──────────────────────────────────────────
 function goTab(e,id){
@@ -1775,6 +1791,8 @@ function expIcal(){
 // INIT
 // ═══════════════════════════════════════════════════════════
 async function initApp(){
+  // Fix A: vroege protocol-check — onder file:// blokkeert de browser de WASM-fetch; toon meteen de http-server-instructie.
+  if(location.protocol==='file:'){ toonServerInstructie(); return; }
   toonLoader('sql.js WASM laden...');
   try{
     SQL_ENGINE=await initSqlJs({ locateFile:f=>`vendor/${f}` });/* Q-M5: lokaal gevendorde sql-wasm.wasm */
@@ -1783,6 +1801,7 @@ async function initApp(){
     if(!herstel){
       db=new SQL_ENGINE.Database();
       maakTabellen();
+      migreerStructuurKolommen();/* Fix B: structuur-kolommen (o.a. herkomst) ook bij verse load — PRAGMA-geguard/idempotent — zodat wStruct()/wOper() niet stil falen en KPI's hand-seed tonen */
       laadSeedData();
       toast('Nieuwe database aangemaakt met seeddata','ok');
     } else {
@@ -1795,11 +1814,16 @@ async function initApp(){
     renderAll();
     setInterval(autoSave,30000);
   } catch(e){
-    verbergLoader();
-    q('db-dot').style.background='var(--red-br)';
-    q('db-status').textContent='DB fout';
-    toast('Database-initialisatie mislukt: '+e.message,'err');
     console.error('initApp error:',e);
+    q('db-dot').style.background='var(--red-br)';
+    // Fix A: WASM-/fetch-gerelateerde fout → verwijs naar de http-server-instructie i.p.v. kale e.message.
+    if(/wasm|webassembly|fetch|locatefile|network|failed to fetch|abort/i.test(e&&e.message||'')){
+      toonServerInstructie(e.message);
+    } else {
+      verbergLoader();
+      q('db-status').textContent='DB fout';
+      toast('Database-initialisatie mislukt: '+e.message,'err');
+    }
   }
 }
 document.addEventListener('DOMContentLoaded',initApp);
