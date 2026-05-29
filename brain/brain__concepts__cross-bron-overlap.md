@@ -2,14 +2,16 @@
 type: concept
 title: Cross-bron-overlap als SKOS-kwaliteits-indicator
 status: living
-date: 2026-05-19
+date: 2026-05-29
 related:
   - v4_5_0_fase-3-nist-csf-2-0
   - provenance-en-attribuering
   - nist-csf-2-0
   - cbw-excel
+  - cross-category-mappings
 sources:
   - patch-rapport-v4_5_0
+  - t4-pre-sprint-inventarisatie
 chat-sources: []
 confidence: high
 ---
@@ -88,6 +90,16 @@ Bij `bron_count >= 2`: cross-bron-overlap gevonden — kwaliteits-positief signa
 | ENISA TIG ∩ CBW UV-decompositie | NIS2 ↔ technische uitwerking |
 | Multiple consultants/audit-firma's | Bedrijfs-specifieke mappings (Spoor B) |
 
+## T4-bevinding (29 mei 2026) — de 105 is een bron-niveau-getal, niet machine-reproduceerbaar
+
+De T4-pre-sprint-inventarisatie (`output/reports/t4-pre-sprint-inventarisatie.md`, READ-ONLY, geen mutatie) toetste de detection-query hierboven op het feitelijke model en legde een belangrijke nuance bloot: **de 105-overlap is niet uit het model afleidbaar via de illustratieve detection-query.** Drie bevindingen:
+
+1. **De ±105 is een bron-niveau-getal uit v4.5.0** (Sheet 8 XLSX ∩ CSF Reference Tool XLSX), berekend tijdens de v4.5.0-analyse — niet reconstrueerbaar uit de model-triples. Machine-meetbaar in het model: csf↔ISO27001 mandatory clauses (eis, `ext:ISMSRequirement`) = **245 unie** (m21 Sheet 8: 147 / m09 Reference Tool: 117 / intersectie **19**); csf↔Annex A (measure, `bio:ISO27002` via D5-brug) = **494**, uitsluitend in m21 (m09 = 0). De twee bronnen gebruikten **verschillende ISO-target-resoluties** (Sheet 8: Annex A → `bio:`, clausule → `ext:`; Reference Tool in m09: alleen clausule → `ext:`), waardoor bron-overeenstemming op Annex A-niveau structureel **niet als identieke triple** verschijnt.
+2. **Provenance is niet per-triple, maar block-comment-niveau** (bewuste modelleer-keuze, masterchat v4.5.0 Stap 5-GO). De `ext:sourceAttribution`-triples staan op de csf-knopen (CSF Core-herkomst), niet op de mapping-triples. Daardoor draagt elk csf↔ISO-paar machinaal één attribution, nooit twee — de `HAVING (?bron_count >= 2)`-query levert **0**, niet 105.
+3. **De detection-query is daarom op dit model niet toepasbaar zoals beschreven.** Dit is geen administratie-fout maar een gevolg van de block-level-provenance-keuze; het maakt de overlap-set echter niet model-intern detecteerbaar.
+
+**Gevolg voor dit concept:** cross-bron-overlap blijft een geldige *emergente kwaliteits-indicator*, maar de detection-query hierboven is **alleen toepasbaar als provenance per-triple wordt geadministreerd**. Of dat wenselijk is (per-triple `ext:sourceAttribution` zodat overlap voortaan machine-detecteerbaar wordt) is een **architectuur-vraag voor masterchat** (T4-beslispunt 4) — niet door Brein te beslissen. T4 zelf is afgesloten als **inventarisatie-only, geparkeerd (Optie B)**; geen mutatie, baseline ongewijzigd. Zie ook [[brain__concepts__cross-category-mappings]] voor de csf↔ISO27001 cross-category-predicaat-vraag.
+
 ## Relatie tot G1 "bij twijfel niet leggen"
 
 Cross-bron-overlap is een **complement** van G1, niet een vervanging:
@@ -110,5 +122,6 @@ Beide werken samen: G1 voorkomt valse mappings, cross-bron-overlap bevestigt ech
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-19 | living | Concept geboren uit v4.5.0 Stap 5 ∩ Stap 6-observatie (105 mappings) |
+| 2026-05-29 | living | T4-bevinding toegevoegd: de 105 is een bron-niveau-getal (v4.5.0), niet machine-reproduceerbaar uit het model (block-level provenance → detection-query levert 0). Model-meetbaar: 245 clausule-unie (intersectie 19) + 494 Annex A (m21-only). Per-triple-provenance is een open architectuur-vraag voor masterchat (T4-beslispunt 4). T4 afgesloten als inventarisatie-only, geparkeerd (Optie B) |
 
 — Einde cross-bron-overlap.

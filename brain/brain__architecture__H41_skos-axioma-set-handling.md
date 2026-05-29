@@ -18,6 +18,7 @@ sources:
   - patch-rapport-v4_6_2
   - patch-rapport-v4_6_3
   - projectinstructie-v1_10
+  - evaluatie-reasoner-toolchain-h37-h38-h41
 chat-sources: []
 confidence: high
 ---
@@ -57,6 +58,27 @@ T2 levert sterkste bewijs (per patch-rapport v4.6.2 §4.1):
 Bij 65 predicate-substituties — waarvan 32 closeMatch ↔ broadMatch (symmetrie-relevant indien S46-equivalent voor closeMatch wel geladen zou zijn) — blijft post-OWL-RL Δ exact 0. Bevestigt empirisch dat SKOS-axiomas niet geactiveerd zijn in de huidige reasoner-configuratie.
 
 **T3-bevestiging (informatief, status ongewijzigd):** derde sprint-bewijs op kleinere schaal (2 mutaties), maar nu in **cross-category-context** (control ↔ legal-obligation, compl→ctrl-richting in m14) — eerste cross-category-bewijs voor H41. broadMatch→relatedMatch-substituties (waarbij beide predicates symmetrisch zijn onder W3C SKOS-Reference indien S46-equivalenten geladen zouden zijn) leveren Δ post-OWL-RL = 0. Confirmeert H41 over T1+T2+T3 = drie sprint-context-bewijzen (exactMatch-omzetting, close/related/broad bidirectional, broad/related cross-category).
+
+## Evaluatie-uitkomst (29 mei 2026 — impact gekwantificeerd, status ongewijzigd)
+
+De reasoner-toolchain-evaluatie (`output/reports/evaluatie-reasoner-toolchain-h37-h38-h41.md` §2) heeft H41 van "empirisch Δ=0 bij substituties" verrijkt naar **volledige impact-kwantificatie**. Oordeel: **HOLD, parked ongewijzigd** — geen actieve trigger.
+
+**Mechanistische verklaring (control-run) — verklaart T1/T2/T3's Δ=0:** een control-run (identieke graph, `owl:sameAs`-triples verwijderd vóór OWL RL) isoleerde de bron van de post-inferentie SKOS-toename in de baseline. Resultaat: de post-inferentie SKOS-groei (+956, van 1.798 pre naar 2.754 post) is **100% toerekenbaar aan `owl:sameAs`-propagatie** (D5/D11; ctrl↔bio + asset-bruggen), **0% aan SKOS-axiomas**. Dit verklaart mechanistisch waarom T1/T2/T3 telkens Δ post-OWL-RL = 0 gaven bij predicate-substituties: de owlrl-config laadt geen SKOS-symmetrie/transitiviteit, dus een predicate-naamswijziging raakt geen inferentie-pad.
+
+**Hypothetische activerings-impact (vergelijkend gemeten, niet doorgevoerd):**
+
+| Metric | Baseline (canoniek) | Variant (SKOS-axiomas geactiveerd) | Δ |
+|---|---:|---:|---:|
+| Post-inferentie triples | 44.907 | 47.738 | **+2.831 (+6,3%)** |
+| SKOS-mappings totaal (post) | 2.754 | 5.578 | +2.824 |
+| — narrowMatch | 0 | 248 | +248 (inverse van 248 post-broadMatch) |
+| — closeMatch | 2.158 | 4.377 | +2.219 (symmetrie-inverses, geconcentreerd op CSF-mappings) |
+| — relatedMatch | 324 | 644 | +320 (symmetrie-inverses) |
+| — exactMatch | 24 | 61 | +37 (symmetrie + transitiviteit) |
+
+**D4-spanning (de auditief relevante kern):** activering materialiseert **12 nieuwe cross-namespace exactMatch-triples** via symmetrie+transitiviteit. Twee soorten: (a) identiteits-consistent maar **mechanisme-vermenging** (bv. `risk:InformationAsset ↔ asset:InformationAsset ↔ isms:InformationAsset` — vermengt SKOS-identiteit D4 met `owl:sameAs`-identiteit D5/D11, twee bewust gescheiden mechanismen); (b) **genuine nieuwe cross-framework-claims** (bv. `fw:ISO_IEC_27005_2022 exactMatch risk:RiskAssessment`, `fw:BesluitCIOStelsel exactMatch roles:R_CIO`) — auto-gegenereerde exactMatch-identiteitsclaims die níét handmatig zijn geauditeerd → directe spanning met D4 (exactMatch is geen automatisme). **SHACL-impact: 0** (290 → 290; geen actieve shape verschuift — consistent met H39-blinde-vlek op dit cluster).
+
+**Masterchat-regel (vast te leggen):** eventuele toekomstige SKOS-axioma-activering is een **nieuwe D-decision** over reasoner-/SKOS-axioma-configuratie — **niet impliciet** te doen, en niet door een subagent. Activering vereist een concrete trigger (externe SKOS-audit / DCAT-AP-publicatie / Spoor B-keten-vraag); "conformer aan W3C is beter" is onvoldoende grond. De impact is nu hanteerbaar gekwantificeerd (+6,3% triples, SHACL 0-impact, helder afgebakende D4-risico-set) — niet uit te sluiten, wel een bewuste D-decision waard.
 
 ## Waarom dit een open vraag is
 
@@ -126,5 +148,6 @@ T2-empirisch bewijs (32 closeMatch ↔ broadMatch-mutaties zonder Δ post-OWL-RL
 | 2026-05-26 | (niet geregistreerd) | T1-werkflow-leerpunt — kandidaat-overweging in H36-bestand vermeld, expliciet **NIET** als nieuw H-item geregistreerd; trigger ontbrak |
 | 2026-05-27 | parked | Nieuw geregistreerd na T2-sprint; trigger gerechtvaardigd door productie-schaal bewijs (65 mutaties, Δ post-OWL-RL = 0); masterchat-besluit per projectinstructie v1.10 |
 | 2026-05-28 | parked (T3-bevestiging informatief) | Derde sprint-bewijs op cross-category-context (2 mutaties broad→related compl→ctrl in m14); Δ post-OWL-RL = 0 bevestigd over drie sprint-contexten; status ongewijzigd (geen masterchat-besluit tot status-revisie of activering) |
+| 2026-05-29 | parked (impact gekwantificeerd, status ongewijzigd) | Reasoner-toolchain-evaluatie: control-run bewijst mechanistisch dat post-inferentie SKOS-groei (+956) 100% `owl:sameAs`-propagatie is, 0% SKOS-axiomas (verklaart T1/T2/T3's Δ=0). Hypothetische activering = +2.831 triples (+6,3%), 12 cross-namespace exactMatch-claims die D4 schenden + SKOS/sameAs-identiteit vermengen; SHACL-impact 0. Masterchat-regel vastgelegd: toekomstige activering = nieuwe D-decision. Oordeel HOLD |
 
 — Einde H41.

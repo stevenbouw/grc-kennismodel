@@ -3,12 +3,12 @@ type: index
 id: workflow-register
 title: Workflow-register — Werkwijze GRC Kennismodel-project
 status: living
-date: 2026-05-28
+date: 2026-05-29
 ---
 
 # Workflow-register — Werkwijze GRC Kennismodel-project
 
-Overzicht van werkdisciplines en proces-conventies die het project beheersbaar houden. Zeven workflow-files in totaal (incl. sprint-protocollen v1.7 + commit-push-werkverdeling iteratie 15).
+Overzicht van werkdisciplines en proces-conventies die het project beheersbaar houden. Zeven workflow-files in totaal (incl. sprint-protocollen + commit-push-werkverdeling iteratie 15). Canonieke sprint-protocollen-set staat in `docs/sprint-protocols.md` (**18 protocollen + 1 gedragsregel** sinds iteratie 16 — Protocol 18 toegevoegd).
 
 ## Snelle navigatie
 
@@ -53,6 +53,23 @@ Per projectinstructie v1.7 zijn vijf werkdisciplines formeel geldend gemaakt. Zi
 | Bron-verificatie vóór TBox-declaratie | Verplicht bij externe-naam-verwijzing | v4.4.0: `ext:hasENISAGuidance`-correctie gemarkeerd |
 | Raming-discipline bij aggregatie | Verplicht bij grain-mismatch | v4.4.0: 290→183 (37% dedup) Sheet 9 mapping |
 | Patch-rapport §9 verplicht | Per release | v4.4.0: eerste exemplaar |
+
+## Iteratie 16-additions (29 mei 2026) — Protocol 18 + skill + twee leerpunten
+
+Brein-cyclus iteratie 16 verwerkte naast de v4.6.4-sprint vier proces-/tooling-items:
+
+### Protocol 18 — Pre-sprint-dashboard-update-discipline
+Surgisch toegevoegd aan `docs/sprint-protocols.md` (kop 17 → 18; canonieke 1-17 ongewijzigd). Dashboard-tegenhanger van Protocol 1: vier-tot-zeven-vragen-checklist die de Dashboard-subagent vóór elke build-script-aanraking bij een nieuwe baseline doorloopt; uitkomst (ja/nee + impact) in het dashboard-patchnotitie-rapport. Bron: masterchat-concept `docs/instructies/protocol-18-concept.md`, GO 29 mei. Zie [[brain__workflow__sprint-protocollen]].
+
+### D.7 — GRC-domein-skill (Claude Code)
+Nieuwe **description-triggered skill** opgeleverd + GO: `.claude/skills/grc-domein/SKILL.md` (116 regels) + `kaders-reference.md` (93 regels). Bevat NL-kaders-domeinkennis (COSO/COBIT/BVA-CIO/NIS2/VIR-VIRBI/AVG/CBW-Cbb/DORA/BIO 2.0/ISO/NIST/CSF 2.0/ENSIA/volwassenheidsmodel), vijf-lagen-ordening, relatie-semantiek (9 properties + 2 ketens), SKOS cross-category-basislijn, status-discipline, BBN-discipline, NEN-discipline, §0.5-firewall. Elk feit bron-geverifieerd (Protocol 4-geest). **Brein heeft de skill-bestanden NIET aangeraakt** (buiten brain-scope — `.claude/skills/`). 
+> **Openstaande verificatie (masterchat-actie, NIET Brein):** bevestigen dat `fw:relatedTo` / `fw:alignsWith` / `fw:supersedes` daadwerkelijk in `m01-framework.ttl` staan zoals de skill veronderstelt. De skill verifieerde 9 relatie-properties aan de bron (m01 r.196-291 + m17 r.81-97); deze drie zijn als aandachtspunt genoteerd.
+
+### Leerpunt — settings.json-schemafix (workflow-leerpunt)
+De `.claude/settings.json` faalde te parsen door een foute `$schema`-URL (`claude.com/...` i.p.v. `json.schemastore.org/claude-code-settings.json`); opgelost. **Brein heeft settings.json niet aangeraakt** (`.claude/settings.json` buiten brain-scope). Leerpunt: een verkeerde `$schema`-URL breekt stil de settings-parse — bij hook-/permission-vreemdheden eerst de `$schema`-regel checken.
+
+### Leerpunt — version-drift grc-core version-triple
+De `grc-core` version-triple stond sinds T1 op **4.6.0** — nooit meegebumpt bij T1/T2/T3 (SKOS-substituties, triple-neutraal). v4.6.4 corrigeerde naar 4.6.4. Leerpunt: de version-bump-stap wordt bij **triple-neutrale** T-sprints makkelijk overgeslagen omdat de canonieke metrics niet veranderen → geen meet-signaal. Aandachtspunt voor toekomstige kwaliteitsanalyse-/T-sprints. **Mogelijk relevant voor een Protocol-aanvulling (kandidaat, NIET nu formaliseren — masterchat-werk).** Zie [[brain__sprints__v4_6_4_csf-range-fix-dl-conformiteit]].
 
 ## Cross-references
 

@@ -2,14 +2,16 @@
 type: concept
 title: Dashboard-productlijnen — Spoor A explorer vs Spoor B dashboard
 status: living
-date: 2026-05-26
+date: 2026-05-29
 related:
   - namedindividual-telmethode
   - skos-export-filter
   - H40_dashboard-ui-renderdekking
+  - spoor-b-revival
 sources:
   - sessie-rapport-v2_0
   - handover-dashboard-chat-v1
+  - besluitnotitie-qm-dashboard-2026-05-29
 chat-sources: []
 confidence: high
 ---
@@ -25,14 +27,14 @@ Sinds v4.6.0 bestaan er **twee parallelle dashboard-productlijnen** in het proje
 | Aspect | **`grc-explorer-*`** | **`grc-dashboard-*` (bv. v3-2)** |
 |---|---|---|
 | **Spoor** | A — read-only ontologie-graaf-verkenner | B — operationele werkmap (prototype) |
-| **Naam-actueel** | `grc-explorer-v4_6_0.html` | `grc-dashboard-v3-2.html` (lokaal bij Steven, locatie in repo open punt) |
+| **Naam-actueel** | `grc-explorer-v4_6_0.html` | `grc-dashboard-v3-2.html` (**mag in de repo** sinds Q-M2-reversal 29 mei 2026 — org-data-vrij) |
 | **Doel** | Inspectie + navigatie van ontologie-graaf | CRUD, audit-trail, kalender, RACI |
 | **Data-bron** | `grc-data-v4_6_0.js` (export uit ontologie) | Lokale SQL.js `.db`-bestand |
 | **Engine** | Cytoscape.js | Chart.js + SQL.js |
 | **Datamodel-bron** | Ontologie-individuals (gefilterde ABox) | Organisatie-specifieke tabellen (`risicos`, `controls`, `rollen`, `documenten`, `audit_bevindingen`, `kalender`, `audit_trail`) |
 | **Velden** | `rdfs:label`, `rdf:type`, `owl:sameAs`, SKOS-mappings, etc. | `eigenaar_naam`, `bezet_door_email`, `deadline`, `voortgang`, etc. |
 | **Versie-tracking** | Beweegt mee met ontologie-versie (`v4_6_0`-suffix) | Eigen versie-track (`v3-2`-suffix, los van ontologie) |
-| **Status v4.6.0** | Productief in repo (`dashboard/`-folder) | Lokaal prototype bij Steven; locatie-vraag open |
+| **Status (29 mei 2026)** | Productief in repo (`dashboard/`-folder) | Prototype, **in repo** (Q-M2-reversal); B7-wiring + Q-M5 vendoring + B9 WCAG opgeleverd. Zie [[brain__concepts__spoor-b-revival]] |
 
 ## Discipline — niet vermengen
 
@@ -95,7 +97,30 @@ Geen van de vier triggers is op moment van schrijven (mei 2026) actief.
 
 ### Status
 
-Locatie-vraag **gesloten**. Bij trigger-activatie: nieuwe masterchat-evaluatie nodig; geen automatische actie.
+Locatie-vraag **gesloten** (27 mei). **Herzien 29 mei 2026 — zie Q-M2-reversal hieronder.**
+
+## Q-M2-reversal — Spoor B-prototype mag in de repo (29 mei 2026)
+
+Het 27-mei-besluit ("`grc-dashboard-v3-2.html` blijft lokaal, buiten de repo") is op 29 mei 2026 **herzien** via Q-M2 in de dashboard-landschap-besluitnotitie (`docs/instructies/besluitnotitie-qm-dashboard-2026-05-29.md`):
+
+> **Q-M2 — locatie v3-2: Repo akkoord.** v3-2 is org-data-vrij; mag in repo blijven. Het 27-mei "lokaal blijft"-besluit is hiermee herzien. Grond: projecteigenaar-bevestiging.
+
+Hiermee is de openstaande **"locatie Spoor B-prototype"-vraag** — open sinds iteratie 12, genoemd in iteraties 13/14/15 — **opgelost**. Het prototype draagt geen organisatie-data (alleen generieke roltitels/kaders + dummy hand-seed); de disclosure-scan op v3-2 bevestigde geen organisatienaam. De vier trigger-condities hierboven blijven relevant voor het moment dat er wél echte organisatie-data in zou komen — dán verschuift de hosting-vraag opnieuw (GitHub-publiek wordt ongeschikt, zie CLAUDE.md §"Spoor B-overweging"). De repo-aanwezigheid nu is dus org-data-conditioneel akkoord.
+
+## Q-M-dashboard-architectuurbesluiten (29 mei 2026 — masterchat, vastgesteld)
+
+De zes Q-M-vragen uit de dashboard-landschap-analyse zijn door masterchat vastgesteld (besluitnotitie 29 mei). Brein legt ze vast; interpreteert ze niet:
+
+| Vraag | Besluit | Grond |
+|---|---|---|
+| **Q-M1** tech-stack hard/zacht | **Zacht, voortbouwend** — voortbouwen op v3.x SQL.js + Chart.js; NLDS-tokens toevoegen; geen PWA/Electron-herbouw nu | v3.x werkt, niet weggooien |
+| **Q-M2** locatie v3-2 | **Repo akkoord** — org-data-vrij; 27-mei "lokaal"-besluit herzien | projecteigenaar |
+| **Q-M3** Cytoscape in Spoor B | **Nee** — Spoor B = operationele werkmap, geen graaf; graaf blijft in explorer, koppeling via deep-link | productlijnen-discipline |
+| **Q-M4** H40-trigger | **Latent, parked** — demo-waarde uit dashboard, niet uit explorer-renderdekking | masterchat-call |
+| **Q-M5** lokaal-draaibaar prototype | **Soepel in dev (CDN mag), strict vóór demo (lokaal vendoren in `dashboard/vendor/`)** | Rijksoverheid-machine kan CDN blokkeren |
+| **Q-M6** Spoor A-effort | **Minimaal** — alleen goedkope geen-spijt-items die meeliften | prioriteit dashboard boven explorer |
+
+Q-M3 bevestigt de bestaande productlijnen-discipline ("niet vermengen in één UI") expliciet: geen Cytoscape/graaf in Spoor B. Q-M4 houdt [[brain__architecture__H40_dashboard-ui-renderdekking]] latent/parked. De zeven Q-D-vragen zijn niet als aparte ronde gedraaid; ze zijn ingevouwen als STAP 0 van de Dashboard-instructie.
 
 ## Hangt samen met
 
@@ -111,5 +136,6 @@ Locatie-vraag **gesloten**. Bij trigger-activatie: nieuwe masterchat-evaluatie n
 |---|---|---|
 | 2026-05-26 | living | Concept geboren uit iteratie 12 polish-mini-sprint. Aanleiding: sessie-rapport v2.0 §2.1 + §9.2 expliciet onderscheid productlijn-A vs productlijn-B. Locatie-vraag Spoor B-prototype expliciet open gelaten voor masterchat-beslissing. |
 | 2026-05-27 | living | Locatie-vraag gesloten: Optie D — Spoor B-prototype blijft lokaal. Vier trigger-condities voor heroverweging vastgelegd. Drie eerder besproken kandidaat-locaties (A/B/C) afgewezen ten gunste van status quo. |
+| 2026-05-29 | living | **Q-M2-reversal**: locatie-besluit herzien — v3-2 mag in de repo (org-data-vrij). Openstaande "locatie Spoor B-prototype"-vraag (sinds iteratie 12) opgelost. Zes Q-M-architectuurbesluiten vastgelegd (Q-M1..Q-M6). Naam-actueel- + status-rij bijgewerkt. Verwijzing naar nieuw concept [[brain__concepts__spoor-b-revival]] (B7 + Q-M5 + B9). |
 
 — Einde dashboard-productlijnen.

@@ -3,14 +3,14 @@ type: index
 id: brain-index
 title: GRC Kennismodel Brain — Masterindex
 status: living
-date: 2026-05-28
+date: 2026-05-29
 ---
 
 # GRC Kennismodel Brain — Masterindex
 
 Karpathy-conforme "LLM Wiki" voor het GRC Kennismodel-project. Inhoud-gedreven, append-only logbook, type-getagged frontmatter, wikilinks als grep-anchors. Ontworpen voor menselijke navigatie en voor LLM-retrieval via Project Knowledge én Claude Code (post-migratie).
 
-## Vault-staat — 15 iteraties voltooid
+## Vault-staat — 16 iteraties voltooid
 
 | Iteratie | Datum | Inhoud | Files |
 |---|---|---|---:|
@@ -30,8 +30,9 @@ Karpathy-conforme "LLM Wiki" voor het GRC Kennismodel-project. Inhoud-gedreven, 
 | 12 | 2026-05-26 | Post-v4.6.0 polish-mini-sprint: H36-H40 (parked) + Protocol 14 pre-push-disclosure + dashboard-productlijnen-concept | 13 (6 nieuw + 7 update) |
 | 13 | 2026-05-26 | Post-T1-Brein-cyclus: T1-sprint registreren + methode-protocol-concept + mapping-bron-disclaimer-effect-concept + H36 closed + H39 versterkt + Protocollen 15/16/17 formeel | 11 (3 nieuw + 8 update) |
 | 14 | 2026-05-27 | Post-T2-Brein-cyclus: T2-sprint registreren + cluster-discipline-bewijslast-concept + H41 nieuw + H36 m10-component closed (m14 open subtask) + H39 versterkt T2 + D4.1-cluster-niveau-precedent + Protocol v1.3-draft-status documenteren + bidirectional-audit-symmetrie als sub-aspect | 13 (3 nieuw + 10 update) |
-| **15** | **2026-05-28** | **Post-T3-Brein-cyclus: T3-sprint registreren + cross-category-mappings-concept (kandidaat v1.3.1-precedent) + commit-push-werkverdeling-workflow (masterchat-commit-autonomie) + H36 fully closed (m14 afgehandeld) + H39 versterkt T3 bidirectional + H41 T3-bevestiging informatief + Protocol v1.3 FINAL-status + M14 SKOS-distributie post-patch + errata-correctie t3-stap3-eindrapport + patch-rapport-v4.6.3** | **14 (3 nieuw + 11 update)** |
-| **Totaal brain-bestanden** | | | **~115** |
+| 15 | 2026-05-28 | Post-T3-Brein-cyclus: T3-sprint registreren + cross-category-mappings-concept (kandidaat v1.3.1-precedent) + commit-push-werkverdeling-workflow (masterchat-commit-autonomie) + H36 fully closed (m14 afgehandeld) + H39 versterkt T3 bidirectional + H41 T3-bevestiging informatief + Protocol v1.3 FINAL-status + M14 SKOS-distributie post-patch + errata-correctie t3-stap3-eindrapport + patch-rapport-v4.6.3 | 14 (3 nieuw + 11 update) |
+| **16** | **2026-05-29** | **Multi-werkstroom-cyclus (geen enkele sprint): v4.6.4 TBox-bugfix-sprint (CSF-range-fix, baseline ongewijzigd) + H38 resolved (OWL RL ≡ HermiT) + H37/H41 evaluatie-uitkomst (HOLD) + dashboard-revival-concept (B7 + Q-M5 + B9) + Q-M-besluiten + Q-M2-reversal (locatie Spoor B opgelost) + T4-afsluiting (inventarisatie-only, geparkeerd) + csf↔ISO27001-kandidaat-precedent + Protocol 18-merge + D.7-skill-registratie + settings.json- & version-drift-leerpunten** | **15 (2 nieuw + 12 update brain + 1 docs)** |
+| **Totaal brain-bestanden** | | | **~117** |
 
 Plus ±20 bron-documenten als upload (patch-rapporten incl. v4.6.1 + v4.6.2 + v4.6.3, projectinstructie v1.9 + v1.10, T2/T3-rapporten, ontologie-PDFs).
 
@@ -49,22 +50,22 @@ brain__smoke-tests.md                         ← vault-functionaliteit-tests
 brain__obsidian-migration-guide.md            ← migratie-stappenplan (iteratie 8)
 
 brain__decisions__D{NN}_{slug}.md            ← 12 D-decisions
-brain__sprints__v{X_Y_Z}_{slug}.md          ← 17 sprint-files (incl. v4.6.0 + T1 iteratie 13 + T2 iteratie 14 + T3 iteratie 15)
-brain__architecture__H{NN}_{slug}.md         ← 17 H-items (H36 fully closed iteratie 15; H41 parked T3-bevestiging informatief)
-brain__concepts__{slug}.md                   ← 19 concept-files (incl. cross-category-mappings iteratie 15 — kandidaat v1.3.1-precedent)
+brain__sprints__v{X_Y_Z}_{slug}.md          ← 18 sprint-files (incl. T1/T2/T3 + v4.6.4 TBox-bugfix iteratie 16)
+brain__architecture__H{NN}_{slug}.md         ← 17 H-items (H38 resolved iteratie 16; H37/H41 parked-met-evaluatie-uitkomst)
+brain__concepts__{slug}.md                   ← 20 concept-files (incl. spoor-b-revival iteratie 16)
 brain__modules__M{NN}_{slug}.md              ← 19 modules (M14 SKOS-distributie post-T3 toegevoegd)
 brain__sources__{slug}.md                    ← 8 source-files (5 SourceAttributions in model)
 brain__workflow__{slug}.md                   ← 7 workflow-files (incl. commit-push-werkverdeling iteratie 15)
 brain__scope__{slug}.md                      ← 4 bewust-uitgesloten elementen
 ```
 
-## Status-overzicht ontologie v4.6.3 (huidige baseline — patch-release na T3)
+## Status-overzicht ontologie v4.6.4 (huidige baseline — TBox-bugfix-patch)
 
-| Metric | Waarde | Δ t.o.v. v4.6.2 |
+| Metric | Waarde | Δ t.o.v. v4.6.3 |
 |---|---:|---:|
-| Versie | **v4.6.3** | — |
-| Datum | 2026-05-28 | — |
-| Modules | 19 active + 0 stub | 0 (1 module gewijzigd: m14-avg-gdpr) |
+| Versie | **v4.6.4** | — |
+| Datum | 2026-05-29 | — |
+| Modules | 19 active + 0 stub | 0 (2 bestanden gewijzigd: m21-csf + grc-core) |
 | Pre-inferentie triples | 20.950 | 0 |
 | Post-OWL-RL triples | 44.907 | 0 |
 | Klassen | 199 | 0 |
@@ -75,17 +76,22 @@ brain__scope__{slug}.md                      ← 4 bewust-uitgesloten elementen
 | **SKOS-mappings totaal** | **1.798** | **0** |
 | — `skos:exactMatch` | 18 | 0 |
 | — `skos:closeMatch` | 1.457 | 0 |
-| — `skos:broadMatch` | 129 | **−2** |
-| — `skos:relatedMatch` | 194 | **+2** |
+| — `skos:broadMatch` | 129 | 0 |
+| — `skos:relatedMatch` | 194 | 0 |
 | — `skos:narrowMatch` | 0 | 0 |
+| `owl:Nothing` post-inferentie | 0 | 0 |
 | Namespaces | 11 | 0 |
 | SHACL SECTIE A | 0 violations | 0 |
 | SHACL SECTIE B | 0 violations | 0 |
-| SHACL COMBINED | 290 false-positives | 0 (identiek aan v4.6.2-baseline) |
+| SHACL COMBINED | 290 false-positives | 0 (identiek aan v4.6.3-baseline) |
 
-**Predicate-substitutie zonder triple-totaal-impact** — T3-sprint patcht alleen predicates van 2 compl:↔ctrl:-mappings in `m14-avg-gdpr.ttl` (beide compl:AVG_Art5_1f broadMatch → relatedMatch op ctrl:ISO27002_5_01 + 5_12). m14-eindstand compl→ctrl: exact 0 / close 2 / broad 0 / narrow 0 / related 29. Eén module hash gewijzigd (`47daeb7e…` → `874565ba…`); 21 andere modules + `grc-shacl.ttl` byte-identiek aan v4.6.2.
+**TBox-datatype-range-fix zonder triple-totaal-impact** — v4.6.4 vervangt alleen het *object* van 2 property-declaratie-triples (`csf:riskGovernanceDescription` + `csf:riskManagementDescription`: `rdfs:range xsd:string` → `rdfs:Literal`) + version-bump in `grc-core`. **Onderscheid met T1/T2/T3:** die waren triple-neutraal door SKOS-predicate-substitutie; v4.6.4 is triple-neutraal door een TBox-range-fix (géén SKOS-context). HermiT-her-run op `merged_asserted_v4_6_4.ttl` bevestigt consistent (0 `owl:Nothing`, geen justificaties) → **H38 resolved**. m21-csf + grc-core gewijzigd; 20 andere modules + `grc-shacl.ttl` byte-identiek aan v4.6.3.
 
-## v4.6.3 wijzigingen — kort (T3-sprint)
+## v4.6.4 wijzigingen — kort (TBox-bugfix)
+
+TBox-correctie 29 mei 2026: 2× CSF-Tier-vrije-tekst-property `rdfs:range xsd:string` → `rdfs:Literal` in `m21-csf.ttl` (Optie A masterchat — `rdfs:Literal` omvat `xsd:string` + `rdf:langString`, lost de datatype-botsing op `@en`-getagde waarden op) + version-bump `grc-core` (4.6.0 → 4.6.4; version-drift sinds T1 gecorrigeerd). Baseline-metrics ongewijzigd (OWL RL ziet datatype-ranges niet streng → invariant). **H38 resolved** via de volledige boog (blind spot → DL-census → HermiT-vondst datatype-range-mismatch (8 justificaties) → fix → her-verificatie consistent) — eerste empirisch bewijs OWL RL ≡ HermiT voor deze baseline + eerste sprint waarin HermiT een TBox-fix stuurde. Zie [[brain__sprints__v4_6_4_csf-range-fix-dl-conformiteit]]. Reasoner-toolchain-evaluatie: H37 + H41 blijven parked (HOLD); H41-activering = nieuwe D-decision.
+
+### v4.6.3 vorige baseline — kort (T3-sprint)
 
 Eén module gewijzigd: `m14-avg-gdpr.ttl`. 2× SKOS-predicate-substitutie (downgrade broadMatch → relatedMatch) op Art5_1f-cluster (T3-001 + T3-002) via directe instructie-uitvoering masterchat-besluit Optie C op pilot-escalatie. 27 behoud relatedMatch + 2 behoud closeMatch (T3-014 + T3-026 op retrieval-interchangeability). Protocol v1.3 DRAFT → **FINAL** vastgesteld door masterchat 28 mei 2026 tijdens T3-scoping. Cross-category-rationale (control ↔ legal-obligation = associatief, niet subsumptief) als T3-leerpunt + **kandidaat v1.3.1-precedent** vastgelegd in nieuw concept [[brain__concepts__cross-category-mappings]] (formalisering = masterchat-werk). H36 **fully closed** (cumulatief 149 ctrl:↔compl:-paren over T1+T2+T3). H39 versterkt bidirectional (T3 bevestigt blinde-vlek op compl→ctrl). H41 informatief uitgebreid (eerste cross-category-bewijs Δ post-OWL-RL = 0). D4.1 inactief in T3-context (AVG = publiek EU-recht). Werkflow-wijziging: masterchat mag voortaan zelf committen + pushen — subagents NOOIT zelfstandig (invariant). Zie [[brain__workflow__commit-push-werkverdeling]].
 
@@ -101,11 +107,19 @@ Eén module gewijzigd: `m10-nis2-ext.ttl` (hash `78b8ee44...` → `cb2d567b...`)
 
 5 modules gewijzigd: grc-core (versie-bump), M01 (fw:ENSIA als GRCFramework), M06 (volwassenheidsmodel-cluster), M15 (oude fw:Guideline-blok verwijderd), M21 (CSFTier + Tier↔Level mappings). Volwassenheidsmodel-cluster als nieuwe isms-cluster naast biz:MaturityAssessment-cluster (NIET samenvoegen). ENSIA gepromoot naar fw:GRCFramework (D9 vierde verificatie-cluster). 5 SourceAttributions in model (+2: NBA-LIO-NOREA + ENSIA-Logius). Vier nieuwe sprint-protocollen formeel in projectinstructie v1.9.
 
-## Volgende fase — Productie-fase actief (T1 + T2 + T3 voltooid; H36 fully closed)
+## Volgende fase — Productie-fase actief (T1+T2+T3 voltooid; H36 + H38 resolved)
 
-v4.6.0 was laatste geplande Spoor A-sprint voor Fase 1-4 scope. Migratie naar Claude Code + GitHub voltooid via Fase 0 + polish-mini-sprint (iteratie 12). **T1-sprint (v4.6.1, 26 mei 2026)** + **T2-sprint (v4.6.2, 27 mei 2026)** + **T3-sprint (v4.6.3, 28 mei 2026)** zijn eerste, tweede en derde post-migratie productie-sprints — werkflow volledig gevalideerd op single-cluster (T1), productie-schaal multi-cluster (T2) én cross-category (T3).
+v4.6.0 was laatste geplande Spoor A-sprint voor Fase 1-4 scope. Migratie naar Claude Code + GitHub voltooid via Fase 0 + polish-mini-sprint (iteratie 12). **T1-sprint (v4.6.1)** + **T2-sprint (v4.6.2)** + **T3-sprint (v4.6.3)** zijn eerste, tweede en derde post-migratie productie-sprints. **v4.6.4 (29 mei 2026)** is een TBox-bugfix-patch (geen T-sprint): CSF-range-fix die H38 (OWL RL ≡ HermiT) empirisch sloot. Iteratie 16 was een multi-werkstroom-Brein-cyclus (geen enkele sprint).
 
-Status iteratie 15:
+Status iteratie 16:
+- ✓ v4.6.4 TBox-bugfix geregistreerd (baseline ongewijzigd; sprint-register + nieuw sprint-bestand)
+- ✓ H38 resolved (OWL RL ≡ HermiT na range-fix; volledige boog vastgelegd); H37 + H41 parked met evaluatie-uitkomst (HOLD); H41-activering = nieuwe D-decision
+- ✓ Dashboard-revival vastgelegd (nieuw concept spoor-b-revival: B7 + bron-split 1A + Q-M5 vendoring + B9 WCAG 47→0) + 2 vervolgpunten (file://-laadgedrag + herkomst-kolom verse load)
+- ✓ Q-M-besluiten + Q-M2-reversal verwerkt (locatie Spoor B-prototype opgelost: v3-2 mag in repo)
+- ✓ T4 afgesloten als inventarisatie-only, geparkeerd (Optie B); csf↔ISO27001-kandidaat-precedent vastgelegd (geen formeel H-nummer)
+- ✓ Protocol 18 surgisch gemerged in docs/sprint-protocols.md (17 → 18); D.7-skill geregistreerd; settings.json- & version-drift-leerpunten vastgelegd
+
+Status iteratie 15 (historie):
 - ✓ Master-handover-document v1.0 in PK
 - ✓ docs/sprint-protocols.md uitgebreid (v1.0 → v1.3 met Protocollen 14/15/16/17 + werkflow-discipline)
 - ✓ Brein-cyclus iteratie 12 voltooid (H36-H40 + productlijn-concept)
@@ -115,14 +129,15 @@ Status iteratie 15:
 - ✓ Brein-cyclus iteratie 14 voltooid (T2-registratie + cluster-discipline-bewijslast-concept + H41 + H36 m10-closed + bidirectional-audit-symmetrie sub-aspect + D4.1-cluster-niveau-precedent)
 - ✓ T3-sprint voltooid (2 mutaties op 31 m14-paren via patch v4.6.3; methode-protocol v1.3 FINAL vastgesteld 28 mei; cross-category-rationale als kandidaat v1.3.1-precedent; H36 fully closed)
 - ✓ Brein-cyclus iteratie 15 voltooid (T3-registratie + cross-category-mappings-concept + commit-push-werkverdeling-workflow + H36 fully closed + H39 versterkt T3 + H41 informatief + M14 SKOS-distributie + errata-correctie rapporten)
-- Open: Dashboard-inhaalslag 7 sprints (parallel, niet-blokkerend; nu incl. v4.6.3)
+- Open: Dashboard-inhaalslag Spoor A-explorer (parallel, niet-blokkerend; nu incl. v4.6.3/v4.6.4)
 - Open: PAT + export-fallback configureren (projecteigenaar)
-- Open: locatie Spoor B-prototype `grc-dashboard-v3-2.html` in repo (Optie A/B/C — wacht op masterchat sinds iteratie 12)
-- Open: Protocol v1.3.1-formalisering cross-category-mappings-principe (masterchat-werk bij volgende sprint-scoping)
+- ✓ **Opgelost (iteratie 16, Q-M2-reversal):** locatie Spoor B-prototype `grc-dashboard-v3-2.html` — mag in de repo (org-data-vrij). Open sinds iteratie 12.
+- Open: Protocol v1.3.1-formalisering cross-category-mappings-principe (masterchat-werk; T4 voegt csf↔ISO27001-precedent toe)
 - Open: confidence-verhoging mapping-bron-disclaimer-effect naar high (vereist tweede onafhankelijke bron-bevestiging — NIST OLIR of ISO Annex F)
-- Open: projectinstructie-bijwerking voor commit-push-werkverdeling-update (28-05-2026); masterchat-taak bij volgende versie-cut (v1.11)
+- Open: projectinstructie-bijwerking commit-push-werkverdeling (28-05) + Protocol 18 + D.7-skill + Q-M-besluiten; masterchat-taak bij volgende versie-cut (v1.11)
+- Open: HermiT-her-run-bevestiging v4.6.4 formeel terugmelden + csf↔ISO27001 scope-eindpunt/overlap-definitie (T4-beslispunten); H41-activerings-besluit (nieuwe D-decision indien ooit); `fw:relatedTo`/`alignsWith`/`supersedes`-verificatie in m01 (D.7-skill)
 
-**Volgende activiteit:** T4-scope-bepaling in verse masterchat-sessie. T4-kandidaten: cross-bron-overlap-105-paren (v4.5.0), m17 COSO/COBIT, m11 NIST SP 800-53, m09 ISO 27001, m16 VIRBI, m12 DORA, framework-niveau SKOS. UI-moderniseringssprint (H40) en HermiT-equivalentie-verificatie (H38) blijven alternatieve kandidaten. Protocol v1.3.1-formalisering kandidaat (cross-category-mappings-principe) is brein-cyclus + masterchat-werk; geen sprint nodig.
+**Volgende activiteit:** T4 is afgesloten (inventarisatie-only, geparkeerd Optie B). Resterende SKOS-kwaliteitsanalyse-kandidaten voor een volgende T-sprint: m17 COSO/COBIT, m11 NIST SP 800-53, m16 VIRBI, m12 DORA, framework-niveau SKOS (fw:↔fw:); csf↔ISO27001 (T4-scope) kan terugkeren mits masterchat scope-eindpunt + overlap-definitie + 699-vs-494-reconciliatie vaststelt. H38 is resolved (geen verificatie-sprint meer nodig); H40-UI-moderniseringssprint blijft latent (Q-M4 parked). Protocol v1.3.1-formalisering (cross-category, nu met twee precedenten: m14 + csf↔ISO) is masterchat-werk; geen sprint nodig. Dashboard-prioriteit boven explorer (Q-M6 minimaal Spoor A-effort).
 
 ## Snelle entry-points per gebruiks-scenario
 
@@ -130,10 +145,10 @@ Status iteratie 15:
 → Start met **decisions/** (D1–D12, incl. D6 symmetrische uitbreiding v1.9 en D9 vier verificatie-clusters) of **concepts/** (uitleg & synthese, incl. parallelle-maturity-clusters).
 
 ### "Ik wil weten wat we gisteren / vorige sprint hebben gedaan"
-→ Start met **sprints/** (chronologisch, v4.6.0 als laatste) of **brain__log.md** (operationeel).
+→ Start met **sprints/** (chronologisch, v4.6.4 als laatste) of **brain__log.md** (operationeel).
 
 ### "Ik wil weten welke architectuur-vragen open staan"
-→ Start met **architecture/H-register.md** — open: H25, H26, H27, H32, H33, H34, H35 (allen onveranderd). Resolved (iteratie 15): **H36** (fully closed via T1+T2+T3, cumulatief 149 ctrl:↔compl:-paren). Parked: H37 (open-ontologies-MCP), H38 (HermiT-equivalentie), H39 (SHACL false-positive-uitsplitsing — versterkt door T1+T2+T3 bidirectional), H40 (dashboard-explorer-renderdekking), H41 (iteratie 14, SKOS-axioma-set-handling onder OWL-RL; T3-bevestiging informatief iteratie 15).
+→ Start met **architecture/H-register.md** — open: H25, H26, H27, H32, H33, H34, H35 (allen onveranderd). Resolved: **H36** (iteratie 15, fully closed via T1+T2+T3, cumulatief 149 ctrl:↔compl:-paren) + **H38** (iteratie 16 — OWL RL ≡ HermiT empirisch bevestigd na v4.6.4-range-fix). Parked: H37 (open-ontologies-MCP — iteratie-16-desk-evaluatie HOLD), H39 (SHACL false-positive-uitsplitsing — versterkt door T1+T2+T3 bidirectional), H40 (dashboard-explorer-renderdekking; Q-M4 latent/parked), H41 (SKOS-axioma-set-handling onder OWL-RL — iteratie-16-impact gekwantificeerd: activering = nieuwe D-decision). Kandidaat-H-items (masterchat-benoemd, niet geactiveerd, iteratie 16): **H42/H43/H44** (dashboard-landschap) + csf↔ISO27001-cross-category-predicaat-vraag (kandidaat-precedent zonder formeel nummer).
 
 ### "Ik wil weten waarom we iets juist NIET doen"
 → Start met **scope/** (bewuste uitsluitingen) of geparkeerde H-items.
@@ -186,10 +201,10 @@ Status iteratie 15:
 
 | Aspect | Status |
 |---|---|
-| Vault-opzet | Voltooid na 15 iteraties (incl. v4.6.0-update + v1.9 + iteratie 12 polish-mini-sprint + iteratie 13 post-T1-cyclus + iteratie 14 post-T2-cyclus + iteratie 15 post-T3-cyclus) |
-| Productief gebruik | Brain bewees productie-waarde tijdens v4.5.0 + v4.6.0-sprints + T1-sprint + T2-sprint + T3-sprint. Iteratie 15 is vierde post-migratie Brein-cyclus en derde reguliere sprint-afsluitings-cyclus. Werkflow volledig gevalideerd op cross-category-context (control ↔ legal-obligation, T3) |
-| Migratie-prep | Voltooid — brain-vault in GitHub-repo, brein-subagent in Claude Code, vier post-migratie Brein-cycli succesvol afgerond |
-| Smoke-tests | 5/5 PASS (geldig voor v4.3.3-baseline; nieuwe v4.6.3-baseline kan in latere cyclus hertest) |
+| Vault-opzet | Voltooid na 16 iteraties (incl. iteratie 12 polish + iteratie 13-15 post-T1/T2/T3-cycli + **iteratie 16 multi-werkstroom-cyclus**: v4.6.4 + reasoner-evaluatie + dashboard + T4 + losse besluiten) |
+| Productief gebruik | Brain bewees productie-waarde tijdens v4.5.0 + v4.6.0 + T1/T2/T3-sprints. **Iteratie 16 is vijfde post-migratie Brein-cyclus** en eerste **multi-werkstroom**-cyclus (bundelt vijf werkstromen i.p.v. één sprint). Werkflow gevalideerd op cross-category (T3) + TBox-bugfix + reasoner-verificatie (H38) + Spoor B-revival |
+| Migratie-prep | Voltooid — brain-vault in GitHub-repo, brein-subagent in Claude Code, vijf post-migratie Brein-cycli succesvol afgerond |
+| Smoke-tests | 5/5 PASS (geldig voor v4.3.3-baseline; nieuwe v4.6.4-baseline kan in latere cyclus hertest) |
 
 ## Cross-references
 

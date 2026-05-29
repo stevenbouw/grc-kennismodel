@@ -1,24 +1,48 @@
 ---
 type: architecture
 id: H38
-title: H38 — OWL RL (owlrl-package) vs HermiT (Protégé) equivalentie niet geverifieerd sinds v4.0.0
-status: parked
-date: 2026-05-26
+title: H38 — OWL RL (owlrl-package) vs HermiT (Protégé) equivalentie — RESOLVED via v4.6.4 (range-fix + HermiT-her-run)
+status: resolved
+date: 2026-05-29
 related:
   - D01_owl-2-dl-profiel
   - owl-rl-reasoning
   - H37_open-ontologies-mcp
+  - H41_skos-axioma-set-handling
+  - v4_6_4_csf-range-fix-dl-conformiteit
 sources:
   - handover-tech-chat-to-subagent-v4_6_0
+  - evaluatie-reasoner-toolchain-h37-h38-h41
+  - patch-rapport-v4_6_4
 chat-sources: []
 confidence: high
 ---
 
-# H38 — OWL RL vs HermiT equivalentie niet geverifieerd sinds v4.0.0
+# H38 — OWL RL vs HermiT equivalentie (RESOLVED via v4.6.4)
 
 ## Status
 
-**Parked** — geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12). Trigger: significante ontology-groei of DL-conformance-twijfel bij specifieke constructie.
+**Resolved (iteratie 16, 29 mei 2026)** — empirisch gesloten. Eerder parked (geregistreerd iteratie 12). H38 is afgehandeld via de reasoner-toolchain-evaluatie (DL-construct-census) + de HermiT-run die een reële divergentie vond + de v4.6.4-range-fix die haar oploste + de HermiT-her-run die consistentie bevestigde. Zie [[brain__sprints__v4_6_4_csf-range-fix-dl-conformiteit]].
+
+## De volledige boog (blind spot → evaluatie → bevinding → fix → her-verificatie)
+
+H38 is niet "weggeredeneerd" maar empirisch gesloten via vijf stappen — en de uitkomst is genuanceerder dan de oorspronkelijke verwachting (de evaluatie voorspelde housekeeping-only, maar de HermiT-run vond een reële divergentie):
+
+1. **Blind spot** (iteratie 12, uit Fase 0 Tech-handover): sinds v4.0.0 geen HermiT-herrun op de modulaire baseline; OWL RL ≡ HermiT plausibel maar niet aangetoond.
+2. **Evaluatie** (29 mei 2026, `evaluatie-reasoner-toolchain-h37-h38-h41.md` §1): DL-construct-census over de hele TBox markeerde **één** OWL RL-onvolledige constructie — `asset:AssetOrComponent owl:equivalentClass [ owl:unionOf (asset:Asset asset:AssetComponent) ]`. Die is **materialiseerbaarheids-compleet** onder OWL RL (lid→unie materialiseert: 0 → 118 instances; unie→lid is een disjunctieve conclusie die géén reasoner als ABox-triple toevoegt). Voorspelde HermiT-delta = uitsluitend housekeeping → oordeel HOLD, runbook geleverd.
+3. **Bevinding** (HermiT-run v4.6.3, Protégé, projecteigenaar): de run meldde de merged graph **inconsistent** (`owl:Thing SubClassOf owl:Nothing`, **8 justificaties** = 4 CSF-Tiers × 2 properties). Een **reële OWL-RL/DL-divergentie** — niet de voorspelde housekeeping, maar een datatype-range-mismatch: `csf:riskGovernanceDescription` + `csf:riskManagementDescription` hadden `rdfs:range xsd:string` maar dragen `@en`-getagde waarden (`rdf:langString`). Een volledige DL-reasoner ziet dat als datatype-botsing; OWL RL controleert datatype-ranges niet streng (vandaar 0 `owl:Nothing` onder de canonieke owlrl-config — de fout bleef daar onzichtbaar).
+4. **Fix** (v4.6.4): 2× `rdfs:range xsd:string` → `rdfs:Literal` in `m21-csf.ttl` (Optie A masterchat; `rdfs:Literal` omvat `xsd:string` én `rdf:langString`). Baseline-metrics ongewijzigd.
+5. **Her-verificatie** (HermiT-her-run v4.6.4 op `output/verification/merged_asserted_v4_6_4.ttl`): **consistent, 0 `owl:Nothing`, geen justificaties**. De 8 v4.6.3-justificaties zijn verdwenen.
+
+**Uitkomst:** eerste empirisch bewijs dat **OWL RL ≡ HermiT voor deze baseline** (na de range-fix). De enige inhoudelijke DL/RL-divergentie die ooit op deze ontologie is aangetroffen, was een *modelleer*-fout (datatype-range), geen aangetoonde OWL RL-*reasoner*-limitatie — relevant voor H37 (versterkt de toolchain-wissel-trigger niet).
+
+## Methodologisch precedent
+
+Dit is het **eerste geval waarin een HermiT-bevinding (DL-zijde) een concrete TBox-fix in de canonieke baseline stuurde**. Het bewijst de waarde van de H38-her-run-discipline: OWL RL bleef de fout missen, juist omdat het datatype-ranges niet streng controleert. De canonieke metrics zijn invariant onder de fix (puur DL-correctheid, geen telmetingswijziging) — een gewenste eigenschap. Geregistreerd als sprint-precedent in [[brain__sprints__v4_6_4_csf-range-fix-dl-conformiteit]].
+
+## Oorspronkelijke vraagstelling (historie — vóór resolutie)
+
+Hieronder de oorspronkelijke H38-formulering, bewaard als context.
 
 ## Wat het is
 
@@ -70,5 +94,6 @@ Verwachte uitkomst: substantiële overlap, kleine delta. Bij grote delta: scope-
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | parked | Geregistreerd in iteratie 12 polish-mini-sprint, oorspronkelijk uit Fase 0 Tech-handover-rapport (`handover-tech-chat-to-subagent-v4_6_0.md`) als methode-blind-spot |
+| 2026-05-29 | **resolved** | Empirisch gesloten via reasoner-toolchain-evaluatie (DL-census: 1 materialiseerbaarheids-complete DL-constructie) + HermiT-run v4.6.3 (vond reële divergentie: datatype-range-mismatch, 8 justificaties) + v4.6.4-range-fix (`xsd:string` → `rdfs:Literal`) + HermiT-her-run v4.6.4 (consistent, 0 `owl:Nothing`, geen justificaties). Eerste empirisch bewijs OWL RL ≡ HermiT voor deze baseline. Masterchat-besluit (instructie Brein-cyclus iteratie 16) |
 
 — Einde H38.

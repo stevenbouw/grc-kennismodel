@@ -19,7 +19,9 @@ confidence: high
 
 Cumulatief overzicht van geformaliseerde sprint-protocollen. Geboren uit concrete leerpunten over meerdere sprints; geformaliseerd in projectinstructie v1.7 (basis), v1.8 (uitbreiding), v1.9 (vier nieuwe + één gedragsregel).
 
-## Overzicht — 12 protocollen + 1 gedragsregel
+> **Canonieke set — `docs/sprint-protocols.md` (autoritatief):** de canonieke protocollen-set is sinds v1.9 verder gegroeid en telt nu **18 protocollen + 1 gedragsregel**. Protocollen 14-17 zijn toegevoegd in iteraties 12-13 (Protocol 14 pre-push-disclosure; 15 werkbare-applier; 16 lokatie-verificatie-scripts; 17 NEN-werkverdeling), en **Protocol 18 — Pre-sprint-dashboard-update-discipline** in iteratie 16 (29 mei 2026; dashboard-tegenhanger van Protocol 1: checklist vóór build-script-aanraking bij nieuwe baseline). De detail-uitwerking hieronder (12 protocollen) is een momentopname uit v1.9 en is **niet** bijgewerkt voor 13-18 — raadpleeg `docs/sprint-protocols.md` voor de actuele set en `docs/instructies/protocol-18-concept.md` voor de Protocol-18-bron.
+
+## Overzicht — 12 protocollen + 1 gedragsregel *(v1.9-momentopname; canoniek = 18, zie docs/sprint-protocols.md)*
 
 | Protocol | Bron-leerpunt | Geformaliseerd in | Toepassings-bewijs |
 |---|---|---|---|

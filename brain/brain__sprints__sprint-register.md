@@ -3,12 +3,12 @@ type: index
 id: sprint-register
 title: Sprint-register — Chronologisch overzicht
 status: living
-date: 2026-05-28
+date: 2026-05-29
 ---
 
 # Sprint-register — Chronologisch overzicht
 
-Ontologie-evolutie van v0.x tot v4.6.3. **T1 is eerste post-migratie productie-sprint** (26 mei 2026); **T2 is tweede post-migratie productie-sprint** (27 mei 2026); **T3 is derde post-migratie productie-sprint** (28 mei 2026). v4.6.0 was laatste geplande Spoor A-sprint vóór migratie naar Claude Code + GitHub.
+Ontologie-evolutie van v0.x tot v4.6.4. **T1 is eerste post-migratie productie-sprint** (26 mei 2026); **T2 is tweede post-migratie productie-sprint** (27 mei 2026); **T3 is derde post-migratie productie-sprint** (28 mei 2026). **v4.6.4 is een TBox-bugfix-patch** (CSF-range-fix, 29 mei 2026) — geen T-sprint. v4.6.0 was laatste geplande Spoor A-sprint vóór migratie naar Claude Code + GitHub.
 
 ## Major milestones
 
@@ -30,7 +30,8 @@ Ontologie-evolutie van v0.x tot v4.6.3. **T1 is eerste post-migratie productie-s
 | v4.6.0 | 2026-05-21 | superseded | Fase 4: M15-ENSIA-uitbouw + Volwassenheidsmodel (isms-cluster naast biz) + CSF Tiers + 5 modules gewijzigd |
 | T1 (v4.6.1) | 2026-05-26 | superseded | SKOS-kwaliteitsanalyse Fase 1 — H36-cluster (28× exactMatch → broadMatch) in m10-nis2-ext; methode-protocol v1.0 vastgesteld; eerste post-migratie productie-sprint |
 | T2 (v4.6.2) | 2026-05-27 | superseded | SKOS-bidirectional-audit m10 — 65 mutaties (32 downgrade + 33 upgrade) over 10 NIS2-clusters; alle clusters convergeren naar broadMatch; methode-protocol v1.2 operationeel; v1.3-draft opgeleverd; H41 nieuw + H36 m10-component closed; tweede post-migratie productie-sprint |
-| **T3 (v4.6.3)** | **2026-05-28** | **active** | **SKOS-bidirectional-audit m14 AVG/GDPR — 2 mutaties (T3-001 + T3-002, beide broadMatch → relatedMatch op Art5_1f-cluster); 29 behoud + 2 closeMatch (T3-014 + T3-026 retrieval-interchangeability); Protocol v1.3 FINAL toegepast; cross-category-rationale als kandidaat v1.3.1-precedent; H36 fully closed; H39 versterkt bidirectional; derde post-migratie productie-sprint** |
+| T3 (v4.6.3) | 2026-05-28 | superseded | SKOS-bidirectional-audit m14 AVG/GDPR — 2 mutaties (T3-001 + T3-002, beide broadMatch → relatedMatch op Art5_1f-cluster); 29 behoud + 2 closeMatch (T3-014 + T3-026 retrieval-interchangeability); Protocol v1.3 FINAL toegepast; cross-category-rationale als kandidaat v1.3.1-precedent; H36 fully closed; H39 versterkt bidirectional; derde post-migratie productie-sprint |
+| **v4.6.4** | **2026-05-29** | **active** | **TBox-bugfix — CSF-description range-fix (2× `xsd:string` → `rdfs:Literal` in m21-csf) + version-bump grc-core; baseline-metrics ONGEWIJZIGD; HermiT-her-run consistent (0 owl:Nothing) → H38 resolved; eerste sprint waarin een HermiT-bevinding een TBox-fix in de canonieke baseline stuurde** |
 
 ## Detail per sprint
 
@@ -52,9 +53,32 @@ Ontologie-evolutie van v0.x tot v4.6.3. **T1 is eerste post-migratie productie-s
 | v4.6.0 | [[brain__sprints__v4_6_0_fase-4-ensia-en-volwassenheid]] |
 | T1 (v4.6.1) | [[brain__sprints__T1_skos-kwaliteitsanalyse-fase-1]] |
 | T2 (v4.6.2) | [[brain__sprints__T2-skos-bidirectional-audit-m10]] |
-| **T3 (v4.6.3)** | **[[brain__sprints__T3-skos-bidirectional-audit-m14]]** |
+| T3 (v4.6.3) | [[brain__sprints__T3-skos-bidirectional-audit-m14]] |
+| **v4.6.4** | **[[brain__sprints__v4_6_4_csf-range-fix-dl-conformiteit]]** |
 
-## v4.6.3 baseline-metrics (huidige active — patch-release na T3)
+## v4.6.4 baseline-metrics (huidige active — TBox-bugfix-patch)
+
+Cijfers per patch-rapport v4.6.4 §0, gemeten op `canonical_metrics_v4_6_4.json`. **Alle waarden identiek aan v4.6.3** — de fix vervangt uitsluitend het *object* van 2 property-declaratie-triples (`xsd:string` → `rdfs:Literal`), zonder triple toe te voegen of te verwijderen.
+
+| Metric | Waarde | Δ t.o.v. v4.6.3 |
+|---|---:|---:|
+| Pre-inferentie triples | 20.950 | 0 |
+| Post OWL RL | 44.907 | 0 |
+| Klassen | 199 | 0 |
+| NamedIndividuals | 1.383 | 0 |
+| ObjectProperties | 149 | 0 |
+| DatatypeProperties | 96 | 0 |
+| owl:sameAs | 98 | 0 |
+| SKOS-mappings | 1.798 | 0 |
+| — `skos:exactMatch` / `closeMatch` / `broadMatch` / `relatedMatch` / `narrowMatch` | 18 / 1.457 / 129 / 194 / 0 | 0 |
+| owl:Nothing post-inferentie | 0 | 0 |
+| Namespaces | 11 | 0 |
+| Modules | 22 (2 gewijzigd: m21-csf + grc-core) | 0 |
+| SHACL SECTIE A / SECTIE B / COMBINED | 0 / 0 / 290 | 0 / 0 / 0 |
+
+**TBox-datatype-range-fix zonder triple-totaal-impact** — onderscheid met T1/T2/T3: die waren triple-neutraal door **SKOS-predicate-substitutie**; v4.6.4 is triple-neutraal door een **TBox-datatype-range-fix** (2× `rdfs:range xsd:string` → `rdfs:Literal` op `csf:riskGovernanceDescription` + `csf:riskManagementDescription`). Geen SKOS-context. m21-csf + grc-core gewijzigd; 20 andere modules + `grc-shacl.ttl` byte-identiek aan v4.6.3. HermiT-her-run op `merged_asserted_v4_6_4.ttl` bevestigt consistent (0 `owl:Nothing`, geen justificaties) → H38 resolved.
+
+### v4.6.3 baseline-metrics (vorige active — patch-release na T3)
 
 Cijfers per patch-rapport v4.6.3 §0.1, gemeten op `canonical_metrics_v4_6_3.json`.
 
@@ -147,9 +171,10 @@ Cijfers per patch-rapport v4.6.3 §0.1, gemeten op `canonical_metrics_v4_6_3.jso
 | v4.6.0 | +1.610 | 2,7× |
 | T1 (v4.6.1) | 0 | 0× (kwaliteits-sprint — predicate-substitutie, 28 mutaties) |
 | T2 (v4.6.2) | 0 | 0× (kwaliteits-sprint — predicate-substitutie, 65 mutaties) |
-| **T3 (v4.6.3)** | **0** | **0× (kwaliteits-sprint — predicate-substitutie, 2 mutaties)** |
+| T3 (v4.6.3) | 0 | 0× (kwaliteits-sprint — predicate-substitutie, 2 mutaties) |
+| **v4.6.4** | **0** | **0× (TBox-bugfix — datatype-range-fix, 2 triple-objecten; géén SKOS-substitutie)** |
 
-v4.6.0 onder oorspronkelijke prognose (5-7×) dankzij hergebruik bestaande m15-structuur en pre-sprint-discipline. T1 + T2 + T3 zijn kwaliteits-sprints (predicate-substitutie binnen behouden SKOS-totaal van 1.798) — triple-multiplier 0× is conform sprint-type. T2-mutatie-multiplier t.o.v. T1: 2,32× (65/28). **T3-mutatie-multiplier t.o.v. T2: 0,03×** (2/65) — smal mutatie-spectrum maar breed methodisch leerpunt (cross-category-principe als kandidaat v1.3.1-precedent). Per patch-rapport v4.6.3 §8.
+v4.6.0 onder oorspronkelijke prognose (5-7×) dankzij hergebruik bestaande m15-structuur en pre-sprint-discipline. T1 + T2 + T3 zijn kwaliteits-sprints (predicate-substitutie binnen behouden SKOS-totaal van 1.798) — triple-multiplier 0× is conform sprint-type. T2-mutatie-multiplier t.o.v. T1: 2,32× (65/28). T3-mutatie-multiplier t.o.v. T2: 0,03× (2/65) — smal mutatie-spectrum maar breed methodisch leerpunt (cross-category-principe als kandidaat v1.3.1-precedent). Per patch-rapport v4.6.3 §8. **v4.6.4 is óók triple-neutraal (0×), maar via een ander mutatie-type: een TBox-datatype-range-fix (2× `xsd:string` → `rdfs:Literal`), géén SKOS-predicate-substitutie. Het onderscheid is expliciet — v4.6.4 raakt geen SKOS-mapping en geen telmeting. Per patch-rapport v4.6.4 §0 + §5.**
 
 ## Cross-references naar D-decisions
 
@@ -167,14 +192,16 @@ v4.6.0 onder oorspronkelijke prognose (5-7×) dankzij hergebruik bestaande m15-s
 | v4.6.0 | — | D6 symmetrische uitbreiding v1.9 (CSF Tier @en-only), D9 cluster 4 (ENSIA) |
 | T1 (v4.6.1) | — | D4 conformance-verbetering (exactMatch was te sterk geclaimd voor 28 ctrl:↔compl:-paren; ENISA-disclaimer-categorisch-effect); D4.1 vastgesteld 27 mei 2026 |
 | T2 (v4.6.2) | — | D4.1 toepassings-precedent uitgebreid naar cluster-niveau (118 paren over 10 m10-clusters; één D4.1-bevestiging per homogene cluster); D4-bidirectional bewijs op productie-schaal |
-| **T3 (v4.6.3)** | — | **D4 cross-category-rationale als toepassings-precedent (control ↔ legal-obligation = associatief, niet subsumptief) op 31 m14-paren over 5 AVG-clusters; D4.1 inactief in T3 (bindende T3-steer 1; AVG = publiek EU-recht); closeMatch-uitzondering op retrieval-interchangeability methodologisch consistent toegepast (T3-014 + T3-026)** |
+| T3 (v4.6.3) | — | D4 cross-category-rationale als toepassings-precedent (control ↔ legal-obligation = associatief, niet subsumptief) op 31 m14-paren over 5 AVG-clusters; D4.1 inactief in T3 (bindende T3-steer 1; AVG = publiek EU-recht); closeMatch-uitzondering op retrieval-interchangeability methodologisch consistent toegepast (T3-014 + T3-026) |
+| **v4.6.4** | — | **D1 versterkt (`rdfs:Literal`-range is OWL 2 DL-conform; fix herstelt DL-conformiteit, HermiT-consistentie); D6 geen meelift-schuld (CSF-Tier-descriptions blijven @en-only, NIST CSWP 29, bewuste symmetrische D6-toepassing); geen SKOS/D4-aanraking** |
 
 ## Geplande sprints
 
 | Sprint | Datum | Voorgenomen scope |
 |---|---|---|
-| T4 | TBD (verse masterchat-sessie post-T3) | SKOS-kwaliteitsanalyse vervolg — kandidaten: cross-bron-overlap-105-paren (v4.5.0), m17 COSO/COBIT, m11 NIST SP 800-53, m09 ISO 27001, m16 VIRBI, m12 DORA, framework-niveau SKOS (fw:↔fw:) |
-| Protocol v1.3.1-Brein-cyclus | TBD | Formalisering cross-category-mappings-principe als §3.4 of §3.3-aanvulling op SKOS-beoordelings-protocol (T3-leerpunt; kandidaat-precedent) |
+| T4 | **afgesloten als inventarisatie-only, geparkeerd (Optie B)** — 29 mei 2026 | csf↔ISO 27001 cross-bron-overlap SKOS-kwaliteit. Inventarisatie uitgevoerd; "105-overlap" bleek bron-niveau-getal (v4.5.0), niet machine-reproduceerbaar; categorie gesplitst (eis + measure). Geen mutatie, baseline ongewijzigd. csf↔ISO27001-predicaat-vraag als kandidaat-precedent (geen formeel H-nummer). Zie [[brain__sprints__T3-skos-bidirectional-audit-m14]] cross-refs + concept [[brain__concepts__cross-category-mappings]] |
+| T5 / volgende T-sprint | TBD (verse masterchat-sessie) | SKOS-kwaliteitsanalyse vervolg — resterende kandidaten: m17 COSO/COBIT, m11 NIST SP 800-53, m16 VIRBI, m12 DORA, framework-niveau SKOS (fw:↔fw:). csf↔ISO27001 (T4-scope) kan terugkeren mits masterchat scope-eindpunt + overlap-definitie vaststelt |
+| Protocol v1.3.1-Brein-cyclus | TBD | Formalisering cross-category-mappings-principe als §3.4 of §3.3-aanvulling op SKOS-beoordelings-protocol (T3-leerpunt; kandidaat-precedent; T4 voegt csf↔ISO27001-precedent toe) |
 
 ## Sprint-protocollen die zijn ontstaan / verfijnd per sprint
 

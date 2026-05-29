@@ -10,12 +10,14 @@ related:
   - skos-beoordelings-protocol
   - cluster-discipline-bewijslast
   - mapping-bron-disclaimer-effect
+  - cross-bron-overlap
   - H36_skos-exactmatch-ctrl-compl-audit
 sources:
   - patch-rapport-v4_6_3
   - t3-stap3-eindrapport
   - t3-pilot-rapport
   - skos-beoordelings-protocol-v1_3
+  - t4-pre-sprint-inventarisatie
 chat-sources: []
 confidence: high
 ---
@@ -83,6 +85,8 @@ m10's convergentie was **framework-specifiek** (ISO 27002 ↔ NIS2 zijn beide co
 | Categorie-paar | T-sprint-precedent | Status |
 |---|---|---|
 | **control ↔ legal-obligation** | T3 (m14 ISO 27002 ↔ AVG; 31 paren bewezen) | empirisch precedent gevestigd |
+| **outcome ↔ requirement** (csf:Subcategory ↔ ISO 27001 mandatory clause) | T4-inventarisatie (245 unie, `ext:ISMSRequirement`) | **kandidaat-precedent (geen formeel H-nummer)** |
+| **outcome ↔ measure** (csf:Subcategory ↔ ISO 27001 Annex A control) | T4-inventarisatie (494, `bio:ISO27002` via D5-brug) | **kandidaat-precedent (geen formeel H-nummer)** |
 | control ↔ standard-clause | (open — bv. ISO 27002 ↔ ISO 27001 Annex A; mogelijk niet T-sprint-scope) | toekomstige overweging |
 | control ↔ wettelijke verplichting in andere modules | m16 VIRBI? m12 DORA? | toekomstige Brein-overweging |
 | framework ↔ framework (fw:↔fw:) | beperkt huidig (Sectie 4 m14 + m01/m07) | niet primair cross-category |
@@ -97,6 +101,29 @@ Cluster-discipline-default per Protocol §3.1 + §3.3 blijft volledig van toepas
 - bio: ↔ ctrl: (D5-sameAs, niet SKOS — buiten cross-category-overweging)
 
 Cross-category-rationale en cluster-discipline-default zijn **complementair**, niet conflicterend: cluster-discipline-default opereert binnen één categorie; cross-category-rationale opereert tussen categorieën.
+
+## csf↔ISO27001 — tweede cross-category-kandidaat-precedent (T4, 29 mei 2026 — ZONDER formeel H-nummer)
+
+De T4-pre-sprint-inventarisatie (`output/reports/t4-pre-sprint-inventarisatie.md`, READ-ONLY) bracht een **tweede** cross-category-context in beeld: csf:Subcategory (outcome) ↔ ISO 27001. Masterchat heeft dit als **kandidaat** benoemd; Brein legt het empirisch precedent + de open vraag vast (analoog aan hoe dit concept zelf in iteratie 15 als kandidaat is vastgelegd), maar **declareert geen formeel H-nummer** zonder expliciete masterchat-instructie.
+
+**Wat er ligt (model-meetbaar, T4):** 739 csf↔ISO27001 closeMatch-mappings, beide eindpunt-typen **cross-category** t.o.v. csf-outcomes, géén prima-facie defect (0 exactMatch → geen prima-facie schending). Het ISO-eindpunt is **gesplitst** in twee categorieën:
+
+| ISO-eindpunt | Representatie | Categorie | csf↔X karakter | n |
+|---|---|---|---|---:|
+| Mandatory clauses 4-10 | `ext:ISO27001_*` (`ext:ISMSRequirement`) | eis-categorie | outcome ↔ requirement (cross-category) | 245 (unie) |
+| Annex A-controls | `bio:ISO27002_*` (D5-brug → ctrl:) | measure-categorie | outcome ↔ control (cross-category) | 494 (m21-only) |
+
+Beide zijn prima facie cross-category t.o.v. `csf:Subcategory` → de T3-relatedMatch-basislijn is hier de natuurlijke kandidaat. Maar de huidige predicate-status is **100% closeMatch** (conversie-default uit de import, géén OLIR-getypeerd per-paar-oordeel) — dezelfde spanning closeMatch-vs-relatedMatch die T3 bij m14 oploste, nu op grotere schaal (potentieel mutatie-bereik tot 739 closeMatch → relatedMatch, mits per-paar de retrieval-interchangeability-uitzondering wordt getoetst).
+
+**Drie open subvragen (masterchat-werk, NIET door Brein/Tech te beslissen):**
+
+| # | Subvraag | Toelichting |
+|---|---|---|
+| (a) | `relatedMatch` vs `closeMatch` retrieval-interchangeability voor csf↔ISO | Geldt de cross-category-relatedMatch-basislijn (T3-precedent) hier, of blijft closeMatch verdedigbaar via retrieval-interchangeability per paar? csf-outcomes hebben mogelijk bredere interchangeability dan AVG-artikelen |
+| (b) | v1.3.1-formalisering | Een formele cross-category-§3.4 zou csf↔ISO direct beslisbaar maken; blijft masterchat-werk (zie hieronder) |
+| (c) | **699-vs-494-reconciliatie** | T4-rapport §2.2 (csf→bio closeMatch = **699**) vs §3.1-B (m21 Annex A = **494**) is **onverklaard** in het rapport. Het verschil (205) moet gereconcilieerd worden vóór een eventuele pilot — mogelijk telt §2.2 csf→bio over alle bron-attributies terwijl §3.1-B alleen Sheet 8-Annex-A telt, maar dat is niet vastgesteld |
+
+**Distinctie van het m14-precedent:** m14 (T3) was control ↔ legal-obligation (1↔veel, 31 paren, AVG = publiek EU-recht zonder disclaimer). csf↔ISO27001 is outcome ↔ requirement én outcome ↔ measure (twee eindpunt-categorieën, 739 paren, gesplitste categorie, ISO 27001 deels NEN-restrictief maar parafrase-volstaand). Het cross-category-principe is hetzelfde; de cardinaliteit, schaal en bron-context verschillen. Zie [[brain__concepts__cross-bron-overlap]] voor de overlap-detectie-nuance (105 = bron-niveau, niet machine-reproduceerbaar).
 
 ## Kandidaat-formalisering — Protocol v1.3.1 (NIET nu uitvoeren)
 
@@ -134,11 +161,14 @@ Mogelijke v1.3.1-aanvulling op Protocol §3.3 of nieuwe §3.4:
 
 - [[brain__sprints__T3-skos-bidirectional-audit-m14]] — empirisch precedent op 31 m14-paren over 5 AVG-clusters
 - [[brain__sprints__T2-skos-bidirectional-audit-m10]] — distinctie-precedent (binnen-categorie cluster-discipline-conform 10/10)
+- T4-pre-sprint-inventarisatie (`output/reports/t4-pre-sprint-inventarisatie.md`) — tweede cross-category-kandidaat (csf↔ISO27001, 739 paren, gesplitste categorie); inventarisatie-only, geparkeerd (Optie B); kandidaat-precedent zonder formeel H-nummer
+- [[brain__concepts__cross-bron-overlap]] — T4-overlap-detectie-nuance (105 = bron-niveau, niet machine-reproduceerbaar)
 
 ## Status-historie
 
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-28 | living (kandidaat v1.3.1-precedent) | Concept ontstaan uit T3-sprint Stap 3-eindrapport §5 + patch-rapport v4.6.3 §13.1. Empirisch precedent vastgelegd op 31 m14-paren (control ↔ legal-obligation cross-category). Formele Protocol-tekst-wijziging als kandidaat v1.3.1-aanvulling gemarkeerd; formalisering = masterchat-werk bij volgende sprint-scoping (NIET Brein-taak in iteratie 15) |
+| 2026-05-29 | living (kandidaat v1.3.1-precedent) | **Tweede cross-category-kandidaat-precedent toegevoegd: csf↔ISO27001** (T4-inventarisatie, 739 paren, gesplitste categorie outcome↔requirement + outcome↔measure). Drie open subvragen vastgelegd: (a) relatedMatch-vs-closeMatch retrieval-interchangeability, (b) v1.3.1-formalisering, (c) 699-vs-494-reconciliatie (T4-rapport §2.2 vs §3.1-B onverklaard). **Geen formeel H-nummer** zonder masterchat-instructie (Brein-discipline, analoog iteratie 15). cross-category-paren-tabel uitgebreid |
 
 — Einde cross-category-mappings.

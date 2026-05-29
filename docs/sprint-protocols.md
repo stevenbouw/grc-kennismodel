@@ -17,7 +17,7 @@ Sprint-protocollen zijn **niet-onderhandelbaar** voor alle subagents (zie CLAUDE
 
 ---
 
-## Overzicht — 17 protocollen + 1 gedragsregel
+## Overzicht — 18 protocollen + 1 gedragsregel
 
 | # | Protocol | Primair-uitvoerend | Geformaliseerd in | Status |
 |---|---|---|---|---|
@@ -38,6 +38,7 @@ Sprint-protocollen zijn **niet-onderhandelbaar** voor alle subagents (zie CLAUDE
 | **15** | **Tech levert werkbare applier (niet alleen specificatie)** | **Tech** | **iteratie 13 (T1 §8 leerpunt 5)** | **Verplicht** |
 | **16** | **Lokatie verificatie-scripts expliciet in patch-rapport** | **Tech** | **iteratie 13 (T1 §8 leerpunt 6)** | **Verplicht** |
 | **17** | **NEN-werkverdeling met Tech-autonomie** | **Tech (autonoom); Masterchat alleen bij edge-cases** | **iteratie 13 (T1 §8 leerpunt 4); herzien 27 mei 2026** | **Verplicht** |
+| **18** | **Pre-sprint-dashboard-update-discipline** | **Dashboard** | **29 mei 2026 (dashboard-landschap Bouwsteen E)** | **Verplicht** |
 | **GR** | Property-semantiek-discipline | Alle (gedragsregel) | v1.9 | Verplicht |
 
 ---
@@ -503,6 +504,30 @@ Pre-push disclosure-check (Protocol 14) wordt v1.1 uitgebreid met NEN-tekst-frag
 
 ---
 
+## 18. Pre-sprint-dashboard-update-discipline (29 mei 2026)
+
+**Trigger:** Dashboard-subagent raakt een build-script aan bij een nieuwe ontologie-baseline.
+
+**Subagent:** Dashboard.
+
+**Aanleiding:** dashboard-landschap-analyse Bouwsteen E; masterchat-GO 29 mei 2026. Analoog aan Protocol 1 (pre-sprint-inventarisatie voor Tech), maar voor de Dashboard-subagent.
+
+**Procedure:** vóór elke build-script-aanraking bij een nieuwe baseline doorloopt de Dashboard-subagent deze checklist en levert de uitkomst (ja/nee + impact) in het patchnotitie-rapport:
+
+1. Welke modules zijn gewijzigd in deze release? (uit patch-rapport "Gewijzigde modules")
+2. Zijn er nieuwe namespaces? (raakt namespace-binding + class-mapping)
+3. Zijn er nieuwe properties met SKOS-impact? (raakt edge-export)
+4. Is er een nieuwe Laag? (raakt LAAG-config)
+5. Is er een nieuw framework-individual? (raakt framework-config)
+6. Build-script-versie-bump nodig of niet?
+7. SKOS-tellingen: noem expliciet de meet-laag (ontologie 1.798 vs. dashboard-export 1.759) zodat de 39-edge-discrepantie niet elke release opnieuw als "bug" opduikt (zie [[brain__concepts__skos-export-filter]]).
+
+**Discipline:** vier-tot-zeven vragen volstaan — niet bureaucratiseren. Output is een impact-tabel met expliciete scope-annotatie (Protocol v1.3 §10.5).
+
+**Output:** impact-tabel (ja/nee + impact per vraag) in het dashboard-patchnotitie-rapport.
+
+---
+
 ## GR — Property-semantiek-discipline (gedragsregel, v1.9)
 
 **Trigger:** Modellering van rollen of relaties tussen frameworks/individuals.
@@ -676,9 +701,10 @@ Per stap:
 | 2026-05-26 | 1.1 | Toevoeging Protocol 14 — Pre-push disclosure-check (iteratie 12 polish-mini-sprint). Aanleiding: PAT-blunder voorgaande sessie + handovers ongetoetst gepusht. Reikwijdte: alle subagents + Steven, vóór elke push van documenten met chat-historie of subagent-output. Niet retroactief. |
 | 2026-05-26 | 1.2 | Toevoeging drie protocollen 15-17 uit T1-leerpunten (iteratie 13 Brein-cyclus). Protocol 15: Tech levert werkbare applier (niet alleen specificatie) — bron T1 §8 leerpunt 5 (tooling-incident applier). Protocol 16: Lokatie verificatie-scripts expliciet in patch-rapport — bron T1 §8 leerpunt 6 (pad-inconsistentie). Protocol 17: NEN-werkverdeling Tech↔Masterchat — bron T1 §8 leerpunt 4 (eerste productie-toepassing). |
 | 2026-05-27 | 1.3 | Protocol 17 herzien na koers-correctie lokale NEN-toegang. Tech-autonomie omhoog; masterchat-escalatie alleen bij edge-cases. Parafrase-discipline + twee-zijdige analyse-format toegevoegd. Overzichtstabel-rij voor Protocol 17 bijgewerkt (titel + uitvoerend + status-veld). |
+| 2026-05-29 | 1.4 | Toevoeging Protocol 18 — Pre-sprint-dashboard-update-discipline (Brein-cyclus iteratie 16; masterchat-concept `protocol-18-concept.md`, GO 29 mei). Dashboard-tegenhanger van Protocol 1: vier-tot-zeven-vragen-checklist vóór build-script-aanraking bij nieuwe baseline, uitkomst in patchnotitie-rapport. Overzicht-kop 17 → 18; overzichtstabel-rij toegevoegd. Canonieke 1-17 ongewijzigd (surgische merge). |
 
 ---
 
-**Einde sprint-protocollen v1.3.**
+**Einde sprint-protocollen v1.4.**
 
 *Bij twijfel over toepasselijkheid van protocol: scope-pauze met vraag aan masterchat is altijd legitiem.*

@@ -28,7 +28,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | [[brain__concepts__cross-bron-overlap]] | SKOS-kwaliteits-indicator: 2+ onafhankelijke bronnen, zelfde mapping | provenance, sources |
 | [[brain__concepts__parallelle-maturity-clusters]] *(iteratie 11)* ✨ | **biz vs isms maturity-clusters — twee parallelle modellen, niet samenvoegen** | v4.6.0, M06, M07 |
 | [[brain__concepts__skos-export-filter]] *(v4.6.0)* ✨ | **Ontologie-laag (1.798) vs dashboard-laag (1.759) — twee meet-conventies, beide kloppen** | canonical-metrics, namedindividual-telmethode |
-| [[brain__concepts__dashboard-productlijnen]] *(iteratie 12)* ✨ | **Spoor A explorer (ontologie-graaf) vs Spoor B dashboard (operationeel) — twee productlijnen, niet vermengen** | H40, skos-export-filter, CLAUDE.md Spoor B-overweging |
+| [[brain__concepts__dashboard-productlijnen]] *(iteratie 12, Q-M-update iteratie 16)* ✨ | **Spoor A explorer (ontologie-graaf) vs Spoor B dashboard (operationeel) — twee productlijnen, niet vermengen. Q-M1..Q-M6-besluiten + Q-M2-reversal (v3-2 mag in repo)** | H40, skos-export-filter, spoor-b-revival, CLAUDE.md Spoor B-overweging |
+| [[brain__concepts__spoor-b-revival]] *(iteratie 16)* ✨ | **Spoor B-revival grc-dashboard-v3-2 (29 mei): B7-wiring + bron-split 1A (wStruct/wOper) + Q-M5 lokaal vendoren + B9 WCAG 47→0. Drie Spoor B-bron-besluiten (Optie A · Optie 1 · 1A) + twee vervolgpunten (file://-laadgedrag + herkomst-kolom verse load)** | dashboard-productlijnen, H40, skos-export-filter |
 | [[brain__concepts__skos-beoordelings-protocol]] *(iteratie 13, T2-update iteratie 14, T3-update iteratie 15)* ✨ | **Bidirectional methode voor SKOS-match-type-evaluatie — vier criteria + predicate-doel-tabel + sterkte-ordening + cluster-discipline + bidirectional-audit-symmetrie. v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 FINAL (T3 cross-category)** | D4 + D4.1, T1, T2, T3, H36, H41, mapping-bron-disclaimer-effect, cluster-discipline-bewijslast, cross-category-mappings |
 | [[brain__concepts__mapping-bron-disclaimer-effect]] *(iteratie 13, T2-update iteratie 14, T3-context iteratie 15)* ✨ | **Autoritatieve mapping-bronnen met non-equivalence-disclaimer ondergraven `skos:exactMatch` zelfs bij sluitende C1-C3 — D4.1-toepassing op cluster-niveau bij homogene bron-stack (T2-precedent); inactief in T3 (AVG = publiek EU-recht zonder disclaimer)** | D4 + D4.1, T1, T2, T3, skos-beoordelings-protocol, cluster-discipline-bewijslast |
 | [[brain__concepts__cluster-discipline-bewijslast]] *(iteratie 14)* ✨ | **Bewijslast-asymmetrie voor uitzonderingen binnen veel↔1-clusters — sterker mapping én zwakker mapping vereisen streng NEN-bewijs; cluster-default geen aanvullende bewijslast. T2-empirie: 0/10 succesvolle heuristiek-flag-uitzonderingen. T3-context: complementair aan cross-category-rationale (cluster-discipline binnen één categorie; cross-category tussen categorieën)** | D4 + D4.1, T1, T2, T3, skos-beoordelings-protocol, mapping-bron-disclaimer-effect, cross-category-mappings |
@@ -59,7 +60,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 - meeliftregel-edit-scope
 
 ### Product-scope-discipline
-- **dashboard-productlijnen (iteratie 12)** ✨ — Spoor A explorer vs Spoor B dashboard, niet vermengen
+- **dashboard-productlijnen (iteratie 12, Q-M-update iteratie 16)** ✨ — Spoor A explorer vs Spoor B dashboard, niet vermengen; Q-M-architectuurbesluiten + Q-M2-reversal
+- **spoor-b-revival (iteratie 16)** ✨ — B7-wiring + bron-split 1A + Q-M5 vendoring + B9 WCAG; drie Spoor B-bron-besluiten + twee vervolgpunten
 
 ### SKOS-kwaliteits-methode (T1+T2+T3-cluster)
 - **skos-beoordelings-protocol (iteratie 13, T2-update iteratie 14, T3-update iteratie 15)** ✨ — bidirectional methode voor match-type-evaluatie; v1.0 (T1) → v1.2 (T2 operationeel) → v1.3 FINAL (T3 cross-category)
@@ -85,7 +87,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | cross-bron-overlap | (geen directe D — emergente kwaliteits-indicator) | provenance |
 | **parallelle-maturity-clusters** | **(geen directe D — V1-architectuur-uitkomst)** | **D9 (twee gelijkwaardige clusters)** |
 | **skos-export-filter** | **(geen directe D — measurement-conventie-verfijning)** | **D1, D4, D11 (alle getoetst, geen schending)** |
-| **dashboard-productlijnen** | **(geen directe D — product-scope-onderscheid)** | **(geen — productlijn-scheiding raakt geen D-decision direct)** |
+| **dashboard-productlijnen** | **(geen directe D — product-scope-onderscheid)** | **(geen — productlijn-scheiding raakt geen D-decision direct; Q-M3 bevestigt discipline)** |
+| **spoor-b-revival** | **(geen directe D — Spoor B-prototype-werk, geen ontologie-mutatie)** | **D9 framework-neutraal in dashboard bevestigd; geen D-schending** |
 | **skos-beoordelings-protocol** | **D4 + D4.1** | **(geen andere — opereert binnen D4 + D4.1; T2-cluster-niveau-precedent; T3-cross-category-precedent)** |
 | **mapping-bron-disclaimer-effect** | **D4.1 (formeel sinds 27 mei 2026)** | **(D4.1-toepassings-precedent cluster-niveau via T2; D4.1 inactief in T3-context — AVG = publiek EU-recht)** |
 | **cluster-discipline-bewijslast** | **(geen directe D — methode-bewijslast-aspect)** | **D4 + D4.1 (operationeel binnen cluster-discipline §3.3; complementair aan cross-category-rationale)** |
@@ -109,7 +112,8 @@ Overzicht van alle concept-files. Concepts zijn **levende uitlegdocumenten** (in
 | cross-bron-overlap | v4.5.0 (S5 ∩ S6 = 105) | Concept ontstaan uit observatie |
 | **parallelle-maturity-clusters** | **v4.6.0 (V1-uitkomst Optie B)** | **Concept ontstaan uit Fase 4 V1-evaluatie** |
 | **skos-export-filter** | **v4.6.0 (tech-inspectie 39 tripels)** | **Concept ontstaan uit ontologie-laag vs dashboard-laag meet-discrepantie** |
-| **dashboard-productlijnen** | **iteratie 12 (post-v4.6.0 polish-mini-sprint)** | **Concept ontstaan uit sessie-rapport v2.0 §2.1 + §9.2** |
+| **dashboard-productlijnen** | **iteratie 12 (post-v4.6.0 polish-mini-sprint); iteratie 16 (Q-M-besluiten + Q-M2-reversal)** | **Concept ontstaan uit sessie-rapport v2.0 §2.1 + §9.2; iteratie 16 verwerkt de zes Q-M-architectuurbesluiten + de Q-M2-reversal (v3-2 mag in repo)** |
+| **spoor-b-revival** | **iteratie 16 (29 mei 2026 — geen ontologie-sprint)** | **Concept ontstaan uit dashboard-tussenrapport B7-wiring + dashboard-rapport Q-M5/B9 + besluitnotitie Q-M. Legt Spoor B-revival + drie bron-besluiten + twee vervolgpunten vast (Brein-registratie; dashboard-code niet aangeraakt)** |
 | **skos-beoordelings-protocol** | **T1 (v4.6.1, 26 mei) + T2 (v4.6.2, 27 mei) + T3 (v4.6.3, 28 mei)** | **Methode-concept vastgesteld in T1 Stap 2 (v1.0); v1.2 in T2 in productie gevalideerd op 118 paren over 10 clusters; v1.3 DRAFT opgeleverd post-T2; v1.3 FINAL vastgesteld 28 mei door masterchat tijdens T3-scoping; v1.3 in productie gevalideerd op 31 m14-paren cross-category** |
 | **mapping-bron-disclaimer-effect** | **T1 (v4.6.1) + T2 (v4.6.2) + T3-context (v4.6.3)** | **Concept ontstaan uit T1 §6 + §8 leerpunt 2 (ENISA TIG regel 285); D4.1 vastgesteld 27 mei 2026; T2-cluster-niveau-toepassings-precedent; T3-context inactief (AVG = publiek EU-recht zonder non-equivalence-disclaimer)** |
 | **cluster-discipline-bewijslast** | **T2 (v4.6.2)** | **Concept ontstaan uit T2 Stap 3-leerpunt §6.5 + patch-rapport §6.3; empirisch gevalideerd via 0/10 succesvolle heuristiek-flag-uitzonderingen** |

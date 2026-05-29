@@ -7,8 +7,11 @@ date: 2026-05-26
 related:
   - owl-rl-reasoning
   - canonical-metrics
+  - H38_owlrl-vs-hermit-equivalentie
+  - H41_skos-axioma-set-handling
 sources:
   - sessie-rapport-v1_0
+  - evaluatie-reasoner-toolchain-h37-h38-h41
 chat-sources: []
 confidence: medium
 ---
@@ -17,7 +20,24 @@ confidence: medium
 
 ## Status
 
-**Parked** — geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12). Trigger: aangetoonde OWL RL-limitatie, of ontology-omvang nadert ~50.000 triples.
+**Parked, ongewijzigd** — geregistreerd post-v4.6.0 in polish-mini-sprint (iteratie 12). Trigger: aangetoonde OWL RL-limitatie, of ontology-omvang nadert ~50.000 triples. Desk-evaluatie uitgevoerd 29 mei 2026 (zie hieronder) — oordeel **HOLD**; geen van de vier triggers actief. Status blijft parked.
+
+## Evaluatie-uitkomst (29 mei 2026 — desk-evaluatie, HOLD)
+
+De reasoner-toolchain-evaluatie (`output/reports/evaluatie-reasoner-toolchain-h37-h38-h41.md` §3) toetste H37 als **desk-evaluatie** op de publieke projectpagina (`github.com/fabio-rovai/open-ontologies`) — niet geïnstalleerd, niet geïntegreerd. De scope-pauze-conditie "installatie nodig om te oordelen" deed zich **niet** voor.
+
+**Karakterisering tool (publieke bron):** Rust (edition 2024, single binary, geen JVM) + Oxigraph 0.4 (in-memory, SPARQL 1.1) + native OWL2-DL tableaux (SHOIQ) + OWL-RL + RDFS; MCP-server met 70+ `onto_`-tools; SHACL aanwezig; SKOS-reasoning niet specifiek geclaimd. Volwassenheid **v0.1.11** (25 mrt 2026), 4 releases, **125 ★ / 19 forks, geen 1.0**. Licentie **MIT**. Benchmark-claim o.a. LUBM-reasoning 15 ms vs HermiT 24.490 ms @ 50k axiomas.
+
+**Trigger-herijking (de vier H37-triggers, getoetst):**
+
+| Trigger | Status na evaluatie |
+|---|---|
+| Concrete OWL RL-limitatie aangetoond | **Niet** — H38-census: enige DL-constructie materialiseerbaarheids-compleet; 0 `owl:Nothing`. De v4.6.4-vondst was een *modelleer*-fout (datatype-range), géén OWL RL-reasoner-limitatie |
+| Ontology > ~50.000 triples | **Niet (nadert)** — 44.907 post-OWL-RL; pre-inferentie 20.950. Drempel in zicht, niet bereikt |
+| H38 toont substantiële delta | **Niet** — H38 resolved; OWL RL ≡ HermiT na range-fix |
+| MCP-ecosystem-volwassenheid (stabiele 1.0) | **Niet** — v0.1.11, geen 1.0, beperkte adoptie (125 ★) |
+
+**Cross-item:** H38 (resolved) ontneemt H37 de "aangetoonde OWL RL-limitatie"-trigger; H41 (hanteerbare, SHACL-neutrale SKOS-impact) ontneemt H37 een SKOS-versterkende trigger. Aanvullende migratie-/black-box-kosten (canonical_metrics_*/shacl_split_*-scripts herschrijven + her-baselinen) tegenover een toolchain die bewezen voldoet. **Geen NO-GO:** technisch serieuze tool; herwaardeer bij (a) >~50k triples, (b) Spoor B-overgang, of (c) een 1.0-release met bredere adoptie. Geen installatie zonder apart masterchat-besluit.
 
 ## Wat het is
 
@@ -68,5 +88,6 @@ Het onderwerp is helder (alternatieve toolchain bestaat); de meerwaarde voor dit
 | Datum | Status | Wijziging |
 |---|---|---|
 | 2026-05-26 | parked | Geregistreerd in iteratie 12 polish-mini-sprint, oorspronkelijk uit sessie-rapport v1.0 (post-migratie skills/plugins-roadmap) |
+| 2026-05-29 | parked (ongewijzigd) | Desk-evaluatie uitgevoerd (reasoner-toolchain-evaluatie §3): Rust + Oxigraph + tableaux + MCP, MIT, pre-1.0 v0.1.11. Oordeel **HOLD** — geen van 4 triggers actief; 44.907 < 50k; H38 resolved (geen reasoner-limitatie). Trigger-herijking gedocumenteerd. Geen installatie zonder masterchat-besluit |
 
 — Einde H37.
