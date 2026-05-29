@@ -6,6 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/sql-wasm.js"></script>
+<script src="structure-import-v4_6_0.js"></script><!-- B7: window.STRUCTURE_IMPORT (ontologie-structuur v4.6.0) -->
 <style>
 :root{
   --bg:#0a0e14;--bg1:#111720;--bg2:#161d28;--bg3:#1c2535;--bg4:#24303f;
@@ -223,12 +224,14 @@ canvas{max-height:250px}
   <div class="hdr-logo">🛡️</div>
   <div>
     <div class="hdr-org">GRC Dashboard — Rijksoverheidsorganisatie</div>
-    <div class="hdr-sub">Governance · Risk · Compliance · ISMS · v3.0 Database</div>
+    <div class="hdr-sub">Governance · Risk · Compliance · ISMS · v3.0 Database <span id="hdr-struct" style="color:var(--text4)"></span></div>
   </div>
   <div class="hdr-right">
     <div class="db-badge"><span class="dot" id="db-dot" style="background:var(--text4)"></span><span id="db-status">Laden...</span></div>
     <button class="hdr-btn" onclick="exportDB()" data-tip="Sla database op als .db-bestand">↓ DB Export</button>
     <label class="hdr-btn" data-tip="Laad eerder opgeslagen database">↑ DB Import <input type="file" accept=".db" style="display:none" onchange="importDB(this.files[0])"></label>
+    <button class="hdr-btn" onclick="importOntologieStructuur()" data-tip="Importeer frameworks/controls/rollen uit de ontologie (structuur v4.6.0, non-destructief)">⬇ Ontologie-import</button>
+    <select class="hdr-btn" id="bron-sel" onchange="setBron(this.value)" data-tip="Weergavebron: structuur=ontologie, operationeel=handmatig"><option value="auto">Bron: auto</option><option value="ontologie">Bron: ontologie</option><option value="handmatig">Bron: handmatig</option><option value="alle">Bron: alle</option></select>
     <div><div class="hdr-kv-val" id="hdr-date">—</div><div class="hdr-kv-lbl">Datum · <span id="save-ind" style="color:var(--text4)">●</span> Opgeslagen</div></div>
   </div>
 </div>
@@ -716,6 +719,56 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
 
 let db, SQL_ENGINE, charts = {}, modalState = {};
 
+// ═══════════════════════════════════════════════════════════
+// B7 — ontologie-structuur-import + bron-split (1A)
+// Structuurlaag = ontologie canoniek (telling/traceerbaarheid);
+// operationele laag = hand-seed primair (status/rollen). Bron-conditie
+// expliciet per query via wStruct()/wOper(). BRON-toggle houdt de andere
+// laag zichtbaar. Non-destructief: handmatige rijen blijven ongemoeid.
+// ═══════════════════════════════════════════════════════════
+let BRON = 'auto';  // 'auto' | 'ontologie' | 'handmatig' | 'alle'
+function heeftOnto(){ const r=sqlOne(`SELECT COUNT(*) FROM controls WHERE herkomst='ontologie'`); return !!(r && r[0]>0); }
+// structuurlaag: ontologie canoniek indien aanwezig (anders pre-import hand-seed)
+function wStruct(a){ a=a?a+'.':'';
+  if(BRON==='handmatig') return ` AND COALESCE(${a}herkomst,'handmatig')='handmatig'`;
+  if(BRON==='alle') return '';
+  return heeftOnto() ? ` AND ${a}herkomst='ontologie' AND COALESCE(${a}orphan,0)=0` : '';
+}
+// operationele laag: hand-seed primair (status/rollen — ontologie-rijen zijn leeg/dun)
+function wOper(a){ a=a?a+'.':'';
+  if(BRON==='ontologie') return ` AND ${a}herkomst='ontologie'`;
+  if(BRON==='alle') return '';
+  return ` AND COALESCE(${a}herkomst,'handmatig')='handmatig'`;
+}
+function setBron(v){ BRON=v; renderAll(); updateKPIs(); }
+
+// PRAGMA-geguarde kolom-migratie (K1 iri + provenance; owl_klasse ontbreekt op controls)
+function migreerStructuurKolommen(){
+  const extra=[['iri','TEXT'],['herkomst',"TEXT DEFAULT 'handmatig'"],['bron_versie','TEXT'],['orphan','INTEGER DEFAULT 0'],['owl_klasse','TEXT']];
+  ['frameworks','controls','rollen'].forEach(t=>{
+    const have=new Set(sqlAll(`PRAGMA table_info(${t})`).values.map(r=>r[1]));
+    extra.forEach(([c,decl])=>{ if(!have.has(c)) sqlRun(`ALTER TABLE ${t} ADD COLUMN ${c} ${decl}`); });
+  });
+}
+// Import ontologie-structuur (B7): idempotent + non-destructief via de gegenereerde bundle.
+function importOntologieStructuur(){
+  if(typeof window.STRUCTURE_IMPORT==='undefined'){ toast('structure-import-*.js niet geladen','err'); return; }
+  const t=window.STRUCTURE_IMPORT.telling;
+  if(!confirm(`Ontologie-structuur importeren?\n${t.frameworks} frameworks · ${t.controls} controls · ${t.rollen} rollen.\nNon-destructief — handmatige data blijft behouden.`)) return;
+  try{
+    migreerStructuurKolommen();
+    db.run(window.STRUCTURE_IMPORT.sql);
+    autoSave(); updateK3(); renderAll(); updateKPIs();
+    toast(`Geïmporteerd: ${t.frameworks} fw · ${t.controls} controls · ${t.rollen} rollen`,'ok');
+  }catch(e){ toast('Import mislukt: '+e.message,'err'); console.error('import error:',e); }
+}
+// K3: toon de geïmporteerde structuur-versie in de header (eerlijke labeling).
+function updateK3(){
+  let label='';
+  try{ const r=sqlOne(`SELECT structuur_label FROM ontologie_import_meta ORDER BY id DESC LIMIT 1`); if(r&&r[0]) label='· '+r[0]; }catch(e){}
+  const el=q('hdr-struct'); if(el) el.textContent=label;
+}
+
 // ─── SCHEMA velddefinities ───────────────────────────────
 const SCHEMA = {
   risicos:{ zoekKolommen:['omschrijving','dreigingsbron','asset','eigenaar','notitie'] },
@@ -1042,23 +1095,25 @@ function renderAll(){
   renderKalender();
   renderNC();
   renderCharts();
+  updateK3();
 }
 
 // ─── KPIs ─────────────────────────────────────────────────
 function updateKPIs(){
   // Controls actief
-  const totCtrl=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1`);
+  const totCtrl=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1${wStruct()}`);
   q('kpi-controls').textContent=totCtrl?totCtrl[0]:'—';
-  const isoC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1`);
-  const bioC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1`);
-  const nistC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1`);
+  const isoC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1${wStruct()}`);
+  const bioC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1${wStruct()}`);
+  const nistC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1${wStruct()}`);
   q('kpi-controls-sub').textContent=`ISO ${isoC?isoC[0]:0} · BIO ${bioC?bioC[0]:0} · NIST ${nistC?nistC[0]:0}`;
 
   // Compliance %
-  const pct=sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`);
+  const pct=sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`);
   q('kpi-compliance').textContent=(pct&&pct[0]!=null?pct[0]+'%':'—');
-  const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1`);
-  q('kpi-comp-sub').textContent=`${vol?vol[0]:0} van ${totCtrl?totCtrl[0]:0} volledig`;
+  const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1${wOper()}`);
+  const totOper=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1${wOper()}`);
+  q('kpi-comp-sub').textContent=`${vol?vol[0]:0} van ${totOper?totOper[0]:0} operationeel beoordeeld`;
 
   // Risico's hoog open
   const hr=sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`);
@@ -1070,7 +1125,7 @@ function updateKPIs(){
   else { q('kpi-deadline').textContent='—'; }
 
   // Rollen bezet %
-  const rolPct=sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen`);
+  const rolPct=sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen WHERE 1=1${wOper()}`);
   q('kpi-rollen').textContent=(rolPct&&rolPct[0]!=null?rolPct[0]+'%':'—');
 
   // Docs actueel
@@ -1091,7 +1146,7 @@ function updateKPIs(){
   q('gov-kpi-rollen').textContent=(rolPct&&rolPct[0]!=null?rolPct[0]+'%':'—');
 
   // ISMS SoA count
-  const soaCnt=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1`);
+  const soaCnt=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1${wOper()}`);
   q('isms-soa-cnt').textContent=soaCnt?soaCnt[0]:'—';
 
   // Compliance tab stats
@@ -1109,14 +1164,15 @@ function updateKPIs(){
 function renderRollen(){
   const zoek=(q('sf-rollen')?.value||'').trim();
   const stelsel=q('sf-rollen-stelsel')?.value||'';
-  let sql=`SELECT id,functienaam,stelsel,wettelijk_verplicht,grondslag,bezet_door_naam,bezet_door_email,bezet_sinds FROM rollen WHERE 1=1`;
+  let sql=`SELECT id,functienaam,stelsel,wettelijk_verplicht,grondslag,bezet_door_naam,bezet_door_email,bezet_sinds FROM rollen WHERE 1=1${wOper()}`;
   const params=[];
   if(stelsel){ sql+=` AND stelsel=?`; params.push(stelsel); }
   if(zoek){ sql+=` AND (id LIKE ? OR functienaam LIKE ? OR grondslag LIKE ? OR bezet_door_naam LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t,t); }
   sql+=` ORDER BY stelsel,id`;
   const res=sqlAll(sql,params);
-  const tot=sqlOne(`SELECT COUNT(*) FROM rollen`);
-  if(q('sf-rollen-cnt')) q('sf-rollen-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tot=sqlOne(`SELECT COUNT(*) FROM rollen WHERE 1=1${wOper()}`);
+  const refRol=sqlOne(`SELECT COUNT(*) FROM rollen WHERE herkomst='ontologie'`);
+  if(q('sf-rollen-cnt')) q('sf-rollen-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`+(refRol&&refRol[0]?` · +${refRol[0]} ontologie-ref`:'');
   const tb=q('rollen-tb');
   if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="7">Nog geen rollen geregistreerd</td></tr>`; return; }
   tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalRol('${esc(r[0])}')">
@@ -1128,7 +1184,7 @@ function renderRollen(){
     <td>${r[5]?`<span class="b bg">✓ ${esc(r[5])}</span>`:'<span style="color:var(--text4);font-style:italic">Onbezet</span>'}</td>
     <td style="font-size:11px;color:var(--text3)">${esc(r[7]||'—')}</td>
   </tr>`).join('');
-  q('gov-kpi-rollen').textContent=(sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen`)||['—'])[0]+'%';
+  q('gov-kpi-rollen').textContent=(sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen WHERE 1=1${wOper()}`)||['—'])[0]+'%';
 }
 
 // ─── RACI ─────────────────────────────────────────────────
@@ -1268,15 +1324,15 @@ function renderSoA(){
   const zoek=(q('sf-soa')?.value||'').trim();
   const status=q('sf-soa-status')?.value||'';
   const fw=q('sf-soa-fw')?.value||'';
-  let sql=`SELECT c.id,c.control_nr,c.titel,f.naam,c.implementatiestatus,c.nis2_ref,c.dora_ref,c.bio_ref,c.notitie,c.eigenaar_rol FROM controls c LEFT JOIN frameworks f ON c.framework_id=f.id WHERE c.toepasselijk=1`;
+  let sql=`SELECT c.id,c.control_nr,c.titel,f.naam,c.implementatiestatus,c.nis2_ref,c.dora_ref,c.bio_ref,c.notitie,c.eigenaar_rol FROM controls c LEFT JOIN frameworks f ON c.framework_id=f.id WHERE c.toepasselijk=1${wOper('c')}`;
   const params=[];
   if(status){ sql+=` AND c.implementatiestatus=?`; params.push(status); }
   if(fw){ sql+=` AND c.framework_id LIKE ?`; params.push(fw+'%'); }
   if(zoek){ sql+=` AND (c.control_nr LIKE ? OR c.titel LIKE ? OR c.notitie LIKE ? OR c.nis2_ref LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t,t); }
   sql+=` ORDER BY c.framework_id,c.control_nr`;
   const res=sqlAll(sql,params);
-  const tot=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1`);
-  if(q('sf-soa-cnt')) q('sf-soa-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tot=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1${wOper()}`);
+  if(q('sf-soa-cnt')) q('sf-soa-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0} · operationele SoA`;
   const tb=q('soa-tb');
   if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="9">Geen controls gevonden</td></tr>`; return; }
   tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalControl('${esc(r[0])}')">
@@ -1297,20 +1353,20 @@ function renderControls(){
   const zoek=(q('sf-ctrl')?.value||'').trim();
   const fw=q('sf-ctrl-fw')?.value||'';
   const status=q('sf-ctrl-status')?.value||'';
-  let sql=`SELECT c.id,c.control_nr,c.framework_id,c.titel,c.implementatiestatus,c.eigenaar_rol,c.nis2_ref,c.notitie FROM controls c WHERE 1=1`;
+  let sql=`SELECT c.id,c.control_nr,c.framework_id,c.titel,c.implementatiestatus,c.eigenaar_rol,c.nis2_ref,c.notitie,c.iri FROM controls c WHERE 1=1${wStruct('c')}`;
   const params=[];
   if(fw){ sql+=` AND c.framework_id LIKE ?`; params.push(fw+'%'); }
   if(status){ sql+=` AND c.implementatiestatus=?`; params.push(status); }
   if(zoek){ sql+=` AND (c.control_nr LIKE ? OR c.titel LIKE ? OR c.eigenaar_rol LIKE ?)`; const t='%'+zoek+'%'; params.push(t,t,t); }
   sql+=` ORDER BY c.framework_id,c.control_nr`;
   const res=sqlAll(sql,params);
-  const tot=sqlOne(`SELECT COUNT(*) FROM controls`);
-  if(q('sf-ctrl-cnt')) q('sf-ctrl-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0}`;
+  const tot=sqlOne(`SELECT COUNT(*) FROM controls WHERE 1=1${wStruct()}`);
+  if(q('sf-ctrl-cnt')) q('sf-ctrl-cnt').textContent=`${res.values.length} / ${tot?tot[0]:0} · structuur`;
   const tb=q('ctrl-tb');
   if(!res.values.length){ tb.innerHTML=`<tr class="empty-row"><td colspan="7">Geen controls gevonden</td></tr>`; return; }
   const fwColor={'ISO-27002-2022':'bb','BIO-2.0':'bp','NIST-800-53-R5':'bc'};
   tb.innerHTML=res.values.map(r=>`<tr class="clickable" onclick="modalControl('${esc(r[0])}')">
-    <td><span class="chip">${esc(r[1])}</span></td>
+    <td><span class="chip">${esc(r[1])}</span>${r[8]?` <span data-tip="${esc(r[8])}" style="cursor:help;opacity:.55">🔗</span>`:''}</td>
     <td><span class="b ${fwColor[r[2]]||'bz'}" style="font-size:9px">${esc((r[2]||'').replace('ISO-27002-2022','ISO').replace('BIO-2.0','BIO').replace('NIST-800-53-R5','NIST'))}</span></td>
     <td>${esc(r[3])}</td>
     <td>${statusBadge(r[4])}</td>
@@ -1401,7 +1457,7 @@ function renderNC(){
     {n:'Patch compliance',doel:'>95%',actueel:'89%',ok:false},
     {n:'Bewustzijn training',doel:'>90%',actueel:'94%',ok:true},
     {n:'Open risico\'s (hoog)',doel:'<3',actueel:String(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0),ok:parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)<3},
-    {n:'SoA implementatie',doel:'>80%',actueel:(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`)?.[0]||0)+'%',ok:parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`)?.[0]||0)>80},
+    {n:'SoA implementatie',doel:'>80%',actueel:(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`)?.[0]||0)+'%',ok:parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`)?.[0]||0)>80},
   ];
   q('kri-tb').innerHTML=kris.map(k=>`<tr><td>${k.n}</td><td style="font-family:var(--mono)">${k.doel}</td><td style="font-family:var(--mono)">${k.actueel}</td><td>${k.ok?`<span class="b bg">✓ OK</span>`:`<span class="b br">⚠ Alert</span>`}</td></tr>`).join('');
 }
@@ -1416,15 +1472,15 @@ function mkChart(id,type,data,options={}){
 }
 
 function renderCharts(){
-  const iso=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1`)?.[0]||0;
-  const bio=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1`)?.[0]||0;
-  const nist=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1`)?.[0]||0;
+  const iso=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1${wStruct()}`)?.[0]||0;
+  const bio=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1${wStruct()}`)?.[0]||0;
+  const nist=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1${wStruct()}`)?.[0]||0;
   mkChart('c-fw-dist','doughnut',{labels:['ISO 27002','BIO 2.0','NIST 800-53'],datasets:[{data:[iso,bio,nist],backgroundColor:['rgba(165,110,255,.7)','rgba(250,77,86,.6)','rgba(69,137,255,.7)'],borderColor:['#a56eff','#fa4d56','#4589ff'],borderWidth:1}]});
 
-  const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1`)?.[0]||0;
-  const ged=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Gedeeltelijk' AND toepasselijk=1`)?.[0]||0;
-  const uit=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='In uitvoering' AND toepasselijk=1`)?.[0]||0;
-  const ngs=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Niet gestart' AND toepasselijk=1`)?.[0]||0;
+  const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1${wOper()}`)?.[0]||0;
+  const ged=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Gedeeltelijk' AND toepasselijk=1${wOper()}`)?.[0]||0;
+  const uit=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='In uitvoering' AND toepasselijk=1${wOper()}`)?.[0]||0;
+  const ngs=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Niet gestart' AND toepasselijk=1${wOper()}`)?.[0]||0;
   mkChart('c-comp-ov','doughnut',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderWidth:1}]});
   mkChart('c-comp-impl','bar',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderRadius:3}]},{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
 
@@ -1433,7 +1489,7 @@ function renderCharts(){
   const beh=sqlAll(`SELECT behandeling,COUNT(*) FROM risicos WHERE status!='Gesloten' GROUP BY behandeling`);
   mkChart('c-treat','doughnut',{labels:beh.values.map(r=>r[0]||'Onbekend'),datasets:[{data:beh.values.map(r=>r[1]),backgroundColor:['rgba(51,177,255,.7)','rgba(66,190,101,.7)','rgba(250,77,86,.7)','rgba(255,131,43,.7)'],borderWidth:1}]});
 
-  mkChart('c-kri','bar',{labels:['MTTR','Patch','Bewustzijn','High Risk','SoA impl.'],datasets:[{label:'Actueel',data:[62,89,94,parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)*10,parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1`)?.[0]||0)],backgroundColor:'rgba(51,177,255,.5)',borderColor:'var(--cyan-lt)',borderWidth:1,borderRadius:3},{label:'Doel',data:[80,95,90,20,80],type:'line',borderColor:'var(--green-br)',borderDash:[4,4],pointRadius:3,fill:false}]},{plugins:{legend:{display:true}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
+  mkChart('c-kri','bar',{labels:['MTTR','Patch','Bewustzijn','High Risk','SoA impl.'],datasets:[{label:'Actueel',data:[62,89,94,parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)*10,parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`)?.[0]||0)],backgroundColor:'rgba(51,177,255,.5)',borderColor:'var(--cyan-lt)',borderWidth:1,borderRadius:3},{label:'Doel',data:[80,95,90,20,80],type:'line',borderColor:'var(--green-br)',borderDash:[4,4],pointRadius:3,fill:false}]},{plugins:{legend:{display:true}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
 }
 
 // ═══════════════════════════════════════════════════════════
