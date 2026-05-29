@@ -39,8 +39,8 @@
     dcterms:language "nl" , "en" ;
     dcterms:subject "GRC", "Informatiebeveiliging", "Risicobeheer", "Compliance", "Rijksoverheid" ;
     dcterms:rights "© 2026 Rijksoverheidsorganisatie — intern gebruik" ;
-    owl:versionInfo "4.6.0" ;
-    owl:versionIRI <https://grc.example.org/ontology/v4.6.0/> ;
+    owl:versionInfo "4.6.4" ;
+    owl:versionIRI <https://grc.example.org/ontology/v4.6.4/> ;
     prov:wasAttributedTo [ a prov:Agent ; rdfs:label "GRC-Team"@nl ] ;
     prov:generatedAtTime "2026-05-21T00:00:00Z"^^xsd:dateTime ;
     rdfs:comment

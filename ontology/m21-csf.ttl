@@ -5433,7 +5433,7 @@ csf:CSFTier
 csf:riskGovernanceDescription
     rdf:type owl:DatatypeProperty ;
     rdfs:domain csf:CSFTier ;
-    rdfs:range xsd:string ;
+    rdfs:range rdfs:Literal ;
     rdfs:label "beschrijving risk governance-dimensie"@nl , "risk governance dimension description"@en ;
     rdfs:comment "Tekst-beschrijving van de Cybersecurity Risk Governance-dimensie voor een specifieke Tier (uit CSWP 29 Appendix B Table 2)."@nl ,
                  "Text description of the Cybersecurity Risk Governance dimension for a specific Tier (from CSWP 29 Appendix B Table 2)."@en .
@@ -5441,7 +5441,7 @@ csf:riskGovernanceDescription
 csf:riskManagementDescription
     rdf:type owl:DatatypeProperty ;
     rdfs:domain csf:CSFTier ;
-    rdfs:range xsd:string ;
+    rdfs:range rdfs:Literal ;
     rdfs:label "beschrijving risk management-dimensie"@nl , "risk management dimension description"@en ;
     rdfs:comment "Tekst-beschrijving van de Cybersecurity Risk Management-dimensie voor een specifieke Tier (uit CSWP 29 Appendix B Table 2)."@nl ,
                  "Text description of the Cybersecurity Risk Management dimension for a specific Tier (from CSWP 29 Appendix B Table 2)."@en .

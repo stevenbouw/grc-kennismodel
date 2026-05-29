@@ -1,0 +1,29 @@
+# file_hashes_v4_6_4.txt
+# v4.6.4 patch — CSF-description range-fix (xsd:string -> rdfs:Literal, 2 properties in m21)
+# Baseline-vergelijking met v4.6.3 (28 mei 2026): m21-csf.ttl + grc-core.ttl (version-bump) wijzigen.
+# v4.6.3 m21-csf.ttl:  7f987199a7811db6834b763b5be4bc25e9b9e49134911d42349d55fea17339f7
+# v4.6.3 grc-core.ttl: 057aa76be5b67477a502c312de9ddafc1c91ee441d67ab23faec6a6b8be8589d
+# Andere 20 .ttl-modules + grc-shacl.ttl: hashes identiek aan v4.6.3.
+
+4cf7f850340d9e7122a2cd13aa964965b47b7894435069ae567a8e2b7ece4f17  ontology/grc-bridges.ttl
+8117b8601c92da17040cb33911c5d3ac66e9ac0656bceeb1708ca875b73701f5  ontology/grc-core.ttl
+c8cf4f739df96930b4ea6d29a4c321870f912ee0ce69f97e62da86419f684aef  ontology/grc-shacl.ttl
+f374e68c4aeb8e9b3de70b726d53ca9accb1e98ae0d9305337f706451dc9d096  ontology/m01-framework.ttl
+e8abfac5bc28f5b13bc7f55432357d679b6f14f77a327299741798cb1ef8c36c  ontology/m02-control.ttl
+112738fe03822ae9ade0fb9f34368e855b5004b7ded3b96938ac9628af5663a7  ontology/m03-risk.ttl
+d79e90d600b2c212d3d120aeeb0525ddab79bef0cb30dea4b4e4720967a4626e  ontology/m04-roles.ttl
+781f884abc624b5ae43bc61b5d5f450cb081af8f865f6aeb926e67421db60cea  ontology/m05-compliance.ttl
+baa2d98a9861f56641333479abed8a7664c4afc600019cc62a09bc5e4ea38b11  ontology/m06-isms.ttl
+32e3c381b430eb92f9e2e887c06600eb17ac848f0b090c82e161eb80af4bc890  ontology/m07-business.ttl
+38ebc810a635b0badd7f84dd5d7c31dd5856525f66faf685df960887db8db635  ontology/m08-bio20.ttl
+f0eeb6dac92d0ed5157877880afa86d09d00d30caa842c6ad02b774683841f8f  ontology/m09-iso27001-ext.ttl
+a4bfdc12cedb0c5018218a77480393e40fd301dddcd438abb31a84300a3dd44e  ontology/m10-nis2-ext.ttl
+3300463010429d6ce4b9a7728a963d32d12547058f0640de6367b6880637c423  ontology/m11-nist-800-53.ttl
+9239588126a5be71bfa1d0a48457ce18f62eb26cf4a1f103ac5fbfed7369cead  ontology/m12-dora.ttl
+257055ca7ac1d5a3e172ba66bd35a6848c29d1929f424ac5c6df38f23ebac403  ontology/m13-iso22301.ttl
+874565bade04c1657841298d4b035fa9c7f06f46a8d76ce9efba8ecfb35e1864  ontology/m14-avg-gdpr.ttl
+ae85601ed99bc6e0eb4089be8fc465c81206212eba8dd60d535b684f22894e1c  ontology/m15-ensia.ttl
+732e93cedbeead8d4bae3e5798089d0bfdc8be972d142e0cd3ab56f0c2814591  ontology/m16-virbi-ext.ttl
+cdae96d906c6bcf3439cf9da463bda51d0da6e826ac2495440338fac76d0cecc  ontology/m17-coso-cobit.ttl
+0aaf689236481f76cdf8be51ccf6afda2af752f1aa37ca96c33d5da6324d400b  ontology/m18-assets.ttl
+b0141f7c0a2f54d71c51ecaf092ad7e2d1c1b8a2d3b42b52aa912b182bbd5c08  ontology/m21-csf.ttl
