@@ -36,6 +36,9 @@ output/tmp/
 *.bak
 *.tmp
 
+# Protégé — auto-gegenereerde import-resolutie-catalogus (cruft, niet tracken)
+catalog-v001.xml
+
 # Geheim
 .env.local
 secrets.json
