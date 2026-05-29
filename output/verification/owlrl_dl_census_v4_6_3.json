@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "purpose": "H38-evaluatie owlrl-zijde — DL-construct-census + inferred-TTL-export voor diff tegen HermiT",
+    "measured_at_utc": "2026-05-29T09:35:21.297327+00:00",
+    "config": {
+      "profile": "OWL RL canoniek",
+      "axiomatic_triples": false,
+      "datatype_axioms": false
+    },
+    "workdir": "/Users/stevenbouwmeester/Desktop/grc-kennismodel/ontology",
+    "pre_inference_triples": 20950,
+    "post_inference_owlrl_triples": 44907,
+    "post_minus_pre": 23957,
+    "inferred_ttl_export": "/Users/stevenbouwmeester/Desktop/grc-kennismodel/output/verification/owlrl_inferred_v4_6_3.ttl",
+    "tool_versions": {
+      "rdflib": "7.6.0",
+      "owlrl": "7.1.4"
+    }
+  },
+  "dl_construct_census": {
+    "restriction_fillers": {
+      "someValuesFrom": {
+        "count": 0,
+        "rl_complete": false,
+        "note": "Existentiële conclusie in superklasse-positie: OWL RL leidt geen nieuwe anonieme instances af; HermiT wel (consistentie-niveau)."
+      },
+      "someValuesFrom_in_superclass_position": {
+        "count": 0,
+        "rl_complete": false,
+        "note": "Subset van someValuesFrom die als superklasse fungeert — primaire RL/DL-divergentiebron."
+      },
+      "allValuesFrom": {
+        "count": 0,
+        "rl_complete": true,
+        "note": "OWL RL ondersteunt allValuesFrom in subklasse-positie (universele propagatie)."
+      },
+      "hasValue": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "minCardinality": {
+        "count": 0,
+        "rl_complete": false,
+        "note": "min-cardinaliteit >0 vereist existentiële afleiding — OWL RL onvolledig."
+      },
+      "maxCardinality": {
+        "count": 0,
+        "rl_complete": true,
+        "note": "max-cardinaliteit gebruikt OWL RL voor sameAs/inconsistentie-detectie."
+      },
+      "cardinality": {
+        "count": 0,
+        "rl_complete": false
+      },
+      "minQualifiedCardinality": {
+        "count": 0,
+        "rl_complete": false
+      },
+      "maxQualifiedCardinality": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "qualifiedCardinality": {
+        "count": 0,
+        "rl_complete": false
+      }
+    },
+    "class_expressions": {
+      "unionOf": {
+        "count": 1,
+        "rl_complete": false,
+        "note": "unionOf in superklasse-positie (disjunctie-redenering) buiten OWL RL."
+      },
+      "intersectionOf": {
+        "count": 0,
+        "rl_complete": true,
+        "note": "intersectionOf in subklasse-positie ondersteund door OWL RL."
+      },
+      "complementOf": {
+        "count": 0,
+        "rl_complete": false,
+        "note": "Negatie/complement buiten OWL RL-expressiviteit."
+      },
+      "oneOf": {
+        "count": 0,
+        "rl_complete": false,
+        "note": "Enumeratie-classificatie onvolledig in OWL RL."
+      },
+      "disjointUnionOf": {
+        "count": 0,
+        "rl_complete": false
+      }
+    },
+    "property_axioms": {
+      "inverseOf": {
+        "count": 10,
+        "rl_complete": true
+      },
+      "propertyChainAxiom": {
+        "count": 0,
+        "rl_complete": true,
+        "note": "OWL RL ondersteunt property-chains (subPropertyOf chain)."
+      },
+      "hasKey": {
+        "count": 0,
+        "rl_complete": false
+      },
+      "equivalentProperty": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "SymmetricProperty": {
+        "count": 2,
+        "rl_complete": true
+      },
+      "TransitiveProperty": {
+        "count": 2,
+        "rl_complete": true
+      },
+      "FunctionalProperty": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "InverseFunctionalProperty": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "AsymmetricProperty": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "IrreflexiveProperty": {
+        "count": 0,
+        "rl_complete": true
+      },
+      "ReflexiveProperty": {
+        "count": 0,
+        "rl_complete": false,
+        "note": "Reflexiviteit genereert self-triples; OWL RL beperkt."
+      }
+    },
+    "class_axioms": {
+      "equivalentClass_total": {
+        "count": 1
+      },
+      "equivalentClass_to_named": {
+        "count": 0,
+        "rl_complete": true,
+        "note": "Named alias — bidirectionele subClassOf, OWL RL volledig."
+      },
+      "equivalentClass_to_bnode_expression": {
+        "count": 1,
+        "rl_complete": false,
+        "note": "equivalentClass naar klasse-expressie (restrictie/union): classificatie mogelijk DL-only."
+      },
+      "disjointWith": {
+        "count": 13,
+        "rl_complete": true,
+        "note": "OWL RL detecteert disjointness-schending (inconsistentie)."
+      },
+      "AllDisjointClasses": {
+        "count": 10,
+        "rl_complete": true
+      }
+    },
+    "_divergence_risico_constructs": [
+      {
+        "construct": "class_expressions.unionOf",
+        "count": 1,
+        "note": "unionOf in superklasse-positie (disjunctie-redenering) buiten OWL RL."
+      },
+      {
+        "construct": "class_axioms.equivalentClass_to_bnode_expression",
+        "count": 1,
+        "note": "equivalentClass naar klasse-expressie (restrictie/union): classificatie mogelijk DL-only."
+      }
+    ],
+    "_divergence_construct_count_total": 2
+  }
+}

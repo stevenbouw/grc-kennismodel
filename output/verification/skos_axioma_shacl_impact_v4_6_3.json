@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "purpose": "H41 SHACL-impact SKOS-axiomas — vergelijkend, geen baseline-wijziging",
+    "measured_at_utc": "2026-05-29T09:59:57.436187+00:00",
+    "baseline_known_false_positives": 290,
+    "tool_versions": {
+      "rdflib": "7.6.0",
+      "pyshacl": "0.31.0"
+    }
+  },
+  "combined_baseline": {
+    "violations_total": 290,
+    "delta_vs_known_290": 0,
+    "violations_per_shape": {
+      "https://grc.example.org/bio/ISO27002NamingShape": 93,
+      "https://grc.example.org/control/ISO27002NamingShape": 93,
+      "https://grc.example.org/asset/NamespaceShape": 104
+    }
+  },
+  "combined_with_skos_axioms": {
+    "violations_total": 290,
+    "violations_per_shape": {
+      "https://grc.example.org/control/ISO27002NamingShape": 93,
+      "https://grc.example.org/bio/ISO27002NamingShape": 93,
+      "https://grc.example.org/asset/NamespaceShape": 104
+    }
+  },
+  "delta_skos_axioms_minus_baseline": {
+    "violations_total": 0,
+    "per_shape": {}
+  }
+}

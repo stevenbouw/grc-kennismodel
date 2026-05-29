@@ -1,0 +1,1435 @@
+{
+  "meta": {
+    "purpose": "H41 vergelijkende meting — SKOS-axioma-impact, GEEN config-omschakeling",
+    "measured_at_utc": "2026-05-29T09:58:14.680792+00:00",
+    "canonical_config": {
+      "axiomatic_triples": false,
+      "datatype_axioms": false
+    },
+    "variant_config": "canonieke OWL RL + expliciete SKOS-axioma-graph (S46/S47 + broad/narrow inverse + exact<=close subPropertyOf)",
+    "skos_axioms_injected_ttl": "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n@prefix owl:  <http://www.w3.org/2002/07/owl#> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n# S46 — symmetrie\nskos:exactMatch   a owl:SymmetricProperty .\nskos:closeMatch   a owl:SymmetricProperty .\nskos:relatedMatch a owl:SymmetricProperty .\n\n# S47 — transitiviteit (exactMatch is symmetrisch EN transitief)\nskos:exactMatch   a owl:TransitiveProperty .\n\n# broad/narrow zijn elkaars inverse\nskos:broadMatch   owl:inverseOf skos:narrowMatch .\n\n# subPropertyOf-hierarchie (SKOS-Reference): exactMatch =< closeMatch\nskos:exactMatch   rdfs:subPropertyOf skos:closeMatch .",
+    "tool_versions": {
+      "rdflib": "7.6.0",
+      "owlrl": "7.1.4"
+    }
+  },
+  "baseline": {
+    "pre_inference_triples": 20950,
+    "pre_inference_skos": {
+      "exactMatch": 18,
+      "closeMatch": 1457,
+      "broadMatch": 129,
+      "narrowMatch": 0,
+      "relatedMatch": 194,
+      "_total": 1798
+    },
+    "post_inference_triples": 44907,
+    "reproduces_canonical_44907": true,
+    "post_inference_skos": {
+      "exactMatch": 24,
+      "closeMatch": 2158,
+      "broadMatch": 248,
+      "narrowMatch": 0,
+      "relatedMatch": 324,
+      "_total": 2754
+    },
+    "sameAs_attributable_skos": {
+      "asserted_sameAs_removed": 98,
+      "control_post_skos_total_no_sameAs": 1798,
+      "control_post_skos_breakdown_no_sameAs": {
+        "exactMatch": 18,
+        "closeMatch": 1457,
+        "broadMatch": 129,
+        "narrowMatch": 0,
+        "relatedMatch": 194,
+        "_total": 1798
+      },
+      "baseline_post_skos_total": 2754,
+      "pre_inference_skos_total": 1798,
+      "inference_added_skos_total": 956,
+      "sameAs_attributable_skos": 956,
+      "sameAs_pct_of_inference": 100.0
+    },
+    "cross_ns_chains_closeMatch": {
+      "count": 0,
+      "sample": []
+    },
+    "cross_ns_chains_exactMatch": {
+      "count": 8,
+      "sample": [
+        {
+          "a": "https://grc.example.org/asset/HumanAsset",
+          "b": "https://grc.example.org/framework/TBB_Personen",
+          "c": "https://grc.example.org/risk/HumanAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/HumanAsset",
+          "b": "https://grc.example.org/framework/TBB_Personen",
+          "c": "https://grc.example.org/asset/HumanAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/risk/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "isms"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/isms/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/risk/InformationAsset",
+          "namespaces": [
+            "fw",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/isms/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "isms"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "fw",
+            "isms",
+            "risk"
+          ]
+        }
+      ]
+    }
+  },
+  "variant_skos_axioms": {
+    "pre_inference_triples_incl_axioms": 20956,
+    "post_inference_triples": 47738,
+    "post_inference_skos": {
+      "exactMatch": 61,
+      "closeMatch": 4377,
+      "broadMatch": 248,
+      "narrowMatch": 248,
+      "relatedMatch": 644,
+      "_total": 5578
+    },
+    "cross_ns_chains_closeMatch": {
+      "count": 80748,
+      "sample": [
+        {
+          "a": "https://grc.example.org/roles/R_CISO",
+          "b": "https://grc.example.org/framework/ISO_IEC_27001_2022",
+          "c": "https://grc.example.org/extended/COBIT_APO13",
+          "namespaces": [
+            "ext",
+            "fw",
+            "roles"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/roles/R_InternAuditor",
+          "b": "https://grc.example.org/framework/ISO_IEC_27001_2022",
+          "c": "https://grc.example.org/extended/COBIT_APO13",
+          "namespaces": [
+            "ext",
+            "fw",
+            "roles"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/extended/COBIT_APO13",
+          "b": "https://grc.example.org/framework/ISO_IEC_27001_2022",
+          "c": "https://grc.example.org/roles/R_InternAuditor",
+          "namespaces": [
+            "ext",
+            "fw",
+            "roles"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/extended/COBIT_APO13",
+          "b": "https://grc.example.org/framework/ISO_IEC_27001_2022",
+          "c": "https://grc.example.org/roles/R_CISO",
+          "namespaces": [
+            "ext",
+            "fw",
+            "roles"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_01",
+          "b": "https://grc.example.org/control/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_01",
+          "b": "https://grc.example.org/bio/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_01",
+          "b": "https://grc.example.org/control/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_01",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_02",
+          "b": "https://grc.example.org/control/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_02",
+          "b": "https://grc.example.org/bio/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_03",
+          "b": "https://grc.example.org/control/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_03",
+          "b": "https://grc.example.org/bio/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_04",
+          "b": "https://grc.example.org/control/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_04",
+          "b": "https://grc.example.org/bio/ISO27002_5_01",
+          "c": "https://grc.example.org/compliance/AVG_Art32",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_04",
+          "b": "https://grc.example.org/control/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/ID_IM_04",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/DE_AE_02",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/DE_AE_02",
+          "b": "https://grc.example.org/control/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/RS_IncidentManagement",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/RS_IncidentManagement",
+          "b": "https://grc.example.org/control/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/RS_MA_02",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/RS_MA_02",
+          "b": "https://grc.example.org/control/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/GV_SC_08",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/GV_SC_08",
+          "b": "https://grc.example.org/control/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "compl",
+            "csf",
+            "ctrl"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/csf/RS_MA_01",
+          "b": "https://grc.example.org/bio/ISO27002_5_24",
+          "c": "https://grc.example.org/compliance/AVG_Art33",
+          "namespaces": [
+            "bio",
+            "compl",
+            "csf"
+          ]
+        }
+      ]
+    },
+    "cross_ns_chains_exactMatch": {
+      "count": 30,
+      "sample": [
+        {
+          "a": "https://grc.example.org/framework/TBB_Personen",
+          "b": "https://grc.example.org/asset/HumanAsset",
+          "c": "https://grc.example.org/risk/HumanAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Personen",
+          "b": "https://grc.example.org/risk/HumanAsset",
+          "c": "https://grc.example.org/asset/HumanAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/HumanAsset",
+          "b": "https://grc.example.org/risk/HumanAsset",
+          "c": "https://grc.example.org/framework/TBB_Personen",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/HumanAsset",
+          "b": "https://grc.example.org/framework/TBB_Personen",
+          "c": "https://grc.example.org/risk/HumanAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/HumanAsset",
+          "b": "https://grc.example.org/asset/HumanAsset",
+          "c": "https://grc.example.org/framework/TBB_Personen",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/HumanAsset",
+          "b": "https://grc.example.org/framework/TBB_Personen",
+          "c": "https://grc.example.org/asset/HumanAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Informatie",
+          "b": "https://grc.example.org/risk/InformationAsset",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Informatie",
+          "b": "https://grc.example.org/risk/InformationAsset",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "fw",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Informatie",
+          "b": "https://grc.example.org/asset/InformationAsset",
+          "c": "https://grc.example.org/risk/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Informatie",
+          "b": "https://grc.example.org/asset/InformationAsset",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "isms"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Informatie",
+          "b": "https://grc.example.org/isms/InformationAsset",
+          "c": "https://grc.example.org/risk/InformationAsset",
+          "namespaces": [
+            "fw",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/framework/TBB_Informatie",
+          "b": "https://grc.example.org/isms/InformationAsset",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "isms"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/risk/InformationAsset",
+          "c": "https://grc.example.org/framework/TBB_Informatie",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/risk/InformationAsset",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "asset",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/risk/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "isms"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/isms/InformationAsset",
+          "c": "https://grc.example.org/risk/InformationAsset",
+          "namespaces": [
+            "asset",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/asset/InformationAsset",
+          "b": "https://grc.example.org/isms/InformationAsset",
+          "c": "https://grc.example.org/framework/TBB_Informatie",
+          "namespaces": [
+            "asset",
+            "fw",
+            "isms"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/asset/InformationAsset",
+          "c": "https://grc.example.org/framework/TBB_Informatie",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/asset/InformationAsset",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "asset",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "fw",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/framework/TBB_Informatie",
+          "c": "https://grc.example.org/isms/InformationAsset",
+          "namespaces": [
+            "fw",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/isms/InformationAsset",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/risk/InformationAsset",
+          "b": "https://grc.example.org/isms/InformationAsset",
+          "c": "https://grc.example.org/framework/TBB_Informatie",
+          "namespaces": [
+            "fw",
+            "isms",
+            "risk"
+          ]
+        },
+        {
+          "a": "https://grc.example.org/isms/InformationAsset",
+          "b": "https://grc.example.org/risk/InformationAsset",
+          "c": "https://grc.example.org/asset/InformationAsset",
+          "namespaces": [
+            "asset",
+            "isms",
+            "risk"
+          ]
+        }
+      ]
+    },
+    "_chain_note": "cross_ns_chains = aantal 3-hop bereikbaarheids-PADEN over >=3 namespaces; illustratief voor entanglement, NIET gelijk aan nieuwe triples. Nieuwe TRIPLES staan in new_materialized_triples.",
+    "new_materialized_triples": {
+      "exactMatch": {
+        "new_triples_total": 37,
+        "per_ns_pair": {
+          "fw->fw": 11,
+          "asset->asset": 7,
+          "risk->risk": 4,
+          "fw->roles": 2,
+          "risk->asset": 2,
+          "asset->risk": 2,
+          "roles->roles": 2,
+          "fw->risk": 2,
+          "isms->isms": 1,
+          "asset->isms": 1,
+          "risk->isms": 1,
+          "isms->asset": 1,
+          "isms->risk": 1
+        },
+        "cross_namespace_new": 12,
+        "cross_namespace_sample": [
+          {
+            "subject": "https://grc.example.org/framework/BesluitBVAStelsel",
+            "object": "https://grc.example.org/roles/R_BVA",
+            "ns": "fw->roles"
+          },
+          {
+            "subject": "https://grc.example.org/risk/HumanAsset",
+            "object": "https://grc.example.org/asset/HumanAsset",
+            "ns": "risk->asset"
+          },
+          {
+            "subject": "https://grc.example.org/asset/InformationAsset",
+            "object": "https://grc.example.org/isms/InformationAsset",
+            "ns": "asset->isms"
+          },
+          {
+            "subject": "https://grc.example.org/risk/InformationAsset",
+            "object": "https://grc.example.org/isms/InformationAsset",
+            "ns": "risk->isms"
+          },
+          {
+            "subject": "https://grc.example.org/isms/InformationAsset",
+            "object": "https://grc.example.org/asset/InformationAsset",
+            "ns": "isms->asset"
+          },
+          {
+            "subject": "https://grc.example.org/asset/HumanAsset",
+            "object": "https://grc.example.org/risk/HumanAsset",
+            "ns": "asset->risk"
+          },
+          {
+            "subject": "https://grc.example.org/isms/InformationAsset",
+            "object": "https://grc.example.org/risk/InformationAsset",
+            "ns": "isms->risk"
+          },
+          {
+            "subject": "https://grc.example.org/framework/ISO_IEC_27005_2022",
+            "object": "https://grc.example.org/risk/RiskAssessment",
+            "ns": "fw->risk"
+          },
+          {
+            "subject": "https://grc.example.org/risk/InformationAsset",
+            "object": "https://grc.example.org/asset/InformationAsset",
+            "ns": "risk->asset"
+          },
+          {
+            "subject": "https://grc.example.org/framework/NIST_SP_800_39",
+            "object": "https://grc.example.org/risk/RiskManagementTier",
+            "ns": "fw->risk"
+          },
+          {
+            "subject": "https://grc.example.org/framework/BesluitCIOStelsel",
+            "object": "https://grc.example.org/roles/R_CIO",
+            "ns": "fw->roles"
+          },
+          {
+            "subject": "https://grc.example.org/asset/InformationAsset",
+            "object": "https://grc.example.org/risk/InformationAsset",
+            "ns": "asset->risk"
+          }
+        ]
+      },
+      "closeMatch": {
+        "new_triples_total": 2219,
+        "per_ns_pair": {
+          "ext->csf": 736,
+          "bio->csf": 699,
+          "ctrl->csf": 699,
+          "fw->fw": 17,
+          "fw->risk": 8,
+          "fw->asset": 7,
+          "asset->fw": 7,
+          "asset->asset": 7,
+          "compl->compl": 5,
+          "fw->roles": 5,
+          "risk->risk": 4,
+          "risk->fw": 4,
+          "risk->asset": 2,
+          "roles->roles": 2,
+          "asset->risk": 2,
+          "ctrl->compl": 2,
+          "roles->fw": 2,
+          "bio->compl": 2,
+          "isms->isms": 1,
+          "risk->isms": 1,
+          "asset->isms": 1,
+          "ext->biz": 1,
+          "isms->risk": 1,
+          "fw->ext": 1,
+          "isms->asset": 1,
+          "fw->isms": 1,
+          "isms->fw": 1
+        },
+        "cross_namespace_new": 2183,
+        "cross_namespace_sample": [
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_03",
+            "object": "https://grc.example.org/csf/GV_RR_02",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_22",
+            "object": "https://grc.example.org/csf/PR_DS_02",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_PS_7",
+            "object": "https://grc.example.org/csf/GV_RR_04",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_SR_1",
+            "object": "https://grc.example.org/csf/GV_PO_02",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_8_09",
+            "object": "https://grc.example.org/csf/ID_IM_01",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_SA_8",
+            "object": "https://grc.example.org/csf/PR_IR_03",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_20",
+            "object": "https://grc.example.org/csf/GV_RM_06",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_7_05",
+            "object": "https://grc.example.org/csf/PR_IR_02",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_23",
+            "object": "https://grc.example.org/csf/ID_IM_04",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_09",
+            "object": "https://grc.example.org/csf/ID_AM_07",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_32",
+            "object": "https://grc.example.org/csf/DE_CM_09",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_14",
+            "object": "https://grc.example.org/csf/PR_IR_03",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/framework/TBB_Goederen",
+            "object": "https://grc.example.org/asset/TangibleGoods",
+            "ns": "fw->asset"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_20",
+            "object": "https://grc.example.org/csf/GV_OV_03",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_27",
+            "object": "https://grc.example.org/csf/RC_RP_06",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_RA_3",
+            "object": "https://grc.example.org/csf/GV_SC_10",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_21",
+            "object": "https://grc.example.org/csf/ID_IM_01",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_07",
+            "object": "https://grc.example.org/csf/ID_RA_05",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_SA_8",
+            "object": "https://grc.example.org/csf/ID_IM_03",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_8_34",
+            "object": "https://grc.example.org/csf/ID_IM_02",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_09",
+            "object": "https://grc.example.org/csf/PR_PS_02",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_8_32",
+            "object": "https://grc.example.org/csf/ID_IM_04",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/ISO27001_6_1_3",
+            "object": "https://grc.example.org/csf/ID_RA_02",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_8_24",
+            "object": "https://grc.example.org/csf/ID_IM_03",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_PS_1",
+            "object": "https://grc.example.org/csf/GV_OC_03",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_14",
+            "object": "https://grc.example.org/csf/ID_IM_03",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_02",
+            "object": "https://grc.example.org/csf/PR_AA_05",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_6_03",
+            "object": "https://grc.example.org/csf/GV_RR_04",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/ISO27001_6_1_1",
+            "object": "https://grc.example.org/csf/ID_RA_05",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_18",
+            "object": "https://grc.example.org/csf/PR_AA_05",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_CA_7",
+            "object": "https://grc.example.org/csf/ID_RA_01",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_07",
+            "object": "https://grc.example.org/csf/DE_CM_09",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_7_01",
+            "object": "https://grc.example.org/csf/DE_CM_02",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_04",
+            "object": "https://grc.example.org/csf/ID_IM_01",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_CA_7",
+            "object": "https://grc.example.org/csf/ID_RA_07",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_09",
+            "object": "https://grc.example.org/csf/ID_IM_04",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/NIST_SR_3",
+            "object": "https://grc.example.org/csf/RS_MA_01",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_24",
+            "object": "https://grc.example.org/csf/RS_MA_05",
+            "ns": "ctrl->csf"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_22",
+            "object": "https://grc.example.org/csf/GV_OC_05",
+            "ns": "bio->csf"
+          },
+          {
+            "subject": "https://grc.example.org/extended/ISO27001_6_1_1",
+            "object": "https://grc.example.org/csf/PR_IR_03",
+            "ns": "ext->csf"
+          }
+        ]
+      },
+      "relatedMatch": {
+        "new_triples_total": 320,
+        "per_ns_pair": {
+          "bio->ext": 82,
+          "ctrl->ext": 82,
+          "ctrl->compl": 29,
+          "bio->compl": 29,
+          "ctrl->ctrl": 19,
+          "ctrl->bio": 19,
+          "ext->csf": 13,
+          "fw->ext": 11,
+          "fw->fw": 10,
+          "ext->biz": 9,
+          "ext->ext": 6,
+          "ext->risk": 6,
+          "isms->csf": 4,
+          "ext->fw": 1
+        },
+        "cross_namespace_new": 285,
+        "cross_namespace_sample": [
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_26",
+            "object": "https://grc.example.org/extended/DORA_Art11",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_7_10",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_FysiekeBeveiliging",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/extended/COBIT_MEA02",
+            "object": "https://grc.example.org/csf/GV_Oversight",
+            "ns": "ext->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_16",
+            "object": "https://grc.example.org/compliance/AVG_Art32",
+            "ns": "ctrl->compl"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_6_02",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_VeiligPersoneel",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_30",
+            "object": "https://grc.example.org/extended/DORA_Art11",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_29",
+            "object": "https://grc.example.org/extended/DORA_Art11",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_15",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_Toegangsbeveiliging",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_27",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_Incidenten",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_09",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_Bedrijfsmiddelen",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_7_02",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_FysiekeBeveiliging",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/extended/COSO_ERM_Performance",
+            "object": "https://grc.example.org/risk/RiskTreatment",
+            "ns": "ext->risk"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_7_12",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_FysiekeBeveiliging",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_20",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_Communicatiebeveiliging",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_12",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_BeheerBijzondereInformatie",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_27",
+            "object": "https://grc.example.org/compliance/AVG_Art25",
+            "ns": "bio->compl"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_8_08",
+            "object": "https://grc.example.org/extended/DORA_Art7",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/isms/Level_5",
+            "object": "https://grc.example.org/csf/Tier_4_Adaptive",
+            "ns": "isms->csf"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_27",
+            "object": "https://grc.example.org/extended/DORA_Art13",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_15",
+            "object": "https://grc.example.org/compliance/AVG_Art32",
+            "ns": "bio->compl"
+          },
+          {
+            "subject": "https://grc.example.org/framework/ISO_IEC_27001_2022",
+            "object": "https://grc.example.org/extended/COBIT_EDM01",
+            "ns": "fw->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_12",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_BeheerBijzondereInformatie",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/framework/ISO_IEC_27002_2022",
+            "object": "https://grc.example.org/extended/COBIT_DSS05",
+            "ns": "fw->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_02",
+            "object": "https://grc.example.org/extended/DORA_Art5",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_26",
+            "object": "https://grc.example.org/compliance/AVG_Art34",
+            "ns": "bio->compl"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_27",
+            "object": "https://grc.example.org/extended/DORA_Art13",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_04",
+            "object": "https://grc.example.org/extended/DORA_Art5",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_13",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_BeheerBijzondereInformatie",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_6_08",
+            "object": "https://grc.example.org/extended/DORA_Art17",
+            "ns": "bio->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_12",
+            "object": "https://grc.example.org/compliance/AVG_Art5_1f",
+            "ns": "ctrl->compl"
+          },
+          {
+            "subject": "https://grc.example.org/extended/COSO_ERM_InformationCommunicationReporting",
+            "object": "https://grc.example.org/business/GRCDashboard",
+            "ns": "ext->biz"
+          },
+          {
+            "subject": "https://grc.example.org/extended/COSO_ERM_Performance",
+            "object": "https://grc.example.org/risk/RiskAssessment",
+            "ns": "ext->risk"
+          },
+          {
+            "subject": "https://grc.example.org/control/NIST_IA",
+            "object": "https://grc.example.org/bio/ISO27002_5_17",
+            "ns": "ctrl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_26",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_Incidenten",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_6_01",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_VeiligPersoneel",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_5_34",
+            "object": "https://grc.example.org/compliance/AVG_Art34",
+            "ns": "bio->compl"
+          },
+          {
+            "subject": "https://grc.example.org/bio/ISO27002_6_08",
+            "object": "https://grc.example.org/compliance/AVG_Art33",
+            "ns": "bio->compl"
+          },
+          {
+            "subject": "https://grc.example.org/extended/COSO_ERM_GovernanceCulture",
+            "object": "https://grc.example.org/risk/Tier1_Organisation",
+            "ns": "ext->risk"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_5_11",
+            "object": "https://grc.example.org/extended/VIRBI_Dom_Bedrijfsmiddelen",
+            "ns": "ctrl->ext"
+          },
+          {
+            "subject": "https://grc.example.org/control/ISO27002_8_16",
+            "object": "https://grc.example.org/extended/DORA_Art10",
+            "ns": "ctrl->ext"
+          }
+        ]
+      },
+      "narrowMatch": {
+        "new_triples_total": 248,
+        "per_ns_pair": {
+          "compl->ctrl": 118,
+          "compl->bio": 118,
+          "fw->risk": 4,
+          "fw->fw": 4,
+          "fw->compl": 1,
+          "bio->ext": 1,
+          "ext->risk": 1,
+          "ctrl->ext": 1
+        },
+        "cross_namespace_new": 244,
+        "cross_namespace_sample": [
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_g",
+            "object": "https://grc.example.org/control/ISO27002_7_07",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/control/ISO27002_7_13",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/control/ISO27002_8_30",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_f",
+            "object": "https://grc.example.org/bio/ISO27002_8_15",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_a",
+            "object": "https://grc.example.org/control/ISO27002_5_37",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_h",
+            "object": "https://grc.example.org/control/ISO27002_8_03",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/framework/COSO_ERM",
+            "object": "https://grc.example.org/risk/Risk",
+            "ns": "fw->risk"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/bio/ISO27002_8_26",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/bio/ISO27002_5_33",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/bio/ISO27002_8_29",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/control/ISO27002_8_18",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_j",
+            "object": "https://grc.example.org/control/ISO27002_8_22",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_a",
+            "object": "https://grc.example.org/bio/ISO27002_5_04",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_g",
+            "object": "https://grc.example.org/control/ISO27002_5_04",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/control/ISO27002_5_02",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_g",
+            "object": "https://grc.example.org/bio/ISO27002_8_07",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/control/ISO27002_6_02",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/bio/ISO27002_7_03",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/bio/ISO27002_8_31",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/control/ISO27002_8_25",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/control/ISO27002_7_08",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_h",
+            "object": "https://grc.example.org/bio/ISO27002_5_14",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_b",
+            "object": "https://grc.example.org/bio/ISO27002_8_16",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_h",
+            "object": "https://grc.example.org/bio/ISO27002_8_21",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/bio/ISO27002_8_17",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_a",
+            "object": "https://grc.example.org/control/ISO27002_5_07",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_a",
+            "object": "https://grc.example.org/control/ISO27002_5_03",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/control/ISO27002_5_11",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_b",
+            "object": "https://grc.example.org/bio/ISO27002_5_25",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_b",
+            "object": "https://grc.example.org/control/ISO27002_5_25",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_a",
+            "object": "https://grc.example.org/bio/ISO27002_5_03",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/bio/ISO27002_8_19",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/bio/ISO27002_6_05",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/control/ISO27002_5_09",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_e",
+            "object": "https://grc.example.org/control/ISO27002_8_04",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_f",
+            "object": "https://grc.example.org/control/ISO27002_8_16",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_a",
+            "object": "https://grc.example.org/control/ISO27002_5_08",
+            "ns": "compl->ctrl"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/bio/ISO27002_7_02",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_c",
+            "object": "https://grc.example.org/bio/ISO27002_8_31",
+            "ns": "compl->bio"
+          },
+          {
+            "subject": "https://grc.example.org/compliance/NIS2_Art21_i",
+            "object": "https://grc.example.org/control/ISO27002_7_01",
+            "ns": "compl->ctrl"
+          }
+        ]
+      }
+    }
+  },
+  "delta_variant_minus_baseline": {
+    "post_inference_triples": 2831,
+    "skos_per_predicate": {
+      "exactMatch": 37,
+      "closeMatch": 2219,
+      "broadMatch": 0,
+      "narrowMatch": 248,
+      "relatedMatch": 320,
+      "_total": 2824
+    },
+    "cross_ns_chains_closeMatch": 80748,
+    "cross_ns_chains_exactMatch": 22
+  }
+}
