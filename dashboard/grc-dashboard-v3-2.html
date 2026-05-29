@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>GRC Dashboard v3.0 — Rijksoverheidsorganisatie</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/sql-wasm.js"></script>
+<!-- Q-M5: lokaal gevendord voor offline werking (CDN's geblokkeerd op Rijksoverheid-machine). Versies gepind; SRI-integrity = cdnjs-gepubliceerd. Zie vendor/VENDOR.md -->
+<link href="vendor/fonts.css" rel="stylesheet"><!-- IBM Plex Mono/Sans/Serif (Google Fonts, lokaal) -->
+<script src="vendor/chart.umd.min.js" integrity="sha512-CQBWl4fJHWbryGE+Pc7UAxWMUMNMWzWxF4SQo9CgkJIN1kx6djDQZjh3Y8SZ1d+6I+1zze6Z7kHXO7q3UyZAWw==" crossorigin="anonymous"></script><!-- Chart.js 4.4.1 -->
+<script src="vendor/sql-wasm.js" integrity="sha512-tz0jOZaOg9RtWWB6AdxSkINQwIs7S5obj1Dlml9KewZLPTblTWCux5eLtnexBb8kbLUo5crPmjsi8/vI17Vw0w==" crossorigin="anonymous"></script><!-- sql.js 1.12.0 -->
 <script src="structure-import-v4_6_0.js"></script><!-- B7: window.STRUCTURE_IMPORT (ontologie-structuur v4.6.0) -->
 <style>
 :root{
@@ -188,6 +189,22 @@ canvas{max-height:250px}
 .ttl-out{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px;font-family:var(--mono);font-size:10px;color:var(--green-br);white-space:pre;overflow-x:auto;margin-top:8px;position:relative}
 .db-badge{font-family:var(--mono);font-size:10px;color:var(--text4);display:flex;align-items:center;gap:6px}
 .db-badge .dot{width:5px;height:5px;flex-shrink:0}
+
+/* ═══════════════════════════════════════════════════════════
+   B9 — WCAG 2.1 AA fixes (axe-core). Geconsolideerd override-blok:
+   originele regels hierboven onaangeroerd → reviewbaar/reverteerbaar.
+   Geen layout-herinrichting; alleen kleur + font-size + focusbaarheid.
+   ═══════════════════════════════════════════════════════════ */
+/* --- 1.4.3 Contrast (muted tekst): #4d5358 (2.17:1) → 4.5:1+ op alle paneel-bg's --- */
+:root{ --text4:#9097a0; }
+/* --- 1.4.3 Contrast (gekleurde status-badges) op getinte pills --- */
+.br{ color:#ff8389; }   /* rood:  4.28 → 6.0+ */
+.bb{ color:#6ba5ff; }   /* blauw: 4.30 → 5.8+ */
+.bp{ color:#bb8dff; }   /* paars: 4.45 → 5.9+ */
+/* --- 1.4.4 Leesbaarheid: 9px/10px micro-tekst te klein --- */
+.hdr-sub,.cttl,.ss,.fwmeta,.tldate,.sfcnt,.db-badge,.plbl,.owlttl,.frow label{ font-size:12px; }
+.hdr-kv-lbl,.hmlbl,.hmaxl,.cpbtn,.chip,.nbadge{ font-size:11px; }
+.b,.rr,.ra,.rc,.ri,.strd{ font-size:11px; }
 </style>
 </head>
 <body>
@@ -231,7 +248,7 @@ canvas{max-height:250px}
     <button class="hdr-btn" onclick="exportDB()" data-tip="Sla database op als .db-bestand">↓ DB Export</button>
     <label class="hdr-btn" data-tip="Laad eerder opgeslagen database">↑ DB Import <input type="file" accept=".db" style="display:none" onchange="importDB(this.files[0])"></label>
     <button class="hdr-btn" onclick="importOntologieStructuur()" data-tip="Importeer frameworks/controls/rollen uit de ontologie (structuur v4.6.0, non-destructief)">⬇ Ontologie-import</button>
-    <select class="hdr-btn" id="bron-sel" onchange="setBron(this.value)" data-tip="Weergavebron: structuur=ontologie, operationeel=handmatig"><option value="auto">Bron: auto</option><option value="ontologie">Bron: ontologie</option><option value="handmatig">Bron: handmatig</option><option value="alle">Bron: alle</option></select>
+    <select class="hdr-btn" id="bron-sel" aria-label="Weergavebron kiezen" onchange="setBron(this.value)" data-tip="Weergavebron: structuur=ontologie, operationeel=handmatig"><option value="auto">Bron: auto</option><option value="ontologie">Bron: ontologie</option><option value="handmatig">Bron: handmatig</option><option value="alle">Bron: alle</option></select>
     <div><div class="hdr-kv-val" id="hdr-date">—</div><div class="hdr-kv-lbl">Datum · <span id="save-ind" style="color:var(--text4)">●</span> Opgeslagen</div></div>
   </div>
 </div>
@@ -334,7 +351,7 @@ canvas{max-height:250px}
         </div>
         <div class="sfbar">
           <input type="text" placeholder="🔍 Zoek functienaam, grondslag..." id="sf-rollen" oninput="renderRollen()">
-          <select id="sf-rollen-stelsel" onchange="renderRollen()"><option value="">Alle stelsels</option><option>Bestuur</option><option>CIO-stelsel</option><option>BVA-stelsel</option><option>Privacy</option><option>Operationeel</option><option>Audit</option></select>
+          <select id="sf-rollen-stelsel" aria-label="Filter op stelsel" onchange="renderRollen()"><option value="">Alle stelsels</option><option>Bestuur</option><option>CIO-stelsel</option><option>BVA-stelsel</option><option>Privacy</option><option>Operationeel</option><option>Audit</option></select>
           <span class="sfcnt" id="sf-rollen-cnt"></span>
         </div>
         <div class="tscroll"><table class="tbl"><thead><tr><th>Rol-ID</th><th>Functie</th><th>Stelsel</th><th>NL-wet</th><th>Grondslag</th><th>Bezet door</th><th>Bezet sinds</th></tr></thead><tbody id="rollen-tb"></tbody></table></div>
@@ -1760,7 +1777,7 @@ function expIcal(){
 async function initApp(){
   toonLoader('sql.js WASM laden...');
   try{
-    SQL_ENGINE=await initSqlJs({ locateFile:f=>`https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${f}` });
+    SQL_ENGINE=await initSqlJs({ locateFile:f=>`vendor/${f}` });/* Q-M5: lokaal gevendorde sql-wasm.wasm */
     q('loader-msg').textContent='Database initialiseren...';
     const herstel=loadFromStorage();
     if(!herstel){
@@ -1786,6 +1803,12 @@ async function initApp(){
   }
 }
 document.addEventListener('DOMContentLoaded',initApp);
+// B9 — WCAG 2.1.1: maak scrollbare tabel-regio's keyboard-focusbaar (tscroll-containers).
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.tscroll').forEach(el=>{
+    el.tabIndex=0; el.setAttribute('role','region'); el.setAttribute('aria-label','Scrollbare tabel');
+  });
+});
 </script>
 </body>
 </html>

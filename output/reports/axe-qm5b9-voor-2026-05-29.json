@@ -1,0 +1,554 @@
+{
+  "label": "voor",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa"
+  ],
+  "byImpact": {
+    "critical": 2,
+    "serious": 45
+  },
+  "byRule": {
+    "select-name": 2,
+    "color-contrast": 44,
+    "scrollable-region-focusable": 1
+  },
+  "count": 47,
+  "findings": [
+    {
+      "rule": "select-name",
+      "impact": "critical",
+      "help": "Select element must have an accessible name",
+      "wcag": "wcag2a,wcag412",
+      "target": "#bron-sel",
+      "tabs": [
+        "overzicht",
+        "governance",
+        "risk",
+        "compliance",
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element does not have an implicit (wrapped) <label> |   Element does not have an explicit <label>"
+    },
+    {
+      "rule": "select-name",
+      "impact": "critical",
+      "help": "Select element must have an accessible name",
+      "wcag": "wcag2a,wcag412",
+      "target": "#sf-rollen-stelsel",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element does not have an implicit (wrapped) <label> |   Element does not have an explicit <label>"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#hdr-struct",
+      "tabs": [
+        "overzicht",
+        "governance",
+        "risk",
+        "compliance",
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.3 (foreground color: #4d5358, background color: #111720, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#db-status",
+      "tabs": [
+        "overzicht",
+        "governance",
+        "risk",
+        "compliance",
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.3 (foreground color: #4d5358, background color: #111720, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".hdr-kv-lbl",
+      "tabs": [
+        "overzicht",
+        "governance",
+        "risk",
+        "compliance",
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.3 (foreground color: #4d5358, background color: #111720, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#kpi-controls-sub",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#kpi-comp-sub",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-overzicht > .g4:nth-child(1) > .stat:nth-child(3) > .ss",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#kpi-deadline-sub",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".g4:nth-child(2) > .stat:nth-child(1) > .ss",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".g4:nth-child(2) > .stat:nth-child(2) > .ss",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".g4:nth-child(2) > .stat:nth-child(3) > .ss",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".g4:nth-child(2) > .stat:nth-child(4) > .ss",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".g2:nth-child(3) > .card:nth-child(2) > div:nth-child(2)",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".card:nth-child(2) > div:nth-child(4)",
+      "tabs": [
+        "overzicht"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#gov-kpi-docs-sub",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-governance > .g4 > .stat:nth-child(2) > .ss",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-governance > .g4 > .stat:nth-child(3) > .ss",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-governance > .g4 > .stat:nth-child(4) > .ss",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#sf-rollen-cnt",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('Audit')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('BVA')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('BVC')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('SG/DG')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('CDO')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('CIO')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('CISO')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr[onclick=\"modalRol('CM-ICT')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "scrollable-region-focusable",
+      "impact": "serious",
+      "help": "Scrollable region must have keyboard access",
+      "wcag": "wcag2a,wcag211,wcag213",
+      "target": ".mb14.g2 > .card:nth-child(1) > .tscroll",
+      "tabs": [
+        "governance"
+      ],
+      "summary": "Fix any of the following: |   Element should have focusable content |   Element should be focusable"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(3) > td:nth-child(3) > .br.b",
+      "tabs": [
+        "risk"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.43 (foreground color: #fa4d56, background color: #31232e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(4) > td:nth-child(3) > .br.b",
+      "tabs": [
+        "risk"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.43 (foreground color: #fa4d56, background color: #31232e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(5) > td:nth-child(3) > .br.b",
+      "tabs": [
+        "risk"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.43 (foreground color: #fa4d56, background color: #31232e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#comp-ov > .g4 > .stat:nth-child(1) > .ss",
+      "tabs": [
+        "compliance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#comp-ov > .g4 > .stat:nth-child(2) > .ss",
+      "tabs": [
+        "compliance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#comp-ov > .g4 > .stat:nth-child(3) > .ss",
+      "tabs": [
+        "compliance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#comp-ov > .g4 > .stat:nth-child(4) > .ss",
+      "tabs": [
+        "compliance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#comp-fw-tb > tr:nth-child(1) > td:nth-child(1) > .bb.b",
+      "tabs": [
+        "compliance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.3 (foreground color: #4589ff, background color: #1c2a42, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(2) > td:nth-child(1) > .bp.b",
+      "tabs": [
+        "compliance"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.45 (foreground color: #a56eff, background color: #24253e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-isms > .g4 > .stat:nth-child(1) > .ss",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-isms > .g4 > .stat:nth-child(2) > .ss",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-isms > .g4 > .stat:nth-child(3) > .ss",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "#tab-isms > .g4 > .stat:nth-child(4) > .ss",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(1) > td:nth-child(4) > .br.b",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.43 (foreground color: #fa4d56, background color: #31232e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(2) > td:nth-child(4) > .br.b",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.43 (foreground color: #fa4d56, background color: #31232e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": "tr:nth-child(5) > td:nth-child(4) > .br.b",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 4.43 (foreground color: #fa4d56, background color: #31232e, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".clickable[onclick=\"modalBevinding('NC-2025-01')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+      "rule": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "wcag": "wcag2aa,wcag143",
+      "target": ".clickable[onclick=\"modalBevinding('NC-2025-02')\"] > td:nth-child(6) > span",
+      "tabs": [
+        "isms"
+      ],
+      "summary": "Fix any of the following: |   Element has insufficient color contrast of 2.17 (foreground color: #4d5358, background color: #161d28, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    }
+  ]
+}
