@@ -2,7 +2,7 @@
 
 **Subagent:** Dashboard (Claude Code)
 **Sprint-instructie:** `docs/instructies/instructie-dashboard-reskin-overzicht.md` (masterchat, gedateerd 2 jun 2026)
-**Uitgevoerd:** 2026-05-29
+**Uitgevoerd:** 2 juni 2026 (incl. DORA-correctie, zie §7)
 **Doel-artefact:** `dashboard/grc-dashboard-v3-2.html` (Spoor B — operationele werkmap)
 **Status:** opgeleverd — **commit door Steven** (subagent committeert nooit zelf; `.claude/settings.json`-deny van kracht)
 
@@ -91,7 +91,7 @@ SQL.js-engine, `vendor/`-offline-vendoring, verse-load-flow (`initApp` + `file:/
 
 | Bestand | Status | SHA256 |
 |---|---|---|
-| `dashboard/grc-dashboard-v3-2.html` | gewijzigd (1838 → 2050 regels) | `c283f55b40ef26f7d58be28a45e0856b6e4bcd55fab190dace7a0a9554a82c4f` |
+| `dashboard/grc-dashboard-v3-2.html` | gewijzigd (1838 → 2051 regels; incl. DORA-correctie §7) | `b9451488c77d50bc520d72e272a5cbab42fcc6d523b64962c1daefd68f5bdd2c` |
 | `dashboard/design-tokens-grc-dashboard.css` | **nieuw** (ongewijzigde kopie uit `docs/instructies/`) | `68c32dd424283d96c45609cd39774102884d864784d0f2898fe3cd74bcc48221` |
 | `output/reports/patch-rapport-dashboard-reskin-overzicht.md` | nieuw (dit rapport) | — |
 | `output/reports/ia-voorstel-tab-consolidatie.md` | nieuw (IA-voorstel voor masterchat) | — |
@@ -137,3 +137,31 @@ Deze sprint raakt **geen build-script** aan en is een reskin op representatieve 
 2. **Tab-consolidatie (5→3)** is bewust NIET in deze sprint uitgevoerd — IA-besluit voor masterchat (zie `output/reports/ia-voorstel-tab-consolidatie.md`).
 3. **Transitionele staat:** de vier overige tabs gebruiken nog de oude Spoor-B-componentstructuur (carbon-classes, nu licht gethematiseerd via de var-remap). Een latere sprint kan ze op de token-componenten van Overzicht trekken.
 4. Drill-down is alleen een **hook**; verdieping (grafieken/detail) volgt in een latere sprint, conform §3.
+
+---
+
+## 7. Correctie-ronde — DORA als referentiekader (n.v.t.) — 2 juni 2026
+
+**Aanleiding (Steven/masterchat):** DORA verscheen op meerdere plekken als actief, bindend kader — op het Overzicht zelfs als meest kritieke kader ("kritiek, 38%, niet belegd"). Feitelijk onjuist: de organisatie valt **niet** onder DORA; DORA is uitsluitend referentiekader. Chirurgische correctie, geen andere wijzigingen.
+
+| # | Plek | Wijziging |
+|---|---|---|
+| 1 | `DEMO_OVERZICHT.kaders` (Overzicht) | DORA-regel **volledig verwijderd**. Overzicht toont nu 5 kaders: BIO 2.0, ISO/IEC 27001, NIS2/Cyberbeveiligingswet, NIST SP 800-53 R5, AVG/GDPR |
+| 2 | Overzicht-demo-cijfers | Intern consistent zonder DORA: de kader-tabel is een per-kader-weergave (niet gesommeerd in de KPI-tegels); KPI's (71/93 · 8 risico's waarvan 3 hoog · 5 urgent · 4 zonder eigenaar) en de risico-lijst (3 hoog/2 middel/1 laag) zijn ongewijzigd en bevatten geen DORA-afhankelijke waarde. Geen 'kritiek'-kader meer in de tabel (dat was uitsluitend de onterechte DORA-rij) |
+| 3 | Seed-`frameworks` | DORA `bindend` 1→0; extra `UPDATE … SET bindend=0,toepasselijk=0,notitie='Referentiekader — niet van toepassing …'` |
+| 4 | Governance-tab ("Governance-controls per framework") | DORA-rij gemarkeerd `referentie — n.v.t.`; kernverplichting-tekst + verantw. rol → "—" (geen bindende eigenaar) |
+| 4 | Compliance-tab ("Status per framework") | DORA-rij niet langer als getrackt kader (status-tellingen vervangen door "Referentiekader — organisatie valt niet onder DORA; geen nalevingsverplichting"; deadline → n.v.t.) |
+| — | Kalender-seed `KAL-05` *(buiten de vier opgedragen punten — zie noot)* | "DORA ICT-risicobeoordeling / DORA Art.6 / Gepland" reframed naar "ICT-risicobeoordeling (oriëntatie op DORA-good practice) / Intern — DORA als referentie (n.v.t.)"; eigenaar CIO→CISO + notitie |
+| — | Framework-detail-metadata `dora.bind` (dormant) | "Verplicht voor financiële entiteiten" → "Referentiekader — niet van toepassing op deze organisatie" |
+
+**Noot (transparantie):** de kalender-seed en de dormant framework-metadata stonden niet in de vier expliciet opgedragen punten. Ik heb ze toch meegenomen omdat ze DORA als actieve/bindende verplichting presenteerden — precies de feitelijke fout die de correctie adresseert — en omdat de gevraagde verificatie ("DORA nergens meer als actief/bindend kader") anders niet eerlijk te bevestigen was. Beide wijzigingen zijn minimaal en raken geen tokens/thema/contrast-ramp/offline-vendoring.
+
+**Bewust behouden als referentie (instructie §4 "verwijder niet uit referentietabellen"):** de SoA-tabel-kolom "DORA" en de control-`dora_ref`-velden + het modal-formulierveld "DORA-referentie" blijven — dit zijn cross-reference-mappings, geen bindingsclaims.
+
+### 7.1 Herverificatie
+
+- **Overzicht-kaders:** 5 (BIO 2.0 · ISO 27001 · NIS2/Cbb · NIST 800-53 · AVG/GDPR); DORA niet zichtbaar. ✓
+- **DORA nergens meer als actief/kritiek/bindend kader.** ✓ (resterende voorkomens zijn expliciet "referentie — n.v.t." of neutrale cross-reference-kolommen/velden)
+- **axe = 0** opnieuw bevestigd over alle vijf tabs; geen page-errors. ✓
+- Tokens, contrast-ramp (`data-ramp="contrast"`) en offline-vendoring ongemoeid. ✓
+- JS-syntax valide (`node --check`). ✓

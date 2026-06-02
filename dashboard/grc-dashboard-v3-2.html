@@ -521,7 +521,7 @@ SELECT ?rol ?naam ?rapportage WHERE {
         <tr><td><span class="b bp">BIO 2.0</span></td><td>5.01–5.04</td><td>IB-beleid, rollen, management, functiescheiding</td><td>SG/DG + BVA</td></tr>
         <tr><td><span class="b bb">ISO 27001</span></td><td>cl.5 (5.1–5.3)</td><td>Leiderschap, beleid, rollen &amp; bevoegdheden</td><td>Topmanagement</td></tr>
         <tr><td><span class="b bc">NIS2</span></td><td>Art.20</td><td>Bestuursorgaan keurt beveiligingsmaatregelen goed</td><td>SG/DG</td></tr>
-        <tr><td><span class="b bo">DORA</span></td><td>Art.5</td><td>ICT-governancekader</td><td>CIO/CISO</td></tr>
+        <tr><td><span class="b bo">DORA</span> <span class="b bz">referentie — n.v.t.</span></td><td>Art.5</td><td>ICT-governancekader (referentiekader — organisatie valt niet onder DORA)</td><td>—</td></tr>
         <tr><td><span class="b bg">COBIT 2019</span></td><td>EDM01–EDM05</td><td>Governance-kader t/m stakeholdertransparantie</td><td>SG/DG + CIO</td></tr>
         <tr><td><span class="b by">NIST 800-39</span></td><td>§2 (Tier 1)</td><td>Organisatieniveau risicobeheer</td><td>CIO/CISO/BVA</td></tr>
         <tr><td><span class="b bz">VIR 2007</span></td><td>Art.3–5</td><td>Verantwoordelijkheid SG, BVA-stelsel</td><td>SG + BVA</td></tr>
@@ -652,7 +652,7 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
           <tr><td><span class="b bb">ISO 27001</span></td><td>41</td><td><span class="b bg">13</span></td><td><span class="b by">22</span></td><td><span class="b br">6</span></td><td>2026-12</td></tr>
           <tr><td><span class="b bp">BIO 2.0</span></td><td>93</td><td><span class="b bg">61</span></td><td><span class="b by">24</span></td><td><span class="b br">8</span></td><td>2026-06</td></tr>
           <tr><td><span class="b bc">NIS2</span></td><td>17</td><td><span class="b bg">9</span></td><td><span class="b by">6</span></td><td><span class="b br">2</span></td><td>2026-04</td></tr>
-          <tr><td><span class="b bo">DORA</span></td><td>14</td><td><span class="b bg">5</span></td><td><span class="b by">7</span></td><td><span class="b br">2</span></td><td>Continu</td></tr>
+          <tr><td><span class="b bo">DORA</span> <span class="b bz">referentie — n.v.t.</span></td><td colspan="4" style="color:var(--text3)">Referentiekader — organisatie valt niet onder DORA; geen nalevingsverplichting</td><td>n.v.t.</td></tr>
           <tr><td><span class="b bg">ISO 22301</span></td><td>17</td><td><span class="b bg">8</span></td><td><span class="b by">7</span></td><td><span class="b br">2</span></td><td>2026-09</td></tr>
         </tbody></table>
       </div>
@@ -959,7 +959,7 @@ const FW_META = {
   iso27002:{naam:'ISO/IEC 27002:2022',versie:'2022',org:'ISO/IEC → NEN',jur:'Internationaal',bind:'Vrijwillig (best practice)',mod:'M2',kl:'fw:Standard',ctrl:'93 controls',sp:`PREFIX ctrl: <https://grc.organisatie.nl/ontology/control#>\nSELECT ?id ?titel ?domein WHERE {\n  ?c a ctrl:Control ;\n     ctrl:hasControlID ?id ;\n     rdfs:label ?titel ;\n     ctrl:hasControlDomain ?domein .\n  FILTER(LANG(?titel)="nl")\n}`},
   bio20:{naam:'BIO 2.0 v1.3',versie:'v1.3 (5 mrt 2026)',org:'CISO Rijk / BZK',jur:'Nederland – Rijksdienst',bind:'Verplicht voor rijksdienst',mod:'M8',kl:'fw:NLGovernmentBaseline',ctrl:'93 controls + 148 maatregelen',sp:`PREFIX bio: <https://grc.organisatie.nl/ontology/bio#>\nSELECT ?nr ?label ?soort WHERE {\n  ?c a bio:BIOControl ;\n     bio:bioControlNummer ?nr ;\n     rdfs:label ?label ;\n     bio:hasControlType ?soort .\n  FILTER(LANG(?label)="nl")\n} ORDER BY ?nr`},
   nis2:{naam:'NIS2 Richtlijn 2022/2555',versie:'2022/2555',org:'EU – geïmpl. via CBW',jur:'EU (NL: Cyber Beveiligingswet)',bind:'Verplicht voor essentiële entiteiten',mod:'M5+M10',kl:'fw:EUDirective',ctrl:'17 artikelen (Art.18–24)',sp:`PREFIX compl: <https://grc.organisatie.nl/ontology/compliance#>\nSELECT ?art ?tekst ?maatregel WHERE {\n  ?art a compl:ComplianceRequirement ;\n       compl:requirementText ?tekst ;\n       compl:satisfiedBy ?maatregel .\n  FILTER(CONTAINS(STR(?art),"NIS2"))\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY ?art`},
-  dora:{naam:'DORA 2022/2554',versie:'2022/2554',org:'EU – rechtstreeks werkend',jur:'EU (financiële entiteiten)',bind:'Verplicht voor financiële entiteiten',mod:'M12',kl:'fw:EURegulation',ctrl:'14 artikelen (Art.5–19)',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?art ?tekst WHERE {\n  ?req a ext:DORARequirement ;\n       ext:articleNumber ?art ;\n       compl:requirementText ?tekst .\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY xsd:integer(?art)`},
+  dora:{naam:'DORA 2022/2554',versie:'2022/2554',org:'EU – rechtstreeks werkend',jur:'EU (financiële entiteiten)',bind:'Referentiekader — niet van toepassing op deze organisatie',mod:'M12',kl:'fw:EURegulation',ctrl:'14 artikelen (Art.5–19)',sp:`PREFIX ext: <https://grc.organisatie.nl/ontology/ext#>\nSELECT ?art ?tekst WHERE {\n  ?req a ext:DORARequirement ;\n       ext:articleNumber ?art ;\n       compl:requirementText ?tekst .\n  FILTER(LANG(?tekst)="nl")\n} ORDER BY xsd:integer(?art)`},
   vir2007:{naam:'VIR 2007',versie:'2007',org:'BZK / Rijksdienst',jur:'Nederland – Rijksdienst',bind:'Verplicht voor rijksdienst',mod:'M1',kl:'fw:NLRegulation',ctrl:'Art. 3–9'},
   virbi2025:{naam:'VIRBI 2025',versie:'2025',org:'BZK / Rijksdienst',jur:'Nederland – Bijzondere informatie',bind:'Verplicht voor rijksdienst',mod:'M1',kl:'fw:NLRegulation',ctrl:'Art. 1–15'},
   bva2021:{naam:'Besluit BVA-stelsel 2021',versie:'2021',org:'BZK / Rijksdienst',jur:'Nederland',bind:'Verplicht voor rijksdienst',mod:'M4',kl:'fw:NLGovernanceDecree',ctrl:'Art. 1–12 (incl. art.6 BVC)'},
@@ -1025,7 +1025,7 @@ function laadSeedData(){
     ['ISO-22301-2019','ISO 22301:2019','2019','ISO/IEC → NEN','Internationaal',0,'fw:Standard','M13'],
     ['BIO-2.0','BIO 2.0 v1.3','v1.3','CISO Rijk / BZK','Nederland',1,'fw:GovernmentBaseline','M8'],
     ['NIS2','NIS2 Richtlijn 2022/2555','2022/2555','EU','EU',1,'fw:EUDirective','M10'],
-    ['DORA','DORA 2022/2554','2022/2554','EU','EU',1,'fw:EURegulation','M12'],
+    ['DORA','DORA 2022/2554','2022/2554','EU','EU',0,'fw:EURegulation','M12'],
     ['NIST-800-53-R5','NIST SP 800-53 Rev.5','Rev.5','NIST','Internationaal',0,'fw:NISTPublication','M11'],
     ['VIR-2007','VIR 2007','2007','BZK','Nederland',1,'fw:NLRegulation','M1'],
     ['VIRBI-2025','VIRBI 2025','2025','BZK','Nederland',1,'fw:NLRegulation','M1'],
@@ -1034,6 +1034,8 @@ function laadSeedData(){
     ['CBW','Cyber Beveiligingswet','2024','BZK','Nederland',1,'fw:NLLaw','M5'],
     ['COBIT-2019','COBIT 2019','2019','ISACA','Internationaal',0,'fw:GovernanceFramework','M1'],
   ].forEach(r=>sqlRun(`INSERT OR IGNORE INTO frameworks(id,naam,versie,uitgevende_instantie,jurisdictie,bindend,owl_klasse,module)VALUES(?,?,?,?,?,?,?,?)`,[...r]));
+  // DORA-correctie: referentiekader, NIET van toepassing op deze organisatie (organisatie valt niet onder DORA).
+  sqlRun(`UPDATE frameworks SET bindend=0,toepasselijk=0,notitie='Referentiekader — niet van toepassing (organisatie valt niet onder DORA)' WHERE id='DORA'`);
 
   // controls (SoA data)
   [
@@ -1113,7 +1115,7 @@ function laadSeedData(){
     ['KAL-02','NIS2 Art.23 meldoefening (72u)','NIS2 Art.23','2026-04-30','Jaarlijks','BVC','Gepland',30,''],
     ['KAL-03','BIO 2.0 gap-analyse update','BIO 5.01.02','2026-06-30','Halfjaarlijks','ISSO','Gepland',14,''],
     ['KAL-04','Interne ISMS audit','ISO 27001 cl.9.2.2','2026-09-30','Jaarlijks','Audit','Gepland',30,''],
-    ['KAL-05','DORA ICT-risicobeoordeling','DORA Art.6','2026-09-30','Jaarlijks','CIO','Gepland',30,''],
+    ['KAL-05','ICT-risicobeoordeling (oriëntatie op DORA-good practice)','Intern — DORA als referentie (n.v.t.)','2026-09-30','Jaarlijks','CISO','Gepland',30,'DORA is referentiekader, geen verplichting voor deze organisatie'],
     ['KAL-06','Directiebeoordeling ISMS','ISO 27001 cl.9.3','2026-10-31','Jaarlijks','CIO','Gepland',45,''],
     ['KAL-07','BIO 2.0 zelfevaluatie','BIO 5.36.01','2026-11-30','Jaarlijks','BVA','Gepland',30,''],
     ['KAL-08','SoA update en beoordeling','ISO 27001 cl.6.1.3','2026-12-15','Jaarlijks','CISO','Gepland',30,''],
@@ -1234,7 +1236,6 @@ const DEMO_OVERZICHT={
     {kader:'ISO/IEC 27001:2022',    status:'op-orde',  toep:82, open:1, openHoog:0, eigenaar:'ISMS-manager'},
     {kader:'NIS2 / Cyberbeveiligingswet', status:'aandacht', toep:64, open:3, openHoog:1, eigenaar:'CISO'},
     {kader:'NIST SP 800-53 R5',     status:'op-orde',  toep:71, open:1, openHoog:0, eigenaar:'Security-architect'},
-    {kader:'DORA',                  status:'kritiek',  toep:38, open:4, openHoog:2, eigenaar:null},
     {kader:'AVG / GDPR',            status:'op-orde',  toep:88, open:0, openHoog:0, eigenaar:'Functionaris Gegevensbescherming'},
   ],
   controls:[
