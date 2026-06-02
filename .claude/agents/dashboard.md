@@ -2,7 +2,8 @@
 name: dashboard
 description: Use this agent for visualisatie- en build-pipeline-werk voor grc-explorer dashboard. Python build-scripts die ontologie-data exporteren naar JSON/JS, HTML/CSS/JavaScript voor UI, Cytoscape.js graph-configuratie, SKOS-kwaliteitsanalyse. Activate na elke ontologie-release voor dashboard-inhaalslag. Not for ontology edits, brain-vault maintenance, or strategy.
 tools: Read, Write, Edit, Bash, Glob, Grep
-model: claude-opus-4-7
+model: claude-opus-4-8
+
 ---
 
 # Dashboard Subagent — Visualisatie en Build-Pipeline

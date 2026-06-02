@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="nl">
+<!-- data-ramp="contrast" = WCAG 2.1 AA-standaard (masterchat-besluit 2 jun 2026): --c-warn #7a4e08 blijft >4,5:1 op getinte oppervlakken. -->
+<html lang="nl" data-ramp="contrast">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>GRC Dashboard v3.0 — Rijksoverheidsorganisatie</title>
 <!-- Q-M5: lokaal gevendord voor offline werking (CDN's geblokkeerd op Rijksoverheid-machine). Versies gepind; SRI-integrity = cdnjs-gepubliceerd. Zie vendor/VENDOR.md -->
-<link href="vendor/fonts.css" rel="stylesheet"><!-- IBM Plex Mono/Sans/Serif (Google Fonts, lokaal) -->
+<link href="design-tokens-grc-dashboard.css" rel="stylesheet"><!-- reskin design-tokens (ongewijzigd gekopieerd uit docs/instructies/) -->
+<link href="vendor/fonts.css" rel="stylesheet"><!-- IBM Plex Mono (cijfers/code), lokaal — koppen/UI gebruiken de token-fontstacks (Georgia/system-ui) -->
 <script src="vendor/chart.umd.min.js" integrity="sha512-CQBWl4fJHWbryGE+Pc7UAxWMUMNMWzWxF4SQo9CgkJIN1kx6djDQZjh3Y8SZ1d+6I+1zze6Z7kHXO7q3UyZAWw==" crossorigin="anonymous"></script><!-- Chart.js 4.4.1 -->
 <script src="vendor/sql-wasm.js" integrity="sha512-tz0jOZaOg9RtWWB6AdxSkINQwIs7S5obj1Dlml9KewZLPTblTWCux5eLtnexBb8kbLUo5crPmjsi8/vI17Vw0w==" crossorigin="anonymous"></script><!-- sql.js 1.12.0 -->
 <script src="structure-import-v4_6_0.js"></script><!-- B7: window.STRUCTURE_IMPORT (ontologie-structuur v4.6.0) -->
 <style>
 :root{
-  --bg:#0a0e14;--bg1:#111720;--bg2:#161d28;--bg3:#1c2535;--bg4:#24303f;
-  --border:#2a3a4e;--border2:#354d65;
-  --blue:#0f62fe;--blue-lt:#4589ff;--blue-dim:#0043ce;
-  --cyan:#1192e8;--cyan-lt:#33b1ff;--teal:#007d79;
-  --green:#198038;--green-lt:#24a148;--green-br:#42be65;
-  --yellow:#b28600;--yellow-lt:#f1c21b;
-  --orange:#ba4e00;--orange-lt:#ff832b;
-  --red:#a2191f;--red-lt:#da1e28;--red-br:#fa4d56;
-  --purple:#6929c4;--purple-lt:#a56eff;
-  --text:#f2f4f8;--text2:#c1c7cd;--text3:#878d96;--text4:#4d5358;
-  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--serif:'IBM Plex Serif',serif;
+  /* ── LIGHT-RESKIN (warm papier) ── legacy var-namen geremapt op de design-tokens.
+     Oppervlakken licht; statuskleuren volgen [data-ramp="contrast"] via var(--c-*).
+     Origineel donker carbon-palet vervangen (hele-dashboard-licht — projecteigenaar-besluit 2 jun 2026). */
+  --bg:#e9e7e0;--bg1:#f5f4ef;--bg2:#ffffff;--bg3:#f4f2ea;--bg4:#ebe8df;
+  --border:#e4e1d7;--border2:#d3cfc2;
+  --blue:var(--c-info);--blue-lt:var(--c-info);--blue-dim:#2f4f7a;
+  --cyan:var(--c-info);--cyan-lt:var(--c-info);--teal:var(--c-ok);
+  --green:var(--c-ok);--green-lt:var(--c-ok);--green-br:var(--c-ok);
+  --yellow:var(--c-warn);--yellow-lt:var(--c-warn);
+  --orange:var(--c-warn);--orange-lt:var(--c-warn);
+  --red:var(--c-crit);--red-lt:var(--c-crit);--red-br:var(--c-crit);
+  --purple:var(--c-info);--purple-lt:var(--c-info);
+  --text:#23211c;--text2:#4a473f;--text3:#5d5a4f;--text4:#5f5b50;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;--sans:var(--font-body);--serif:var(--font-head);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100vh;overflow-x:hidden}
@@ -191,20 +196,91 @@ canvas{max-height:250px}
 .db-badge .dot{width:5px;height:5px;flex-shrink:0}
 
 /* ═══════════════════════════════════════════════════════════
-   B9 — WCAG 2.1 AA fixes (axe-core). Geconsolideerd override-blok:
-   originele regels hierboven onaangeroerd → reviewbaar/reverteerbaar.
-   Geen layout-herinrichting; alleen kleur + font-size + focusbaarheid.
+   B9 — WCAG 2.1 AA (axe-core). HERZIEN voor de light-reskin:
+   de eerdere donker-thema-overrides (--text4 grijs, lichte badge-tekst)
+   zijn vervangen door light-thema-equivalenten. Font-size-ophogingen blijven.
    ═══════════════════════════════════════════════════════════ */
-/* --- 1.4.3 Contrast (muted tekst): #4d5358 (2.17:1) → 4.5:1+ op alle paneel-bg's --- */
-:root{ --text4:#9097a0; }
-/* --- 1.4.3 Contrast (gekleurde status-badges) op getinte pills --- */
-.br{ color:#ff8389; }   /* rood:  4.28 → 6.0+ */
-.bb{ color:#6ba5ff; }   /* blauw: 4.30 → 5.8+ */
-.bp{ color:#bb8dff; }   /* paars: 4.45 → 5.9+ */
-/* --- 1.4.4 Leesbaarheid: 9px/10px micro-tekst te klein --- */
+/* --- 1.4.3 Contrast status-badge-tekst op getinte pills → donkere statushue (contrast-ramp) --- */
+.br{ color:var(--c-crit); }
+.bb{ color:var(--c-info); }
+.bp{ color:var(--c-info); }
+/* --- 1.4.4 Leesbaarheid: 9px/10px micro-tekst te klein (thema-onafhankelijk) --- */
 .hdr-sub,.cttl,.ss,.fwmeta,.tldate,.sfcnt,.db-badge,.plbl,.owlttl,.frow label{ font-size:12px; }
 .hdr-kv-lbl,.hmlbl,.hmaxl,.cpbtn,.chip,.nbadge{ font-size:11px; }
 .b,.rr,.ra,.rc,.ri,.strd{ font-size:11px; }
+/* --- 2.4.7 Focus-states zichtbaar (instructie §4, --focus uit design-tokens) --- */
+:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+/* ═══════════════════════════════════════════════════════════
+   OVERZICHT-RESKIN (Spoor B · warm papier · design-tokens)
+   Scope: alleen #tab-overzicht. Variant-keuzes (instructie §2):
+   KPI = vlak getint · Mate van toepassing = donut primair + 100%-staaf-fallback
+   · Status per kader = tabel (pattern a). Klikbare rijen = drill-down-hook (§3).
+   ═══════════════════════════════════════════════════════════ */
+.ov-sr-only{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+.ov-head{ display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:var(--gap); }
+.ov-title{ font-family:var(--serif);font-size:27px;font-weight:600;color:var(--text);line-height:1.1;margin:0; }
+.ov-sub{ font-size:13px;color:var(--text2);margin-top:5px;max-width:62ch;line-height:1.5; }
+.ov-meta{ display:flex;flex-direction:column;align-items:flex-end;gap:6px; }
+.ov-badge{ font-size:11px;color:var(--text3);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 11px;white-space:nowrap; }
+.ov-badge-demo{ color:var(--c-info);border-color:color-mix(in srgb,var(--c-info) 35%,#fff);background:color-mix(in srgb,var(--c-info) 8%,#fff);font-weight:600; }
+.ov-kpis{ display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-bottom:var(--gap); }
+.ov-kpi{ background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:var(--tile-pad); }
+.ov-kpi-val{ font-family:var(--serif);font-size:34px;font-weight:600;line-height:1;color:var(--text); }
+.ov-kpi-val .ov-kpi-tot{ font-size:20px;color:var(--text3);font-weight:600; }
+.ov-kpi-val.is-crit{ color:var(--c-crit); }
+.ov-kpi-val.is-warn{ color:var(--c-warn); }
+.ov-kpi-lbl{ font-size:13px;color:var(--text2);margin-top:11px;font-weight:600; }
+.ov-kpi-note{ font-size:12px;color:var(--text3);margin-top:3px; }
+.ov-2col{ display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-bottom:var(--gap); }
+@media(max-width:920px){ .ov-kpis{grid-template-columns:repeat(2,1fr);} .ov-2col{grid-template-columns:1fr;} }
+.ov-card{ background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:var(--pad-card); }
+.ov-card-hd{ display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:15px;flex-wrap:wrap; }
+.ov-card-ttl{ font-family:var(--serif);font-size:16px;font-weight:600;color:var(--text); }
+.ov-card-note{ font-size:12px;color:var(--text3);max-width:48ch;text-align:right; }
+.ov-donut-wrap{ display:flex;gap:20px;align-items:center;flex-wrap:wrap; }
+.ov-donut-canvas{ position:relative;width:168px;height:168px;flex-shrink:0; }
+.ov-donut-canvas canvas{ max-height:168px; }
+.ov-legend{ list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;flex:1;min-width:170px; }
+.ov-legend li{ display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text2); }
+.ov-swatch{ width:12px;height:12px;border-radius:3px;flex-shrink:0;border:1px solid rgba(0,0,0,.14); }
+.ov-lg-count{ margin-left:auto;font-family:var(--serif);font-weight:600;color:var(--text); }
+.ov-bar100{ display:flex;height:28px;border-radius:7px;overflow:hidden;border:1px solid var(--line);width:100%; }
+.ov-bar100 span{ display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;min-width:0;white-space:nowrap; }
+.ov-risks{ list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px; }
+.ov-risk{ display:flex;align-items:center;gap:11px;padding:10px 13px;border:1px solid var(--line);border-left-width:4px;border-radius:var(--radius-sm);background:var(--surface-2); }
+.ov-risk-hoog{ border-left-color:var(--c-crit); }
+.ov-risk-middel{ border-left-color:var(--c-warn); }
+.ov-risk-laag{ border-left-color:var(--c-info); }
+.ov-risk-ico{ flex-shrink:0;font-size:12px;width:16px;text-align:center;color:var(--text2); }
+.ov-risk-txt{ flex:1;font-size:13px;color:var(--text);min-width:0;line-height:1.35; }
+.ov-risk-meta{ font-size:11px;color:var(--text3); }
+.ov-risk-tag{ font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap; }
+.tag-hoog{ color:var(--c-crit);background:color-mix(in srgb,var(--c-crit) 10%,#fff);border:1px solid color-mix(in srgb,var(--c-crit) 30%,#fff); }
+.tag-middel{ color:var(--c-warn);background:color-mix(in srgb,var(--c-warn) 10%,#fff);border:1px solid color-mix(in srgb,var(--c-warn) 30%,#fff); }
+.tag-laag{ color:var(--c-info);background:color-mix(in srgb,var(--c-info) 10%,#fff);border:1px solid color-mix(in srgb,var(--c-info) 30%,#fff); }
+.ov-tbl{ width:100%;border-collapse:collapse;font-size:13px; }
+.ov-tbl th{ text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);padding:8px 10px;border-bottom:2px solid var(--line-strong); }
+.ov-tbl td{ padding:11px 10px;border-bottom:1px solid var(--line);color:var(--text);vertical-align:middle; }
+.ov-tbl tbody tr:last-child td{ border-bottom:none; }
+.ov-row-drill{ cursor:pointer;transition:background .12s; }
+.ov-row-drill:hover td{ background:var(--surface-2); }
+.ov-row-drill:focus-visible{ outline:2px solid var(--focus);outline-offset:-2px; }
+.ov-kader{ font-weight:600;color:var(--text); }
+.ov-primair{ font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--c-info);background:color-mix(in srgb,var(--c-info) 10%,#fff);border:1px solid color-mix(in srgb,var(--c-info) 30%,#fff);border-radius:999px;padding:1px 8px;margin-left:8px; }
+.ov-st{ display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600; }
+.ov-st-dot{ width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+.st-op-orde{ color:var(--c-ok); } .st-op-orde .ov-st-dot{ background:var(--c-ok); }
+.st-aandacht{ color:var(--c-warn); } .st-aandacht .ov-st-dot{ background:var(--c-warn); }
+.st-kritiek{ color:var(--c-crit); } .st-kritiek .ov-st-dot{ background:var(--c-crit); }
+.ov-mini-bar{ display:flex;align-items:center;gap:9px;min-width:130px; }
+.ov-mini-track{ flex:1;height:7px;border-radius:4px;background:var(--track);overflow:hidden;min-width:64px; }
+.ov-mini-fill{ height:100%;border-radius:4px;background:var(--c-ok); }
+.ov-mini-pct{ font-family:var(--serif);font-weight:600;font-size:12px;color:var(--text);white-space:nowrap; }
+.ov-hoog{ color:var(--c-crit);font-weight:600; }
+.ov-niet-belegd{ color:var(--c-crit);font-weight:600; }
+.ov-eigenaar{ font-size:12px;color:var(--text2); }
+.ov-nul{ color:var(--text3); }
 </style>
 </head>
 <body>
@@ -216,7 +292,7 @@ canvas{max-height:250px}
 </div>
 
 <!-- TOAST STACK -->
-<div id="toast-stack"></div>
+<div id="toast-stack" role="status" aria-live="polite" aria-label="Meldingen"></div>
 
 <!-- MODAL OVERLAY -->
 <div id="modal-overlay" onclick="if(event.target===this)closeModal()">
@@ -237,7 +313,7 @@ canvas{max-height:250px}
 </div>
 
 <!-- HEADER -->
-<div class="hdr">
+<div class="hdr" role="banner">
   <div class="hdr-logo">🛡️</div>
   <div>
     <div class="hdr-org">GRC Dashboard — Rijksoverheidsorganisatie</div>
@@ -254,7 +330,7 @@ canvas{max-height:250px}
 </div>
 
 <!-- MAIN NAV -->
-<div class="nav">
+<div class="nav" role="navigation" aria-label="Hoofdnavigatie">
   <div class="ntab active" onclick="goTab(event,'overzicht')">◈ Overzicht</div>
   <div class="ntab" onclick="goTab(event,'governance')">⬡ Governance</div>
   <div class="ntab" onclick="goTab(event,'risk')">◬ Risk <span class="nbadge" id="risk-badge">—</span></div>
@@ -262,65 +338,78 @@ canvas{max-height:250px}
   <div class="ntab" onclick="goTab(event,'isms')">◉ ISMS</div>
 </div>
 
-<div class="main">
+<main class="main">
+<h1 class="ov-sr-only">GRC-dashboard — operationele werkmap · Governance, Risk &amp; Compliance</h1>
 
 <!-- ═══ TAB: OVERZICHT ═══ -->
 <div id="tab-overzicht" class="tab active">
-  <div class="g4">
-    <div class="stat" style="--ac:var(--cyan-lt)"><div class="sv" id="kpi-controls">—</div><div class="sl">Totaal controls actief</div><div class="ss" id="kpi-controls-sub">ISO + BIO + NIST</div></div>
-    <div class="stat" style="--ac:var(--green-br)"><div class="sv" id="kpi-compliance">—</div><div class="sl">Compliance score</div><div class="ss" id="kpi-comp-sub">volledig geïmplementeerd</div></div>
-    <div class="stat" style="--ac:var(--red-br)"><div class="sv" id="kpi-risicos">—</div><div class="sl">Openstaande hoog-risico's</div><div class="ss">Score ≥ 12 · Open status</div></div>
-    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv" id="kpi-deadline">—</div><div class="sl">Volgende deadline</div><div class="ss" id="kpi-deadline-sub">—</div></div>
-  </div>
-  <div class="g4" style="margin-bottom:16px">
-    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv" id="kpi-rollen">—</div><div class="sl">Rollen bezet</div><div class="ss">% ingevuld</div></div>
-    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv" id="kpi-docs">—</div><div class="sl">Documenten actueel</div><div class="ss">Review niet verlopen</div></div>
-    <div class="stat" style="--ac:var(--orange-lt)"><div class="sv" id="kpi-findings">—</div><div class="sl">Open auditbevindingen</div><div class="ss">Major NC / Minor NC</div></div>
-    <div class="stat" style="--ac:var(--teal)"><div class="sv" id="kpi-kal">—</div><div class="sl">Kalenderitems < 30d</div><div class="ss">Dringende acties</div></div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="chd"><span class="cttl">Paneel A — Internationale Normen</span><span class="chip">Selecteer voor details</span></div>
-      <div class="fwgrid" id="fw-intl">
-        <div class="fwcard" onclick="selFW(this,'iso27001')"><span class="fwdot" style="background:var(--purple-lt)"></span><div class="fwname">ISO/IEC 27001:2022</div><div class="fwmeta">ISMS-norm · 41 clausules</div></div>
-        <div class="fwcard" onclick="selFW(this,'iso27002')"><span class="fwdot" style="background:var(--blue-lt)"></span><div class="fwname">ISO/IEC 27002:2022</div><div class="fwmeta">Controls · 93 controls</div></div>
-        <div class="fwcard" onclick="selFW(this,'iso27005')"><span class="fwdot" style="background:var(--cyan-lt)"></span><div class="fwname">ISO/IEC 27005:2024</div><div class="fwmeta">IB-risicobeheer · NEN</div></div>
-        <div class="fwcard" onclick="selFW(this,'iso31000')"><span class="fwdot" style="background:var(--teal)"></span><div class="fwname">ISO 31000:2018</div><div class="fwmeta">Risicobeheer · NEN</div></div>
-        <div class="fwcard" onclick="selFW(this,'iso22301')"><span class="fwdot" style="background:var(--green-br)"></span><div class="fwname">ISO 22301:2019</div><div class="fwmeta">BCM · 17 clausules</div></div>
-        <div class="fwcard" onclick="selFW(this,'iso22313')"><span class="fwdot" style="background:var(--green-lt)"></span><div class="fwname">ISO 22313:2020</div><div class="fwmeta">BCM-implementatie</div></div>
-        <div class="fwcard" onclick="selFW(this,'nist80053')"><span class="fwdot" style="background:var(--blue)"></span><div class="fwname">NIST SP 800-53 R5</div><div class="fwmeta">20 families · 104 controls</div></div>
-        <div class="fwcard" onclick="selFW(this,'nist80039')"><span class="fwdot" style="background:var(--blue-dim)"></span><div class="fwname">NIST SP 800-39</div><div class="fwmeta">Organisatie risicobeheer</div></div>
-        <div class="fwcard" onclick="selFW(this,'cobit')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">COBIT 2019</div><div class="fwmeta">IT Governance · ISACA</div></div>
-      </div>
+  <!-- 1. Kop -->
+  <div class="ov-head">
+    <div>
+      <h2 class="ov-title">Overzicht</h2>
+      <p class="ov-sub">Naleving, openstaande risico's en verantwoordelijkheid van de organisatie — in één blik.</p>
     </div>
-    <div class="card">
-      <div class="chd"><span class="cttl">Paneel B — Wet- en Regelgeving</span><span class="chip">Selecteer voor details</span></div>
-      <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">Nationale Rijksregelgeving</div>
-      <div class="fwgrid" style="margin-bottom:10px">
-        <div class="fwcard" onclick="selFW(this,'vir2007')"><span class="fwdot" style="background:var(--yellow-lt)"></span><div class="fwname">VIR 2007</div><div class="fwmeta">Rijksdienst IB · BZK</div></div>
-        <div class="fwcard" onclick="selFW(this,'virbi2025')"><span class="fwdot" style="background:var(--yellow-lt)"></span><div class="fwname">VIRBI 2025</div><div class="fwmeta">Bijzondere informatie</div></div>
-        <div class="fwcard" onclick="selFW(this,'bva2021')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">Besluit BVA 2021</div><div class="fwmeta">BVA/BVC-stelsel</div></div>
-        <div class="fwcard" onclick="selFW(this,'cio2026')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">Besluit CIO 2026</div><div class="fwmeta">CIO-stelsel Rijksdienst</div></div>
-        <div class="fwcard" onclick="selFW(this,'bio20')"><span class="fwdot" style="background:var(--red-br)"></span><div class="fwname">BIO 2.0 v1.3</div><div class="fwmeta">Baseline IB Overheid</div></div>
-        <div class="fwcard" onclick="selFW(this,'cbw')"><span class="fwdot" style="background:var(--red-lt)"></span><div class="fwname">Cyber Beveiligingswet</div><div class="fwmeta">NIS2-implementatie NL</div></div>
-      </div>
-      <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">EU-regelgeving</div>
-      <div class="fwgrid">
-        <div class="fwcard" onclick="selFW(this,'nis2')"><span class="fwdot" style="background:var(--blue-lt)"></span><div class="fwname">NIS2 2022/2555</div><div class="fwmeta">Netwerk- en IB</div></div>
-        <div class="fwcard" onclick="selFW(this,'dora')"><span class="fwdot" style="background:var(--orange-lt)"></span><div class="fwname">DORA 2022/2554</div><div class="fwmeta">Digitale weerbaarheid</div></div>
-        <div class="fwcard" onclick="selFW(this,'oj2024')"><span class="fwdot" style="background:var(--cyan-lt)"></span><div class="fwname">EU OJ 2024/269</div><div class="fwmeta">Uitvoeringsverordening</div></div>
-      </div>
+    <div class="ov-meta">
+      <span class="ov-badge ov-badge-demo">representatieve demo-data</span>
+      <span class="ov-badge">bijgewerkt <span id="ov-updated">—</span></span>
     </div>
   </div>
-  <div id="fw-infocard" class="card mb14" style="display:none">
-    <div class="chd"><span class="cttl" id="fwic-title">Framework details</span><span class="cact" onclick="document.getElementById('fw-infocard').style.display='none'">✕ Sluiten</span></div>
-    <div class="g4 mb14" id="fwic-meta"></div>
-    <div id="fwic-owl" class="owl"></div>
+
+  <!-- 2. KPI-tegelrij (variant A · vlak getint) -->
+  <div class="ov-kpis">
+    <div class="ov-kpi">
+      <div class="ov-kpi-val">71<span class="ov-kpi-tot">/93</span></div>
+      <div class="ov-kpi-lbl">Controls toegepast</div>
+      <div class="ov-kpi-note">76% van de baseline</div>
+    </div>
+    <div class="ov-kpi">
+      <div class="ov-kpi-val is-crit">8</div>
+      <div class="ov-kpi-lbl">Openstaande risico's</div>
+      <div class="ov-kpi-note">waarvan 3 hoog</div>
+    </div>
+    <div class="ov-kpi">
+      <div class="ov-kpi-val is-warn">5</div>
+      <div class="ov-kpi-lbl">Urgente acties</div>
+      <div class="ov-kpi-note">deadline &lt; 30 dagen</div>
+    </div>
+    <div class="ov-kpi">
+      <div class="ov-kpi-val">4</div>
+      <div class="ov-kpi-lbl">Controls zonder eigenaar</div>
+      <div class="ov-kpi-note">verantwoordelijkheid open</div>
+    </div>
   </div>
-  <div class="g2">
-    <div class="card"><div class="chd"><span class="cttl">Controls per framework</span></div><canvas id="c-fw-dist"></canvas></div>
-    <div class="card"><div class="chd"><span class="cttl">Compliance-status overzicht</span></div><canvas id="c-comp-ov"></canvas></div>
+
+  <!-- 3. Twee panelen -->
+  <div class="ov-2col">
+    <section class="ov-card" aria-labelledby="ov-mvt-ttl">
+      <div class="ov-card-hd"><span class="ov-card-ttl" id="ov-mvt-ttl">Mate van toepassing</span><span class="ov-card-note" id="ov-mvt-note">—</span></div>
+      <div class="ov-donut-wrap">
+        <div class="ov-donut-canvas" id="ov-donut-wrap"><canvas id="ov-donut" role="img" aria-label="Verdeling mate van toepassing — zie legenda voor exacte aantallen"></canvas></div>
+        <div id="ov-bar100-wrap" style="display:none;flex:1;min-width:200px"><div class="ov-bar100" id="ov-bar100" role="img" aria-label="Verdeling mate van toepassing — zie legenda voor exacte aantallen"></div></div>
+        <ul class="ov-legend" id="ov-legend"></ul>
+      </div>
+    </section>
+    <section class="ov-card" aria-labelledby="ov-risk-ttl">
+      <div class="ov-card-hd"><span class="ov-card-ttl" id="ov-risk-ttl">Openstaande risico's</span><span class="ov-card-note">gesorteerd op urgentie</span></div>
+      <ul class="ov-risks" id="ov-risks"></ul>
+    </section>
   </div>
+
+  <!-- 4. Status per kader (variant A · tabel pattern a) -->
+  <section class="ov-card" aria-labelledby="ov-kader-ttl" style="margin-bottom:var(--gap)">
+    <div class="ov-card-hd"><span class="ov-card-ttl" id="ov-kader-ttl">Status per kader</span><span class="ov-card-note">BIO 2.0 is het primaire perspectief — andere kaders zijn gelijkwaardig oproepbaar</span></div>
+    <div class="txscroll"><table class="ov-tbl"><thead><tr>
+      <th scope="col">Kader</th><th scope="col">Status</th><th scope="col">Mate van toepassing</th><th scope="col">Open risico's</th><th scope="col">Eigenaar</th>
+    </tr></thead><tbody id="ov-kader-tb"></tbody></table></div>
+  </section>
+
+  <!-- 5. Controls die aandacht vragen -->
+  <section class="ov-card" aria-labelledby="ov-ctrl-ttl">
+    <div class="ov-card-hd"><span class="ov-card-ttl" id="ov-ctrl-ttl">Controls die aandacht vragen</span><span class="ov-card-note">gesorteerd op urgentie</span></div>
+    <div class="txscroll"><table class="ov-tbl"><thead><tr>
+      <th scope="col">Control</th><th scope="col">Domein</th><th scope="col">Eigenaar</th><th scope="col">Status</th>
+    </tr></thead><tbody id="ov-ctrl-tb"></tbody></table></div>
+  </section>
 </div>
 
 <!-- ═══ TAB: GOVERNANCE ═══ -->
@@ -726,7 +815,7 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
   </div>
 </div>
 
-</div><!-- /main -->
+</main><!-- /main -->
 <script>
 'use strict';
 // ═══════════════════════════════════════════════════════════
@@ -799,6 +888,10 @@ const SCHEMA = {
 // ─── HELPERS ─────────────────────────────────────────────
 function q(id){ return document.getElementById(id); }
 function qs(sel){ return document.querySelector(sel); }
+// null-safe tekst-setter (Overzicht-reskin verwijderde de oude kpi-*-knooppunten; voorkomt crash in updateKPIs)
+function setTxt(id,v){ const e=q(id); if(e) e.textContent=v; }
+// computed waarde van een design-token (voor Chart.js-kleuren die geen var() accepteren)
+function ovCss(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim()||'#888'; }
 function sqlOne(sql, params=[]){
   try{ const r=db.exec(sql,params); return r[0]?.values[0]||null; }catch(e){ return null; }
 }
@@ -1114,8 +1207,126 @@ function docStatusBadge(reviewdatum){
 // ═══════════════════════════════════════════════════════════
 // RENDER FUNCTIES
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// OVERZICHT-TAB (reskin · representatieve demo-data, geen organisatiedata)
+// Instructie §2: KPI-tegels (vast in markup), donut Mate-van-toepassing
+// (+100%-staaf-fallback bij weinig data), risico-lijst, status-per-kader-tabel,
+// controls-tabel. §3: klikbare rijen = drill-down-hook (nog niet volgebouwd).
+// ═══════════════════════════════════════════════════════════
+const DEMO_OVERZICHT={
+  scope:93,
+  mvt:[
+    {label:'Toegepast',            count:71, colorVar:'--c-ok'},
+    {label:'Deels toegepast',      count:12, colorVar:'--c-warn'},
+    {label:'Niet toegepast',       count:6,  colorVar:'--c-crit'},
+    {label:'Uitgesloten (met motivering)', count:4, colorVar:'--c-info'},
+  ],
+  risks:[
+    {urg:'hoog',   label:'Onvolledige logging op kritieke systemen', meta:'R-014 · score 16'},
+    {urg:'hoog',   label:'Verouderde encryptie externe koppeling',   meta:'R-022 · score 15'},
+    {urg:'hoog',   label:'Periodieke toegangsreview niet uitgevoerd', meta:'R-031 · score 12'},
+    {urg:'middel', label:'Back-up-hersteltest achterstallig',         meta:'R-008 · score 9'},
+    {urg:'middel', label:'Leveranciersbeoordeling achterstallig',     meta:'R-017 · score 8'},
+    {urg:'laag',   label:'Awareness-campagne loopt door',             meta:'R-026 · score 4'},
+  ],
+  kaders:[
+    {kader:'BIO 2.0', primair:true, status:'aandacht', toep:76, open:3, openHoog:2, eigenaar:'CISO'},
+    {kader:'ISO/IEC 27001:2022',    status:'op-orde',  toep:82, open:1, openHoog:0, eigenaar:'ISMS-manager'},
+    {kader:'NIS2 / Cyberbeveiligingswet', status:'aandacht', toep:64, open:3, openHoog:1, eigenaar:'CISO'},
+    {kader:'NIST SP 800-53 R5',     status:'op-orde',  toep:71, open:1, openHoog:0, eigenaar:'Security-architect'},
+    {kader:'DORA',                  status:'kritiek',  toep:38, open:4, openHoog:2, eigenaar:null},
+    {kader:'AVG / GDPR',            status:'op-orde',  toep:88, open:0, openHoog:0, eigenaar:'Functionaris Gegevensbescherming'},
+  ],
+  controls:[
+    {id:'CTRL-08.16', domein:'Monitoring & logging', eigenaar:'SOC-lead',           status:'aandacht', stLabel:'Aandacht'},
+    {id:'CTRL-08.24', domein:'Cryptografie',         eigenaar:'Security-architect', status:'kritiek',  stLabel:'Achterstallig'},
+    {id:'CTRL-05.18', domein:'Toegangsbeheer',       eigenaar:'IAM-beheerder',      status:'aandacht', stLabel:'Review nodig'},
+    {id:'CTRL-08.13', domein:'Back-up & herstel',    eigenaar:null,                 status:'kritiek',  stLabel:'Geen eigenaar'},
+    {id:'CTRL-05.19', domein:'Leveranciersbeheer',   eigenaar:'Inkoop / CISO',      status:'aandacht', stLabel:'Achterstallig'},
+  ],
+};
+const OV_STLBL={'op-orde':'Op orde','aandacht':'Aandacht','kritiek':'Kritiek'};
+const OV_STCLS={'op-orde':'st-op-orde','aandacht':'st-aandacht','kritiek':'st-kritiek'};
+const OV_RISK_ICO={hoog:'▲',middel:'■',laag:'●'};
+const OV_RISK_LBL={hoog:'Hoog',middel:'Middel',laag:'Laag'};
+const OV_DONUT_FALLBACK=15; // < ~15 controls in scope → donut onleesbaar → 100%-staaf
+
+// drill-down-hook (§3): routeert naar een (nog niet ingevulde) detailweergave
+function ovDrill(type,label){
+  openModal({title:'Verdieping — '+label, html:
+    `<p style="color:var(--text2);line-height:1.65">Drill-down voor <strong>${esc(label)}</strong>.</p>`+
+    `<p style="color:var(--text3);margin-top:10px;line-height:1.65">De verdiepende ${esc(type)}-weergave wordt in een latere sprint ingevuld. Deze sprint legt alleen de drill-down-hook aan — klikbare rijen die naar een detailweergave routeren (instructie §3). Geen ontologie-graaf (Spoor A-grens).</p>`});
+}
+function ovKey(e,type,label){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); ovDrill(type,label); } }
+
+function renderOverzicht(){
+  if(!q('tab-overzicht')) return;
+  const D=DEMO_OVERZICHT;
+  setTxt('ov-updated', new Date().toLocaleDateString('nl-NL',{day:'2-digit',month:'long',year:'numeric'}));
+  const total=D.mvt.reduce((s,m)=>s+m.count,0);
+  setTxt('ov-mvt-note', `${total} controls in scope`);
+
+  // legenda (altijd; kleur + label + exact aantal — nooit kleur alleen)
+  const legend=q('ov-legend');
+  if(legend) legend.innerHTML=D.mvt.map(m=>
+    `<li><span class="ov-swatch" style="background:${ovCss(m.colorVar)}"></span><span>${esc(m.label)}</span><span class="ov-lg-count">${m.count}</span></li>`).join('');
+
+  // donut primair; 100%-staaf-fallback bij laag datavolume (beide gebouwd, geschakeld op volume)
+  const donutWrap=q('ov-donut-wrap'), barWrap=q('ov-bar100-wrap');
+  if(total<OV_DONUT_FALLBACK){
+    if(donutWrap) donutWrap.style.display='none';
+    if(charts['ov-donut']){ charts['ov-donut'].destroy(); delete charts['ov-donut']; }
+    if(barWrap){ barWrap.style.display='';
+      q('ov-bar100').innerHTML=D.mvt.filter(m=>m.count>0).map(m=>
+        `<span style="flex:${m.count};background:${ovCss(m.colorVar)}">${Math.round(100*m.count/total)}%</span>`).join('');
+    }
+  } else {
+    if(barWrap) barWrap.style.display='none';
+    if(donutWrap) donutWrap.style.display='';
+    mkChart('ov-donut','doughnut',
+      {labels:D.mvt.map(m=>m.label),datasets:[{data:D.mvt.map(m=>m.count),
+        backgroundColor:D.mvt.map(m=>ovCss(m.colorVar)),borderColor:'#ffffff',borderWidth:2}]},
+      {cutout:'60%',plugins:{legend:{display:false},tooltip:{enabled:true}}});
+  }
+
+  // openstaande risico's (kleur + label + icoon)
+  const rl=q('ov-risks');
+  if(rl) rl.innerHTML=D.risks.map(r=>
+    `<li class="ov-risk ov-risk-${r.urg}">
+       <span class="ov-risk-ico" aria-hidden="true">${OV_RISK_ICO[r.urg]}</span>
+       <span class="ov-risk-txt">${esc(r.label)}<br><span class="ov-risk-meta">${esc(r.meta)}</span></span>
+       <span class="ov-risk-tag tag-${r.urg}">${OV_RISK_LBL[r.urg]}</span>
+     </li>`).join('');
+
+  // status per kader (drill-down-hook per rij)
+  const kt=q('ov-kader-tb');
+  if(kt) kt.innerHTML=D.kaders.map(k=>{
+    const eig = k.eigenaar ? `<span class="ov-eigenaar">${esc(k.eigenaar)}</span>` : `<span class="ov-niet-belegd">niet belegd</span>`;
+    const openTxt = k.open===0 ? `<span class="ov-nul">0</span>` : `${k.open}${k.openHoog?` <span class="ov-hoog">(${k.openHoog} hoog)</span>`:''}`;
+    const fill = k.toep>=75 ? 'var(--c-ok)' : k.toep>=55 ? 'var(--c-warn)' : 'var(--c-crit)';
+    return `<tr class="ov-row-drill" role="button" tabindex="0" aria-label="Verdieping kader ${esc(k.kader)}" onclick="ovDrill('kader','${esc(k.kader)}')" onkeydown="ovKey(event,'kader','${esc(k.kader)}')">
+      <td><span class="ov-kader">${esc(k.kader)}</span>${k.primair?'<span class="ov-primair">primair</span>':''}</td>
+      <td><span class="ov-st ${OV_STCLS[k.status]}"><span class="ov-st-dot" aria-hidden="true"></span>${OV_STLBL[k.status]}</span></td>
+      <td><div class="ov-mini-bar"><div class="ov-mini-track"><div class="ov-mini-fill" style="width:${k.toep}%;background:${fill}"></div></div><span class="ov-mini-pct">${k.toep}%</span></div></td>
+      <td>${openTxt}</td>
+      <td>${eig}</td></tr>`;
+  }).join('');
+
+  // controls die aandacht vragen (drill-down-hook per rij)
+  const ct=q('ov-ctrl-tb');
+  if(ct) ct.innerHTML=D.controls.map(c=>{
+    const eig = c.eigenaar ? esc(c.eigenaar) : `<span class="ov-niet-belegd">niet belegd</span>`;
+    return `<tr class="ov-row-drill" role="button" tabindex="0" aria-label="Verdieping control ${esc(c.id)}" onclick="ovDrill('control','${esc(c.id)}')" onkeydown="ovKey(event,'control','${esc(c.id)}')">
+      <td><span class="chip">${esc(c.id)}</span></td>
+      <td>${esc(c.domein)}</td>
+      <td class="ov-eigenaar">${eig}</td>
+      <td><span class="ov-st ${OV_STCLS[c.status]}"><span class="ov-st-dot" aria-hidden="true"></span>${esc(c.stLabel)}</span></td></tr>`;
+  }).join('');
+}
+
 function renderAll(){
   updateKPIs();
+  renderOverzicht();
   renderRollen();
   renderRaci();
   renderGovModel();
@@ -1133,46 +1344,47 @@ function renderAll(){
 
 // ─── KPIs ─────────────────────────────────────────────────
 function updateKPIs(){
-  // Controls actief
+  // Controls actief — NB: kpi-* knooppunten zitten niet meer op het gereskinde Overzicht-tab
+  // (demo-data, zie renderOverzicht); setTxt() no-opt veilig. gov-/comp-/isms-/risk-knooppunten bestaan nog.
   const totCtrl=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1${wStruct()}`);
-  q('kpi-controls').textContent=totCtrl?totCtrl[0]:'—';
+  setTxt('kpi-controls',totCtrl?totCtrl[0]:'—');
   const isoC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id LIKE 'ISO%' AND toepasselijk=1${wStruct()}`);
   const bioC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='BIO-2.0' AND toepasselijk=1${wStruct()}`);
   const nistC=sqlOne(`SELECT COUNT(*) FROM controls WHERE framework_id='NIST-800-53-R5' AND toepasselijk=1${wStruct()}`);
-  q('kpi-controls-sub').textContent=`ISO ${isoC?isoC[0]:0} · BIO ${bioC?bioC[0]:0} · NIST ${nistC?nistC[0]:0}`;
+  setTxt('kpi-controls-sub',`ISO ${isoC?isoC[0]:0} · BIO ${bioC?bioC[0]:0} · NIST ${nistC?nistC[0]:0}`);
 
   // Compliance %
   const pct=sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`);
-  q('kpi-compliance').textContent=(pct&&pct[0]!=null?pct[0]+'%':'—');
+  setTxt('kpi-compliance',(pct&&pct[0]!=null?pct[0]+'%':'—'));
   const vol=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Volledig' AND toepasselijk=1${wOper()}`);
   const totOper=sqlOne(`SELECT COUNT(*) FROM controls WHERE toepasselijk=1${wOper()}`);
-  q('kpi-comp-sub').textContent=`${vol?vol[0]:0} van ${totOper?totOper[0]:0} operationeel beoordeeld`;
+  setTxt('kpi-comp-sub',`${vol?vol[0]:0} van ${totOper?totOper[0]:0} operationeel beoordeeld`);
 
   // Risico's hoog open
   const hr=sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`);
-  q('kpi-risicos').textContent=hr?hr[0]:'0';
+  setTxt('kpi-risicos',hr?hr[0]:'0');
 
   // Deadline
   const nd=sqlOne(`SELECT titel,deadline FROM kalender WHERE deadline>=date('now') ORDER BY deadline ASC LIMIT 1`);
-  if(nd){ q('kpi-deadline').textContent=nd[1]; q('kpi-deadline-sub').textContent=nd[0].substring(0,32); }
-  else { q('kpi-deadline').textContent='—'; }
+  if(nd){ setTxt('kpi-deadline',nd[1]); setTxt('kpi-deadline-sub',nd[0].substring(0,32)); }
+  else { setTxt('kpi-deadline','—'); }
 
   // Rollen bezet %
   const rolPct=sqlOne(`SELECT ROUND(100.0*SUM(CASE WHEN bezet_door_naam IS NOT NULL AND bezet_door_naam!='' THEN 1 ELSE 0 END)/MAX(COUNT(*),1),0) FROM rollen WHERE 1=1${wOper()}`);
-  q('kpi-rollen').textContent=(rolPct&&rolPct[0]!=null?rolPct[0]+'%':'—');
+  setTxt('kpi-rollen',(rolPct&&rolPct[0]!=null?rolPct[0]+'%':'—'));
 
   // Docs actueel
   const totDoc=sqlOne(`SELECT COUNT(*) FROM documenten`);
-  q('kpi-docs').textContent=totDoc?totDoc[0]:'—';
+  setTxt('kpi-docs',totDoc?totDoc[0]:'—');
   q('gov-kpi-docs').textContent=totDoc?totDoc[0]:'—';
 
   // Findings open
   const opFi=sqlOne(`SELECT COUNT(*) FROM audit_bevindingen WHERE status='Open'`);
-  q('kpi-findings').textContent=opFi?opFi[0]:'0';
+  setTxt('kpi-findings',opFi?opFi[0]:'0');
 
   // Kalender <30d
   const kal30=sqlOne(`SELECT COUNT(*) FROM kalender WHERE deadline>=date('now') AND julianday(deadline)-julianday('now')<=30`);
-  q('kpi-kal').textContent=kal30?kal30[0]:'0';
+  setTxt('kpi-kal',kal30?kal30[0]:'0');
 
   // Governance panel
   const rolTot=sqlOne(`SELECT COUNT(*) FROM rollen`);
@@ -1501,7 +1713,7 @@ function renderNC(){
 function mkChart(id,type,data,options={}){
   if(charts[id]){ charts[id].destroy(); }
   const el=q(id); if(!el) return;
-  charts[id]=new Chart(el,{type,data,options:{...{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#c1c7cd',font:{family:'IBM Plex Mono',size:10}}}}},color:'#c1c7cd',...options}});
+  charts[id]=new Chart(el,{type,data,options:{...{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#4a473f',font:{family:'IBM Plex Mono',size:10}}}}},color:'#4a473f',...options}});
 }
 
 function renderCharts(){
@@ -1515,14 +1727,14 @@ function renderCharts(){
   const uit=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='In uitvoering' AND toepasselijk=1${wOper()}`)?.[0]||0;
   const ngs=sqlOne(`SELECT COUNT(*) FROM controls WHERE implementatiestatus='Niet gestart' AND toepasselijk=1${wOper()}`)?.[0]||0;
   mkChart('c-comp-ov','doughnut',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderWidth:1}]});
-  mkChart('c-comp-impl','bar',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderRadius:3}]},{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
+  mkChart('c-comp-impl','bar',{labels:['Volledig','Gedeeltelijk','In uitvoering','Niet gestart'],datasets:[{data:[vol,ged,uit,ngs],backgroundColor:['rgba(66,190,101,.7)','rgba(241,194,27,.6)','rgba(255,131,43,.6)','rgba(250,77,86,.6)'],borderRadius:3}]},{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#5d5a4f'},grid:{color:'rgba(0,0,0,.05)'}},y:{ticks:{color:'#5d5a4f'},grid:{color:'rgba(0,0,0,.08)'}}}});
 
-  mkChart('c-radar','radar',{labels:['Financieel','Operationeel','Reputationeel','Juridisch','Veiligheid'],datasets:[{label:'Risicobereidheid',data:[2,2,1,1,1],backgroundColor:'rgba(51,177,255,.15)',borderColor:'var(--cyan-lt)',pointBackgroundColor:'var(--cyan-lt)'},{label:'Huidig risico',data:[3,4,3,2,1],backgroundColor:'rgba(250,77,86,.12)',borderColor:'var(--red-br)',pointBackgroundColor:'var(--red-br)'}]},{scales:{r:{ticks:{color:'#878d96',backdropColor:'transparent'},grid:{color:'rgba(255,255,255,.08)'},angleLines:{color:'rgba(255,255,255,.1)'},pointLabels:{color:'#c1c7cd',font:{size:10}}}}});
+  mkChart('c-radar','radar',{labels:['Financieel','Operationeel','Reputationeel','Juridisch','Veiligheid'],datasets:[{label:'Risicobereidheid',data:[2,2,1,1,1],backgroundColor:'rgba(51,177,255,.15)',borderColor:'var(--cyan-lt)',pointBackgroundColor:'var(--cyan-lt)'},{label:'Huidig risico',data:[3,4,3,2,1],backgroundColor:'rgba(250,77,86,.12)',borderColor:'var(--red-br)',pointBackgroundColor:'var(--red-br)'}]},{scales:{r:{ticks:{color:'#5d5a4f',backdropColor:'transparent'},grid:{color:'rgba(0,0,0,.09)'},angleLines:{color:'rgba(0,0,0,.1)'},pointLabels:{color:'#4a473f',font:{size:10}}}}});
 
   const beh=sqlAll(`SELECT behandeling,COUNT(*) FROM risicos WHERE status!='Gesloten' GROUP BY behandeling`);
   mkChart('c-treat','doughnut',{labels:beh.values.map(r=>r[0]||'Onbekend'),datasets:[{data:beh.values.map(r=>r[1]),backgroundColor:['rgba(51,177,255,.7)','rgba(66,190,101,.7)','rgba(250,77,86,.7)','rgba(255,131,43,.7)'],borderWidth:1}]});
 
-  mkChart('c-kri','bar',{labels:['MTTR','Patch','Bewustzijn','High Risk','SoA impl.'],datasets:[{label:'Actueel',data:[62,89,94,parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)*10,parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`)?.[0]||0)],backgroundColor:'rgba(51,177,255,.5)',borderColor:'var(--cyan-lt)',borderWidth:1,borderRadius:3},{label:'Doel',data:[80,95,90,20,80],type:'line',borderColor:'var(--green-br)',borderDash:[4,4],pointRadius:3,fill:false}]},{plugins:{legend:{display:true}},scales:{x:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#878d96'},grid:{color:'rgba(255,255,255,.07)'}}}});
+  mkChart('c-kri','bar',{labels:['MTTR','Patch','Bewustzijn','High Risk','SoA impl.'],datasets:[{label:'Actueel',data:[62,89,94,parseInt(sqlOne(`SELECT COUNT(*) FROM risicos WHERE status='Open' AND kans*impact>=12`)?.[0]||0)*10,parseInt(sqlOne(`SELECT ROUND(100.0*SUM(implementatiestatus='Volledig')/MAX(COUNT(*),1),0) FROM controls WHERE toepasselijk=1${wOper()}`)?.[0]||0)],backgroundColor:'rgba(51,177,255,.5)',borderColor:'var(--cyan-lt)',borderWidth:1,borderRadius:3},{label:'Doel',data:[80,95,90,20,80],type:'line',borderColor:'var(--green-br)',borderDash:[4,4],pointRadius:3,fill:false}]},{plugins:{legend:{display:true}},scales:{x:{ticks:{color:'#5d5a4f'},grid:{color:'rgba(0,0,0,.05)'}},y:{ticks:{color:'#5d5a4f'},grid:{color:'rgba(0,0,0,.08)'}}}});
 }
 
 // ═══════════════════════════════════════════════════════════

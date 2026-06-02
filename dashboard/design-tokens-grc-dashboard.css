@@ -1,0 +1,105 @@
+/* ============================================================
+   GRC-dashboard — design tokens (handoff)
+   ------------------------------------------------------------
+   Alleen tokens. Geen componentstijlen.
+   Volledig offline: systeemfonts, color-mix voor tinten, geen CDN.
+
+   Gebruik:
+     :root                 → standaard (ramp "aards")
+     [data-ramp="helder"]  → alternatieve statuskleuren
+     [data-ramp="contrast"]→ hoog-contrast statuskleuren
+     [data-density="compact"] → compacte spacing
+
+   LET OP (masterchat-besluit 2 jun 2026):
+   De reskin gebruikt [data-ramp="contrast"] ALS STANDAARD i.v.m.
+   WCAG 2.1 AA op de getinte oppervlakken (--surface-2 / --bg).
+   De "aards"-ramp zakt met --c-warn (#9a6410) net onder 4,5:1 op
+   getinte vlakken; de contrast-ramp (#7a4e08) blijft ruim boven AA.
+   ============================================================ */
+
+:root {
+  /* --- Typografie (serif voor koppen, humanist sans voor UI) --- */
+  --font-head: Georgia, "Times New Roman", "Tinos", "Liberation Serif", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* --- Oppervlakken (warm, neutraal) --- */
+  --bg:          #f5f4ef;   /* dashboard-achtergrond (warm papier) */
+  --canvas:      #e9e7e0;   /* buitenste canvas */
+  --surface:     #ffffff;   /* kaarten */
+  --surface-2:   #f4f2ea;   /* getinte tegels / subtiele vlakken */
+  --line:        #e4e1d7;   /* dunne randen */
+  --line-strong: #d3cfc2;   /* sterke randen */
+  --track:       #ebe8df;   /* lege voortgangs-track */
+
+  /* --- Tekst (inkt) --- */
+  --ink:         #23211c;   /* primair */
+  --ink-2:       #5d5a4f;   /* secundair */
+  --ink-3:       #8a8678;   /* tertiair / captions */
+
+  /* --- Status-ramp — STANDAARD (aards) --- */
+  --c-ok:        #1f7a52;   /* op orde */
+  --c-warn:      #9a6410;   /* aandacht */
+  --c-crit:      #9a3328;   /* kritiek */
+  --c-info:      #3a5d8f;   /* neutraal-informatief (spaarzaam) */
+
+  /* --- Afgeleide zachte tinten (offline via color-mix) --- */
+  --c-ok-bg:     color-mix(in srgb, var(--c-ok)   11%, #ffffff);
+  --c-warn-bg:   color-mix(in srgb, var(--c-warn) 13%, #ffffff);
+  --c-crit-bg:   color-mix(in srgb, var(--c-crit) 11%, #ffffff);
+  --c-ok-line:   color-mix(in srgb, var(--c-ok)   26%, #ffffff);
+  --c-warn-line: color-mix(in srgb, var(--c-warn) 28%, #ffffff);
+  --c-crit-line: color-mix(in srgb, var(--c-crit) 26%, #ffffff);
+
+  /* --- Vorm --- */
+  --radius:    10px;
+  --radius-sm: 7px;
+
+  /* --- Spacing / dichtheid (STANDAARD = ruim) --- */
+  --pad-card:  26px;
+  --gap:       20px;
+  --gap-sm:    14px;
+  --tile-pad:  22px;
+  --row-pad:   15px;
+
+  /* --- Interactie --- */
+  --focus: #3a5d8f;
+}
+
+/* ------------------------------------------------------------
+   Status-ramp varianten
+   Zet via attribuut op <html> of een container, bijv.
+   <html data-ramp="contrast"> of <div data-ramp="helder">
+   ------------------------------------------------------------ */
+[data-ramp="helder"] {
+  --c-ok:   #1b8a4f;
+  --c-warn: #bd7a12;
+  --c-crit: #bf3b2e;
+}
+[data-ramp="contrast"] {
+  --c-ok:   #146c43;
+  --c-warn: #7a4e08;
+  --c-crit: #842029;
+}
+
+/* ------------------------------------------------------------
+   Dichtheid — compact
+   ------------------------------------------------------------ */
+[data-density="compact"] {
+  --pad-card: 17px;
+  --gap:      13px;
+  --gap-sm:   9px;
+  --tile-pad: 15px;
+  --row-pad:  10px;
+}
+
+/* ============================================================
+   REFERENTIE — afgeleide tinten als vaste hex (sRGB)
+   Voor toolchains zonder color-mix-ondersteuning.
+   Standaard ramp (aards):
+     --c-ok-bg     ≈ #e9f1ec
+     --c-warn-bg   ≈ #f4ece0
+     --c-crit-bg   ≈ #f4e9e7
+     --c-ok-line   ≈ #c8ddd2
+     --c-warn-line ≈ #e2d3bb
+     --c-crit-line ≈ #e2cbc6
+   ============================================================ */
