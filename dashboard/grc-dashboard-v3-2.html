@@ -94,7 +94,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
 .ipanel{display:none}.ipanel.active{display:block}
 .hm{display:grid;grid-template-columns:38px repeat(5,1fr);gap:3px;font-size:10px;margin-top:6px}
 .hmcell{aspect-ratio:1.4;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;font-family:var(--mono);font-size:11px;font-weight:600;transition:.15s}
-.hmcell:hover{filter:brightness(1.3);border-color:rgba(255,255,255,.2)!important}
+.hmcell:hover{filter:brightness(1.06);border-color:rgba(0,0,0,.35)!important}
 .hmlbl{color:var(--text4);font-size:9px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
 .hmaxl{color:var(--text4);font-size:9px;text-align:center}
 .rr{background:rgba(250,77,86,.15);color:var(--red-br);border:1px solid rgba(250,77,86,.3);border-radius:2px;padding:1px 5px;font-weight:700;font-family:var(--mono);font-size:10px}
@@ -281,6 +281,25 @@ canvas{max-height:250px}
 .ov-niet-belegd{ color:var(--c-crit);font-weight:600; }
 .ov-eigenaar{ font-size:12px;color:var(--text2); }
 .ov-nul{ color:var(--text3); }
+
+/* ═══ KADER-KIEZER (perspectief-wissel, D9 — geen hiërarchie) ═══ */
+.kz-row{ display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px; }
+.kz-chip{ font-family:var(--font-body);font-size:12px;color:var(--text2);background:var(--surface-2);border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;cursor:pointer;transition:.12s;display:inline-flex;align-items:center;gap:7px; }
+.kz-chip:hover{ border-color:var(--c-info);color:var(--text); }
+.kz-chip[aria-pressed="true"]{ background:color-mix(in srgb,var(--c-info) 12%,#fff);border-color:var(--c-info);color:var(--c-info);font-weight:600; }
+.kz-chip:focus-visible{ outline:2px solid var(--focus);outline-offset:2px; }
+.kz-stat{ font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:1px 7px;border-radius:999px;border:1px solid; }
+.kz-stat-vrb{ color:var(--c-warn);border-color:color-mix(in srgb,var(--c-warn) 35%,#fff);background:color-mix(in srgb,var(--c-warn) 9%,#fff); }
+.kz-stat-con{ color:var(--c-info);border-color:color-mix(in srgb,var(--c-info) 35%,#fff);background:color-mix(in srgb,var(--c-info) 9%,#fff); }
+.kz-detail{ border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:var(--surface-2); }
+.kz-d-head{ display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px; }
+.kz-d-naam{ font-family:var(--serif);font-size:17px;font-weight:600;color:var(--text); }
+.kz-d-laag{ font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px; }
+.kz-d-kern{ font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:12px;max-width:80ch; }
+.kz-d-grid{ display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px; }
+.kz-d-cell{ background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px; }
+.kz-d-k{ font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);margin-bottom:3px; }
+.kz-d-v{ font-size:13px;color:var(--text);font-weight:600; }
 </style>
 </head>
 <body>
@@ -333,9 +352,8 @@ canvas{max-height:250px}
 <div class="nav" role="navigation" aria-label="Hoofdnavigatie">
   <div class="ntab active" onclick="goTab(event,'overzicht')">◈ Overzicht</div>
   <div class="ntab" onclick="goTab(event,'governance')">⬡ Governance</div>
-  <div class="ntab" onclick="goTab(event,'risk')">◬ Risk <span class="nbadge" id="risk-badge">—</span></div>
   <div class="ntab" onclick="goTab(event,'compliance')">◫ Compliance</div>
-  <div class="ntab" onclick="goTab(event,'isms')">◉ ISMS</div>
+  <div class="ntab" onclick="goTab(event,'risk')">◬ Risk <span class="nbadge" id="risk-badge">—</span></div>
 </div>
 
 <main class="main">
@@ -423,8 +441,11 @@ canvas{max-height:250px}
   <div class="inav">
     <div class="itab active" onclick="iTab(event,'gov-rollen')">Rollen &amp; RACI</div>
     <div class="itab" onclick="iTab(event,'gov-struct')">Organisatiestructuur</div>
-    <div class="itab" onclick="iTab(event,'gov-docs')">Documenthiërarchie</div>
-    <div class="itab" onclick="iTab(event,'gov-fw')">Governance per framework</div>
+    <div class="itab" onclick="iTab(event,'gov-docs')">Documenten</div>
+    <div class="itab" onclick="iTab(event,'gov-isms')">ISMS-overkoepelend</div>
+    <div class="itab" onclick="iTab(event,'gov-soa')">SoA</div>
+    <div class="itab" onclick="iTab(event,'gov-kal')">Kalender</div>
+    <div class="itab" onclick="iTab(event,'gov-kader')">Kader-perspectief</div>
   </div>
 
   <div id="gov-rollen" class="ipanel active">
@@ -507,14 +528,117 @@ SELECT ?rol ?naam ?rapportage WHERE {
       </div>
       <div class="sfbar">
         <input type="text" placeholder="🔍 Zoek documenttitel..." id="sf-docs" oninput="renderDocs()">
-        <select id="sf-docs-niv" onchange="renderDocs()"><option value="">Alle niveaus</option><option>Beleid</option><option>Procedure</option><option>Werkinstructie</option><option>Registratie</option></select>
+        <select id="sf-docs-niv" aria-label="Filter op documentniveau" onchange="renderDocs()"><option value="">Alle niveaus</option><option>Beleid</option><option>Procedure</option><option>Werkinstructie</option><option>Registratie</option></select>
         <span class="sfcnt" id="sf-docs-cnt"></span>
       </div>
       <div class="tscroll"><table class="tbl"><thead><tr><th>ID</th><th>Niveau</th><th>Titel</th><th>Versie</th><th>Goedgekeurd</th><th>Review</th><th>Eigenaar</th><th>Status</th></tr></thead><tbody id="docs-tb"></tbody></table></div>
     </div>
   </div>
 
-  <div id="gov-fw" class="ipanel">
+  <div id="gov-isms" class="ipanel">
+  <div class="g4">
+    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv">Vastgesteld</div><div class="sl">ISMS-scope</div><div class="ss">Volledige organisatie · cl.4.3</div></div>
+    <div class="stat" style="--ac:var(--green-br)"><div class="sv">Do</div><div class="sl">Huidige PDCA-fase</div><div class="ss">Operationele beheersing actief</div></div>
+    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv">2026-09</div><div class="sl">Volgende interne audit</div><div class="ss">ISO 27001 cl.9.2</div></div>
+    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv" id="isms-soa-cnt">—</div><div class="sl">SoA controls opgenomen</div><div class="ss">Annex A controls</div></div>
+  </div>
+  <div class="pdca">
+    <div class="pq pp">
+      <div class="plbl" style="color:var(--blue-lt)">📋 Plan — Clausules 4–6</div>
+      <div class="pitem">cl.4.1–4.4 Context en scope bepalen</div>
+      <div class="pitem">cl.5.1–5.3 Leiderschap en beleid</div>
+      <div class="pitem">cl.6.1.1 Risico's en kansen (TBB-basis)</div>
+      <div class="pitem">cl.6.1.2 Risicobeoordeling (ISO 27005)</div>
+      <div class="pitem">cl.6.1.3 Risicobehandeling + SoA</div>
+      <div class="pitem">cl.6.2 IB-doelstellingen</div>
+    </div>
+    <div class="pq pd">
+      <div class="plbl" style="color:var(--green-br)">⚙️ Do — Clausules 7–8</div>
+      <div class="pitem">cl.7.1–7.2 Middelen en competentie</div>
+      <div class="pitem">cl.7.3 Bewustzijn (NIS2 Art.21h)</div>
+      <div class="pitem">cl.7.4–7.5.3 Comm. en documentbeheer</div>
+      <div class="pitem">cl.8.1 Operationele beheersing</div>
+      <div class="pitem">cl.8.2 Risicobeoordeling (uitvoering)</div>
+    </div>
+    <div class="pq pc">
+      <div class="plbl" style="color:var(--yellow-lt)">🔍 Check — Clausule 9</div>
+      <div class="pitem">cl.9.1 KRI's en KPI's monitoren</div>
+      <div class="pitem">cl.9.2.1–9.2.2 Auditprogramma</div>
+      <div class="pitem">cl.9.3.1–9.3.3 Directiebeoordeling</div>
+      <div class="pitem">BIO 5.35–5.36 Onafh. beoordeling</div>
+    </div>
+    <div class="pq pa">
+      <div class="plbl" style="color:var(--orange-lt)">🔄 Act — Clausule 10</div>
+      <div class="pitem">cl.10.1 Voortdurende verbetering</div>
+      <div class="pitem">cl.10.2 NC-register (ISO 27002 5.27)</div>
+      <div class="pitem">Corrigerende maatregelen bewaken</div>
+      <div class="pitem">PDCA-cyclus heraanvangen</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="chd"><span class="cttl">ISMS-scope en context</span><span class="chip">cl.4.3</span></div>
+      <table class="tbl"><thead><tr><th>Aspect</th><th>Omschrijving</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Organisatorische grens</td><td>Volledige ministerie/dienst</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Geografische grens</td><td>Alle locaties Nederland</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Technologische grens</td><td>Alle ICT-systemen en -diensten</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Uitsluitingen</td><td>Geen uitsluitingen van toepassing</td><td><span class="b bg">✓</span></td></tr>
+        <tr><td>Externe partijen</td><td>Leveranciers conform SLA/DPA</td><td><span class="b by">⚠</span></td></tr>
+        <tr><td>Toepasselijke wetgeving</td><td>BIO 2.0 · NIS2/CBW · AVG · VIR 2007</td><td><span class="b bg">✓</span></td></tr>
+      </tbody></table>
+    </div>
+    <div class="card">
+      <div class="chd"><span class="cttl">KRI's en KPI's</span></div>
+      <canvas id="c-kri" style="max-height:160px"></canvas>
+      <table class="tbl" style="margin-top:12px"><thead><tr><th>Indicator</th><th>Doel</th><th>Actueel</th><th>Status</th></tr></thead>
+      <tbody id="kri-tb"></tbody></table>
+    </div>
+  </div>  </div>
+
+  <div id="gov-soa" class="ipanel">
+    <div class="alert aw">⚠️ <b>5.24 Incidentbeheer</b> — nog niet gestart. NIS2 Art.23 vereist 72-uurs meldplicht. Directe actie vereist.</div>
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">Statement of Applicability — ISO/IEC 27002:2022</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="exportSOACSV()">↓ CSV</span>
+          <span class="cact" onclick="modalControl()">+ Nieuw control</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek control, titel, motivering..." id="sf-soa" oninput="renderSoA()">
+        <select id="sf-soa-status" aria-label="Filter SoA op status" onchange="renderSoA()"><option value="">Alle statussen</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option></select>
+        <select id="sf-soa-fw" aria-label="Filter SoA op framework" onchange="renderSoA()"><option value="">Alle frameworks</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option></select>
+        <span class="sfcnt" id="sf-soa-cnt"></span>
+      </div>
+      <div class="tscroll" style="max-height:480px"><table class="tbl"><thead><tr><th>Control</th><th>Titel</th><th>Framework</th><th>Status</th><th>NIS2</th><th>DORA</th><th>BIO</th><th>Motivering</th><th>Eigenaar</th></tr></thead><tbody id="soa-tb"></tbody></table></div>
+    </div>
+  </div>
+
+  <div id="gov-kal" class="ipanel">
+    <div class="card">
+      <div class="chd">
+        <span class="cttl">Compliancekalender 2026–2028</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <span class="expbtn" onclick="expIcal()">↓ iCal</span>
+          <span class="cact" onclick="modalKalender()">+ Activiteit</span>
+        </div>
+      </div>
+      <div class="sfbar">
+        <input type="text" placeholder="🔍 Zoek activiteit, grondslag..." id="sf-kal" oninput="renderKalender()">
+        <select id="sf-kal-status" aria-label="Filter kalender op status" onchange="renderKalender()"><option value="">Alle statussen</option><option>Gepland</option><option>Uitgevoerd</option><option>Verlopen</option></select>
+        <span class="sfcnt" id="sf-kal-cnt"></span>
+      </div>
+      <div class="tl" id="kal-tl"></div>
+    </div>
+  </div>
+
+  <div id="gov-kader" class="ipanel">
+    <div class="card mb14">
+      <div class="chd"><span class="cttl">Kader-perspectief — governance-lagen</span><span class="ov-card-note">perspectief-keuze — alle kaders gelijkwaardig (D9); geen architecturale voorrang</span></div>
+      <div class="kz-row" id="kz-gov-row" role="group" aria-label="Kader-kiezer governance"></div>
+      <div class="kz-detail" id="kz-gov-detail" aria-live="polite"></div>
+    </div>
     <div class="card">
       <div class="chd"><span class="cttl">Governance-controls per framework</span></div>
       <table class="tbl"><thead><tr><th>Framework</th><th>Controls / artikelen</th><th>Kernverplichting</th><th>Verantw. rol</th></tr></thead><tbody>
@@ -569,8 +693,8 @@ SELECT ?rol ?naam ?rapportage WHERE {
       </div>
       <div class="sfbar">
         <input type="text" placeholder="🔍 Zoek omschrijving, asset, eigenaar..." id="sf-risicos" oninput="renderRisicos()">
-        <select id="sf-risicos-status" onchange="renderRisicos()"><option value="">Alle statussen</option><option>Open</option><option>In behandeling</option><option>Gesloten</option></select>
-        <select id="sf-risicos-beh" onchange="renderRisicos()"><option value="">Alle behandelingen</option><option>Mitigeren</option><option>Accepteren</option><option>Vermijden</option><option>Overdragen</option></select>
+        <select id="sf-risicos-status" aria-label="Filter risico's op status" onchange="renderRisicos()"><option value="">Alle statussen</option><option>Open</option><option>In behandeling</option><option>Gesloten</option></select>
+        <select id="sf-risicos-beh" aria-label="Filter risico's op behandeling" onchange="renderRisicos()"><option value="">Alle behandelingen</option><option>Mitigeren</option><option>Accepteren</option><option>Vermijden</option><option>Overdragen</option></select>
         <span class="sfcnt" id="sf-risicos-cnt"></span>
       </div>
       <div class="tscroll" style="max-height:440px"><table class="tbl"><thead><tr><th>ID</th><th>Omschrijving</th><th>TBB</th><th>Asset</th><th>K</th><th>I</th><th>Bruto</th><th>Behandeling</th><th>Netto</th><th>Eigenaar</th><th>Status</th><th>Review</th></tr></thead><tbody id="risk-tb"></tbody></table></div>
@@ -631,10 +755,9 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
 <div id="tab-compliance" class="tab">
   <div class="inav">
     <div class="itab active" onclick="iTab(event,'comp-ov')">Overzicht</div>
-    <div class="itab" onclick="iTab(event,'comp-soa')">SoA</div>
     <div class="itab" onclick="iTab(event,'comp-ctrl')">Beheersmaatregelen</div>
     <div class="itab" onclick="iTab(event,'comp-audit')">Audit &amp; Bevindingen</div>
-    <div class="itab" onclick="iTab(event,'comp-kal')">Compliancekalender</div>
+    <div class="itab" onclick="iTab(event,'comp-kader')">Kader-perspectief</div>
   </div>
 
   <div id="comp-ov" class="ipanel active">
@@ -660,26 +783,6 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
     </div>
   </div>
 
-  <div id="comp-soa" class="ipanel">
-    <div class="alert aw">⚠️ <b>5.24 Incidentbeheer</b> — nog niet gestart. NIS2 Art.23 vereist 72-uurs meldplicht. Directe actie vereist.</div>
-    <div class="card">
-      <div class="chd">
-        <span class="cttl">Statement of Applicability — ISO/IEC 27002:2022</span>
-        <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <span class="expbtn" onclick="exportSOACSV()">↓ CSV</span>
-          <span class="cact" onclick="modalControl()">+ Nieuw control</span>
-        </div>
-      </div>
-      <div class="sfbar">
-        <input type="text" placeholder="🔍 Zoek control, titel, motivering..." id="sf-soa" oninput="renderSoA()">
-        <select id="sf-soa-status" onchange="renderSoA()"><option value="">Alle statussen</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option></select>
-        <select id="sf-soa-fw" onchange="renderSoA()"><option value="">Alle frameworks</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option></select>
-        <span class="sfcnt" id="sf-soa-cnt"></span>
-      </div>
-      <div class="tscroll" style="max-height:480px"><table class="tbl"><thead><tr><th>Control</th><th>Titel</th><th>Framework</th><th>Status</th><th>NIS2</th><th>DORA</th><th>BIO</th><th>Motivering</th><th>Eigenaar</th></tr></thead><tbody id="soa-tb"></tbody></table></div>
-    </div>
-  </div>
-
   <div id="comp-ctrl" class="ipanel">
     <div class="card">
       <div class="chd">
@@ -691,8 +794,8 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
       </div>
       <div class="sfbar">
         <input type="text" placeholder="🔍 Zoek ID, titel, eigenaar..." id="sf-ctrl" oninput="renderControls()">
-        <select id="sf-ctrl-fw" onchange="renderControls()"><option value="">Alle frameworks</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option></select>
-        <select id="sf-ctrl-status" onchange="renderControls()"><option value="">Alle statussen</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option></select>
+        <select id="sf-ctrl-fw" aria-label="Filter controls op framework" onchange="renderControls()"><option value="">Alle frameworks</option><option value="ISO">ISO 27002</option><option value="BIO">BIO 2.0</option><option value="NIST">NIST 800-53</option></select>
+        <select id="sf-ctrl-status" aria-label="Filter controls op status" onchange="renderControls()"><option value="">Alle statussen</option><option>Volledig</option><option>Gedeeltelijk</option><option>In uitvoering</option><option>Niet gestart</option></select>
         <span class="sfcnt" id="sf-ctrl-cnt"></span>
       </div>
       <div class="tscroll" style="max-height:440px"><table class="tbl"><thead><tr><th>Control-nr</th><th>Framework</th><th>Titel</th><th>Status</th><th>Eigenaar</th><th>NIS2</th><th>Notitie</th></tr></thead><tbody id="ctrl-tb"></tbody></table></div>
@@ -718,100 +821,26 @@ SELECT ?r ?titel ?score ?behandeling WHERE {
         </div>
         <div class="sfbar">
           <input type="text" placeholder="🔍 Zoek bevinding..." id="sf-findings" oninput="renderFindings()">
-          <select id="sf-findings-status" onchange="renderFindings()"><option value="">Alle</option><option>Open</option><option>In behandeling</option><option>Gesloten</option></select>
+          <select id="sf-findings-status" aria-label="Filter bevindingen op status" onchange="renderFindings()"><option value="">Alle</option><option>Open</option><option>In behandeling</option><option>Gesloten</option></select>
           <span class="sfcnt" id="sf-findings-cnt"></span>
         </div>
         <table class="tbl"><thead><tr><th>ID</th><th>Type</th><th>Omschrijving</th><th>Control</th><th>Eigenaar</th><th>Deadline</th><th>Voortgang</th><th>Status</th></tr></thead><tbody id="findings-tb"></tbody></table>
       </div>
     </div>
-  </div>
-
-  <div id="comp-kal" class="ipanel">
-    <div class="card">
-      <div class="chd">
-        <span class="cttl">Compliancekalender 2026–2028</span>
-        <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <span class="expbtn" onclick="expIcal()">↓ iCal</span>
-          <span class="cact" onclick="modalKalender()">+ Activiteit</span>
-        </div>
-      </div>
-      <div class="sfbar">
-        <input type="text" placeholder="🔍 Zoek activiteit, grondslag..." id="sf-kal" oninput="renderKalender()">
-        <select id="sf-kal-status" onchange="renderKalender()"><option value="">Alle statussen</option><option>Gepland</option><option>Uitgevoerd</option><option>Verlopen</option></select>
-        <span class="sfcnt" id="sf-kal-cnt"></span>
-      </div>
-      <div class="tl" id="kal-tl"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ TAB: ISMS ═══ -->
-<div id="tab-isms" class="tab">
-  <div class="g4">
-    <div class="stat" style="--ac:var(--blue-lt)"><div class="sv">Vastgesteld</div><div class="sl">ISMS-scope</div><div class="ss">Volledige organisatie · cl.4.3</div></div>
-    <div class="stat" style="--ac:var(--green-br)"><div class="sv">Do</div><div class="sl">Huidige PDCA-fase</div><div class="ss">Operationele beheersing actief</div></div>
-    <div class="stat" style="--ac:var(--yellow-lt)"><div class="sv">2026-09</div><div class="sl">Volgende interne audit</div><div class="ss">ISO 27001 cl.9.2</div></div>
-    <div class="stat" style="--ac:var(--purple-lt)"><div class="sv" id="isms-soa-cnt">—</div><div class="sl">SoA controls opgenomen</div><div class="ss">Annex A controls</div></div>
-  </div>
-  <div class="pdca">
-    <div class="pq pp">
-      <div class="plbl" style="color:var(--blue-lt)">📋 Plan — Clausules 4–6</div>
-      <div class="pitem">cl.4.1–4.4 Context en scope bepalen</div>
-      <div class="pitem">cl.5.1–5.3 Leiderschap en beleid</div>
-      <div class="pitem">cl.6.1.1 Risico's en kansen (TBB-basis)</div>
-      <div class="pitem">cl.6.1.2 Risicobeoordeling (ISO 27005)</div>
-      <div class="pitem">cl.6.1.3 Risicobehandeling + SoA</div>
-      <div class="pitem">cl.6.2 IB-doelstellingen</div>
-    </div>
-    <div class="pq pd">
-      <div class="plbl" style="color:var(--green-br)">⚙️ Do — Clausules 7–8</div>
-      <div class="pitem">cl.7.1–7.2 Middelen en competentie</div>
-      <div class="pitem">cl.7.3 Bewustzijn (NIS2 Art.21h)</div>
-      <div class="pitem">cl.7.4–7.5.3 Comm. en documentbeheer</div>
-      <div class="pitem">cl.8.1 Operationele beheersing</div>
-      <div class="pitem">cl.8.2 Risicobeoordeling (uitvoering)</div>
-    </div>
-    <div class="pq pc">
-      <div class="plbl" style="color:var(--yellow-lt)">🔍 Check — Clausule 9</div>
-      <div class="pitem">cl.9.1 KRI's en KPI's monitoren</div>
-      <div class="pitem">cl.9.2.1–9.2.2 Auditprogramma</div>
-      <div class="pitem">cl.9.3.1–9.3.3 Directiebeoordeling</div>
-      <div class="pitem">BIO 5.35–5.36 Onafh. beoordeling</div>
-    </div>
-    <div class="pq pa">
-      <div class="plbl" style="color:var(--orange-lt)">🔄 Act — Clausule 10</div>
-      <div class="pitem">cl.10.1 Voortdurende verbetering</div>
-      <div class="pitem">cl.10.2 NC-register (ISO 27002 5.27)</div>
-      <div class="pitem">Corrigerende maatregelen bewaken</div>
-      <div class="pitem">PDCA-cyclus heraanvangen</div>
-    </div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="chd"><span class="cttl">ISMS-scope en context</span><span class="chip">cl.4.3</span></div>
-      <table class="tbl"><thead><tr><th>Aspect</th><th>Omschrijving</th><th>Status</th></tr></thead><tbody>
-        <tr><td>Organisatorische grens</td><td>Volledige ministerie/dienst</td><td><span class="b bg">✓</span></td></tr>
-        <tr><td>Geografische grens</td><td>Alle locaties Nederland</td><td><span class="b bg">✓</span></td></tr>
-        <tr><td>Technologische grens</td><td>Alle ICT-systemen en -diensten</td><td><span class="b bg">✓</span></td></tr>
-        <tr><td>Uitsluitingen</td><td>Geen uitsluitingen van toepassing</td><td><span class="b bg">✓</span></td></tr>
-        <tr><td>Externe partijen</td><td>Leveranciers conform SLA/DPA</td><td><span class="b by">⚠</span></td></tr>
-        <tr><td>Toepasselijke wetgeving</td><td>BIO 2.0 · NIS2/CBW · AVG · VIR 2007</td><td><span class="b bg">✓</span></td></tr>
-      </tbody></table>
-    </div>
-    <div class="card">
-      <div class="chd"><span class="cttl">KRI's en KPI's</span></div>
-      <canvas id="c-kri" style="max-height:160px"></canvas>
-      <table class="tbl" style="margin-top:12px"><thead><tr><th>Indicator</th><th>Doel</th><th>Actueel</th><th>Status</th></tr></thead>
-      <tbody id="kri-tb"></tbody></table>
-    </div>
-  </div>
-  <div class="card">
-    <div class="chd">
-      <span class="cttl">NC-register en corrigerende maatregelen</span>
-      <div style="display:flex;gap:7px"><span class="cact" onclick="modalBevinding()">+ NC toevoegen</span></div>
-    </div>
-    <table class="tbl"><thead><tr><th>NC-ID</th><th>Bevinding</th><th>Clausule</th><th>Ernst</th><th>Corr. maatregel</th><th>Eigenaar</th><th>Deadline</th><th>Voortgang</th></tr></thead>
+    <div class="card" style="margin-top:14px">
+      <div class="chd"><span class="cttl">NC-register en corrigerende maatregelen (ISMS cl.10.2)</span><span class="ov-card-note">ingang ook vanuit Governance · ISMS-overkoepelend</span></div>
+      <table class="tbl"><thead><tr><th>NC-ID</th><th>Bevinding</th><th>Clausule</th><th>Ernst</th><th>Corr. maatregel</th><th>Eigenaar</th><th>Deadline</th><th>Voortgang</th></tr></thead>
     <tbody id="nc-tb"></tbody></table>
+      <div style="margin-top:8px"><span class="cact" onclick="modalBevinding()">+ NC toevoegen</span></div>
+    </div>
+  </div>
+
+  <div id="comp-kader" class="ipanel">
+    <div class="card">
+      <div class="chd"><span class="cttl">Kader-perspectief — normen &amp; naleving</span><span class="ov-card-note">perspectief-keuze — alle kaders gelijkwaardig (D9); BIO 2.0 standaard als Rijksbaseline</span></div>
+      <div class="kz-row" id="kz-comp-row" role="group" aria-label="Kader-kiezer compliance"></div>
+      <div class="kz-detail" id="kz-comp-detail" aria-live="polite"></div>
+    </div>
   </div>
 </div>
 
@@ -1325,9 +1354,66 @@ function renderOverzicht(){
   }).join('');
 }
 
+// ═══════════════════════════════════════════════════════════
+// KADER-KIEZER (perspectief-wissel per domein-tab, D9-conform)
+// View-switch: geselecteerd kader bepaalt het getoonde perspectief;
+// geen enkel kader heeft architecturale voorrang. Representatieve demo-data.
+// ═══════════════════════════════════════════════════════════
+const KADER_INFO={
+  gov:[
+    {key:'coso-icf',naam:'COSO ICF',laag:'Laag 0 — conceptueel raamwerk',kern:'Raamwerk interne beheersing: vijf samenhangende componenten (control environment, risk assessment, control activities, information & communication, monitoring). Referentieraamwerk voor governance-inrichting.',props:{Laag:'0 — raamwerk',Rol:'SG/DG + CIO',Aard:'Referentieraamwerk',Binding:'Niet-bindend'}},
+    {key:'coso-erm',naam:'COSO ERM',laag:'Laag 0 — conceptueel raamwerk',kern:'Enterprise Risk Management: integratie van risicobeheer met strategie en prestatie op organisatieniveau. Referentieraamwerk, geen normverplichting.',props:{Laag:'0 — raamwerk',Rol:'SG/DG',Aard:'Referentieraamwerk',Binding:'Niet-bindend'}},
+    {key:'cobit',naam:'COBIT 2019',laag:'Laag 1 — governance-kader',kern:'IT-governance en -management: EDM01–EDM05 (Evaluate, Direct, Monitor) tot stakeholdertransparantie. Koppelt bedrijfsdoelen aan IT-doelen.',props:{Laag:'1 — governance',Rol:'SG/DG + CIO',Omvang:'EDM01–EDM05',Binding:'Vrijwillig (best practice)'}},
+    {key:'bva',naam:'BVA-stelsel',laag:'Laag 1 — Rijksgovernance',kern:'Besluit BVA-stelsel 2021: beveiligingsambtenaar-stelsel (BVA/BVC). Art.6 belegt de Beveiligingscoördinator. BVA-stelsel ≠ CIO-stelsel.',props:{Laag:'1 — governance',Rol:'SG + BVA',Grondslag:'Besluit BVA-stelsel 2021',Binding:'Verplicht (rijksdienst)'}},
+    {key:'cio',naam:'CIO-stelsel',laag:'Laag 1 — Rijksgovernance',kern:'Besluit CIO-stelsel 2026: sturing op informatievoorziening via CIO/CISO. Aparte governance-lijn naast het BVA-stelsel.',props:{Laag:'1 — governance',Rol:'CIO/CISO',Grondslag:'Besluit CIO-stelsel 2026',Binding:'Verplicht (rijksdienst)'}},
+  ],
+  comp:[
+    {key:'bio',naam:'BIO 2.0',laag:'Laag 2 — Rijksbaseline',kern:'Baseline Informatiebeveiliging Overheid v1.3: de operationeel primaire baseline voor de rijksdienst (93 controls + maatregelen). Standaard geselecteerd perspectief — gelijkwaardig aan de andere kaders, geen voorrang.',props:{Laag:'2 — baseline',Rol:'CISO',Omvang:'93 controls',Binding:'Verplicht (rijksdienst)'}},
+    {key:'iso27001',naam:'ISO/IEC 27001:2022',laag:'Laag 3 — ISMS-norm',kern:'Eisen aan een Information Security Management System (cl.4–10). Sturend voor de ISMS-cyclus en de SoA.',props:{Laag:'3 — norm',Rol:'ISMS-manager',Omvang:'cl.4–10',Binding:'Vrijwillig (certificeerbaar)'}},
+    {key:'iso27002',naam:'ISO/IEC 27002:2022',laag:'Laag 3 — beheersmaatregelen',kern:'Implementatierichtlijn met 93 beheersmaatregelen (Annex A van 27001). Basis van de Statement of Applicability.',props:{Laag:'3 — controls',Rol:'CISO',Omvang:'93 controls',Binding:'Vrijwillig (best practice)'}},
+    {key:'iso27005',naam:'ISO/IEC 27005:2024',laag:'Laag 3 — risicomethodologie',kern:'IB-risicomanagement. Surfacet primair in de Risk-tab (risicomethode); hier als norm-referentie.',props:{Laag:'3 — methode',Rol:'CISO/Risk',Context:'Zie Risk-tab',Binding:'Vrijwillig'}},
+    {key:'iso22301',naam:'ISO 22301:2019',laag:'Laag 4 — BCM',kern:'Business Continuity Management System: eisen voor bedrijfscontinuïteit (17 clausules).',props:{Laag:'4 — BCM',Rol:'BCM-coördinator',Omvang:'17 clausules',Binding:'Vrijwillig (certificeerbaar)'}},
+    {key:'iso22313',naam:'ISO 22313:2020',laag:'Laag 4 — BCM-implementatie',kern:'Implementatierichtlijn bij ISO 22301.',props:{Laag:'4 — BCM',Rol:'BCM-coördinator',Aard:'Richtlijn',Binding:'Vrijwillig'}},
+    {key:'nis2',naam:'NIS2 (2022/2555)',laag:'Laag 5 — EU-richtlijn',kern:'EU-richtlijn netwerk- en informatiebeveiliging. In NL geïmplementeerd via de Cyberbeveiligingswet; meldplicht (Art.23).',props:{Laag:'5 — EU',Rol:'CISO',Implementatie:'via CBW',Binding:'Verplicht (essentiële entiteiten)'}},
+    {key:'vir2007',naam:'VIR 2007',laag:'Laag 5 — Rijksregelgeving',kern:'Voorschrift Informatiebeveiliging Rijksdienst: verantwoordelijkheid SG, BVA-stelsel (Art.3–5).',props:{Laag:'5 — NL',Rol:'SG + BVA',Omvang:'Art.3–9',Binding:'Verplicht (rijksdienst)'}},
+    {key:'virbi2025',naam:'VIRBI 2025',laag:'Laag 5 — Rijksregelgeving',kern:'Voorschrift Informatiebeveiliging Rijksdienst Bijzondere Informatie: rubricering en bijzondere informatie.',props:{Laag:'5 — NL',Rol:'BVA',Omvang:'Art.1–15',Binding:'Verplicht (rijksdienst)'}},
+    {key:'avg',naam:'AVG / GDPR',laag:'Laag 5 — privacyrecht',kern:'Algemene Verordening Gegevensbescherming: rechtmatige verwerking van persoonsgegevens.',props:{Laag:'5 — EU',Rol:'Functionaris Gegevensbescherming',Aard:'Verordening',Binding:'Verplicht'}},
+    {key:'cbw',naam:'Cyberbeveiligingswet (CBW)',laag:'Laag 5 — NL-implementatie NIS2',status:'vrb',kern:'Nationale implementatie van NIS2. Status: in voorbereiding.',props:{Laag:'5 — NL',Rol:'CISO',Status:'In voorbereiding',Binding:'Toekomstig verplicht'}},
+    {key:'cbb',naam:'Cbb',laag:'Laag 5 — NL-regelgeving',status:'con',kern:'Cyberbeveiligingsbesluit. Status: concept t.b.v. Tweede Kamer.',props:{Laag:'5 — NL',Rol:'CISO',Status:'Concept (Tweede Kamer)',Binding:'Nog niet vastgesteld'}},
+    {key:'nist80053',naam:'NIST SP 800-53 R5',laag:'Laag 5 — referentie',kern:'Controlcatalogus (20 families). Referentie/best practice; geen NL-nalevingsverplichting.',props:{Laag:'5 — referentie',Rol:'Security-architect',Omvang:'20 families',Binding:'Vrijwillig'}},
+    {key:'nistcsf',naam:'NIST CSF 2.0',laag:'Laag 5 — referentie',kern:'Cybersecurity Framework 2.0: Govern·Identify·Protect·Detect·Respond·Recover. Referentieraamwerk.',props:{Laag:'5 — referentie',Rol:'CISO',Functies:'GV·ID·PR·DE·RS·RC',Binding:'Vrijwillig'}},
+    {key:'ensia',naam:'ENSIA',laag:'Laag 5 — verantwoording',kern:'Eenduidige Normatiek Single Information Audit: verantwoordingsstelsel informatieveiligheid (gemeentelijk/keten).',props:{Laag:'5 — verantwoording',Rol:'CISO',Aard:'Verantwoordingsstelsel',Binding:'Stelsel-afhankelijk'}},
+  ],
+};
+const KZ_SEL={gov:'coso-icf',comp:'bio'};
+function selKader(scope,key){
+  KZ_SEL[scope]=key;
+  const row=q('kz-'+scope+'-row');
+  if(row) row.querySelectorAll('.kz-chip').forEach(c=>c.setAttribute('aria-pressed', c.dataset.key===key?'true':'false'));
+  const k=KADER_INFO[scope].find(x=>x.key===key); if(!k) return;
+  const det=q('kz-'+scope+'-detail'); if(!det) return;
+  const statBadge = k.status==='vrb'?'<span class="kz-stat kz-stat-vrb">in voorbereiding</span>'
+                   :k.status==='con'?'<span class="kz-stat kz-stat-vrb">concept · Tweede Kamer</span>':'';
+  det.innerHTML=`<div class="kz-d-head"><span class="kz-d-naam">${esc(k.naam)} ${statBadge}</span><span class="kz-d-laag">${esc(k.laag)}</span></div>`
+    +`<div class="kz-d-kern">${esc(k.kern)}</div>`
+    +`<div class="kz-d-grid">`+Object.entries(k.props).map(([kk,vv])=>`<div class="kz-d-cell"><div class="kz-d-k">${esc(kk)}</div><div class="kz-d-v">${esc(vv)}</div></div>`).join('')+`</div>`;
+}
+function renderKaderKiezers(){
+  ['gov','comp'].forEach(scope=>{
+    const row=q('kz-'+scope+'-row'); if(!row) return;
+    row.innerHTML=KADER_INFO[scope].map(k=>{
+      const sb = k.status==='vrb'?'<span class="kz-stat kz-stat-vrb">i.v.</span>'
+               : k.status==='con'?'<span class="kz-stat kz-stat-vrb">concept</span>':'';
+      return `<button type="button" class="kz-chip" data-key="${k.key}" aria-pressed="false" onclick="selKader('${scope}','${k.key}')">${esc(k.naam)}${sb}</button>`;
+    }).join('');
+    selKader(scope, KZ_SEL[scope]);
+  });
+}
+
 function renderAll(){
   updateKPIs();
   renderOverzicht();
+  renderKaderKiezers();
   renderRollen();
   renderRaci();
   renderGovModel();
@@ -1546,10 +1632,10 @@ function renderHeatmap(){
     html+=`<div class="hmlbl">I=${imp}</div>`;
     for(let k=1;k<=5;k++){
       const key=`${k}_${imp}`, list=cells[key]||[], s=score(k,imp);
-      html+=`<div class="hmcell" style="background:${color(s)};border-color:${list.length?'rgba(255,255,255,.3)':'transparent'}"
+      html+=`<div class="hmcell" style="background:${color(s)};border-color:${list.length?'rgba(0,0,0,.3)':'transparent'}"
         onclick="hmClick(${k},${imp})" data-tip="K${k}×I${imp}=Score ${s}">
         ${list.length?`<span>${list.length}</span>`:''}
-        <span style="font-size:9px;opacity:.7">${s}</span>
+        <span style="font-size:11px">${s}</span>
       </div>`;
     }
   }
@@ -1804,11 +1890,13 @@ function saveModal(){
 function modalDelete(){
   if(!modalState.table||!modalState.record?.id) return;
   if(!confirm(`Verwijder ${modalState.record.id} definitief?`)) return;
-  if(sqlRun(`DELETE FROM ${modalState.table} WHERE id=?`,[modalState.record.id])){
-    auditTrail(modalState.table,modalState.record.id,'DELETE',modalState.record,null);
+  // bewaar id/record/table vóór closeModal() (die reset modalState={} → anders crash op de toast-regel)
+  const delTable=modalState.table, delId=modalState.record.id, delRec=modalState.record;
+  if(sqlRun(`DELETE FROM ${delTable} WHERE id=?`,[delId])){
+    auditTrail(delTable,delId,'DELETE',delRec,null);
     autoSave();
     closeModal();
-    toast(`Verwijderd: ${modalState.record.id}`,'info');
+    toast(`Verwijderd: ${delId}`,'info');
     renderAll();
   }
 }
