@@ -4,6 +4,8 @@ Een formele OWL 2 DL ontologie die alle voor een Nederlandse Rijksoverheidsorgan
 
 **Framework-neutraal** (D9): alle normen, wetten en kaders zijn gelijkwaardig gemodelleerd. Geen enkel framework heeft architecturaal privilege. BIO 2.0 is het operationele toepassings-perspectief voor dashboard + rapportage (verplicht Rijksoverheid-baseline), niet de architecturele kern.
 
+> **Nieuw hier?** Begin bij **`docs/START-HIER.md`** — een korte wegwijzer die je in leesvolgorde naar de juiste documenten leidt (overdrachtsrapport → projectinstructie → brain-vault → masterchat-startprompt).
+
 ---
 
 ## Status
@@ -71,6 +73,7 @@ grc-kennismodel/
 │   ├── m21-csf.ttl                           ← NIST CSF 2.0 (v4.5.0; v4.6.4 range-fix CSF-Tier-descriptions)
 │   └── m18-demo-sparql.rq                    ← demo-query asset-module
 ├── docs/                                     ← autoritatieve documentatie
+│   ├── START-HIER.md                         ← wegwijzer voor wie het project (opnieuw) oppakt
 │   ├── projectinstructie-v1_12.md            ← AUTORITATIEF (huidige versie, 4 juni 2026)
 │   ├── projectinstructie-v1_8/9/10/11.md     ← historisch (referentie)
 │   ├── skos-beoordelings-protocol-v1_3.md    ← FINAL (T3)
@@ -163,6 +166,7 @@ Brain-vault-bestanden gebruiken Obsidian-stijl `[[brain__*]]`-wikilinks voor cro
 
 | Document | Pad | Status |
 |---|---|---|
+| Wegwijzer | `docs/START-HIER.md` | ingang voor (nieuwe) beheerders |
 | Projectinstructie | `docs/projectinstructie-v1_12.md` | autoritatief (4 juni 2026) |
 | Breed startpunt (overdracht) | `docs/handovers/overdrachtsrapport.md` | beginner-gericht startdocument |
 | Master-startprompt | `docs/handovers/bootstrap-masterchat-v7.md` | actuele masterchat-bootstrap |
