@@ -165,9 +165,19 @@ Geen D-schending. Geen D-wijziging voorgesteld.
 - [x] Deliverables-tabel met lokaties (§6)
 - [x] D-conformiteit gecheckt (§4); geen schending
 - [x] Disclosure-check vijf categorieën schoon (§7)
-- [ ] **HermiT-her-run consistent (projecteigenaar-actie, §2.2)** — sluit H38-lus
-- [ ] Commit door projecteigenaar (geen autonome commit)
+- [x] **HermiT-her-run consistent (projecteigenaar-actie, §2.2)** — sluit H38-lus *(zie §9)*
+- [x] Commit door projecteigenaar (geen autonome commit)
 
 **Tech-conclusie: GO** voor de subagent-uitvoerbare scope. De enige openstaande verificatie is de HermiT-her-run (§2.2, projecteigenaar) — de verwachte bevestiging dat de DL-inconsistentie is opgelost.
 
 — Einde patch-rapport v4.6.4.
+
+---
+
+## §9. Post-oplevering — H38-lus gesloten (masterchat-addendum)
+
+**Vastgelegd:** 4 juni 2026 (masterchat, op verzoek van de projecteigenaar).
+
+De in §2.2 / §8 aan de projecteigenaar gedelegeerde HermiT-her-run op `merged_asserted_v4_6_4.ttl` is **uitgevoerd**, met het verwachte resultaat: **CONSISTENT, 0 `owl:Nothing`, geen justificaties.** De v4.6.3-inconsistentie (8 justificaties = 4 CSF-Tiers × 2 properties) is daarmee opgelost en her-geverifieerd onder een volledige DL-reasoner.
+
+**H38 is hiermee RESOLVED** — OWL RL ≡ HermiT empirisch bevestigd voor deze baseline. Eerste sprint waarin een HermiT-bevinding een TBox-fix in de canonieke baseline stuurde. De beide projecteigenaar-vakjes in §8 zijn op deze bevestiging afgevinkt. De resolved-status is reeds verwerkt in `docs/projectinstructie-v1_11.md`, overdrachtsrapport v6 en brain-iteratie 16; dit addendum sluit de checklist van het patch-rapport zelf gelijk.
