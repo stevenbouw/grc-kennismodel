@@ -20,8 +20,8 @@
 
 # =============================================================================
 # GRC Ontologie — Core Module
-# Versie: 4.0.0-alpha
-# Datum: 2026-03-19
+# Versie: 4.6.4
+# Datum: 2026-05-29 (laatste inhoudelijke wijziging; initieel 2026-03-09)
 # Profiel: OWL 2 DL
 # =============================================================================
 
@@ -34,7 +34,7 @@
                   "GRC Knowledge Model Dutch Government Organisation"@en ;
     dcterms:creator "GRC-Team Rijksoverheidsorganisatie" ;
     dcterms:created "2026-03-09"^^xsd:date ;
-    dcterms:modified "2026-05-21"^^xsd:date ;
+    dcterms:modified "2026-05-29"^^xsd:date ;
     dcterms:description "OWL 2 DL ontologie — framework-neutraal kennismodel. Alle normen en kaders gelijkwaardig gemodelleerd. BIO 2.0 als toepassingsperspectief (view-keuze, geen architectuurkeuze)."@nl ;
     dcterms:language "nl" , "en" ;
     dcterms:subject "GRC", "Informatiebeveiliging", "Risicobeheer", "Compliance", "Rijksoverheid" ;
