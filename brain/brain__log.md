@@ -2,12 +2,69 @@
 type: log
 title: GRC Kennismodel Brain — Chronologisch logboek
 status: living
-date: 2026-05-28
+date: 2026-06-04
 ---
 
 # GRC Kennismodel Brain — Chronologisch logboek
 
 Per Karpathy's pattern: chronologisch operationeel record. Append-only. **Nieuwste entry bovenaan.**
+
+---
+
+## 2026-06-04 — Iteratie 17: v7-dashboardwerksessie officieel maken (geheugen-lag dichten — reskin + DORA-correctie + IA-herinrichting + twee open besluiten)
+
+**Zesde post-migratie Brein-cyclus** — speciaal karakter: **achteraf-cyclus** die een **geheugen-lag** dicht. Tussen iteratie 16 (29 mei, "geen actieve sprint", dashboard-revival B7/Q-M5/B9) en deze iteratie 17 (4 juni) heeft een v7-dashboardwerksessie (2–3 juni 2026) plaatsgevonden die nooit door een Brein-cyclus is verwerkt. `bootstrap-masterchat-v7.md` + `docs/handovers/overdrachtsrapport.md` beschreven die latere stand al; de brain-vault (gezaghebbend) niet. Iteratie 17 dicht die lag.
+
+**Ontologie-baseline:** v4.6.4 **ONGEWIJZIGD** (dit is puur dashboard-/Spoor-B-werk, geen ontologie-mutatie). Geen D-decisions gewijzigd, geen sprint-protocollen gewijzigd, geen claims op ontologie-niveau aangeraakt. Brein-discipline: geen autonome interpretatie; alle vastlegging volgt de bronrapporten + de instructie.
+
+**WP1 — v7-werkstroom vastleggen (drie deel-ingrepen + lag-leerpunt):**
+- [[brain__concepts__spoor-b-revival]] *(update — uitgebreid met v7-werkstroom)* — Nieuwe sectie "v7-werkstroom — reskin + DORA-correctie + IA-herinrichting (2–3 juni 2026)" met drie deel-ingrepen: (v7-1) reskin Overzicht + warm-papier-thema o.b.v. `dashboard/design-tokens-grc-dashboard.css` (nieuw bestand); `data-ramp="contrast"` als default met WCAG 2.1 AA-onderbouwing (`--c-warn` #7a4e08 ≥4,5:1 op getinte oppervlakken; "aards"-`--c-warn` #9a6410 haalt 4,46/4,54 — net onder/op de grens); axe 0 over alle 5 tabs; offline-vendoring + SQL.js + verse-load ongemoeid; twee vooraf geautoriseerde scope-afwijkingen (A hele dashboard licht; B tab-consolidatie doorgeschoven als IA-besluit naar masterchat). (v7-2) DORA-correctie — overal verwijderd als actief/bindend kader → uitsluitend "referentiekader · n.v.t.", consistent met m12 DORA als referentie; SoA-kolom + control-`dora_ref`-velden + modal-veld "DORA-referentie" bewust behouden als cross-reference-mappings (geen bindingsclaims); kalender-seed + framework-detail-metadata reframed naar referentie. (v7-3) IA-herinrichting 5→4 tabs (Overzicht · Governance · Compliance · Risk); ISMS-tab opgeheven, inhoud herverdeeld (PDCA/ISMS-scope/KRI-KPI/directiebeoordeling → Governance/ISMS-overkoepelend; SoA → Governance prominent; Kalender → Governance; NC-register → Compliance/Audit & Bevindingen); **gelaagde kader-kiezer** (Governance 5 kaders Laag 0+1: COSO ICF/ERM, COBIT 2019, BVA-stelsel, CIO-stelsel; Compliance 15 kaders Laag 2-5: BIO 2.0 *(standaard, Rijksbaseline)*, ISO 27001/27002/27005, ISO 22301/22313, NIS2, VIR 2007, VIRBI 2025, AVG/GDPR, CBW "in voorbereiding", Cbb "concept t.b.v. Tweede Kamer", NIST 800-53 R5, NIST CSF 2.0, ENSIA); **DORA verschijnt NIET in de kiezer**; risico-methodologie-normen (ISO 27005/31000, NIST 800-30/39) blijven in Risk; pre-existing `modalDelete`-bug gefixt (buiten IA-scope, gemeld); axe 0 over alle 4 tabs + alle inner-tabs/kiezer-states; CRUD-regressiematrix groen voor risico/control/rol/document/bevinding/kalender. **Kader-kiezer expliciet als D9-conform perspectief-mechanisme** beschreven: chips zijn view-switch zonder hiërarchie; subregel "perspectief-keuze — alle kaders gelijkwaardig (D9); BIO 2.0 standaard als Rijksbaseline"; BIO-default = operationele view-keuze, geen architectuur. Twee OPEN besluiten expliciet vastgelegd (zie WP2). **Lag-leerpunt** vastgelegd in status-historie van dit concept-bestand
+- [[brain__concepts__dashboard-productlijnen]] *(update)* — Nieuwe sectie "Spoor B v7-stand — 4 tabs + gelaagde kader-kiezer + warm-papier-thema (2–3 jun 2026)" met tab-structuur 5→4, kader-kiezer per tab als D9-conform perspectief-mechanisme zonder hiërarchie, statusdiscipline (CBW/Cbb/DORA), reskin-thema + tokens, DORA-correctie als cross-reference-behoud, en de twee open besluiten. Status-rij geactualiseerd van 29 mei → 4 jun 2026. Status-historie-rij toegevoegd. Frontmatter `date` + `related` (framework-neutraliteit toegevoegd) + `sources` (drie nieuwe rapporten) bijgewerkt
+
+**WP2 — Twee OPEN besluiten + H-koppelingen (Brein-discipline: GEEN nieuwe H-items declareren):**
+- [[brain__concepts__spoor-b-revival]] *(update — nieuwe sectie "Twee OPEN besluiten")* — Twee inhoudelijke besluiten cruciaal voor volgende fase: **(1) Lege-huls-kernprobleem** — de gelaagde kader-kiezer toont placeholders i.p.v. echte controls/beschrijvingen/eisen ("structuur staat, inhoud leeft niet"); Pad 1 (ontologie-export verrijken via build-script — architecturaal zuiver, raakt drie lagen, opvolging) vs Pad 2 (demo-seed verrijken voor BIO 2.0 + ISO 27001/27002 — snel, demo-klaar, geen ontologie-impact; **geadviseerd nu**); gekoppeld aan [[brain__architecture__H40_dashboard-ui-renderdekking]] als **aangrenzend Spoor-B-vraagstuk** (H40-scope blijft Spoor A explorer-UI hard); Brein declareert geen nieuw H-item zelfstandig. **(2) Organisatiestructuur in dashboard** — A (volledig generiek/demo, veiligst) / B (echte functionele structuur, geanonimiseerd — **geadviseerd**) / C (volledig echt, gevoelig — raakt §0.5-/disclosure-discipline + always-on invariant "organisatienaam NOOIT"); gekoppeld aan [[brain__architecture__H29_three-lines-model]] (future-consideration) + CIO/BVA-RACI-stelsels (Laag 0+1, in v7-3 onder Governance-kiezer); Optie B levert realistisch modelwerk voor M04
+- [[brain__architecture__H-register]] *(update)* — Datum-frontmatter naar 2026-06-04. Iteratie-17-status-mutaties-sectie toegevoegd: H40 (parked, lege-huls-aangrenzing iteratie 17), H29 (future-consideration, organisatiestructuur-koppeling iteratie 17). H40-rij in parked-tabel bijgewerkt met lege-huls-aangrenzing en open Pad 1/2-besluit. H-items-per-D-decision-tabel "dashboard-cluster" bijgewerkt: H40 (lege-huls-aangrenzing Spoor B), H29 (organisatiestructuur). **Geen nieuwe H-items gedeclareerd** — Brein-discipline expliciet vastgelegd in mutaties-sectie
+
+**WP3 — Sprint-register + handover-artefacten:**
+- [[brain__sprints__sprint-register]] *(update)* — Datum-frontmatter naar 2026-06-04. Header-context-regel uitgebreid met v7-dashboardwerksessie (2–3 jun 2026, Spoor B, geen ontologie-sprint, baseline v4.6.4 ongewijzigd). Nieuwe sessie-rij in major-milestones-tabel ("v7-dashboardwerksessie (Spoor B)" — "sessie (geen ontologie-sprint)") met drie deel-ingrepen + twee open besluiten. Detail-per-sprint-tabel uitgebreid met verwijzing naar [[brain__concepts__spoor-b-revival]] §"v7-werkstroom" (geen aparte sprint-file aangelegd — concept-registratie, analoog aan iteratie 16's spoor-b-revival-concept)
+- v7-handover-artefacten (cross-sessie context, niet door Brein gemaakt — masterchat-werk) genoteerd in [[brain__concepts__spoor-b-revival]] §"v7-handover-artefacten": `docs/handovers/overdrachtsrapport.md` (volledig zelfstandig startpunt; §5.3-5.5 v7-dashboardspoor + open besluiten) + `docs/handovers/bootstrap-masterchat-v7.md` (actuele Master-startprompt, opvolger van v6-sessie-rapport-lijn). Beide ongewijzigd door Brein gelezen
+
+**WP4 — Log + Index:**
+- [[brain__log]] *(deze entry)* — nieuwste entry bovenaan, iteratie 17. Datum-frontmatter naar 2026-06-04
+- [[brain__index]] *(update)* — Vault-staat-rij iteratie 17 toegevoegd (16 → 17); ontologie-status-overzicht-tabel ONGEWIJZIGD (baseline v4.6.4); status-overzicht-sectie uitgebreid met v7-dashboardstand + de twee open besluiten; "Volgende activiteit" omgegooid: lege-huls-besluit (Pad 1/2) is nu eerste prioriteit i.p.v. "geen actieve sprint" / "T4 afgesloten"; folder-tellingen ongewijzigd (geen nieuwe brain-bestanden — alleen updates); meta-project-tabel (17 iteraties / zesde cyclus)
+
+**File-count iteratie 17:**
+
+| WP | Nieuw | Update | Bestanden |
+|---|---:|---:|---|
+| WP1 v7-werkstroom | 0 | 2 | `brain__concepts__spoor-b-revival.md` (v7-werkstroom-sectie + status-historie + frontmatter), `brain__concepts__dashboard-productlijnen.md` (v7-stand-sectie + status-historie + frontmatter) |
+| WP2 open besluiten + H-koppelingen | 0 | 1 | `brain__architecture__H-register.md` (iteratie-17-mutaties-sectie + H40-rij + H29-koppeling + dashboard-cluster + frontmatter); de twee open besluiten zelf staan in spoor-b-revival (al onder WP1 geteld) |
+| WP3 sprint-register + concept-register-consistentie | 0 | 2 | `brain__sprints__sprint-register.md` (v7-sessie-rij + detail-tabel + header + frontmatter), `brain__concepts__concept-register.md` (spoor-b-revival + dashboard-productlijnen-rijen + clusters + frontmatter) |
+| WP4 log + index | 0 | 2 | `brain__log.md` (deze entry + frontmatter), `brain__index.md` (vault-staat-rij iteratie 17 + status-overzicht + volgende-activiteit + meta-project + frontmatter) |
+| **Totaal** | **0** | **7** | **alle brain (geen docs/scripts/ontology aangeraakt)** |
+
+**Geen nieuwe brain-bestanden aangemaakt.** v7-werkstroom is vastgelegd als uitbreiding van het bestaande [[brain__concepts__spoor-b-revival]]-concept-bestand (Brein-oordeel autonomie: thematische coherentie + sprint-register-vindbaarheid via concept-verwijzing, analoog aan iteratie-16-aanpak voor de 29-mei Spoor B-revival).
+
+**Cross-referentie-verificatie (Brein-discipline):**
+- spoor-b-revival uitgebreid met v7-sectie + twee-open-besluiten-sectie + handover-artefacten-sectie + nieuwe sources in frontmatter (patch-rapport-dashboard-reskin-overzicht, patch-rapport-dashboard-ia-herinrichting, ia-voorstel-tab-consolidatie, instructie-dashboard-reskin-overzicht, instructie-dashboard-ia-herinrichting, design-tokens-grc-dashboard) — wikilinks naar D09-framework-neutraliteit, H40, H29, framework-neutraliteit, bbn-correctie, log allemaal aanwezig
+- dashboard-productlijnen ↔ spoor-b-revival: wederzijdse wikilinks aanwezig en aangevuld; status-rij synchroon 4 jun 2026
+- H-register: H40-rij in parked-tabel + iteratie-17-mutaties-sectie + dashboard-cluster-tabel + H29-koppeling consistent
+- Sprint-register: v7-sessie-rij in major-milestones + detail-per-sprint-tabel; verwijst naar concept (geen sprint-file aangelegd)
+- Index: iteratie-17-rij + status-overzicht-sectie + volgende-activiteit-aanpassing + meta-project-tabel consistent
+- Ontologie-baseline v4.6.4 ONGEWIJZIGD over alle 6 bestanden — geen Δ in canonical-metrics-tabel in index, geen module-mutaties
+
+**Pre-push disclosure-check (Protocol 14, 5 categorieën) op alle gewijzigde bestanden:**
+1. **Organisatie-naam:** niet genoemd; "de organisatie" / "Rijksoverheidsorganisatie" waar relevant. Optie C in organisatiestructuur-besluit expliciet gemarkeerd als raakt-§0.5-discipline
+2. **Persoonsnamen:** alleen Steven (publieke projecteigenaar) waar relevant. Geen andere namen
+3. **Lokale paden:** alleen repo-relatief. Geen credentials in paden
+4. **Credentials / TLD / e-mail:** geen
+5. **NEN-tekst-fragmenten verbatim >10 woorden:** geen. Frameworks-aanduidingen zijn factuele identifiers + clausule-/Annex-A-stijl; CBW "in voorbereiding" + Cbb "concept" zijn status-aanduidingen (always-on invariant); BBN-correctie expliciet gerefereerd
+
+**Karakter-bevestiging:** geen architectuurbeslissingen autonoom door Brein. **Geen D-decisions** aangeraakt. **Geen sprint-protocollen** aangeraakt. **Geen ontologie-claims** gewijzigd (baseline v4.6.4 ongewijzigd; canonical-metrics-tabel in index ongewijzigd). **Geen nieuwe H-items** gedeclareerd (lege-huls + organisatiestructuur vastgelegd als aangrenzende open besluiten bij H40 resp. H29). **Geen organisatienaam, geen organisatiedata** (dashboard gebruikt representatieve demo-data — zo expliciet vastgelegd). **Niet aangeraakt:** `ontology/`, `dashboard/`, `scripts/`, `output/verification/`, `.claude/skills/`, `.claude/settings.json`, `.claude/agents/`, `docs/sprint-protocols.md`, `docs/handovers/*`, `docs/instructies/*` (referentie-lezen alleen), patch-rapporten in `output/reports/` (referentie-lezen alleen). **Niet gecommit** — Steven inspecteert + commit handmatig.
+
+**Lag-leerpunt iteratie 17 (kernpunt):** Een werksessie zonder afsluitende Brein-cyclus creëert een geheugen-lag waar latere lezers (volgende masterchat-sessie, opvolgend beheerder) over struikelen. Tussen 29 mei (iteratie 16) en 4 juni (iteratie 17) liep de brain-vault — de **gezaghebbende bron** — achter op de werkelijke stand. De handover-artefacten beschreven al de v7-stand; de vault niet. Conclusie: **Brein-cyclus na elke betekenisvolle sessie**, niet alleen na een ontologie-release. Spoor B-werk telt ook als betekenisvol. Voor toekomstige projectinstructie-update (masterchat-werk, niet Brein) is dit een kandidaat-aanvulling op de werkproces-/cyclus-discipline.
+
+**Volgende:** Steven inspecteert + commit handmatig. Masterchat spiegelt na commit de stand in projectinstructie v1.12 + README (brain-first-volgorde) — zie sluitzin instructie iteratie 17. Eerste prioriteit voor de volgende sessie: **lege-huls-besluit (Pad 1 vs Pad 2)** — gevolg bij keuze Pad 2 = demo-seed-verrijkings-sprint voor BIO 2.0 + ISO 27001/27002; gevolg bij Pad 1 = ontologie-export-verrijkings-sprint (drie-lagen-werk). Tweede prioriteit: **organisatiestructuur-besluit (A/B/C)** — gevolg bij Optie B = M04 RACI-/structuur-modelwerk (waardevol ongeacht dashboard-bestemming).
 
 ---
 

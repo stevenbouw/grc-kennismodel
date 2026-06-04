@@ -3,7 +3,7 @@ type: index
 id: H-register
 title: H-register — Architectuur-vragen (open / parked / resolved / future)
 status: living
-date: 2026-05-29
+date: 2026-06-04
 ---
 
 # H-register — Architectuur-vragen
@@ -55,7 +55,7 @@ H-items zijn geregistreerde architectuur-vragen, beslis-punten of onderwerpen di
 | H21 | 421 implicit individuals (consistentie-keuze) | [[brain__architecture__H21_implicit-individuals]] |
 | **H37** *(iteratie 12, evaluatie-uitkomst iteratie 16)* | **open-ontologies MCP-server als rdflib-alternatief — desk-evaluatie 29 mei: HOLD, geen van 4 triggers actief (44.907 < 50k; H38 resolved; pre-1.0 v0.1.11). Trigger-herijking gedocumenteerd** | [[brain__architecture__H37_open-ontologies-mcp]] |
 | **H39** *(iteratie 12, versterkt iteratie 13+14+15)* | **290 SHACL RUN 2 false-positives niet individueel uitgesplitst — T1+T2+T3 bevestigen blinde vlek op ctrl:↔compl: bidirectional (28 + 118 + 31 paren)** | [[brain__architecture__H39_shacl-run2-290-false-positives-uitsplitsing]] |
-| H40 *(iteratie 12)* | Dashboard-explorer-UI rendert <10% van JSON-velden — Q-M4: latent/parked (demo-waarde uit dashboard, niet explorer; besluitnotitie 29 mei) | [[brain__architecture__H40_dashboard-ui-renderdekking]] |
+| H40 *(iteratie 12, lege-huls-aangrenzing iteratie 17)* | Dashboard-explorer-UI rendert <10% van JSON-velden — Q-M4: latent/parked (demo-waarde uit dashboard, niet explorer; besluitnotitie 29 mei). **Iteratie 17:** lege-huls-kernprobleem (Spoor B kader-kiezer toont placeholders i.p.v. controls/beschrijvingen/eisen) als **aangrenzend Spoor-B-vraagstuk** vastgelegd; H40-scope blijft Spoor A-explorer-UI. Open besluit Pad 1 (ontologie-export verrijken) vs Pad 2 (demo-seed verrijken) — bij Steven/masterchat | [[brain__architecture__H40_dashboard-ui-renderdekking]] |
 | **H41** *(iteratie 14, T3-bevestiging it. 15, impact gekwantificeerd it. 16)* | **SKOS-axioma-set-handling onder OWL-RL — skos:S46 + S47 niet geladen; T2 + T3 leveren empirisch Δ=0 op 65 + 2 mutaties; reasoner-evaluatie kwantificeert hypothetische activering = +2.831 triples (+6,3%), 12 D4-schendende cross-namespace exactMatch-claims, SHACL 0. Activering = nieuwe D-decision** | [[brain__architecture__H41_skos-axioma-set-handling]] |
 
 ## Future-consideration
@@ -143,6 +143,17 @@ Vijf items komen voort uit het sessie-rapport v2.0 (H36) plus de twee Fase 0 han
 
 **csf↔ISO27001 cross-category-predicaat-vraag (T4 — kandidaat-precedent ZONDER formeel H-nummer):** masterchat heeft dit als *kandidaat* benoemd; Brein legt het empirisch precedent + de open vraag vast (analoog aan cross-category-mappings in iteratie 15), maar declareert **geen formeel H-nummer** zonder expliciete masterchat-instructie. Drie open subvragen: (a) relatedMatch vs closeMatch retrieval-interchangeability voor csf↔ISO, (b) v1.3.1-formalisering, (c) de 699-vs-494-reconciliatie (T4-rapport §2.2 vs §3.1-B onverklaard). Zie [[brain__concepts__cross-category-mappings]] + [[brain__concepts__cross-bron-overlap]].
 
+## Status-mutaties in iteratie 17 (v7-dashboardwerksessie + lag-correctie) ✨
+
+| H | Mutatie | Bron |
+|---|---|---|
+| **H40** | parked (lege-huls-aangrenzing iteratie 17 toegevoegd) — Het v7-IA-herinrichtings-resultaat (3 juni) bevat een gelaagde kader-kiezer waarvan de detail-content nog placeholders zijn (geen onderliggende controls/beschrijvingen/eisen zichtbaar). Dit is een **aangrenzend Spoor-B-vraagstuk**, niet H40 zelf (H40-scope-afbakening Spoor A blijft hard). Open besluit Pad 1 (ontologie-export verrijken via build-script) vs Pad 2 (demo-seed verrijken voor BIO 2.0 + ISO 27001/27002; geadviseerd nu). Eventueel nieuw H-item bij masterchat-besluit; Brein declareert geen H-nummer zelfstandig | [[brain__concepts__spoor-b-revival]] §"Besluit 1 — Lege-huls" + `patch-rapport-dashboard-ia-herinrichting.md` + `docs/handovers/overdrachtsrapport.md` §5.4 |
+| **H29** | future-consideration (organisatiestructuur-koppeling iteratie 17 toegevoegd) — Het tweede open besluit uit de v7-werkstroom is "organisatiestructuur in dashboard" (A generiek / B echte functionele structuur geanonimiseerd — geadviseerd / C volledig echt — gevoelig). De interne-beheersingsfunctie sluit direct aan op het Three Lines Model (H29) + CIO/BVA-RACI (Laag 0+1 governance-kaders, in v7-3 onder Governance-kiezer beschikbaar). Optie B levert realistisch modelwerk voor M04 (roles/RACI). Optie C raakt §0.5-/disclosure-discipline + always-on invariant "organisatienaam NOOIT" — alleen via expliciet masterchat-besluit | [[brain__concepts__spoor-b-revival]] §"Besluit 2 — Organisatiestructuur" + `docs/handovers/overdrachtsrapport.md` §5.5 |
+
+**Geen nieuwe H-items gedeclareerd in iteratie 17.** Brein-discipline: nieuwe H-items zijn masterchat-werk. De lege-huls en organisatiestructuur-vraagstukken zijn vooralsnog **aangrenzend** vastgelegd bij H40 resp. H29, plus als open besluiten in [[brain__concepts__spoor-b-revival]]. Bij eventueel masterchat-besluit kan een nieuw H-item alsnog overwogen worden — of werk kan als sprint-scope landen zonder formeel H-nummer.
+
+**Lag-leerpunt iteratie 17 (vastgelegd in [[brain__log]] iteratie 17):** de v7-werkstroom (2–3 juni) is niet door een Brein-cyclus afgerond toen ze plaatsvond. Tussen iteratie 16 (29 mei) en deze iteratie 17 (4 juni) liep de vault achter op de werkelijke stand — `bootstrap-masterchat-v7.md` en `docs/handovers/overdrachtsrapport.md` beschrijven die latere stand al, maar de brain-vault niet. Brein-cyclus hoort na elke betekenisvolle sessie (ook Spoor B), niet alleen na een ontologie-release.
+
 ## Spoor B automatisch geparkeerd
 
 ABox-lege schalen wachten op organisatie-data:
@@ -191,7 +202,7 @@ ABox-lege schalen wachten op organisatie-data:
 | **(M21-bron-cluster)** | **H35** *(bron-interpretatie, kandidaat voor latere correctie)* |
 | **(toolchain-cluster)** | **H37 (parked, HOLD), H41 (parked, gekwantificeerd)** *(rdflib + reasoner-evaluatie + SKOS-axioma-set)*; **H38 resolved iteratie 16** |
 | **(validatie-cluster)** | **H39** *(SHACL false-positive-uitsplitsing, versterkt door T1+T2+T3 bidirectional)* |
-| **(dashboard-cluster)** | **H40** *(grc-explorer-render-dekking, Spoor A; Q-M4 latent/parked)*; **kandidaten H42, H43, H44** *(masterchat-benoemd, niet geactiveerd)* |
+| **(dashboard-cluster)** | **H40** *(grc-explorer-render-dekking, Spoor A; Q-M4 latent/parked; lege-huls-aangrenzing Spoor B iteratie 17)*; **kandidaten H42, H43, H44** *(masterchat-benoemd, niet geactiveerd)*; **H29** *(Three Lines Model; organisatiestructuur-koppeling iteratie 17)* |
 
 ## Cross-references
 

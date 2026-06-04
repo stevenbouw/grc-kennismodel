@@ -3,12 +3,12 @@ type: index
 id: sprint-register
 title: Sprint-register — Chronologisch overzicht
 status: living
-date: 2026-05-29
+date: 2026-06-04
 ---
 
 # Sprint-register — Chronologisch overzicht
 
-Ontologie-evolutie van v0.x tot v4.6.4. **T1 is eerste post-migratie productie-sprint** (26 mei 2026); **T2 is tweede post-migratie productie-sprint** (27 mei 2026); **T3 is derde post-migratie productie-sprint** (28 mei 2026). **v4.6.4 is een TBox-bugfix-patch** (CSF-range-fix, 29 mei 2026) — geen T-sprint. v4.6.0 was laatste geplande Spoor A-sprint vóór migratie naar Claude Code + GitHub.
+Ontologie-evolutie van v0.x tot v4.6.4. **T1 is eerste post-migratie productie-sprint** (26 mei 2026); **T2 is tweede post-migratie productie-sprint** (27 mei 2026); **T3 is derde post-migratie productie-sprint** (28 mei 2026). **v4.6.4 is een TBox-bugfix-patch** (CSF-range-fix, 29 mei 2026) — geen T-sprint. v4.6.0 was laatste geplande Spoor A-sprint vóór migratie naar Claude Code + GitHub. **v7-dashboardwerksessie (2–3 juni 2026)** is een Spoor B-sessie (reskin + DORA-correctie + IA-herinrichting), géén ontologie-sprint — registratie via [[brain__concepts__spoor-b-revival]]; ontologie-baseline blijft v4.6.4 ongewijzigd.
 
 ## Major milestones
 
@@ -32,6 +32,7 @@ Ontologie-evolutie van v0.x tot v4.6.4. **T1 is eerste post-migratie productie-s
 | T2 (v4.6.2) | 2026-05-27 | superseded | SKOS-bidirectional-audit m10 — 65 mutaties (32 downgrade + 33 upgrade) over 10 NIS2-clusters; alle clusters convergeren naar broadMatch; methode-protocol v1.2 operationeel; v1.3-draft opgeleverd; H41 nieuw + H36 m10-component closed; tweede post-migratie productie-sprint |
 | T3 (v4.6.3) | 2026-05-28 | superseded | SKOS-bidirectional-audit m14 AVG/GDPR — 2 mutaties (T3-001 + T3-002, beide broadMatch → relatedMatch op Art5_1f-cluster); 29 behoud + 2 closeMatch (T3-014 + T3-026 retrieval-interchangeability); Protocol v1.3 FINAL toegepast; cross-category-rationale als kandidaat v1.3.1-precedent; H36 fully closed; H39 versterkt bidirectional; derde post-migratie productie-sprint |
 | **v4.6.4** | **2026-05-29** | **active** | **TBox-bugfix — CSF-description range-fix (2× `xsd:string` → `rdfs:Literal` in m21-csf) + version-bump grc-core; baseline-metrics ONGEWIJZIGD; HermiT-her-run consistent (0 owl:Nothing) → H38 resolved; eerste sprint waarin een HermiT-bevinding een TBox-fix in de canonieke baseline stuurde** |
+| **v7-dashboardwerksessie (Spoor B)** | **2026-06-02 → 2026-06-03** | **sessie (geen ontologie-sprint)** | **Drie deel-ingrepen op `dashboard/grc-dashboard-v3-2.html` — geen ontologie-mutatie, baseline v4.6.4 ongewijzigd: (1) reskin Overzicht + warm-papier-thema (`design-tokens-grc-dashboard.css` nieuw, `data-ramp="contrast"` default, WCAG-AA, axe 0); (2) DORA-correctie (overal "referentiekader · n.v.t.", consistent met m12); (3) IA-herinrichting 5→4 tabs (Overzicht · Governance · Compliance · Risk) + gelaagde kader-kiezer (Governance 5 kaders Laag 0+1, Compliance 15 kaders Laag 2-5; D9-conform perspectief-mechanisme zonder hiërarchie). Twee vooraf geautoriseerde scope-afwijkingen in sprint 1 (hele dashboard licht; tab-consolidatie doorgeschoven). Twee OPEN besluiten: lege-huls (Pad 1/2) + organisatiestructuur (A/B/C). Detail: [[brain__concepts__spoor-b-revival]] §"v7-werkstroom"** |
 
 ## Detail per sprint
 
@@ -55,6 +56,7 @@ Ontologie-evolutie van v0.x tot v4.6.4. **T1 is eerste post-migratie productie-s
 | T2 (v4.6.2) | [[brain__sprints__T2-skos-bidirectional-audit-m10]] |
 | T3 (v4.6.3) | [[brain__sprints__T3-skos-bidirectional-audit-m14]] |
 | **v4.6.4** | **[[brain__sprints__v4_6_4_csf-range-fix-dl-conformiteit]]** |
+| **v7-dashboardwerksessie (Spoor B)** | **[[brain__concepts__spoor-b-revival]]** §"v7-werkstroom" *(geen ontologie-sprint-bestand — concept-registratie)* |
 
 ## v4.6.4 baseline-metrics (huidige active — TBox-bugfix-patch)
 
